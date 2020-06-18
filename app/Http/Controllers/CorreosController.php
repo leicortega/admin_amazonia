@@ -36,7 +36,9 @@ class CorreosController extends Controller
 
         $correo = Correo::find($request['id']);
 
-        Mail::to($correo->email)->send(new RespuestaCorreoMail($request['area']));
+        $data = ['mensaje' => $request['area'], 'id' => $request['id']];
+
+        Mail::to($correo->email)->send(new RespuestaCorreoMail($data));
 
         $correo->update([
             'fecha_respuesta' => $date->isoFormat('Y-MM-D'),

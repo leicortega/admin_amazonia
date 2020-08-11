@@ -197,6 +197,10 @@
                                 <input type="checkbox" class="custom-control-input" id="custominlineCheck3" name="permisos[]" value="cotizaciones">
                                 <label class="custom-control-label" for="custominlineCheck3">Cotizaciones</label>
                             </div>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="custominlineCheck4" name="permisos[]" value="control ingreso">
+                                <label class="custom-control-label" for="custominlineCheck4">Control Ingreso</label>
+                            </div>
                         </div>
                     </div>
                 

@@ -223,7 +223,15 @@
                   </tr>
                   <tr>
                     <td style="font-family:'Open Sans', Arial, sans-serif; font-size:15px; line-height:22px; color:#000">
-                        <?php echo $data['mensaje']; ?>
+                        <pre>Cordial saludo {{$cotizacion["nombre"]}}, 
+
+Adjunto a este correo encontrará la cotización en pdf solicitada por nuestra página web. Recuerda dar clic en el botón de abajo para aceptar esta cotización.
+
+
+Cordialmente,
+
+<b>Amazonia C&L</b>
+                        </pre>
                     </td>
                   </tr>
                   <tr>
@@ -243,7 +251,7 @@
                                 <td height="36" class="em_height">&nbsp;</td>
                               </tr>
                               <tr>
-                                <td   align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:18px; font-weight:bold; line-height:20px; text-transform:uppercase; color:#5a8d3e;"><a href="#" target="_blank" style="color:#5a8d3e; text-decoration:none;"> PARA RESPONDER A ESTE CORREO</a></td>
+                                <td   align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:18px; font-weight:bold; line-height:20px; text-transform:uppercase; color:#5a8d3e;"><a href="#" target="_blank" style="color:#5a8d3e; text-decoration:none;"> PARA ACEPTAR ESTA COTIZACÓN</a></td>
                               </tr>
                               <tr>
                                 <td height="18" style="font-size:1px; line-height:1px;">&nbsp;</td>
@@ -253,7 +261,7 @@
                                   <table width="400" border="0" cellspacing="0" cellpadding="0" align="center" class="em_wrapper" style="max-width:200px;">
                                     <tr>
                                       <td  width="9">&nbsp;</td>
-                                      <td  width="45" bgcolor="#5a8d3e" height="45" align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff;"><a href="https://amazoniacl.com/responder/correo/<?php echo $data['id']; ?>" target="_blank" style="color:#ffffff; text-decoration:none;"> CLIC AQUÍ</a></td>
+                                      <td  width="45" bgcolor="#5a8d3e" height="45" align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff;"><a href="https://amazoniacl.com/aceptar/cotizacion/<?php echo $cotizacion['id']; ?>" target="_blank" style="color:#ffffff; text-decoration:none;"> CLIC AQUÍ</a></td>
                                       <td  width="10">&nbsp;</td>
                                     </tr>
                                   </table>

@@ -6,7 +6,7 @@
     <meta content="Dashboard de administrador Amazonia C&L." name="description" />
     <meta content="Leiner Ortega" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+    <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}">
 
     <!-- datepicker -->
     <link href="{{ asset('assets/libs/air-datepicker/css/datepicker.min.css') }}" rel="stylesheet" type="text/css" />

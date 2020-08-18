@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::group(['middleware' => ['auth']], function () {
-    Route::get('/', function () { return view('welcome'); });
-});
+Route::get('/', 'HomeController@index')->name('index');
 
 // Rutas para administrador
 Route::group(['middleware' => ['role:admin']], function () {
@@ -28,7 +26,7 @@ Route::group(['middleware' => ['permission:cotizaciones|universal']], function (
     Route::get('/cotizaciones/respondidas', 'CotizacionesController@respondidas');
     Route::post('/cotizaciones/responder', 'CotizacionesController@responder');
     Route::get('/cotizaciones/show/{id}', 'CotizacionesController@show');
-    Route::get('/aceptar/cotizacion/{id}', 'CotizacionesController@aceptar');
+    Route::get('/cotizaciones/aceptadas', 'CotizacionesController@aceptadas');
 });
 
 // Rutas para Control de Ingreso
@@ -43,9 +41,14 @@ Route::group(['middleware' => ['permission:control ingreso|universal']], functio
     Route::get('/control_ingreso/print/{id}/{fecha}', 'ControlIngresoController@printIngreso');
 });
 
+// Rutas para las Notificaciones
+Route::get('/notificaciones/ver/{id}', 'NotificationController@ver');
+
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/mail/template', function () { return view('mails.template'); });
+
+

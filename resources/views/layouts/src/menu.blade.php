@@ -24,6 +24,7 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-comment-alt-message"></i></div>
+                                <span class="badge badge-pill badge-primary float-right">{{ $correos ?? '' }}</span>
                                 <span>Correos</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
@@ -37,10 +38,12 @@
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
+                                <span class="badge badge-pill badge-primary float-right">{{ $cotizaciones ?? '' }}</span>
                                 <span>Cotizaciones</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="cotizaciones/nuevas">Nuevas</a></li>
+                                <li><a href="cotizaciones/aceptadas">Aceptadas</a></li>
                                 <li><a href="cotizaciones/respondidas">Respondidas</a></li>
                             </ul>
                         </li>
@@ -117,13 +120,23 @@
                     <li>
                         <a href="/cotizaciones/nuevas" class="waves-effect">
                             <div class="d-inline-block icons-sm"></div>
+                            <span class="badge badge-pill badge-primary float-right"></span>
                             <span>Nuevas</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/cotizaciones/aceptadas" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span class="badge badge-pill badge-primary float-right"></span>
+                            <span>Aceptadas</span>
                         </a>
                     </li>
 
                     <li>
                         <a href="/cotizaciones/respondidas" class="waves-effect">
                             <div class="d-inline-block icons-sm"></div>
+                            <span class="badge badge-pill badge-primary float-right"></span>
                             <span>Respondidas</span>
                         </a>
                     </li>

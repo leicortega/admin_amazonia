@@ -476,3 +476,15 @@ function historialIngresos(id, name) {
         }
     });
 }
+
+function verNotificacion(id) {
+    $.ajax({
+        url: '/notificaciones/ver/'+id,
+        type: 'get',
+        success: function (data) {
+            if (data.visto[0] == 1) {
+                window.location.href = data.url
+            }
+        }
+    });
+}

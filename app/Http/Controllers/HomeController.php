@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Notification;
+use App\Models\Cotizacion;
+use App\Models\Correo;
 
 class HomeController extends Controller
 {
@@ -23,6 +26,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $cotizaciones = Cotizacion::whereNull('responsable_id')->count();
+        $correos = Correo::whereNull('id_user_respuesta')->count();
+        $notificaciones = Notification::whereNull('visto')->paginate(10);
+
+        return view('welcome', ['cotizaciones' => $cotizaciones, 'correos' => $correos, 'notificaciones' => $notificaciones]);
     }
 }

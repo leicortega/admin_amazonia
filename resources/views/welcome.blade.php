@@ -18,7 +18,7 @@
                         <div class="row mt-5">
 
                             @canany(['correos', 'universal'])
-                                <div class="col-lg-3">
+                                <div class="col-lg-4">
                                     <div class="card border shadow-none">
                                         <div class="card-body">
                                             <div class="media">
@@ -36,11 +36,11 @@
                                             <a href="#">Ir a Correos</a>
                                         </div>
                                     </div>
-                                </div>
+                                {{-- </div> --}}
                             @endcanany
 
                             @canany(['cotizaciones', 'universal'])
-                                <div class="col-lg-3">
+                                {{-- <div class="col-lg-3"> --}}
                                     <div class="card border shadow-none">
                                         <div class="card-body">
                                             <div class="media">
@@ -60,6 +60,47 @@
                                     </div>
                                 </div>
                             @endcanany
+
+                            <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="float-right ml-2">
+                                            <a href="#">Ver todas</a>
+                                        </div>
+                                        <h5 class="header-title mb-4">Notificaciones</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-centered table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Tipo</th>
+                                                        <th scope="col">Mensaje</th>
+                                                        <th scope="col">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($notificaciones as $notificacion)
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <a href="#">{{ $notificacion->id ?? '' }}</a>
+                                                            </th>
+                                                            <td>{{ $notificacion->tipo ?? '' }}</td>
+                                                            <td>{{ $notificacion->mensaje ?? '' }}</td>
+                                                            <td>
+                                                                <div class="btn-group" role="group">
+                                                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver" onclick="verNotificacion({{ $notificacion->id ?? '' }})"><i class="mdi mdi-eye"></i></button>
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
                             
                         </div>
                     </div>

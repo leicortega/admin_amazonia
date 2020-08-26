@@ -141,6 +141,16 @@
                         </a>
                     </li>
 
+                    <li class="menu-title mt-3">Contratos Realizados</li>
+
+                    <li>
+                        <a href="/cotizaciones/contratos" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span class="badge badge-pill badge-primary float-right"></span>
+                            <span>Contratos</span>
+                        </a>
+                    </li>
+
                 @endif
 
                 @if ( Request::is('control_ingreso/*') )

@@ -26,7 +26,10 @@ Route::group(['middleware' => ['permission:cotizaciones|universal']], function (
     Route::get('/cotizaciones/respondidas', 'CotizacionesController@respondidas');
     Route::post('/cotizaciones/responder', 'CotizacionesController@responder');
     Route::get('/cotizaciones/show/{id}', 'CotizacionesController@show');
-    Route::get('/cotizaciones/aceptadas', 'CotizacionesController@aceptadas');
+    Route::get('/cotizaciones/aceptadas', 'CotizacionesController@aceptadas')->name('cotizaciones-aceptadas');
+    Route::get('/cotizaciones/buscar_tercero/{id}', 'CotizacionesController@buscar_tercero');
+    Route::post('/cotizaciones/crear-tercero', 'CotizacionesController@crear_tercero');
+    Route::post('/cotizaciones/add-tercero', 'CotizacionesController@add_tercero');
 });
 
 // Rutas para Control de Ingreso

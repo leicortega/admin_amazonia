@@ -488,3 +488,87 @@ function verNotificacion(id) {
         }
     });
 }
+
+function createTercero(id, nombre, correo, telefono) {
+    $('#modal-crear-tercero').modal('show')
+    $('#nombre').val(nombre)
+    $('#correo').val(correo)
+    $('#telefono').val(telefono)
+    $('#cotizacion_id').val(id)
+    cargarDepartamentos()
+}
+
+function buscarTercero() {
+
+    let id = $('#identificacion_tercero').val()
+    $.ajax({
+        url: '/cotizaciones/buscar_tercero/'+id,
+        type: 'get',
+        success: function (data) {
+            if (data.tercero[0]) {
+                $('#form-create-tercero').addClass('d-none')
+                $('#form-add-tercero').removeClass('d-none')
+                $('#enviar-add-tercero').removeAttr('disabled')
+                $('#modal-content-tercero').html(`
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+                            
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Numero Identificación</label>
+                                    <input class="form-control disabled" type="number"  name="identificacion_add" value="${data.tercero[0].identificacion}" required="">
+                                </div>
+                                    
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Nombre Completo</label>
+                                    <input class="form-control disabled" type="text"  name="nombre_add" value="${data.tercero[0].nombre}" required="">
+                                </div>
+
+                                <input type="hidden" name="cotizacion_id" id="cotizacion_id" value="${$('#cotizacion_id').val()}" />
+
+                            </div>
+                        </div>
+                    </div>
+                `)
+            } else {
+                $('#form-create-tercero').addClass('d-none')
+                $('#form-add-tercero').removeClass('d-none')
+                $('#enviar-add-tercero').attr('disabled', true)
+                $('#modal-content-tercero').html(`<h3>No hay resultados.</h3>`)
+            }
+        }
+    });
+}
+
+function crearTercero() {
+    $('#form-create-tercero').removeClass('d-none')
+    $('#form-add-tercero').addClass('d-none')
+}
+
+function cargarDepartamentos() {
+    var html = '<option value="">Seleccione</option>';
+	$.ajax({
+		url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?$select=departamento&$group=departamento',
+		type: 'GET',
+		success: function (data) {
+			data.forEach(dpt => {
+				html += '<option value="'+dpt.departamento+'">'+dpt.departamento+'</option>';
+			});
+			$('#departamento').html(html)
+		}
+    })
+}
+
+function cargarMunicipios(dpt) {
+    var html = '<option value="">Seleccione</option>';
+    $.ajax({
+        url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento='+dpt,
+        type: 'GET',
+        success: function (data) {
+            data.forEach(dpt => {
+                html += '<option value="'+dpt.municipio+'">'+dpt.municipio+'</option>';
+            });
+            $('#municipio').html(html)
+        }
+    })
+}

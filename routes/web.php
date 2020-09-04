@@ -47,11 +47,14 @@ Route::group(['middleware' => ['permission:control ingreso|universal']], functio
 // Rutas para las Notificaciones
 Route::get('/notificaciones/ver/{id}', 'NotificationController@ver');
 
+Route::get('/informacion/covid', function () { return view('covid'); });
+
 Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 
 Route::get('/mail/template', function () { return view('mails.template'); });
+
 
 

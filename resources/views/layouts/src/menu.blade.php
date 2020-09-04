@@ -16,7 +16,7 @@
                     </a>
                 </li>
 
-                @if ( Request::is('/') )
+                @if ( Request::is('/') || Request::is('informacion/covid') )
 
                     <li class="menu-title">Modulos</li>
 
@@ -70,6 +70,15 @@
                         </li>
 
                     @endcanany
+
+                    <li class="menu-title">Información</li>
+
+                    <li>
+                        <a href="informacion/covid/" class="waves-effect">
+                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-exclamation-triangle"></i></div>
+                            <span>COVID - 19</span>
+                        </a>
+                    </li>
 
                 @endif
 

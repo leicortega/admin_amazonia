@@ -1843,7 +1843,7 @@ body[data-layout="horizontal"][data-layout-size="boxed"] {
 
 .datepicker {
   border: 1px solid #e2e6e9;
-  z-index: 999 !important;
+  z-index: 1800 !important;
   background-color: #fff;
   color: #505d69; }
 

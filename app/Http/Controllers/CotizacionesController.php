@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CotizacionMail;
 use Illuminate\Http\Request;
+use App\Models\Responsable_contrato;
 use App\Models\Cotizacion;
 use App\Models\Tercero;
 use PDF;
@@ -114,6 +115,11 @@ class CotizacionesController extends Controller
         ]);
 
         return redirect()->route('cotizaciones-aceptadas')->with('tercero_add', 1);
+    }
+
+    public function generar_contrato(Request $request) {
+        $responsable = Responsable_contrato::where('identificacion', $request['identificacion_responsable']);
+        dd($responsable->count());
     }
 
 }

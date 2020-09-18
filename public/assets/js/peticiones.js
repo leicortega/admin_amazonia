@@ -572,3 +572,14 @@ function cargarMunicipios(dpt) {
         }
     })
 }
+
+function datos_vehiculos(tipo) {
+    $('#modal-create-datos-vehiculo').modal('show')
+    $('#modal-create-datos-vehiculo-title').text('Agregar '+tipo)
+    $('#datos_vehiculo_tipo').val(tipo)
+}
+
+function createContrato(id) {
+    $('#modal-crear-contrato').modal('show')
+    $('#cotizacion_id_contrato').val(id)
+}

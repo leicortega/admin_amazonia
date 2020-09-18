@@ -7,6 +7,12 @@ use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use App\Models\Sistema\Tipo_Vehiculo;
+use App\Models\Sistema\Tipo_Vinculacion;
+use App\Models\Sistema\Tipo_Carroceria;
+use App\Models\Sistema\Marca;
+use App\Models\Sistema\Linea;
+use App\Models\Sistema\Cargo;
 use App\User;
 
 class AdminController extends Controller
@@ -90,5 +96,69 @@ class AdminController extends Controller
         }
         return redirect()->route('users')->with('update', 1);
         
+    }
+
+    public function admin_vehiculos() {
+        $clasificacion = Tipo_Vehiculo::all();
+        $vinculacion = Tipo_Vinculacion::all();
+        $carroceria = Tipo_Carroceria::all();
+        $marca = Marca::all();
+        $linea = Linea::all();
+
+        return view('admin.vehiculos', [
+            'clasificacion' => $clasificacion,
+            'vinculacion' => $vinculacion,
+            'carroceria' => $carroceria,
+            'marca' => $marca,
+            'linea' => $linea,
+        ]);
+    }
+
+    public function agg_datos_vehiculo(Request $request) {
+
+        switch ($request['tipo']) {
+            case 'Clasificacion':
+                Tipo_Vehiculo::create(['nombre' => $request['nombre']])->save();
+
+                return redirect()->route('datos-vehiculos')->with(['create' => 1]);
+                break;
+
+            case 'Marca':
+                Marca::create(['nombre' => $request['nombre']])->save();
+
+                return redirect()->route('datos-vehiculos')->with(['create' => 1]);
+                break;
+
+            case 'Tipo Vinculacion':
+                Tipo_Vinculacion::create(['nombre' => $request['nombre']])->save();
+
+                return redirect()->route('datos-vehiculos')->with(['create' => 1]);
+                break;
+
+            case 'Tipo Carroceria':
+                Tipo_Carroceria::create(['nombre' => $request['nombre']])->save();
+
+                return redirect()->route('datos-vehiculos')->with(['create' => 1]);
+                break;
+
+            case 'Linea':
+                Linea::create(['nombre' => $request['nombre']])->save();
+
+                return redirect()->route('datos-vehiculos')->with(['create' => 1]);
+                break;
+        }
+        
+    }
+
+    public function cargos() {
+        return view('admin.cargos', ['cargos' => Cargo::paginate(20)]);
+    }
+
+    public function agg_cargo(Request $request) {
+        if (Cargo::create($request->all())->save()) {
+            return redirect()->route('cargos')->with(['create' => 1]);
+        }
+
+        return redirect()->route('cargos')->with(['create' => 0]);
     }
 }

@@ -8,7 +8,7 @@
 
 <!-- datepicker -->
 <script src="{{ asset('assets/libs/air-datepicker/js/datepicker.min.js') }}"></script>
-<script src="{{ asset('assets/libs/air-datepicker/js/i18n/datepicker.en.js') }}"></script>
+<script src="{{ asset('assets/libs/air-datepicker/js/i18n/datepicker.es.js') }}"></script>
 
 <!-- apexcharts -->
 {{-- <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script> --}}

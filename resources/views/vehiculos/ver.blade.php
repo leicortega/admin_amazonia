@@ -87,6 +87,7 @@
                             </div>
     
                             <div id="accordion" class="col-12">
+                                {{-- TAB CONDUCTORESexpande --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_conductores({{ $vehiculo->id }})" data-parent="#accordion" href="#collapseConductores" aria-expanded="false" aria-controls="collapseConductores" class="text-dark collapsed">
                                         <div class="card-header" id="headingOne">
@@ -138,8 +139,9 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- TAB DOCUMENTOS LEGALES --}}
                                 <div class="card mb-0">
-                                    <a class="text-dark collapsed" onclick="cargar_tarjeta_propiedad('Tarjeta de Propiedad', {{ $vehiculo->id }})" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                    <a class="text-dark collapsed" onclick="documentos_legales('Tarjeta de Propiedad', {{ $vehiculo->id }}, 'content_table_documentos_legales')" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                         <div class="card-header" id="headingTwo">
                                             <h5 class="m-0 font-size-14">DOCUMENTOS LEGALES</h5>
                                         </div>
@@ -150,57 +152,57 @@
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" onclick="cargar_tarjeta_propiedad('Tarjeta de Propiedad', {{ $vehiculo->id }})" data-toggle="tab" href="#Tarjeta_Propiedad" role="tab" aria-selected="true">
+                                                    <a class="nav-link active" onclick="documentos_legales('Tarjeta de Propiedad', {{ $vehiculo->id }}, 'content_table_documentos_legales')" data-toggle="tab" href="#Tarjeta_Propiedad" role="tab" aria-selected="true">
                                                        <span class="d-none d-md-inline-block">Tarjeta de Propiedad</span> 
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('Tarjeta Operación', {{ $vehiculo->id }})" data-toggle="tab" href="#Tarjeta_Operacion" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('Tarjeta Operación', {{ $vehiculo->id }}, 'content_table_tarjeta_operacion')" data-toggle="tab" href="#Tarjeta_Operacion" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">Tarjeta Operación</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('SOAT', {{ $vehiculo->id }})" data-toggle="tab" href="#SOAT" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('SOAT', {{ $vehiculo->id }}, 'content_table_soat')" data-toggle="tab" href="#SOAT" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">SOAT</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('Técnico Mecánica', {{ $vehiculo->id }})" data-toggle="tab" href="#Tecnico_Mecanica" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('Técnico Mecánica', {{ $vehiculo->id }}, 'content_table_tecnico_mecanica')" data-toggle="tab" href="#Tecnico_Mecanica" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">Técnico Mecánica</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('Seguro Todo Riesgo', {{ $vehiculo->id }})" data-toggle="tab" href="#Seguro" role="tab" aria-selected="true">
+                                                    <a class="nav-link" onclick="documentos_legales('Seguro Todo Riesgo', {{ $vehiculo->id }}, 'content_table_seguro')" data-toggle="tab" href="#Seguro" role="tab" aria-selected="true">
                                                        <span class="d-none d-md-inline-block">Seguro Todo Riesgo</span> 
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('Certificado GPS', {{ $vehiculo->id }})" data-toggle="tab" href="#Certificado_GPS" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('Certificado GPS', {{ $vehiculo->id }}, 'content_table_gps')" data-toggle="tab" href="#Certificado_GPS" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">Certificado GPS</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('RUNT', {{ $vehiculo->id }})" data-toggle="tab" href="#RUNT" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('RUNT', {{ $vehiculo->id }}, 'content_table_runt')" data-toggle="tab" href="#RUNT" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">RUNT</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('Póliza contractual', {{ $vehiculo->id }})" data-toggle="tab" href="#Poliza_contractual" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('Póliza contractual', {{ $vehiculo->id }}, 'content_table_contractual')" data-toggle="tab" href="#Poliza_contractual" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">Póliza contractual</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
-                                                    <a class="nav-link" onclick="cargar_tarjeta_propiedad('Póliza extracontractual', {{ $vehiculo->id }})" data-toggle="tab" href="#Poliza_extracontractual" role="tab" aria-selected="false">
+                                                    <a class="nav-link" onclick="documentos_legales('Póliza extracontractual', {{ $vehiculo->id }}, 'content_table_extracontractual')" data-toggle="tab" href="#Poliza_extracontractual" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">Póliza extracontractual</span>
                                                     </a>
                                                 </li>
                                             </ul>
-            
+                                            
                                             <!-- Tab panes -->
                                             <div class="tab-content p-3">
                                                 <div class="tab-pane active" id="Tarjeta_Propiedad" role="tabpanel">
 
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta de Propiedad')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta de Propiedad', 'content_table_documentos_legales')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -226,7 +228,7 @@
                                                 </div>
                                                 <div class="tab-pane" id="Tarjeta_Operacion" role="tabpanel">
                                                     
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta Operación')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta Operación', 'content_table_tarjeta_operacion')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -252,7 +254,7 @@
 
                                                 </div>
                                                 <div class="tab-pane" id="SOAT" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('SOAT')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('SOAT', 'content_table_soat')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -277,7 +279,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="Tecnico_Mecanica" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Técnico Mecánica')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Técnico Mecánica', 'content_table_tecnico_mecanica')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -302,7 +304,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="Seguro" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Seguro Todo Riesgo')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Seguro Todo Riesgo', 'content_table_seguro')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -327,7 +329,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="Certificado_GPS" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Certificado GPS')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Certificado GPS', 'content_table_gps')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -352,7 +354,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="RUNT" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('RUNT')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('RUNT', 'content_table_runt')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -377,7 +379,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="Poliza_contractual" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Póliza contractual')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Póliza contractual', 'content_table_contractual')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -402,7 +404,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="Poliza_extracontractual" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Póliza extracontractual')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Póliza extracontractual', 'content_table_extracontractual')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -431,26 +433,567 @@
                                         </div>
                                     </div>
                                 </div>
+                                {{-- TAB VINCULACION --}}
                                 <div class="card mb-0">
-                                    <a class="text-dark" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Certificado de desvinculación', {{ $vehiculo->id }}, 'content_table_certificado_desvinculacion')" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                                         <div class="card-header" id="headingThree">
-                                        <h5 class="m-0 font-size-14">Collapsible Group Item #3</h5>
+                                        <h5 class="m-0 font-size-14">VINCULACION</h5>
                                         </div>
                                     </a>
                                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="">
-                                        <div class="card-body">
-                                            Anim pariatur cliche reprehenderit, enim eiusmod high life
-                                            accusamus terry richardson ad squid. 3 wolf moon officia
-                                            aute, non cupidatat skateboard dolor brunch. Food truck
-                                            quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
-                                            sunt aliqua put a bird on it squid single-origin coffee
-                                            nulla assumenda shoreditch et. Nihil anim keffiyeh
-                                            helvetica, craft beer labore wes anderson cred nesciunt
-                                            sapiente ea proident. Ad vegan excepteur butcher vice lomo.
-                                            Leggings occaecat craft beer farm-to-table, raw denim
-                                            aesthetic synth nesciunt you probably haven't heard of them
-                                            accusamus labore sustainable VHS.
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Certificado de desvinculación', {{ $vehiculo->id }}, 'content_table_certificado_desvinculacion')" data-toggle="tab" href="#Certificado-de-desvinculacion" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Certificado de desvinculación</span> 
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Solicitud de cambio de empresa en la tarjeta de operación', {{ $vehiculo->id }}, 'content_table_solicitud_cambio_empresa')" data-toggle="tab" href="#Solicitud-cambio-empresa" role="tab" aria-selected="false">
+                                                   <span class="d-none d-md-inline-block">Solicitud de cambio de empresa en la tarjeta de operación</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Solicitud y/o certificado de disponibilidad', {{ $vehiculo->id }}, 'content_table_solicitud_certificado_disponibilidad')" data-toggle="tab" href="#Solicitud_certificado_disponibilidad" role="tab" aria-selected="false">
+                                                   <span class="d-none d-md-inline-block">Solicitud y/o certificado de disponibilidad</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Certificado de seción de derechos (SIG-CA-F-21)', {{ $vehiculo->id }}, 'content_table_certificado_secion_derechos')" data-toggle="tab" href="#certificado_secion_derechos" role="tab" aria-selected="false">
+                                                   <span class="d-none d-md-inline-block">Certificado de seción de derechos (SIG-CA-F-21)</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Carta de aceptación (SIG-CA-F-21)', {{ $vehiculo->id }}, 'content_table_carta_aceptacion')" data-toggle="tab" href="#carta_aceptacion" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Carta de aceptación (SIG-CA-F-21)</span> 
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Contrato de vinculación (SIG-CA-F-75)', {{ $vehiculo->id }}, 'content_table_contrato_vinculacion')" data-toggle="tab" href="#contrato_vinculacion" role="tab" aria-selected="false">
+                                                   <span class="d-none d-md-inline-block">Contrato de vinculación (SIG-CA-F-75)</span>
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Pagare-carta de instrucciones (SIG-F-80)', {{ $vehiculo->id }}, 'content_table_pagare_carta')" data-toggle="tab" href="#pagare_carta" role="tab" aria-selected="false">
+                                                   <span class="d-none d-md-inline-block">Pagare-carta de instrucciones (SIG-F-80)</span>
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="Certificado-de-desvinculacion" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Certificado de desvinculación', 'content_table_certificado_desvinculacion')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_certificado_desvinculacion">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="Solicitud-cambio-empresa" role="tabpanel">
+                                                
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Solicitud de cambio de empresa en la tarjeta de operación', 'content_table_solicitud_cambio_empresa')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_solicitud_cambio_empresa">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+
+                                            </div>
+                                            <div class="tab-pane" id="Solicitud_certificado_disponibilidad" role="tabpanel">
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Solicitud y/o certificado de disponibilidad', 'content_table_solicitud_certificado_disponibilidad')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_solicitud_certificado_disponibilidad">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="certificado_secion_derechos" role="tabpanel">
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Certificado de seción de derechos (SIG-CA-F-21)', 'content_table_certificado_secion_derechos')"><i class="fas fa-plus"></i></button>
+                                                
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_certificado_secion_derechos">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="carta_aceptacion" role="tabpanel">
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Carta de aceptación (SIG-CA-F-21)', 'content_table_carta_aceptacion')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_carta_aceptacion">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="contrato_vinculacion" role="tabpanel">
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Contrato de vinculación (SIG-CA-F-75)', 'content_table_contrato_vinculacion')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_contrato_vinculacion">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="pagare_carta" role="tabpanel">
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Pagare-carta de instrucciones (SIG-F-80)', 'content_table_pagare_carta')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_pagare_carta">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
                                         </div>
+
+                                    </div>
+                                </div>
+                                {{-- TAB COMPRAVENTA DE VEHICULO --}}
+                                <div class="card mb-0">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Compraventa', {{ $vehiculo->id }}, 'content_table_compraventa')" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
+                                        <div class="card-header" id="headingFour">
+                                        <h5 class="m-0 font-size-14">COMPRAVENTA DE VEHICULO</h5>
+                                        </div>
+                                    </a>
+                                    <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="">
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Compraventa', {{ $vehiculo->id }}, 'content_table_compraventa')" data-toggle="tab" href="#compraventa" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Compraventa</span> 
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="compraventa" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Compraventa', 'content_table_compraventa')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_compraventa">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{-- TAB CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS --}}
+                                <div class="card mb-0">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Convenios colaboración empresarial (SIG-F-73)', {{ $vehiculo->id }}, 'content_table_convenios_colaboracion')" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
+                                        <div class="card-header" id="headingFive">
+                                        <h5 class="m-0 font-size-14">CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS</h5>
+                                        </div>
+                                    </a>
+                                    <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="">
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Convenios colaboración empresarial (SIG-F-73)', {{ $vehiculo->id }}, 'content_table_convenios_colaboracion')" data-toggle="tab" href="#convenios_colaboracion" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Convenios colaboración empresarial (SIG-F-73)</span> 
+                                                </a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" onclick="documentos_legales('Contrarto civil de prestación de servicios de transporte (SIG-F-49)', {{ $vehiculo->id }}, 'content_table_contrato_prestacion_servicios')" data-toggle="tab" href="#contrato_prestacion_servicios" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Contrarto civil de prestación de servicios de transporte (SIG-F-49)</span> 
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="convenios_colaboracion" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Convenios colaboración empresarial (SIG-F-73)', 'content_table_convenios_colaboracion')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_convenios_colaboracion">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tab-pane" id="contrato_prestacion_servicios" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Contrarto civil de prestación de servicios de transporte (SIG-F-49)', 'content_table_contrato_prestacion_servicios')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="content_table_contrato_prestacion_servicios">
+                                                        <tr>
+                                                            <td colspan="8" class="text-center">
+                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{-- TAB INSPECCIONES MENSUALES --}}
+                                <div class="card mb-0">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima inspección mensual (SIG-F-89)', {{ $vehiculo->id }}, 'content_table_ultima_inspeccion')" data-parent="#accordion" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
+                                        <div class="card-header" id="headingSix">
+                                        <h5 class="m-0 font-size-14">INSPECCIONES MENSUALES</h5>
+                                        </div>
+                                    </a>
+                                    <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion" style="">
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Ultima inspección mensual (SIG-F-89)', {{ $vehiculo->id }}, 'content_table_ultima_inspeccion')" data-toggle="tab" href="#ultima_inspeccion" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Ultima inspección mensual (SIG-F-89)</span> 
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="ultima_inspeccion" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Ultima inspección mensual (SIG-F-89)', 'content_table_ultima_inspeccion')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_ultima_inspeccion">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{-- TAB ACTAS DE ENTREGA Y RECIBIDO --}}
+                                <div class="card mb-0">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima acta entrega y/o recibido (SIG-F-47)', {{ $vehiculo->id }}, 'content_table_ultima_acta_entrega')" data-parent="#accordion" href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
+                                        <div class="card-header" id="headingSeven">
+                                        <h5 class="m-0 font-size-14">ACTAS DE ENTREGA Y RECIBIDO</h5>
+                                        </div>
+                                    </a>
+                                    <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion" style="">
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Ultima acta entrega y/o recibido (SIG-F-47)', {{ $vehiculo->id }}, 'content_table_ultima_acta_entrega')" data-toggle="tab" href="#ultima_acta_entrega" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Ultima acta entrega y/o recibido (SIG-F-47)</span> 
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="ultima_acta_entrega" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Ultima acta entrega y/o recibido (SIG-F-47)', 'content_table_ultima_acta_entrega')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_ultima_acta_entrega">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{-- TAB BIMESTRAL --}}
+                                <div class="card mb-0">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima bimestarl CDA', {{ $vehiculo->id }}, 'content_table_ultima_bimestral')" data-parent="#accordion" href="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
+                                        <div class="card-header" id="headingEight">
+                                        <h5 class="m-0 font-size-14">BIMESTRAL</h5>
+                                        </div>
+                                    </a>
+                                    <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion" style="">
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Ultima bimestarl CDA', {{ $vehiculo->id }}, 'content_table_ultima_bimestral')" data-toggle="tab" href="#ultima_bimestral" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Ultima bimestarl CDA</span> 
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="ultima_bimestral" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Ultima bimestarl CDA', 'content_table_ultima_bimestral')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_ultima_bimestral">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                {{-- TAB SOPORTE DE MANTENIMIENTOS --}}
+                                <div class="card mb-0">
+                                    <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultimo soporte de mantenimiento', {{ $vehiculo->id }}, 'content_table_ultimo_mantenimiento')" data-parent="#accordion" href="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
+                                        <div class="card-header" id="headingNine">
+                                        <h5 class="m-0 font-size-14">SOPORTE DE MANTENIMIENTOS</h5>
+                                        </div>
+                                    </a>
+                                    <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion" style="">
+                                        
+                                        <!-- Nav tabs -->
+                                        <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                            <li class="nav-item">
+                                                <a class="nav-link active" onclick="documentos_legales('Ultimo soporte de mantenimiento', {{ $vehiculo->id }}, 'content_table_ultimo_mantenimiento')" data-toggle="tab" href="#ultimo_mantenimiento" role="tab" aria-selected="true">
+                                                   <span class="d-none d-md-inline-block">Ultimo soporte de mantenimiento</span> 
+                                                </a>
+                                            </li>
+                                        </ul>
+        
+                                        <!-- Tab panes -->
+                                        <div class="tab-content p-3">
+                                            <div class="tab-pane active" id="ultimo_mantenimiento" role="tabpanel">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Ultimo soporte de mantenimiento', 'content_table_ultimo_mantenimiento')"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                            <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody id="content_table_ultimo_mantenimiento">
+                                                            <tr>
+                                                                <td colspan="8" class="text-center">
+                                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+
                                     </div>
                                 </div>
                             </div>        
@@ -533,6 +1076,7 @@
                         </div>
 
                         <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="id_table" id="id_table">
                         <input type="hidden" name="tipo" id="tipo">
                         <input type="hidden" name="vehiculo_id" value="{{ $vehiculo->id }}">
                         
@@ -747,8 +1291,3 @@
     </div>
 </div>
 @endsection
-
-
-
-
-

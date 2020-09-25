@@ -75,6 +75,17 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::post('/personal/cargar_cargos_personal', 'PersonalController@cargar_cargos_personal');
 });
 
+// Rutas para Terceros
+Route::group(['middleware' => ['permission:terceros|universal']], function () {
+    Route::get('/terceros', 'TercerosController@index')->name('terceros');
+    Route::get('/terceros/ver/{id}', 'TercerosController@ver')->name('ver-tercero');
+    Route::post('/terceros/create', 'TercerosController@create');
+});
+
+
+
+
+
 // Rutas para las Notificaciones
 Route::get('/notificaciones/ver/{id}', 'NotificationController@ver');
 

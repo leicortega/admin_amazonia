@@ -25,12 +25,13 @@ $(document).ready(function () {
             success: function (data) {
                 $('#agg_targeta_propiedad')[0].reset();
                 $('#agg_doc_legal').modal('hide');
-                cargar_tarjeta_propiedad(data.tipo, data.vehiculo_id);
+                documentos_legales(data.tipo, data.vehiculo_id, data.id_table);
             }
         })
 
         return false;
     })
+
 })
 
 function cargar_conductores(id) {
@@ -69,11 +70,12 @@ function eliminar_conductor(id, vehiculo_id) {
     })
 }
 
-function agg_documento_legal(tipo_documento) {
+function agg_documento_legal(tipo_documento, id_table) {
     $('#agg_doc_legal').modal('show')
     $('#agg_doc_legal_title').text('Agregar '+tipo_documento)
     $('#consecutivo_title').text('Consecutivo '+tipo_documento)
     $('#tipo').val(tipo_documento)
+    $('#id_table').val(id_table)
 
     $('#consecutivo').val('');
     $('#fecha_expedicion').val('');
@@ -85,7 +87,7 @@ function agg_documento_legal(tipo_documento) {
     $('#entidad_expide').html(call_method_select_entidad(tipo_documento))
 }
 
-function cargar_tarjeta_propiedad(tipo, vehiculo_id) {
+function documentos_legales(tipo, vehiculo_id, id_table) {
     $.ajax({
         url: '/vehiculos/cargar_tarjeta_propiedad',
         type: 'POST',
@@ -106,60 +108,63 @@ function cargar_tarjeta_propiedad(tipo, vehiculo_id) {
                         <button type="button" onclick="editar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo }')" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-edit"></i></button>
                         <button type="button" onclick="ver_documento_legal('${ documento.documento_file }', '${ documento.tipo }')" ${ (documento.documento_file) ? '' : 'disabled' } class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <a href="/storage/${ documento.documento_file }" download class="${ (documento.documento_file) ? '' : 'disabled' } btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></a>
-                        <button type="button" onclick="eliminar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo }')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="eliminar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo }', '${ id_table }')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
             });
-            switch (tipo) {
-                case 'Tarjeta de Propiedad':
-                    $('#content_table_documentos_legales').html(content)
-                    break;
+
+            $('#'+id_table).html(content)
+
+            // switch (tipo) {
+            //     case 'Tarjeta de Propiedad':
+            //         $('#content_table_documentos_legales').html(content)
+            //         break;
         
-                case 'Tarjeta Operación':
-                    $('#content_table_tarjeta_operacion').html(content)
-                    break;
+            //     case 'Tarjeta Operación':
+            //         $('#content_table_tarjeta_operacion').html(content)
+            //         break;
         
-                case 'SOAT':
-                    $('#content_table_soat').html(content)
-                    break;
+            //     case 'SOAT':
+            //         $('#content_table_soat').html(content)
+            //         break;
                     
-                case 'Técnico Mecánica':
-                    $('#content_table_tecnico_mecanica').html(content)
-                    break;
+            //     case 'Técnico Mecánica':
+            //         $('#content_table_tecnico_mecanica').html(content)
+            //         break;
         
-                case 'Seguro Todo Riesgo':
-                    $('#content_table_seguro').html(content)
-                    break;
+            //     case 'Seguro Todo Riesgo':
+            //         $('#content_table_seguro').html(content)
+            //         break;
         
-                case 'Certificado GPS':
-                    $('#content_table_gps').html(content)
-                    break;
+            //     case 'Certificado GPS':
+            //         $('#content_table_gps').html(content)
+            //         break;
         
-                case 'RUNT':
-                    $('#content_table_runt').html(content)
-                    break;
+            //     case 'RUNT':
+            //         $('#content_table_runt').html(content)
+            //         break;
         
-                case 'Póliza contractual':
-                    $('#content_table_contractual').html(content)
-                    break;
+            //     case 'Póliza contractual':
+            //         $('#content_table_contractual').html(content)
+            //         break;
         
-                case 'Póliza extracontractual':
-                    $('#content_table_extracontractual').html(content)
-                    break;
+            //     case 'Póliza extracontractual':
+            //         $('#content_table_extracontractual').html(content)
+            //         break;
         
-            }
+            // }
         }
     })
 }
 
-function eliminar_documento_legal(id, vehiculo_id, tipo) {
+function eliminar_documento_legal(id, vehiculo_id, tipo, id_table) {
     $.ajax({
         url: '/vehiculos/eliminar_documento_legal',
         type: 'POST',
         data: {id:id, vehiculo_id:vehiculo_id, tipo:tipo},
         success: function (data) {
-            cargar_tarjeta_propiedad(data.tipo, data.vehiculo_id)
+            documentos_legales(data.tipo, data.vehiculo_id, id_table)
         }
     })
 }
@@ -368,10 +373,199 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="LIBERTY SEGUROS S.A." ${ (entidad == 'LIBERTY SEGUROS S.A.') ? 'selected' : '' }>LIBERTY SEGUROS S.A.</option>
             `;
             break;
+
+        case 'Certificado de desvinculación':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Solicitud de cambio de empresa en la tarjeta de operación':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Solicitud y/o certificado de disponibilidad':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="INSP TTOyTTE BARRANCABERMEJA" ${ (entidad == 'INSP TTOyTTE BARRANCABERMEJA') ? 'selected' : '' }>INSP TTOyTTE BARRANCABERMEJA</option>
+                <option value="INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL" ${ (entidad == 'INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL') ? 'selected' : '' }>INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL</option>
+                <option value="MINISTERIO DE TRANSPORTE" ${ (entidad == 'MINISTERIO DE TRANSPORTE') ? 'selected' : '' }>MINISTERIO DE TRANSPORTE</option>
+                <option value="UND MCPAL TTOyTTE PALERMO" ${ (entidad == 'UND MCPAL TTOyTTE PALERMO') ? 'selected' : '' }>UND MCPAL TTOyTTE PALERMO</option>
+                <option value="INSTITUTO DE TRANSPORTES Y TRANSITO DEL HUILA" ${ (entidad == 'INSTITUTO DE TRANSPORTES Y TRANSITO DEL HUILA') ? 'selected' : '' }>INSTITUTO DE TRANSPORTES Y TRANSITO DEL HUILA</option>
+                <option value="DIRECCION DE TRANSITO DE BUCARAMANGA" ${ (entidad == 'DIRECCION DE TRANSITO DE BUCARAMANGA') ? 'selected' : '' }>DIRECCION DE TRANSITO DE BUCARAMANGA</option>
+                <option value="DIRECCION TERRITORIAL MAGDALENA" ${ (entidad == 'DIRECCION TERRITORIAL MAGDALENA') ? 'selected' : '' }>DIRECCION TERRITORIAL MAGDALENA</option>
+                <option value="SECRETARIA DE TRANSITO Y TRANSPORTE DE NEIVA" ${ (entidad == 'SECRETARIA DE TRANSITO Y TRANSPORTE DE NEIVA') ? 'selected' : '' }>SECRETARIA DE TRANSITO Y TRANSPORTE DE NEIVA</option>
+                <option value="SECRETARIA DE TRANSITO DE CUNDINAMARCA/COTA" ${ (entidad == 'SECRETARIA DE TRANSITO DE CUNDINAMARCA/COTA') ? 'selected' : '' }>SECRETARIA DE TRANSITO DE CUNDINAMARCA/COTA</option>
+                <option value="SECRETARIA DE TRANSITO Y TRANSPORTE MUNICIPAL FUNZA" ${ (entidad == 'SECRETARIA DE TRANSITO Y TRANSPORTE MUNICIPAL FUNZA') ? 'selected' : '' }>SECRETARIA DE TRANSITO Y TRANSPORTE MUNICIPAL FUNZA</option>
+                <option value="STRIA TTEMOV CUND/SOACHA" ${ (entidad == 'STRIA TTEMOV CUND/SOACHA') ? 'selected' : '' }>STRIA TTEMOV CUND/SOACHA </option>
+                <option value="2019050214181390455" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.</option>
+            `;
+            break;
     
+        case 'Certificado de seción de derechos (SIG-CA-F-21)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Carta de aceptación (SIG-CA-F-21)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Contrato de vinculación (SIG-CA-F-75)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Pagare-carta de instrucciones (SIG-F-80)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Compraventa':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="CDA DE NEIVA S.A.S" ${ (entidad == 'CDA DE NEIVA S.A.S') ? 'selected' : '' }>CDA DE NEIVA S.A.S</option>
+                <option value="CDA DEL CAQUETA" ${ (entidad == 'CDA DEL CAQUETA') ? 'selected' : '' }>CDA DEL CAQUETA </option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA." ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.</option>
+                <option value="CDA CARLLANOS VILLAVICENCIO S.A.S" ${ (entidad == 'CDA CARLLANOS VILLAVICENCIO S.A.S') ? 'selected' : '' }>CDA CARLLANOS VILLAVICENCIO S.A.S</option>
+                <option value="GARCIA & GARCIA CDA DE NEIVA S.A.S. - CDA DE NEIVA SAS" ${ (entidad == 'GARCIA & GARCIA CDA DE NEIVA S.A.S. - CDA DE NEIVA SAS') ? 'selected' : '' }>GARCIA & GARCIA CDA DE NEIVA S.A.S. - CDA DE NEIVA SAS</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S</option>
+                <option value="CENTRO NACIONAL DE DIAGNOSTICO AUTOMOTOR SEGURA LIMITADA" ${ (entidad == 'CENTRO NACIONAL DE DIAGNOSTICO AUTOMOTOR SEGURA LIMITADA') ? 'selected' : '' }>CENTRO NACIONAL DE DIAGNOSTICO AUTOMOTOR SEGURA LIMITADA</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S</option>
+                <option value="CDA SUPERCARS" ${ (entidad == 'CDA SUPERCARS') ? 'selected' : '' }>CDA SUPERCARS</option>
+                <option value="C.D.A. MAXITEC S.A.S" ${ (entidad == 'C.D.A. MAXITEC S.A.S') ? 'selected' : '' }>C.D.A. MAXITEC S.A.S</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR LOS CENTAUROS S.A.S" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR LOS CENTAUROS S.A.S') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR LOS CENTAUROS S.A.S</option>
+                <option value="CDA DEL PUTUMAYO E.U" ${ (entidad == 'CDA DEL PUTUMAYO E.U') ? 'selected' : '' }>CDA DEL PUTUMAYO E.U</option>
+                <option value="C.D.A. REIMAR LTDA." ${ (entidad == 'C.D.A. REIMAR LTDA.') ? 'selected' : '' }>C.D.A. REIMAR LTDA.</option>
+                <option value="NO APLICA" ${ (entidad == 'NO APLICA') ? 'selected' : '' }>NO APLICA </option>
+                <option value="INVERSIONES FLOTA HUILA S.A" ${ (entidad == 'INVERSIONES FLOTA HUILA S.A') ? 'selected' : '' }>INVERSIONES FLOTA HUILA S.A</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S." ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.</option>
+            `;
+            break;
+     
+        case 'Convenios colaboración empresarial (SIG-F-73)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="GRUPO EMPRESARIAL MONTAÑA S.A.S" ${ (entidad == 'GRUPO EMPRESARIAL MONTAÑA S.A.S') ? 'selected' : '' }>GRUPO EMPRESARIAL MONTAÑA S.A.S</option>
+                <option value="TRANSVITUR S.A.S" ${ (entidad == 'TRANSVITUR S.A.S') ? 'selected' : '' }>TRANSVITUR S.A.S</option>
+                <option value="EXPRESO LOS SAMANES S.A.S" ${ (entidad == 'EXPRESO LOS SAMANES S.A.S') ? 'selected' : '' }>EXPRESO LOS SAMANES S.A.S</option>
+                <option value="MEGA TRANS S.A.S." ${ (entidad == 'MEGA TRANS S.A.S.') ? 'selected' : '' }>MEGA TRANS S.A.S.</option>
+                <option value="INTERAMAZONICA LTDA" ${ (entidad == 'INTERAMAZONICA LTDA') ? 'selected' : '' }>INTERAMAZONICA LTDA </option>
+                <option value="CARLOS CALLE EXPRESOS S.A.S" ${ (entidad == 'CARLOS CALLE EXPRESOS S.A.S') ? 'selected' : '' }>CARLOS CALLE EXPRESOS S.A.S</option>
+                <option value="SERVITRANS DEL PUTUMAYO S.A.S" ${ (entidad == 'SERVITRANS DEL PUTUMAYO S.A.S') ? 'selected' : '' }>SERVITRANS DEL PUTUMAYO S.A.S</option>
+                <option value="LOGISTICA Y SERVICIOS EMPRESARIALES S.A.S" ${ (entidad == 'LOGISTICA Y SERVICIOS EMPRESARIALES S.A.S') ? 'selected' : '' }>LOGISTICA Y SERVICIOS EMPRESARIALES S.A.S</option>
+                <option value="SOTRANSVEGA SAS" ${ (entidad == 'SOTRANSVEGA SAS') ? 'selected' : '' }>SOTRANSVEGA SAS</option>
+                <option value="TRANSCODOR SAS" ${ (entidad == 'TRANSCODOR SAS') ? 'selected' : '' }>TRANSCODOR SAS</option>
+                <option value="TRANSSERVICIOS CJ S.A.S" ${ (entidad == 'TRANSSERVICIOS CJ S.A.S') ? 'selected' : '' }>TRANSSERVICIOS CJ S.A.S</option>
+                <option value="TRANSPORTES MULTIMODAL GROUP S.A.S" ${ (entidad == 'TRANSPORTES MULTIMODAL GROUP S.A.S') ? 'selected' : '' }>TRANSPORTES MULTIMODAL GROUP S.A.S</option>
+                <option value="ESTURIVANNS S.A.S" ${ (entidad == 'ESTURIVANNS S.A.S') ? 'selected' : '' }>ESTURIVANNS S.A.S</option>
+            `;
+            break;
+
+        case 'Contrarto civil de prestación de servicios de transporte (SIG-F-49)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="TECNOSUR LOCALIZACIÓN Y RASTREO" ${ (entidad == 'TECNOSUR LOCALIZACIÓN Y RASTREO') ? 'selected' : '' }>TECNOSUR LOCALIZACIÓN Y RASTREO </option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="MASSER S.A.S" ${ (entidad == 'MASSER S.A.S') ? 'selected' : '' }>MASSER S.A.S</option>
+            `;
+            break;
+
+        case 'Ultima inspección mensual (SIG-F-89)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Ultima acta entrega y/o recibido (SIG-F-47)':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
+        case 'Ultima bimestarl CDA':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S." ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.</option>
+                <option value="INVERSIONES FLOTA HUILA S.A" ${ (entidad == 'INVERSIONES FLOTA HUILA S.A') ? 'selected' : '' }>INVERSIONES FLOTA HUILA S.A</option>
+                <option value="C.D.A. REIMAR LTDA." ${ (entidad == 'C.D.A. REIMAR LTDA.') ? 'selected' : '' }>C.D.A. REIMAR LTDA.</option>
+                <option value="CDA DEL PUTUMAYO E.U" ${ (entidad == 'CDA DEL PUTUMAYO E.U') ? 'selected' : '' }>CDA DEL PUTUMAYO E.U</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR LOS CENTAUROS S.A.S" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR LOS CENTAUROS S.A.S') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR LOS CENTAUROS S.A.S</option>
+                <option value="C.D.A. MAXITEC S.A.S" ${ (entidad == 'C.D.A. MAXITEC S.A.S') ? 'selected' : '' }>C.D.A. MAXITEC S.A.S</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S</option>
+                <option value="CDA SUPERCARS" ${ (entidad == 'CDA SUPERCARS') ? 'selected' : '' }>CDA SUPERCARS</option>
+                <option value="CENTRO NACIONAL DE DIAGNOSTICO AUTOMOTOR SEGURA LIMITADA" ${ (entidad == 'CENTRO NACIONAL DE DIAGNOSTICO AUTOMOTOR SEGURA LIMITADA') ? 'selected' : '' }>CENTRO NACIONAL DE DIAGNOSTICO AUTOMOTOR SEGURA LIMITADA</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR OPTIMO S.A.S</option>
+                <option value="GARCIA & GARCIA CDA DE NEIVA S.A.S. - CDA DE NEIVA SAS" ${ (entidad == 'GARCIA & GARCIA CDA DE NEIVA S.A.S. - CDA DE NEIVA SAS') ? 'selected' : '' }>GARCIA & GARCIA CDA DE NEIVA S.A.S. - CDA DE NEIVA SAS</option>
+                <option value="CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA." ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.</option>
+                <option value="CDA CARLLANOS VILLAVICENCIO S.A.S" ${ (entidad == 'CDA CARLLANOS VILLAVICENCIO S.A.S') ? 'selected' : '' }>CDA CARLLANOS VILLAVICENCIO S.A.S</option>
+                <option value="CDA DEL CAQUETA" ${ (entidad == 'CDA DEL CAQUETA') ? 'selected' : '' }>CDA DEL CAQUETA </option>
+                <option value="CDA DE NEIVA S.A.S" ${ (entidad == 'CDA DE NEIVA S.A.S') ? 'selected' : '' }>CDA DE NEIVA S.A.S</option>
+                <option value="NO APLICA" ${ (entidad == 'NO APLICA') ? 'selected' : '' }>NO APLICA </option>
+            `;
+            break;
+
+        case 'Ultimo soporte de mantenimiento':
+            $('#fecha_inicio_vigencia_div').removeClass('d-none')
+            $('#fecha_fin_vigencia_div').removeClass('d-none')
+            return `
+                <option value=""></option>
+                <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
+                <option value="BANCO CAJA  SOCIAL" ${ (entidad == 'BANCO CAJA  SOCIAL') ? 'selected' : '' }>BANCO CAJA  SOCIAL </option>
+            `;
+            break;
+
     }
 }
-
-
-                
-                

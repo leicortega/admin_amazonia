@@ -20,6 +20,19 @@
 
                     <li class="menu-title">Modulos</li>
 
+                    @canany(['terceros', 'universal'])
+                        <li>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim fas fa-users mx-1"></i></div>
+                                <span>Terceros</span>
+                            </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="/terceros">Datos Terceros</a></li>
+                                <li><a href="/terceros/correspondencia">Correspondencia</a></li>
+                            </ul>
+                        </li>
+                    @endcanany
+
                     @canany(['vehiculos', 'universal'])
                         <li>
                             <a href="javascript: void(0);" class="has-arrow waves-effect">
@@ -281,6 +294,15 @@
                             <span>Alumnos</span>
                         </a>
                     </li>
+
+                @endif
+
+                @if ( Request::is('terceros') || Request::is('terceros/*') )
+
+                    <li class="menu-title">Terceros</li>
+
+                    <li><a href="/terceros"  class="waves-effect">Datos Terceros</a></li>
+                    <li><a href="/terceros/correspondencia"  class="waves-effect">Correspondencia</a></li>
 
                 @endif
 

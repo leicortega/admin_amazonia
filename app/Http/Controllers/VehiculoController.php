@@ -112,7 +112,7 @@ class VehiculoController extends Controller
                 ]);
             }
 
-            return ['tipo' => $documento->tipo, 'vehiculo_id' => $request['vehiculo_id']];
+            return ['tipo' => $documento->tipo, 'vehiculo_id' => $request['vehiculo_id'], 'id_table' => $request['id_table']];
         } else {
             $date = Carbon::now('America/Bogota');
 
@@ -139,7 +139,7 @@ class VehiculoController extends Controller
             }
 
             if ( $documento->save() ) {
-                return ['tipo' => $request['tipo'], 'vehiculo_id' => $request['vehiculo_id']];
+                return ['tipo' => $request['tipo'], 'vehiculo_id' => $request['vehiculo_id'], 'id_table' => $request['id_table']];
             }
 
             return 0;

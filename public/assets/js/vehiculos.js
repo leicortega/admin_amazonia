@@ -120,39 +120,39 @@ function documentos_legales(tipo, vehiculo_id, id_table) {
             //     case 'Tarjeta de Propiedad':
             //         $('#content_table_documentos_legales').html(content)
             //         break;
-        
+
             //     case 'Tarjeta Operación':
             //         $('#content_table_tarjeta_operacion').html(content)
             //         break;
-        
+
             //     case 'SOAT':
             //         $('#content_table_soat').html(content)
             //         break;
-                    
+
             //     case 'Técnico Mecánica':
             //         $('#content_table_tecnico_mecanica').html(content)
             //         break;
-        
+
             //     case 'Seguro Todo Riesgo':
             //         $('#content_table_seguro').html(content)
             //         break;
-        
+
             //     case 'Certificado GPS':
             //         $('#content_table_gps').html(content)
             //         break;
-        
+
             //     case 'RUNT':
             //         $('#content_table_runt').html(content)
             //         break;
-        
+
             //     case 'Póliza contractual':
             //         $('#content_table_contractual').html(content)
             //         break;
-        
+
             //     case 'Póliza extracontractual':
             //         $('#content_table_extracontractual').html(content)
             //         break;
-        
+
             // }
         }
     })
@@ -164,9 +164,9 @@ function eliminar_documento_legal(id, vehiculo_id, tipo, id_table) {
         type: 'POST',
         data: {id:id, vehiculo_id:vehiculo_id, tipo:tipo},
         success: function (data) {
-            documentos_legales(data.tipo, data.vehiculo_id, id_table)
+            documentos_legales(data.tipo, data.vehiculo_id, id_table);
         }
-    })
+    });
 }
 
 function editar_documento_legal(id) {
@@ -200,7 +200,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             $('#fecha_inicio_vigencia_div').addClass('d-none')
             $('#fecha_fin_vigencia_div').addClass('d-none')
             return `
-                <option value=""></option> 
+                <option value=""></option>
                 <option value="UND MCPAL TTOyTTE PALERMO" ${ (entidad == "UND MCPAL TTOyTTE PALERMO") ? 'selected' : '' }>UND MCPAL TTOyTTE PALERMO</option>
                 <option value="MINISTERIO DE TRANSPORTE" ${ (entidad == "MINISTERIO DE TRANSPORTE") ? 'selected' : '' }>MINISTERIO DE TRANSPORTE</option>
                 <option value="INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL" ${ (entidad == "INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL") ? 'selected' : '' }>INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL</option>
@@ -215,7 +215,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="INSTITUTO DE TRANSPORTES Y TRANSITO DEL HUILA" ${ (entidad == "INSTITUTO DE TRANSPORTES Y TRANSITO DEL HUILA") ? 'selected' : '' }>INSTITUTO DE TRANSPORTES Y TRANSITO DEL HUILA</option>
             `;
             break;
-    
+
         case 'Tarjeta Operación':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -235,7 +235,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="LIBERTY SEGUROS S.A." ${ (entidad == "LIBERTY SEGUROS S.A.") ? 'selected' : '' }>LIBERTY SEGUROS S.A.</option>
             `;
             break;
-    
+
         case 'SOAT':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -257,7 +257,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="COMPAÑIA MUNDIAL DE SEGUROS S.A." ${ (entidad == 'COMPAÑIA MUNDIAL DE SEGUROS S.A.') ? 'selected' : '' }>COMPAÑIA MUNDIAL DE SEGUROS S.A.</option>
             `;
             break;
-            
+
         case 'Técnico Mecánica':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -281,7 +281,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="CDA DEL PUTUMAYO E.U" ${ (entidad == 'CDA DEL PUTUMAYO E.U') ? 'selected' : '' }>CDA DEL PUTUMAYO E.U</option>
             `;
             break;
-    
+
         case 'Seguro Todo Riesgo':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -301,7 +301,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="LIBERTY SEGUROS S.A." ${ (entidad == 'LIBERTY SEGUROS S.A.') ? 'selected' : '' }>LIBERTY SEGUROS S.A.</option>
             `;
             break;
-    
+
         case 'Certificado GPS':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -311,7 +311,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="COTRANSHUILA LTDA." ${ (entidad == 'COTRANSHUILA LTDA.') ? 'selected' : '' }>COTRANSHUILA LTDA.</option>
             `;
             break;
-    
+
         case 'RUNT':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -333,7 +333,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL" ${ (entidad == 'INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL') ? 'selected' : '' }>INSTITUTO DPTAL DE TRANSITO Y TRANSPORTE DEL CAQUETA/EL PAUJIL</option>
             `;
             break;
-    
+
         case 'Póliza contractual':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -353,7 +353,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="AXA COLPATRIA SEGUROS S.A." ${ (entidad == 'AXA COLPATRIA SEGUROS S.A.') ? 'selected' : '' }>AXA COLPATRIA SEGUROS S.A.</option>
             `;
             break;
-    
+
         case 'Póliza extracontractual':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -413,7 +413,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="2019050214181390455" ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTRIZ C.D.A. LOS DUJOS LTDA.</option>
             `;
             break;
-    
+
         case 'Certificado de seción de derechos (SIG-CA-F-21)':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')
@@ -479,7 +479,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S." ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.</option>
             `;
             break;
-     
+
         case 'Convenios colaboración empresarial (SIG-F-73)':
             $('#fecha_inicio_vigencia_div').removeClass('d-none')
             $('#fecha_fin_vigencia_div').removeClass('d-none')

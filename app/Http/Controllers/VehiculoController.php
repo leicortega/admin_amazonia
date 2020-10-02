@@ -83,7 +83,7 @@ class VehiculoController extends Controller
         return $request['vehiculo_id'];
     }
 
-    public function agg_targeta_propiedad(Request $request) { 
+    public function agg_targeta_propiedad(Request $request) {
         if ($request['id']) {
             $date = Carbon::now('America/Bogota');
 
@@ -144,7 +144,7 @@ class VehiculoController extends Controller
 
             return 0;
         }
-        
+
     }
 
     public function cargar_tarjeta_propiedad(Request $request) {

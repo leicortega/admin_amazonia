@@ -1,4 +1,4 @@
-@section('title') Registro Personal @endsection 
+@section('title') Registro Personal @endsection
 
 @section('jsMain')
     <script src="{{ asset('assets/js/personal.js') }}"></script>
@@ -13,7 +13,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row p-xl-5 p-md-3">                   
+                        <div class="row p-xl-5 p-md-3">
                             <div class="table-responsive mb-3" id="Resultados">
 
                                 @if ($errors->any())
@@ -25,7 +25,7 @@
                                         </ul>
                                     </div>
                                 @endif
-                                
+
                                 @if (session()->has('creado') && session('creado') == 1)
                                     <div class="alert alert-success">
                                         Personal creado correctamente.
@@ -67,7 +67,7 @@
                                                         </div>
                                                         <div class="col-2">
                                                             <button type="submit" class="btn btn-primary">Buscar</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </form> --}}
@@ -94,19 +94,22 @@
                                                 <td>{{ $item->correo }}</td>
                                                 <td>{{ $item->telefonos }}</td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showPersonal({{ $item->id }})" data-toggle="tooltip" data-placement="top" title="Ver Persona">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showPersonal({{ $item->id }})" data-toggle="tooltip" data-placement="top" title="Editar Persona">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </button>
+                                                    <a href="/personal/ver/{{ $item->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Persona">
+                                                        <i class="mdi mdi-eye"></i>
+                                                    </button></a>
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
 
                             {{ $personal->links() }}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -202,8 +205,8 @@
                                     <label class="custom-control-label" for="custominlineRadio2">Mujer</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="custominlineRadio3" name="sexo" class="custom-control-input" value="Otro/s">
-                                    <label class="custom-control-label" for="custominlineRadio3">Otro/s</label>
+                                    <input type="radio" id="custominlineRadio3" name="sexo" class="custom-control-input" value="Otro">
+                                    <label class="custom-control-label" for="custominlineRadio3">Otro</label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -251,13 +254,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
-                
+
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -349,8 +352,8 @@
                                     <label class="custom-control-label" for="custominlineRadio7">Mujer</label>
                                 </div>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input type="radio" id="custominlineRadio8" name="sexo_update" class="custom-control-input" disabled value="Otro/s">
-                                    <label class="custom-control-label" for="custominlineRadio8">Otro/s</label>
+                                    <input type="radio" id="custominlineRadio8" name="sexo_update" class="custom-control-input" disabled value="Otro">
+                                    <label class="custom-control-label" for="custominlineRadio8">Otro</label>
                                 </div>
                             </div>
                             <div class="col-sm-3">
@@ -396,13 +399,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
-                
+
                     {{-- <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
                     </div>  --}}
-                
+
                 </form>
 
                 <hr>
@@ -433,14 +436,14 @@
                     </form>
 
                     <div id="cargos_personal_content">
-                        
+
                     </div>
 
                 </div>
 
-                
 
-            </div>  
+
+            </div>
         </div>
     </div>
 </div>

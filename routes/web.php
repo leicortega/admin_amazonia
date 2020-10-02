@@ -69,10 +69,20 @@ Route::group(['middleware' => ['permission:vehiculo|universal']], function () {
 Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::get('/personal/registro', 'PersonalController@registro')->name('personal');
     Route::post('/personal/create', 'PersonalController@create');
+    Route::post('/personal/update', 'PersonalController@update');
     Route::get('/personal/ver/{id}', 'PersonalController@ver');
     Route::get('/personal/registro/ver/{id}', 'PersonalController@ver_ajax');
     Route::post('/personal/agg_cargo_personal', 'PersonalController@agg_cargo_personal');
+    Route::get('/personal/delete_cargo_personal/{id}', 'PersonalController@delete_cargo_personal');
     Route::post('/personal/cargar_cargos_personal', 'PersonalController@cargar_cargos_personal');
+    Route::post('/personal/crear_contrato', 'PersonalController@crear_contrato');
+    Route::post('/personal/cargar_contratos', 'PersonalController@cargar_contratos');
+    Route::post('/personal/agg_otro_si', 'PersonalController@agg_otro_si');
+    Route::post('/personal/editar_contrato', 'PersonalController@editar_contrato');
+    Route::post('/personal/agg_documento', 'PersonalController@agg_documento');
+    Route::post('/personal/cargar_documentos', 'PersonalController@cargar_documentos');
+    Route::post('/personal/editar_documento', 'PersonalController@editar_documento');
+    Route::post('/personal/eliminar_documento', 'PersonalController@eliminar_documento');
 });
 
 // Rutas para Terceros
@@ -80,9 +90,10 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::get('/terceros', 'TercerosController@index')->name('terceros');
     Route::get('/terceros/ver/{id}', 'TercerosController@ver')->name('ver-tercero');
     Route::post('/terceros/create', 'TercerosController@create');
+    Route::post('/terceros/agg_contacto', 'TercerosController@agg_contacto');
+    Route::post('/terceros/cargar_contactos', 'TercerosController@cargar_contactos');
+    Route::post('/terceros/cargar_responsable_contrato', 'TercerosController@cargar_responsable_contrato');
 });
-
-
 
 
 

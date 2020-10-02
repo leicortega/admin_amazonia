@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Personal;
 use App\Models\Cargos_personal;
+use App\Models\Contratos_personal;
+use App\Models\Documentos_personal;
+use App\Models\Otro_si;
+use Carbon\Carbon;
 
 class PersonalController extends Controller
 {
@@ -30,10 +36,20 @@ class PersonalController extends Controller
 
     public function agg_cargo_personal(Request $request) {
         if ( Cargos_personal::create(['personal_id' => $request['personal_id'], 'cargos_id' => $request['cargos_id']])->save() ) {
-            return ['create' => 1, 'personal_id' => $request['personal_id']];
+            if ($request['view_ver']) {
+                return redirect()->back()->with(['cargo' => 1]);
+            } else {
+                return ['create' => 1, 'personal_id' => $request['personal_id']];
+            }
         }
 
         return ['create' => 0];
+    }
+
+    public function delete_cargo_personal(Request $request) {
+        Cargos_personal::find($request['id'])->delete();
+
+        return redirect()->back()->with(['cargo_delete' => 1]);
     }
 
     public function cargar_cargos_personal(Request $request) {
@@ -41,5 +57,132 @@ class PersonalController extends Controller
                 ->join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
                 ->where('cargos_personal.personal_id', $request['id'])
                 ->get();
+    }
+
+    public function ver(Request $request) {
+        $personal = Personal::with(array('cargos_personal' => function ($query) {
+            $query->with('cargos');
+        }))->find($request['id']);
+
+        // dd($personal);
+
+        return view('personal.ver', ['personal' => $personal]);
+    }
+
+    public function update(Request $request) {
+        $personal = Personal::find($request['id']);
+
+        $personal->update([
+            'tipo_identificacion' => $request['tipo_identificacion'],
+            'identificacion' => $request['identificacion'],
+            'nombres' => $request['nombres'],
+            'primer_apellido' => $request['primer_apellido'],
+            'segundo_apellido' => $request['segundo_apellido'],
+            'fecha_ingreso' => $request['fecha_ingreso'],
+            'direccion' => $request['direccion'],
+            'sexo' => $request['sexo'],
+            'estado' => $request['estado'],
+            'rh' => $request['rh'],
+            'tipo_vinculacion' => $request['tipo_vinculacion'],
+            'correo' => $request['correo'],
+            'telefonos' => $request['telefonos'],
+        ]);
+
+        return redirect()->back()->with(['update' => 1]);
+    }
+
+    public function crear_contrato(Request $request) {
+        Contratos_personal::create($request->all())->save();
+
+        return $request['personal_id'];
+    }
+
+    public function cargar_contratos(Request $request) {
+        return Contratos_personal::where('personal_id', $request['id'])->with('otro_si')->get();
+    }
+
+    public function agg_otro_si(Request $request) {
+        Otro_si::create($request->all())->save();
+
+        return $request['contratos_personal_id'];
+    }
+
+    public function editar_contrato(Request $request) {
+        return Contratos_personal::find($request['id']);
+    }
+
+    public function agg_documento(Request $request) {
+        $date = Carbon::now('America/Bogota');
+
+        if ($request['id']) {
+
+            $documento = Documentos_personal::find($request['id']);
+
+            $documento->update([
+                'tipo' => $request['tipo'],
+                'fecha_expedicion' => $request['fecha_expedicion'],
+                'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia'] ?? NULL,
+                'fecha_fin_vigencia' => $request['fecha_fin_vigencia'] ?? NULL,
+                'observaciones' => $request['observaciones'],
+                'personal_id' => $request['personal_id'],
+            ]);
+
+            if ($request->file('adjunto')) {
+                $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/personal/documentos/';
+                $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+
+                $documento->update([
+                    'adjunto' => $nombre_completo_file_documento
+                ]);
+            }
+
+            return ['tipo' => $request['tipo'], 'id_table' => $request['id_table'], 'personal_id' => $request['personal_id']];
+
+        } else {
+            $documento = Documentos_personal::create([
+                'tipo' => $request['tipo'],
+                'fecha_expedicion' => $request['fecha_expedicion'],
+                'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia'] ?? NULL,
+                'fecha_fin_vigencia' => $request['fecha_fin_vigencia'] ?? NULL,
+                'observaciones' => $request['observaciones'],
+                'adjunto' => 'nombre_temp',
+                'personal_id' => $request['personal_id'],
+            ]);
+
+            if ($request->file('adjunto')) {
+                $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/personal/documentos/';
+                $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+
+                $documento['adjunto'] = $nombre_completo_file_documento;
+            }
+
+            if ( $documento->save() ) {
+                return ['tipo' => $request['tipo'], 'id_table' => $request['id_table'], 'personal_id' => $request['personal_id']];
+            }
+
+            return 0;
+        }
+
+    }
+
+    public function cargar_documentos(Request $request) {
+        return Documentos_personal::where('tipo', $request['tipo'])->where('personal_id', $request['personal_id'])->get();
+    }
+
+    public function editar_documento(Request $request) {
+        return Documentos_personal::find($request['id']);
+    }
+
+    public function eliminar_documento(Request $request) {
+        Documentos_personal::find($request['id'])->delete();
+        return ['tipo' => $request['tipo'], 'personal_id' => $request['personal_id']];
     }
 }

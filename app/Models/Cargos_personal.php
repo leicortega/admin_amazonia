@@ -11,7 +11,7 @@ class Cargos_personal extends Model
     protected $fillable = [
         'id', 'personal_id', 'cargos_id'
     ];
-    
+
     public function personal() {
         return $this->belongsTo('App\Models\Personal');
     }

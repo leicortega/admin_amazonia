@@ -11,35 +11,35 @@ function showUser(id) {
         success: function (data) {
             $('#modal-blade').modal('show');
             $('#modal-blade-title').html(data.user.name);
-            
+
             var content = `
-            
+
                 <form action="/admin/users/update" method="POST" >
 
                     <input type="hidden" name="_token" value="${$('meta[name="csrf-token"]').attr('content')}">
                     <input type="hidden" name="id" value="${data.user.id}">
-                
+
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Nombre</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="text" name="name" placeholder="Escriba el nombre" value="${data.user.name}" required />
                         </div>
                     </div>
-                            
+
                     <div class="form-group row">
                         <label for="identificacion" class="col-sm-2 col-form-label">Identificacion</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificacion" value="${data.user.identificacion}" required />
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Correo (opcional)</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="email" name="email" placeholder="Escriba el correo" value="${(data.user.email) ? data.user.email : ''}" />
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                         <div class="col-sm-10">
@@ -50,14 +50,14 @@ function showUser(id) {
                             </select>
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="password" name="password" placeholder="Escriba la contraseña" />
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                         <div class="col-sm-10">
@@ -68,7 +68,7 @@ function showUser(id) {
                             </select>
                         </div>
                     </div>
-                
+
                     <div class="form-group row ${(data.rol == 'admin') ? 'd-none' : ''} divPermisos">
                         <label for="permiso" class="col-sm-2 col-form-label">Permiso</label>
                         <div class="col-sm-10 mt-2">
@@ -90,10 +90,10 @@ function showUser(id) {
                             </div>
                         </div>
                     </div>
-                
+
                     <div class="mt-3">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Actualizar</button>
-                    </div> 
+                    </div>
 
                 </form>`;
 
@@ -113,12 +113,12 @@ function showCorreo(id) {
         success: function (data) {
             $('#modal-responder-correo').modal('show');
             $('#modal-title-correo').html('Correo #'+data.correo.id);
-            
+
             var content = `
                 <div class="card-body">
 
                     <input type="hidden" name="id" value="${data.correo.id}" />
-                    
+
                     <div class="row">
                         <div class="col-10">
                             <h4 class="font-size-16 mb-4">${data.correo.asunto}</h4>
@@ -127,7 +127,7 @@ function showCorreo(id) {
                             <p>${data.correo.fecha}</p>
                         </div>
                     </div>
-                    
+
 
                     <p>${data.correo.nombre+' '+data.correo.apellido},</p>
                     <p>${data.correo.mensaje}</p>
@@ -157,20 +157,20 @@ function showCotizacion(id) {
         url: '/cotizaciones/show/'+id,
         type: 'get',
         success: function (data) {
-            
+
             $('#modal-responder-cotizacion').modal('show');
             $('#modal-title-cotizacion').html('Cotizacion #'+data.cotizacion.num_cotizacion);
-            
+
             var content = `
                 <div class="card-body">
 
                     <input type="hidden" name="id" value="${data.cotizacion.id}" />
-                    
+
                     <div class="form-group row">
                         <div class="col-sm-6 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Fechas<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Fecha Inicio</label>
                                     <input class="form-control" type="text" name="fecha_ida" value="${data.cotizacion.fecha_ida}" required />
@@ -184,7 +184,7 @@ function showCotizacion(id) {
                         <div class="col-sm-6 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Servicio<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Tipo Servicio</label>
                                     <input class="form-control" type="text" name="tipo_servicio" value="${data.cotizacion.tipo_servicio}" required />
@@ -201,7 +201,7 @@ function showCotizacion(id) {
                         <div class="col-sm-6 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Origen<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-6">
                                     <label class="col-form-label">Departamento</label>
                                     <input class="form-control" type="text" name="departamento_origen" value="${data.cotizacion.departamento_origen}" required />
@@ -215,7 +215,7 @@ function showCotizacion(id) {
                         <div class="col-sm-6 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Destino<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-6">
                                     <label class="col-form-label">Departamento</label>
                                     <input class="form-control" type="text" name="departamento_destino" value="${data.cotizacion.departamento_destino}" required />
@@ -232,7 +232,7 @@ function showCotizacion(id) {
                         <div class="col-sm-12 d-flex">
                             <div class="form-group row col-sm-12">
                                 <h5 class="col-form-label col-sm-12">Descripción del Trayecto<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-12">
                                     <textarea class="form-control" type="text" name="descripcion" placeholder="Describa los municipios intermedios entre el origen y el destino." required ></textarea>
                                 </div>
@@ -244,7 +244,7 @@ function showCotizacion(id) {
                         <div class="col-sm-12 d-flex">
                             <div class="form-group row col-sm-12">
                                 <h5 class="col-form-label col-sm-12">Observaciones del Trayecto<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-12">
                                     <textarea class="form-control" type="text" name="observaciones" placeholder="Ejemplo 'El recorrido inicia en la calle 0 No 0-00 a las 05:00AM.' " ></textarea>
                                 </div>
@@ -256,10 +256,10 @@ function showCotizacion(id) {
                         <div class="col-sm-5 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Incluye<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Conbustible</label>
-                                    
+
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="combustible" name="combustible" value="Si" class="custom-control-input">
                                         <label class="custom-control-label" for="combustible">Si</label>
@@ -271,7 +271,7 @@ function showCotizacion(id) {
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Conductor</label>
-                                    
+
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="conductor" name="conductor" value="Si" class="custom-control-input">
                                         <label class="custom-control-label" for="conductor">Si</label>
@@ -283,7 +283,7 @@ function showCotizacion(id) {
                                 </div>
                                 <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Peajes</label>
-                                    
+
                                     <div class="custom-control custom-radio custom-control-inline">
                                         <input type="radio" id="peajes" name="peajes" value="Si" class="custom-control-input">
                                         <label class="custom-control-label" for="peajes">Si</label>
@@ -299,7 +299,7 @@ function showCotizacion(id) {
                         <div class="col-sm-4 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Cotización por<hr class="m-0"></h5>
-                                
+
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="cotizacion_por" name="cotizacion_por" value="Dias" class="custom-control-input" required/>
                                     <label class="custom-control-label" for="cotizacion_por">Dia(s)</label>
@@ -317,7 +317,7 @@ function showCotizacion(id) {
                         <div class="col-sm-3 d-flex">
                             <div class="form-group row">
                                 <h5 class="col-sm-12 col-form-label">Trayecto(s)<hr class="m-0"></h5>
-                                
+
                                 <div class="custom-control custom-radio custom-control-inline">
                                     <input type="radio" id="recorrido" name="recorrido"  value="Solo ida" class="custom-control-input" ${(data.cotizacion.recorrido == 'Solo ida') ? 'checked=""' : ''}/>
                                     <label class="custom-control-label" for="recorrido">Solo ida</label>
@@ -334,7 +334,7 @@ function showCotizacion(id) {
                         <div class="col-sm-12 d-flex">
                             <div class="form-group row col-sm-12">
                                 <h5 class="col-form-label col-sm-12">Costos<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-4">
                                     <label class="col-form-label">Valor Unitario</label>
                                     <input class="form-control" type="number" name="valor_unitario" id="valor_unitario" onchange="total_cotizacion()" placeholder="Escriba el valor unitario" required />
@@ -355,7 +355,7 @@ function showCotizacion(id) {
                         <div class="col-sm-12 d-flex">
                             <div class="form-group row col-sm-12">
                                 <h5 class="col-form-label col-sm-12">Trayecto 2<hr class="m-0"></h5>
-                                
+
                                 <div class="col-sm-12">
                                     <textarea class="form-control" type="number" name="trayecto_dos" ></textarea>
                                 </div>
@@ -428,7 +428,7 @@ function historialIngresos(id, name) {
             // console.log(data.historial)
             $('#historialIngresos').modal('show');
             $('#modal-historial-title').html('Historial de ingresos de '+name);
-            
+
             var content = `
                 <table class="table table-centered table-hover table-bordered mb-0 mt-0">
                     <thead>
@@ -513,12 +513,12 @@ function buscarTercero() {
                     <div class="container">
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
-                            
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Numero Identificación</label>
                                     <input class="form-control disabled" type="number"  name="identificacion_add" value="${data.tercero[0].identificacion}" required="">
                                 </div>
-                                    
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Nombre Completo</label>
                                     <input class="form-control disabled" type="text"  name="nombre_add" value="${data.tercero[0].nombre}" required="">
@@ -579,7 +579,38 @@ function datos_vehiculos(tipo) {
     $('#datos_vehiculo_tipo').val(tipo)
 }
 
-function createContrato(id) {
-    $('#modal-crear-contrato').modal('show')
-    $('#cotizacion_id_contrato').val(id)
+function createContrato(id, responsable) {
+    $.ajax({
+        url: '/terceros/cargar_contactos',
+        type: 'post',
+        data: {responsable:responsable},
+        success: function (data) {
+            let content = '<option value="">Seleccione tipo</option>';
+            data.forEach(contacto => {
+                content += `
+                    <option value="${contacto.identificacion}">${contacto.nombre}</option>
+                `;
+            });
+            $('#select_responsable').html(content);
+        }
+    });
+    $('#modal-crear-contrato').modal('show');
+    $('#cotizacion_id_contrato').val(id);
+}
+
+function cargar_responsable_contrato(responsable) {
+    $.ajax({
+        url: '/terceros/cargar_responsable_contrato',
+        type: 'post',
+        data: {responsable:responsable},
+        success: function (data) {
+            let content = '<option value="">Seleccione tipo</option>';
+            data.forEach(contacto => {
+                content += `
+                    <option value="${contacto.identificacion}">${contacto.nombre}</option>
+                `;
+            });
+            $('#select_responsable').html(content);
+        }
+    });
 }

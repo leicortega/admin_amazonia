@@ -1,8 +1,8 @@
-@section('title') Cotizaciones @endsection 
+@section('title') Cotizaciones @endsection
 
-@section('Plugins') 
-    <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script> 
-    <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script> 
+@section('Plugins')
+    <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
 @endsection
 
@@ -15,7 +15,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row p-xl-5 p-md-3">                   
+                        <div class="row p-xl-5 p-md-3">
                             <div class="table-responsive mb-3" id="Resultados">
 
                                 @if ($errors->any())
@@ -39,7 +39,7 @@
                                         El Usuario se actualizo correctamente.
                                     </div>
                                 @endif
-                                
+
                                 @if (session()->has('create') && session('create') == 0)
                                     <div class="alert alert-danger">
                                         Ocurrio un error, contacte al desarrollador.
@@ -75,7 +75,7 @@
                                         <!--Parte de busqueda de datos-->
                                         <tr>
                                             <th colspan="12" class="text-center">
-                                                
+
                                             </th>
                                         </tr>
                                         <!--Fin parte de busqueda de datos-->
@@ -103,29 +103,29 @@
                                                     <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showCotizacion({{ $cotizacion->id }})" data-toggle="tooltip" data-placement="top" title="Ver correo">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </button>
-                                                    @endif    
+                                                    @endif
 
                                                     @if ( Request::is('cotizaciones/aceptadas') )
                                                         @if (!$cotizacion->tercero_id)
                                                             <button type="button" class="btn btn-outline-secondary btn-sm" onclick="createTercero({{ $cotizacion->id }}, '{{ $cotizacion->nombre }}', '{{ $cotizacion->correo }}', {{ $cotizacion->telefono }})" data-toggle="tooltip" data-placement="top" title="Crear Tercero">
                                                                 <i class="mdi mdi-account"></i>
-                                                            </button> 
+                                                            </button>
                                                         @endif
-                                                        
-                                                        <button type="button" class="btn btn-outline-secondary btn-sm" {{ !$cotizacion->tercero_id ? 'disabled' : '' }} onclick="createContrato({{ $cotizacion->id }})" data-toggle="tooltip" data-placement="top" title="Crear Contrato">
+
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" {{ !$cotizacion->tercero_id ? 'disabled' : '' }} onclick="createContrato({{ $cotizacion->id }}, {{ $cotizacion->tercero_id }})" data-toggle="tooltip" data-placement="top" title="Crear Contrato">
                                                             <i class="mdi mdi-check"></i>
                                                         </button>
                                                     @endif
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
 
                             {{ $cotizaciones->links() }}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -151,11 +151,11 @@
                     @csrf
 
                     <div id="modal-content-cotizacion"></div>
-                
+
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -192,7 +192,7 @@
                     <div class="container">
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Tipo Identificacion</label>
                                     <select name="tipo_identificacion" class="form-control" required>
@@ -208,7 +208,7 @@
                                     <label class="col-sm-12 col-form-label">Numero Identificación</label>
                                     <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificación" required="">
                                 </div>
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Nombre Completo</label>
                                     <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Escriba el nombre" required="">
@@ -237,7 +237,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Régimen</label>
                                     <select name="regimen" class="form-control" required>
@@ -254,7 +254,7 @@
                                     <select name="departamento" id="departamento" onchange="cargarMunicipios(this.value)" class="form-control" required>
                                     </select>
                                 </div>
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Municipio</label>
                                     <select name="municipio" id="municipio" class="form-control" required>
@@ -268,12 +268,12 @@
 
                             </div>
                         </div>
-                        
+
                         <hr>
 
                         <div class="form-group row mb-3">
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Correo</label>
                                     <input class="form-control" type="text" name="correo" id="correo" placeholder="Escriba la Dirección" required="">
@@ -291,25 +291,25 @@
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
-                    </div> 
+                    </div>
                 </form>
 
                 <form action="/cotizaciones/add-tercero" id="form-add-tercero" method="POST" class="d-none">
                     @csrf
 
                     <div id="modal-content-tercero" class="text-center"></div>
-                
+
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="enviar-add-tercero" disabled type="submit">Enviar</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
 
-{{-- Modal Crear/Añadir Tercero --}}
+{{-- Modal Crear Cotrato --}}
 <div class="modal fade bs-example-modal-xl" id="modal-crear-contrato" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -331,21 +331,16 @@
 
                             <div class="col-sm-12 d-flex">
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Tipo Identificacion</label>
-                                    <select name="tipo_identificacion_responsable" class="form-control" required>
+                                    <label class="col-sm-12 col-form-label">Seleccione responsable</label>
+                                    <select name="select_responsable" id="select_responsable" onchange="cargar_responsable_contrato(this.value)" class="form-control" required>
                                         <option value="">Seleccione tipo</option>
-                                        <option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
-                                        <option value="Cedula de Extrangeria">Cedula de Extrangeria</option>
-                                        <option value="Nit">Nit</option>
-                                        <option value="Registro Civil">Registro Civil</option>
-                                        <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Numero Identificación</label>
                                     <input class="form-control" type="number" name="identificacion_responsable" placeholder="Escriba la identificación" required="">
                                 </div>
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Nombre Completo</label>
                                     <input class="form-control" type="text" name="nombre_responsable" placeholder="Escriba el nombre" required="">
@@ -357,7 +352,7 @@
                             </div>
 
                             <div class="col-sm-12 d-flex">
-                                
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Telefono</label>
                                     <input class="form-control" type="number" name="telefono_responsable" placeholder="Escriba el Telefono" required="">
@@ -370,7 +365,7 @@
                                         <option value="ASALARIADO">ASALARIADO</option>
                                     </select>
                                 </div>
-                                    
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Objeto del contrato</label>
                                     <textarea name="objeto_contrato" rows="3" class="form-control" placeholder="Escriba el objeto del contrato" required=""></textarea>
@@ -386,7 +381,7 @@
                             <h5 class="col-12">VEHICULO</h5>
 
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Vehiculo</label>
                                     <select name="vehiculo_id" class="form-control" required>
@@ -410,7 +405,7 @@
 
                             </div>
                         </div>
-                        
+
                         <hr>
 
                         <div class="form-group row mb-3">
@@ -419,7 +414,7 @@
 
                             <div class="col-sm-12 d-flex">
                                 <div class="col-sm-12">
-                                    <textarea name="contrato_parte_uno" rows="5" class="form-control" required="">Entre los suscritos a saber, AMAZONIA CONSULTORIA & LOGISTICA SAS, Identificada con Nit. 900447438-6 sociedad domiciliada en la ciudad de Neiva, representada legalmente por, JOIMER OSORIO BAQUERO, mayor de edad, vecino de Neiva - Huila, identificado con la cédula de ciudadanía No. 7706232 de Neiva Huila, quien en adelante se denominará El CONTRATISTA, por una parte, y por la otra Leiner Fabian Ortega , Identificado(a) Cédula de Ciudadania  No 1075262366 domiciliado(a)en la ciudad de Barranquilla 
+                                    <textarea name="contrato_parte_uno" rows="5" class="form-control" required="">Entre los suscritos a saber, AMAZONIA CONSULTORIA & LOGISTICA SAS, Identificada con Nit. 900447438-6 sociedad domiciliada en la ciudad de Neiva, representada legalmente por, JOIMER OSORIO BAQUERO, mayor de edad, vecino de Neiva - Huila, identificado con la cédula de ciudadanía No. 7706232 de Neiva Huila, quien en adelante se denominará El CONTRATISTA, por una parte, y por la otra Leiner Fabian Ortega , Identificado(a) Cédula de Ciudadania  No 1075262366 domiciliado(a)en la ciudad de Barranquilla
                                     </textarea>
                                 </div>
                             </div>
@@ -436,7 +431,7 @@
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
-                    </div> 
+                    </div>
                 </form>
 
             </div>

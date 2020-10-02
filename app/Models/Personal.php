@@ -11,4 +11,8 @@ class Personal extends Model
     protected $fillable = [
         'tipo_identificacion', 'identificacion', 'nombres', 'primer_apellido', 'segundo_apellido', 'fecha_ingreso', 'direccion', 'sexo', 'rh', 'estado', 'tipo_vinculacion', 'telefonos', 'correo'
     ];
+
+    public function cargos_personal() {
+        return $this->hasMany('App\Models\Cargos_personal', 'personal_id');
+    }
 }

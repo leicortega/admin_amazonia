@@ -732,9 +732,9 @@ Al remitir consignación daremos por hecho  al servicio y se acoge a las políti
 
 ________________________________________________
 {{ strtoupper(auth()->user()->name) }}
-{{ $personal->cargos_personal[0]->cargos->nombre }}
-{{ $personal->telefonos }}
-{{ $personal->correo }}
+{{ $personal->cargos_personal[0]->cargos->nombre ?? 'Cargo' }}
+{{ $personal->telefonos ?? 'Telefono' }}
+{{ $personal->correo ?? 'Correo' }}
                             </textarea>
                         </div>
                         <div class="alert alert-danger d-none text-center mx-3" id="alert_crear_cotizacion" role="alert">

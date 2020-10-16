@@ -43,7 +43,7 @@ class TercerosController extends Controller
     public function ver(Request $request) {
         $tercero = Tercero::where('id', $request['id'])->with('perfiles_terceros')->get();
 
-        $personal = Personal::where('identificacion', $tercero[0]->identificacion)->with(array('cargos_personal' => function ($query) {
+        $personal = Personal::where('identificacion', auth()->user()->identificacion)->with(array('cargos_personal' => function ($query) {
             $query->with('cargos');
         }))->first();
 

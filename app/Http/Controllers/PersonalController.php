@@ -12,6 +12,7 @@ use App\Models\Contratos_personal;
 use App\Models\Documentos_personal;
 use App\Models\Otro_si;
 use Carbon\Carbon;
+use PDF;
 
 class PersonalController extends Controller
 {
@@ -184,5 +185,27 @@ class PersonalController extends Controller
     public function eliminar_documento(Request $request) {
         Documentos_personal::find($request['id'])->delete();
         return ['tipo' => $request['tipo'], 'personal_id' => $request['personal_id']];
+    }
+
+    public function print_otrosi(Request $request) {
+        $otro_si = Otro_si::with(array('contratos_personal' => function ($query) {
+            $query->with('personal');
+        }))->find($request['id']);
+
+        return PDF::loadView('personal.otro_si', compact('otro_si'))->setPaper('A4')->stream('otro_si.pdf');
+    }
+
+    public function print_certificado(Request $request) {
+        $contrato = Contratos_personal::with('personal')->find($request['id']);
+
+        return PDF::loadView('personal.certificado', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
+    }
+
+    public function print_contrato(Request $request) {
+        $contrato = Contratos_personal::with('personal')->find($request['id']);
+
+        return PDF::loadView('personal.contrato', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
+
+        dd($contrato);
     }
 }

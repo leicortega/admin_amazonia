@@ -56,7 +56,6 @@
                                 <span> Personal</span>
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
-                                <li><a href="personal/registro">Registro</a></li>
                                 <li><a href="personal/datos-personal">Personal</a></li>
                                 <li><a href="personal/alumnos">Alumnos</a></li>
                             </ul>
@@ -275,14 +274,7 @@
                     <li class="menu-title">Administrar Sistema</li>
 
                     <li>
-                        <a href="/personal/registro" class="waves-effect">
-                            <div class="d-inline-block icons-sm"></div>
-                            <span>Registro</span>
-                        </a>
-                    </li>
-
-                    <li>
-                        <a href="/personal/personal" class="waves-effect">
+                        <a href="/personal/datos-personal" class="waves-effect">
                             <div class="d-inline-block icons-sm"></div>
                             <span>Personal</span>
                         </a>

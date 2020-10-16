@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\CotizacionMail;
 use Illuminate\Http\Request;
-use App\Models\Responsable_contrato;
+use App\Models\Contactos_tercero;
 use App\Models\Cotizacion;
 use App\Models\Tercero;
+use App\Models\Vehiculo;
+use App\Models\Personal;
 use PDF;
 
 class CotizacionesController extends Controller
@@ -36,13 +38,13 @@ class CotizacionesController extends Controller
 
     public function show(Request $request) {
         $cotizacion = Cotizacion::find($request['id']);
-        
+
         return ['cotizacion' => $cotizacion];
     }
 
     public function responder(Request $request) {
         $cotizacion = Cotizacion::find($request['id']);
-        
+
         $cotizacion->update([
             "fecha_ida" => $request['fecha_ida'],
             "fecha_regreso" => $request['fecha_regreso'],
@@ -71,7 +73,7 @@ class CotizacionesController extends Controller
         Mail::to($cotizacion->correo)->send(new CotizacionMail($cotizacion, $pdf));
 
         return redirect()->route('cotizaciones')->with('enviado', 1);
-        
+
     }
 
     public function buscar_tercero(Request $request) {
@@ -118,8 +120,44 @@ class CotizacionesController extends Controller
     }
 
     public function generar_contrato(Request $request) {
-        $responsable = Responsable_contrato::where('identificacion', $request['identificacion_responsable']);
-        dd($responsable->count());
+        if ( $request['select_responsable'] == 'Nuevo' ) {
+            Contactos_tercero::create([
+                'identificacion' => $request['identificacion_responsable'],
+                'nombre' => $request['nombre_responsable'],
+                'correo' => $request['correo_responsable'],
+                'telefono' => $request['telefono_responsable'],
+                'terceros_id' => $request['tercero_id_contrato'],
+            ])->save();
+        }
+
+        $cotizacion = Cotizacion::find($request['cotizacion_id_contrato']);
+
+        $cotizacion->update([
+            'contrato_generado' => 1,
+            'tipo_contrato' => $request['tipo_contrato'],
+            'objeto_contrato' => $request['objeto_contrato'],
+            'vehiculo_id' => $request['vehiculo_id'],
+            'conductor_id' => $request['conductor_id'],
+            'responsable_contrato_id' => $request['identificacion_responsable'],
+            'contrato_parte_uno' => $request['contrato_parte_uno'],
+            'contrato_parte_dos' => $request['contrato_parte_dos'],
+        ]);
+
+        $tercero = Tercero::where('identificacion', $request['tercero_id_contrato'])->first();
+        $responsable = Contactos_tercero::where('identificacion', $request['identificacion_responsable'])->first();
+        $vehiculo = Vehiculo::find($request['vehiculo_id']);
+        $conductor = Personal::find($request['conductor_id']);
+
+        $data = [
+            'cotizacion' => $cotizacion,
+            'tercero' => $tercero,
+            'responsable' => $responsable,
+            'vehiculo' => $vehiculo,
+            'conductor' => $conductor
+        ];
+
+        return PDF::loadView('cotizaciones.contrato', compact('data'))->setPaper('A4')->stream('cotizacion.pdf');
+
     }
 
 }

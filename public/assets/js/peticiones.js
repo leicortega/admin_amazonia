@@ -585,7 +585,7 @@ function createContrato(id, responsable) {
         type: 'post',
         data: {responsable:responsable},
         success: function (data) {
-            let content = '<option value="">Seleccione tipo</option>';
+            let content = '<option value="">Seleccione tipo</option><option value="Nuevo">Nuevo</option>';
             data.forEach(contacto => {
                 content += `
                     <option value="${contacto.identificacion}">${contacto.nombre}</option>
@@ -596,6 +596,7 @@ function createContrato(id, responsable) {
     });
     $('#modal-crear-contrato').modal('show');
     $('#cotizacion_id_contrato').val(id);
+    $('#tercero_id_contrato').val(responsable);
 }
 
 function cargar_responsable_contrato(responsable) {
@@ -604,13 +605,23 @@ function cargar_responsable_contrato(responsable) {
         type: 'post',
         data: {responsable:responsable},
         success: function (data) {
-            let content = '<option value="">Seleccione tipo</option>';
-            data.forEach(contacto => {
-                content += `
-                    <option value="${contacto.identificacion}">${contacto.nombre}</option>
-                `;
-            });
-            $('#select_responsable').html(content);
+            if ( data ) {
+                $('#identificacion_responsable').val(data.identificacion).attr('readonly', true);
+                $('#nombre_responsable').val(data.nombre).attr('readonly', true);
+                $('#correo_responsable').val(data.correo).attr('readonly', true);
+                $('#telefono_responsable').val(data.telefono).attr('readonly', true);
+            }
         }
     });
+
+    if (responsable == 'Nuevo') {
+        $('#identificacion_responsable').val('').attr('readonly', false);
+        $('#nombre_responsable').val('').attr('readonly', false);
+        $('#correo_responsable').val('').attr('readonly', false);
+        $('#telefono_responsable').val('').attr('readonly', false);
+    }
 }
+
+
+
+

@@ -211,7 +211,6 @@ function cargar_contratos(id) {
         type: 'POST',
         data: { id:id },
         success: function (data) {
-            console.log(data);
             content = '';
             data.forEach( function (contrato, indice) {
                 content += `
@@ -223,15 +222,15 @@ function cargar_contratos(id) {
                         <td>${ contrato.fecha_fin ?? 'N/A' }</td>
                         <td class="text-center">
                             <button type="button" title="Agregar otro si" onclick="modal_agg_otro_si(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-success waves-effect waves-light"><i class="fa fa-save"></i></button>
-                            <button type="button" title="Imprimir contrato" onclick="contrato_pdf(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></button>
-                            <button type="button" title="Imprimir certificado" onclick="certificado(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print"></i></button>
+                            <a href="/personal/contrato/print/${ contrato.id }" target="_blank"><button type="button" title="Imprimir contrato" onclick="contrato_pdf(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></button></a>
+                            <a href="/personal/certificado-laboral/print/${ contrato.id }" target="_blank"><button type="button" title="Imprimir certificado" onclick="certificado(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print"></i></button></a>
                             <button type="button" title="Editar contrato" onclick="editar_contrato(${ contrato.id })" class="btn btn-warning waves-effect waves-light"><i class="fa fa-edit"></i></button>
                             <button type="button" title="Eliminar contrato" onclick="eliminar_contrato(${ contrato.id })" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                         </td>
                         <td style="max-width: 300px;">`;
                         contrato.otro_si.forEach(otro_si => {
                             content += `
-                                <button type="button" title="Imprimir otro si" class="btn btn-dark waves-effect waves-light mb-1"><i class="fa fa-save"></i> ${ otro_si.fecha }</button>
+                                <a href="/personal/otro_si/print/${ otro_si.id }" target="_blank"><button type="button" title="Imprimir otro si" class="btn btn-dark waves-effect waves-light mb-1"><i class="fa fa-save"></i> ${ otro_si.fecha }</button></a>
                             `;
                         });
                         content += `
@@ -239,7 +238,7 @@ function cargar_contratos(id) {
                     </tr>
                 `;
             });
-            $('#content_table_contratos').html(content)
+            $('#content_table_contratos').html(content);
         }
     });
 }

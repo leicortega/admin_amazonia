@@ -67,7 +67,7 @@ Route::group(['middleware' => ['permission:vehiculo|universal']], function () {
 
 // Rutas para Personal
 Route::group(['middleware' => ['permission:personal|universal']], function () {
-    Route::get('/personal/registro', 'PersonalController@registro')->name('personal');
+    Route::get('/personal/datos-personal', 'PersonalController@registro')->name('personal');
     Route::post('/personal/create', 'PersonalController@create');
     Route::post('/personal/update', 'PersonalController@update');
     Route::get('/personal/ver/{id}', 'PersonalController@ver');
@@ -83,6 +83,9 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::post('/personal/cargar_documentos', 'PersonalController@cargar_documentos');
     Route::post('/personal/editar_documento', 'PersonalController@editar_documento');
     Route::post('/personal/eliminar_documento', 'PersonalController@eliminar_documento');
+    Route::get('/personal/otro_si/print/{id}', 'PersonalController@print_otrosi');
+    Route::get('/personal/contrato/print/{id}', 'PersonalController@print_contrato');
+    Route::get('/personal/certificado-laboral/print/{id}', 'PersonalController@print_certificado');
 });
 
 // Rutas para Terceros
@@ -92,10 +95,24 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/create', 'TercerosController@create');
     Route::post('/terceros/agg_contacto', 'TercerosController@agg_contacto');
     Route::post('/terceros/cargar_contactos', 'TercerosController@cargar_contactos');
+    Route::post('/terceros/eliminar_contacto', 'TercerosController@eliminar_contacto');
     Route::post('/terceros/cargar_responsable_contrato', 'TercerosController@cargar_responsable_contrato');
+    Route::post('/terceros/agg_perfil_tercero', 'TercerosController@agg_perfil_tercero');
+    Route::get('/terceros/delete_perfil_tercero/{id}', 'TercerosController@delete_perfil_tercero');
+    Route::post('/terceros/cargar_documentos', 'TercerosController@cargar_documentos');
+    Route::post('/terceros/agg_documento', 'TercerosController@agg_documento');
+    Route::post('/terceros/delete_documento', 'TercerosController@delete_documento');
+    Route::post('/terceros/cargar_cotizaciones', 'TercerosController@cargar_cotizaciones');
+    Route::post('/terceros/editar_documento', 'TercerosController@editar_documento');
+    Route::post('/terceros/crear_cotizacion', 'TercerosController@crear_cotizacion');
+    Route::get('/terceros/print_cotizacion/{id}', 'TercerosController@print_cotizacion');
+    Route::get('/terceros/print_contrato/{id}', 'TercerosController@print_contrato');
+    Route::post('/terceros/eliminar_cotizacion', 'TercerosController@eliminar_cotizacion');
+    Route::post('/terceros/editar_cotizacion', 'TercerosController@editar_cotizacion');
+    Route::post('/terceros/editar_contrato', 'TercerosController@editar_contrato');
+    Route::post('/terceros/cargar_contratos', 'TercerosController@cargar_contratos');
+    Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
 });
-
-
 
 // Rutas para las Notificaciones
 Route::get('/notificaciones/ver/{id}', 'NotificationController@ver');

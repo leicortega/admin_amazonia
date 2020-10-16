@@ -338,16 +338,16 @@
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Numero Identificación</label>
-                                    <input class="form-control" type="number" name="identificacion_responsable" placeholder="Escriba la identificación" required="">
+                                    <input class="form-control" type="number" name="identificacion_responsable" id="identificacion_responsable" placeholder="Escriba la identificación" required="">
                                 </div>
 
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Nombre Completo</label>
-                                    <input class="form-control" type="text" name="nombre_responsable" placeholder="Escriba el nombre" required="">
+                                    <input class="form-control" type="text" name="nombre_responsable" id="nombre_responsable" placeholder="Escriba el nombre" required="">
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Direccion</label>
-                                    <input class="form-control" type="text" name="direccion_responsable" placeholder="Escriba la direccion" required="">
+                                    <label class="col-sm-12 col-form-label">Correo</label>
+                                    <input class="form-control" type="text" name="correo_responsable" id="correo_responsable" placeholder="Escriba la correo" required="">
                                 </div>
                             </div>
 
@@ -355,7 +355,7 @@
 
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Telefono</label>
-                                    <input class="form-control" type="number" name="telefono_responsable" placeholder="Escriba el Telefono" required="">
+                                    <input class="form-control" type="number" name="telefono_responsable" id="telefono_responsable" placeholder="Escriba el Telefono" required="">
                                 </div>
 
                                 <div class="col-sm-3">
@@ -428,6 +428,7 @@
                     </div>
 
                     <input type="hidden" name="cotizacion_id_contrato" id="cotizacion_id_contrato" />
+                    <input type="hidden" name="tercero_id_contrato" id="tercero_id_contrato" />
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>

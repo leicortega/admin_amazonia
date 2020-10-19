@@ -877,7 +877,8 @@ ________________________________________________
                     </div>
 
                     <input type="hidden" name="cotizacion_id_contrato" id="cotizacion_id_contrato" />
-                    <input type="hidden" name="tercero_id_contrato" id="tercero_id_contrato" value="{{ $tercero[0]->identificacion }}" />
+                    <input type="hidden" name="tercero_id_return" id="tercero_id_return" value="{{ $tercero[0]->identificacion }}" />
+                    <input type="hidden" name="tercero_id_contrato" id="tercero_id_contrato" value="{{ $tercero[0]->id }}" />
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>

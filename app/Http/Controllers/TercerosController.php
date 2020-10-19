@@ -280,7 +280,7 @@ class TercerosController extends Controller
             'contrato_parte_dos' => $request['contrato_parte_dos'],
         ]);
 
-        return ['tercero' => $request['tercero_id_contrato'], 'cotizacion' => $request['cotizacion_id_contrato']];
+        return ['tercero' => $request['tercero_id_return'], 'cotizacion' => $request['cotizacion_id_contrato']];
 
     }
 

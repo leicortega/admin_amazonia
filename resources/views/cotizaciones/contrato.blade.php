@@ -112,12 +112,10 @@
         </tbody>
     </table>
 
-    <br>
-
     <p style="text-align: center;font-weight: bold;">FORMATO UNICO DE CONTRATO DE SERVICIO PUBLICO DE TRANSPORTE AUTOMOTOR ESPCIAL</p>
     <p style="text-align: center;font-weight: bold;">No: 441000112202003{{ $data['cotizacion']['id'] }}</p>
 
-    <br><br>
+    <br>
 
     <p style="font-size: 11.5px !important;"><b>AMAZONIA C&L S.A.S</b></p>
 	<p><b>Nit:  900.447.438 - 6</b></p>

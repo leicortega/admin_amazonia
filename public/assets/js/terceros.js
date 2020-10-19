@@ -41,27 +41,6 @@ $(document).ready(function () {
         return false;
     });
 
-    $('#agg_documento').submit(function () {
-        var form = document.getElementById('agg_documento');
-        var formData = new FormData(form);
-        $.ajax({
-            url: '/terceros/agg_documento',
-            type: 'POST',
-            data: formData,
-            cache: false,
-            contentType: false,
-	        processData: false,
-            success: function (data) {
-                console.log(data)
-                $('#agg_documento')[0].reset();
-                $('#agg_documento_modal').modal('hide');
-                cargar_documentos(data.terceros_id);
-            }
-        });
-
-        return false;
-    });
-
     $('#form_crear_cotizacion').submit(function () {
         if ($('#fecha_ida').val() == '' ||
             $('#fecha_regreso').val() == '' ||

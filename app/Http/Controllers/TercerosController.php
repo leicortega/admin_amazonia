@@ -109,7 +109,7 @@ class TercerosController extends Controller
 
             $documento->update([
                 'tipo' => $request['tipo'],
-                'descripcion_documento' => $request['descripcion_documento'],
+                'descripcion' => $request['descripcion_documento'],
             ]);
 
             if ($request->file('adjunto_file')) {
@@ -130,7 +130,7 @@ class TercerosController extends Controller
         } else {
             $documento = Documentos_tercero::create([
                 'tipo' => $request['tipo'],
-                'descripcion_documento' => $request['descripcion_documento'],
+                'descripcion' => $request['descripcion_documento'],
                 'terceros_id' => $request['terceros_id'],
                 'adjunto_file' => 'nom_temp',
             ]);

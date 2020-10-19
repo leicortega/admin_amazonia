@@ -17,7 +17,7 @@ class CreateDocumentosTercerosTable extends Migration
             $table->id();
 
             $table->string('tipo', 90);
-            $table->longText('descripcion');
+            $table->longText('descripcion')->nullable();
             $table->string('adjunto_file', 120);
 
             $table->foreignId('terceros_id')

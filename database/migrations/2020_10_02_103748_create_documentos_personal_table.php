@@ -20,7 +20,7 @@ class CreateDocumentosPersonalTable extends Migration
             $table->date('fecha_expedicion');
             $table->date('fecha_inicio_vigencia')->nullable();
             $table->date('fecha_fin_vigencia')->nullable();
-            $table->longText('observaciones');
+            $table->longText('observaciones')->nullable();
             $table->string('adjunto', 90);
 
             $table->foreignId('personal_id')

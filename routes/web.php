@@ -63,6 +63,16 @@ Route::group(['middleware' => ['permission:vehiculo|universal']], function () {
     Route::post('/vehiculos/cargar_tarjeta_propiedad', 'VehiculoController@cargar_tarjeta_propiedad');
     Route::post('/vehiculos/eliminar_documento_legal', 'VehiculoController@eliminar_documento_legal');
     Route::post('/vehiculos/get_documento_legal', 'VehiculoController@get_documento_legal');
+
+    // RUTAS MANTENIMIENTOS
+    Route::get('/vehiculos/mantenimientos', 'MantenimientosController@index');
+    Route::get('/vehiculos/{id}/mantenimientos', 'MantenimientosController@mantenimientos_vehiculo');
+    Route::get('/vehiculos/ver/mantenimiento/{id}', 'MantenimientosController@ver');
+    Route::post('/vehiculos/solicitar_mantenimiento', 'MantenimientosController@solicitar_mantenimiento');
+    Route::post('/vehiculos/mantenimiento/agregar_actividad', 'MantenimientosController@agregar_actividad');
+    Route::post('/vehiculos/mantenimiento/agregar_detalle_actividad', 'MantenimientosController@agregar_detalle_actividad');
+    Route::post('/vehiculos/mantenimiento/agregar_facruta', 'MantenimientosController@agregar_facruta');
+    Route::post('/vehiculos/mantenimiento/agregar_firma', 'MantenimientosController@agregar_firma');
 });
 
 // Rutas para Personal

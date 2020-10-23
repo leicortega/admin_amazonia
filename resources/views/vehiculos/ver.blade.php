@@ -1,4 +1,4 @@
-@section('title') Vehiculo  @endsection 
+@section('title') Vehiculo  @endsection
 
 @section('jsMain')
     <script src="{{ asset('assets/js/vehiculos.js') }}"></script>
@@ -13,7 +13,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row p-xl-5 p-md-3">                   
+                        <div class="row p-xl-5 p-md-3">
                             <div class="table-responsive mb-3" id="Resultados">
 
                                 @if ($errors->any())
@@ -27,7 +27,8 @@
                                 @endif
 
                                 <a href="/vehiculos"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
-                                <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Editar</button>
+                                <button type="button" class="btn btn-primary ml-2 btn-lg mb-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Editar</button>
+                                <a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos" class="btn btn-info btn-lg mb-2 float-right">Mantenimientos</a>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">
@@ -85,7 +86,7 @@
                                     </tbody>
                                 </table>
                             </div>
-    
+
                             <div id="accordion" class="col-12">
                                 {{-- TAB CONDUCTORESexpande --}}
                                 <div class="card mb-0">
@@ -99,7 +100,7 @@
                                         <div class="card-body">
                                             <div class="row float-right">
                                                 <form class="form-inline mr-3" id="form_agg_conductor" method="POST" action="">
-                                                    @csrf 
+                                                    @csrf
 
                                                     <label class="sr-only" for="conductor">Seleccione Conductor</label>
                                                     <select name="conductor" id="conductor" class="form-control mb-2 mt-sm-0 mr-sm-3" required>
@@ -110,13 +111,13 @@
                                                     </select>
 
                                                     <input type="hidden" value="{{ $vehiculo->id }}" name="vehiculo_id">
-        
+
                                                     <button type="submit" class="btn btn-primary mb-2 mt-sm-0">Enviar</button>
                                                 </form>
 
                                                 {{-- <button class="btn btn-info waves-effect waves-light mb-2"><i class="fas fa-plus"></i></button> --}}
                                             </div>
-                                            
+
                                             <table class="table table-bordered">
                                                 <thead class="thead-inverse">
                                                     <tr>
@@ -153,7 +154,7 @@
                                             <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                                 <li class="nav-item">
                                                     <a class="nav-link active" onclick="documentos_legales('Tarjeta de Propiedad', {{ $vehiculo->id }}, 'content_table_documentos_legales')" data-toggle="tab" href="#Tarjeta_Propiedad" role="tab" aria-selected="true">
-                                                       <span class="d-none d-md-inline-block">Tarjeta de Propiedad</span> 
+                                                       <span class="d-none d-md-inline-block">Tarjeta de Propiedad</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
@@ -173,7 +174,7 @@
                                                 </li>
                                                 <li class="nav-item">
                                                     <a class="nav-link" onclick="documentos_legales('Seguro Todo Riesgo', {{ $vehiculo->id }}, 'content_table_seguro')" data-toggle="tab" href="#Seguro" role="tab" aria-selected="true">
-                                                       <span class="d-none d-md-inline-block">Seguro Todo Riesgo</span> 
+                                                       <span class="d-none d-md-inline-block">Seguro Todo Riesgo</span>
                                                     </a>
                                                 </li>
                                                 <li class="nav-item">
@@ -197,7 +198,7 @@
                                                     </a>
                                                 </li>
                                             </ul>
-                                            
+
                                             <!-- Tab panes -->
                                             <div class="tab-content p-3">
                                                 <div class="tab-pane active" id="Tarjeta_Propiedad" role="tabpanel">
@@ -227,7 +228,7 @@
                                                     </table>
                                                 </div>
                                                 <div class="tab-pane" id="Tarjeta_Operacion" role="tabpanel">
-                                                    
+
                                                     <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta Operación', 'content_table_tarjeta_operacion')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
@@ -429,7 +430,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                                
+
                                         </div>
                                     </div>
                                 </div>
@@ -441,12 +442,12 @@
                                         </div>
                                     </a>
                                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Certificado de desvinculación', {{ $vehiculo->id }}, 'content_table_certificado_desvinculacion')" data-toggle="tab" href="#Certificado-de-desvinculacion" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Certificado de desvinculación</span> 
+                                                   <span class="d-none d-md-inline-block">Certificado de desvinculación</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
@@ -466,7 +467,7 @@
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" onclick="documentos_legales('Carta de aceptación (SIG-CA-F-21)', {{ $vehiculo->id }}, 'content_table_carta_aceptacion')" data-toggle="tab" href="#carta_aceptacion" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Carta de aceptación (SIG-CA-F-21)</span> 
+                                                   <span class="d-none d-md-inline-block">Carta de aceptación (SIG-CA-F-21)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
@@ -480,7 +481,7 @@
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="Certificado-de-desvinculacion" role="tabpanel">
@@ -510,7 +511,7 @@
                                                 </table>
                                             </div>
                                             <div class="tab-pane" id="Solicitud-cambio-empresa" role="tabpanel">
-                                                
+
                                                 <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Solicitud de cambio de empresa en la tarjeta de operación', 'content_table_solicitud_cambio_empresa')"><i class="fas fa-plus"></i></button>
 
                                                 <table class="table table-bordered">
@@ -563,7 +564,7 @@
                                             </div>
                                             <div class="tab-pane" id="certificado_secion_derechos" role="tabpanel">
                                                 <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Certificado de seción de derechos (SIG-CA-F-21)', 'content_table_certificado_secion_derechos')"><i class="fas fa-plus"></i></button>
-                                                
+
                                                 <table class="table table-bordered">
                                                     <thead class="thead-inverse">
                                                         <tr>
@@ -673,16 +674,16 @@
                                         </div>
                                     </a>
                                     <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Compraventa', {{ $vehiculo->id }}, 'content_table_compraventa')" data-toggle="tab" href="#compraventa" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Compraventa</span> 
+                                                   <span class="d-none d-md-inline-block">Compraventa</span>
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="compraventa" role="tabpanel">
@@ -723,21 +724,21 @@
                                         </div>
                                     </a>
                                     <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Convenios colaboración empresarial (SIG-F-73)', {{ $vehiculo->id }}, 'content_table_convenios_colaboracion')" data-toggle="tab" href="#convenios_colaboracion" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Convenios colaboración empresarial (SIG-F-73)</span> 
+                                                   <span class="d-none d-md-inline-block">Convenios colaboración empresarial (SIG-F-73)</span>
                                                 </a>
                                             </li>
                                             <li class="nav-item">
                                                 <a class="nav-link" onclick="documentos_legales('Contrarto civil de prestación de servicios de transporte (SIG-F-49)', {{ $vehiculo->id }}, 'content_table_contrato_prestacion_servicios')" data-toggle="tab" href="#contrato_prestacion_servicios" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Contrarto civil de prestación de servicios de transporte (SIG-F-49)</span> 
+                                                   <span class="d-none d-md-inline-block">Contrarto civil de prestación de servicios de transporte (SIG-F-49)</span>
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="convenios_colaboracion" role="tabpanel">
@@ -804,16 +805,16 @@
                                         </div>
                                     </a>
                                     <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Ultima inspección mensual (SIG-F-89)', {{ $vehiculo->id }}, 'content_table_ultima_inspeccion')" data-toggle="tab" href="#ultima_inspeccion" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Ultima inspección mensual (SIG-F-89)</span> 
+                                                   <span class="d-none d-md-inline-block">Ultima inspección mensual (SIG-F-89)</span>
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="ultima_inspeccion" role="tabpanel">
@@ -854,16 +855,16 @@
                                         </div>
                                     </a>
                                     <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Ultima acta entrega y/o recibido (SIG-F-47)', {{ $vehiculo->id }}, 'content_table_ultima_acta_entrega')" data-toggle="tab" href="#ultima_acta_entrega" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Ultima acta entrega y/o recibido (SIG-F-47)</span> 
+                                                   <span class="d-none d-md-inline-block">Ultima acta entrega y/o recibido (SIG-F-47)</span>
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="ultima_acta_entrega" role="tabpanel">
@@ -904,16 +905,16 @@
                                         </div>
                                     </a>
                                     <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Ultima bimestarl CDA', {{ $vehiculo->id }}, 'content_table_ultima_bimestral')" data-toggle="tab" href="#ultima_bimestral" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Ultima bimestarl CDA</span> 
+                                                   <span class="d-none d-md-inline-block">Ultima bimestarl CDA</span>
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="ultima_bimestral" role="tabpanel">
@@ -954,16 +955,16 @@
                                         </div>
                                     </a>
                                     <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion" style="">
-                                        
+
                                         <!-- Nav tabs -->
                                         <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                             <li class="nav-item">
                                                 <a class="nav-link active" onclick="documentos_legales('Ultimo soporte de mantenimiento', {{ $vehiculo->id }}, 'content_table_ultimo_mantenimiento')" data-toggle="tab" href="#ultimo_mantenimiento" role="tab" aria-selected="true">
-                                                   <span class="d-none d-md-inline-block">Ultimo soporte de mantenimiento</span> 
+                                                   <span class="d-none d-md-inline-block">Ultimo soporte de mantenimiento</span>
                                                 </a>
                                             </li>
                                         </ul>
-        
+
                                         <!-- Tab panes -->
                                         <div class="tab-content p-3">
                                             <div class="tab-pane active" id="ultimo_mantenimiento" role="tabpanel">
@@ -996,8 +997,8 @@
 
                                     </div>
                                 </div>
-                            </div>        
-                            
+                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -1079,13 +1080,13 @@
                         <input type="hidden" name="id_table" id="id_table">
                         <input type="hidden" name="tipo" id="tipo">
                         <input type="hidden" name="vehiculo_id" value="{{ $vehiculo->id }}">
-                        
+
                     </div>
-                
+
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>
@@ -1103,7 +1104,7 @@
                 </button>
             </div>
             <div class="modal-body" id="modal_ver_documento_content">
-                
+
             </div>
         </div>
     </div>
@@ -1278,13 +1279,13 @@
                         </div>
 
                         <input type="hidden" name="id" value="{{ $vehiculo->id }}">
-                        
+
                     </div>
-                
+
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>

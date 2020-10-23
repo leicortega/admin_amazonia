@@ -11,6 +11,9 @@
     <!-- datepicker -->
     <link href="{{ asset('assets/libs/air-datepicker/css/datepicker.min.css') }}" rel="stylesheet" type="text/css" />
 
+    {{-- SELECTIZE --}}
+    <link href="{{ asset('assets/libs/selectize/css/selectize.css') }}" rel="stylesheet" type="text/css" />
+
     <!-- jvectormap -->
     <link href="{{ asset('assets/libs/jqvmap/jqvmap.min.css') }}" rel="stylesheet" />
 

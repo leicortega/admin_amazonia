@@ -1,8 +1,8 @@
-@section('title') Vehiculos @endsection 
+@section('title') Vehiculos @endsection
 
-@section('Plugins') 
-    <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script> 
-    <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script> 
+@section('Plugins')
+    <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
 @endsection
 
 @extends('layouts.app')
@@ -14,7 +14,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row p-xl-5 p-md-3">                   
+                        <div class="row p-xl-5 p-md-3">
                             <div class="table-responsive mb-3" id="Resultados">
 
                                 @if ($errors->any())
@@ -62,7 +62,7 @@
                                                         </div>
                                                         <div class="col-2">
                                                             <button type="submit" class="btn btn-primary">Buscar</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </form> --}}
@@ -87,19 +87,19 @@
                                                 <td>{{ $vehiculo->nombre_tipo_vehiculo }}</td>
                                                 <td>{{ $vehiculo->nombre_marca }}</td>
                                                 <td class="text-center">
-                                                    <a href="/vehiculos/ver/{{ $vehiculo->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Vehiculo">
+                                                    <a href="/vehiculos/ver/{{ $vehiculo->id_vehiculo }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Vehiculo">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
 
-                            {{-- {{ $vehiculos->links() }} --}}
-                            
+                            {{ $vehiculos->links() }}
+
                         </div>
                     </div>
                 </div>
@@ -276,13 +276,13 @@
                                 </div>
                             </div>
                         </div>
-                        
+
                     </div>
-                
+
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>

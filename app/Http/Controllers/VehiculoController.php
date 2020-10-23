@@ -28,8 +28,8 @@ class VehiculoController extends Controller
                         ->join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
                         ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
                         ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
-                        ->select('vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*')
-                        ->get();
+                        ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*')
+                        ->paginate(10);
 
         return view('vehiculos.index', ['propietarios' => $propietarios, 'vehiculos' => $vehiculos]);
     }

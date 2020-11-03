@@ -126,8 +126,6 @@
 	<p><b>OBJETO CONTRATO: {{ $data['cotizacion']['objeto_contrato'] }}</b></p>
 	<p><b>ORIGEN-DESTINO: {{ $data['cotizacion']['ciudad_origen'] }} - {{ $data['cotizacion']['ciudad_destino'] }}</b></p>
 
-    <br>
-
     <p style="text-align: center;font-weight: bold;">VIGENCIA DEL CONTRATO</p>
 
     <table class="table">
@@ -146,8 +144,6 @@
             </tr>
         </tbody>
     </table>
-
-    <br>
 
     <p style="text-align: center;font-weight: bold;">CARACTERÍSTICAS DEL VEHÍCULO</p>
 

@@ -120,7 +120,6 @@
     <p style="font-size: 11.5px !important;"><b>AMAZONIA C&L S.A.S</b></p>
 	<p><b>Nit:  900.447.438 - 6</b></p>
     <p><b>CONTRATO Nº: {{ $data['cotizacion']['id'] }}</b></p>
-    <br>
 	<p><b>CONTRATANTE: {{ $data['tercero']['nombre'] }}</b></p>
 	<p><b>NIT/CC: {{ $data['tercero']['identificacion'] }}</b></p>
 	<p><b>OBJETO CONTRATO: {{ $data['cotizacion']['objeto_contrato'] }}</b></p>

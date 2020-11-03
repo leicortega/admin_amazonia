@@ -68,6 +68,7 @@ Route::group(['middleware' => ['permission:vehiculo|universal']], function () {
     Route::get('/vehiculos/mantenimientos', 'MantenimientosController@index');
     Route::get('/vehiculos/{id}/mantenimientos', 'MantenimientosController@mantenimientos_vehiculo');
     Route::get('/vehiculos/ver/mantenimiento/{id}', 'MantenimientosController@ver');
+    Route::get('/vehiculos/print/mantenimiento/{id}', 'MantenimientosController@print');
     Route::post('/vehiculos/solicitar_mantenimiento', 'MantenimientosController@solicitar_mantenimiento');
     Route::post('/vehiculos/mantenimiento/agregar_actividad', 'MantenimientosController@agregar_actividad');
     Route::post('/vehiculos/mantenimiento/agregar_detalle_actividad', 'MantenimientosController@agregar_detalle_actividad');
@@ -122,6 +123,14 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/editar_contrato', 'TercerosController@editar_contrato');
     Route::post('/terceros/cargar_contratos', 'TercerosController@cargar_contratos');
     Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
+});
+
+// Rutas para Terceros
+Route::group(['middleware' => ['permission:blog|universal']], function () {
+    Route::get('/blog', 'BlogController@index')->name('blog');
+    Route::get('/blog/post/crear', 'BlogController@crear');
+    Route::post('/blog/post/crear', 'BlogController@crear_post');
+    Route::get('/blog/post/ver/{id}', 'BlogController@ver');
 });
 
 // Rutas para las Notificaciones

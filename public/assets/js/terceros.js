@@ -106,6 +106,8 @@ $(document).ready(function () {
 
         return false;
     });
+
+    cargarDepartamentos();
 });
 
 function cargar_contactos(id) {

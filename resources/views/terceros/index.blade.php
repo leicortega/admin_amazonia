@@ -1,4 +1,4 @@
-@section('title') Registro Terceros @endsection 
+@section('title') Registro Terceros @endsection
 
 @section('jsMain')
     <script src="{{ asset('assets/js/terceros.js') }}"></script>
@@ -13,7 +13,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row p-xl-5 p-md-3">                   
+                        <div class="row p-xl-5 p-md-3">
                             <div class="table-responsive mb-3" id="Resultados">
 
                                 @if ($errors->any())
@@ -25,7 +25,7 @@
                                         </ul>
                                     </div>
                                 @endif
-                                
+
                                 @if (session()->has('tercero') && session('tercero') == 1)
                                     <div class="alert alert-success">
                                         Tercero agregado correctamente.
@@ -38,7 +38,7 @@
                                     </div>
                                 @endif
 
-                                <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#modal-crear-tercero">Agregar +</button>
+                                <button type="button" class="btn btn-primary btn-lg float-right mb-2" onclick="cargarDepartamentos()" data-toggle="modal" data-target="#modal-crear-tercero">Agregar +</button>
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
                                     <thead>
@@ -67,7 +67,7 @@
                                                         </div>
                                                         <div class="col-2">
                                                             <button type="submit" class="btn btn-primary">Buscar</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </form> --}}
@@ -100,13 +100,13 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
 
                             {{ $terceros->links() }}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                     <div class="container">
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Tipo Identificacion</label>
                                     <select name="tipo_identificacion" class="form-control" required>
@@ -151,7 +151,7 @@
                                     <label class="col-sm-12 col-form-label">Numero Identificación</label>
                                     <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificación" required="">
                                 </div>
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Nombre Completo</label>
                                     <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Escriba el nombre" required="">
@@ -180,7 +180,7 @@
 
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Régimen</label>
                                     <select name="regimen" class="form-control" required>
@@ -197,7 +197,7 @@
                                     <select name="departamento" id="departamento" onchange="cargarMunicipios(this.value)" class="form-control" required>
                                     </select>
                                 </div>
-                                    
+
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Municipio</label>
                                     <select name="municipio" id="municipio" class="form-control" required>
@@ -211,12 +211,12 @@
 
                             </div>
                         </div>
-                        
+
                         <hr>
 
                         <div class="form-group row mb-3">
                             <div class="col-sm-12 d-flex">
-                                    
+
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Correo</label>
                                     <input class="form-control" type="text" name="correo" id="correo" placeholder="Escriba la Dirección" required="">
@@ -234,7 +234,7 @@
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
-                    </div> 
+                    </div>
                 </form>
 
             </div>

@@ -140,9 +140,9 @@
             </tr>
             <tr>
                 <td style="padding: 5px;"><b>FECHA DE VENCIMIENTO</b></td>
-                <td style="padding: 5px;"><b>DIA: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_ida'])->day }}</td>
-                <td style="padding: 5px;"><b>MES: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_ida'])->month }}</td>
-                <td style="padding: 5px;"><b>AÑO: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_ida'])->year }}</td>
+                <td style="padding: 5px;"><b>DIA: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_regreso'])->day }}</td>
+                <td style="padding: 5px;"><b>MES: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_regreso'])->month }}</td>
+                <td style="padding: 5px;"><b>AÑO: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_regreso'])->year }}</td>
             </tr>
         </tbody>
     </table>

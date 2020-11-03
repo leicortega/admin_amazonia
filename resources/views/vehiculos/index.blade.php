@@ -5,6 +5,10 @@
     <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
 @endsection
 
+@section('jsMain')
+    <script src="{{ asset('assets/js/vehiculos.js') }}"></script>
+@endsection
+
 @extends('layouts.app')
 
 @section('content')

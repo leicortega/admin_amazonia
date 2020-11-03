@@ -100,6 +100,15 @@
                         </li>
                     @endcanany
 
+                    @canany(['blog', 'universal'])
+                        <li>
+                            <a href="blog" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-document-layout-left"></i></div>
+                                <span>Blog</span>
+                            </a>
+                        </li>
+                    @endcanany
+
                     @canany(['universal'])
 
                         <li class="menu-title">Administrador</li>

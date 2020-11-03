@@ -36,7 +36,7 @@
 
                                 <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_factura">Registrar Factura</button>
                                 <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_firma">Firmar Solicitud</button>
-                                <button type="button" class="btn btn-success mb-2 ml-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Reporte PDF</button>
+                                <a href="/vehiculos/print/mantenimiento/{{ $mantenimiento->id }}" target="_blank" class="btn btn-success mb-2 ml-2 float-right">Reporte PDF</a>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">

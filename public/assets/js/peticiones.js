@@ -579,6 +579,13 @@ function datos_vehiculos(tipo) {
     $('#datos_vehiculo_tipo').val(tipo)
 }
 
+function datos_inspecciones(tipo) {
+    $('#modal-create-datos-inspecciones').modal('show')
+    $('#modal-create-datos-inspecciones-title').text('Agregar '+tipo)
+    $('#datos_inspecciones_tipo').val(tipo)
+    $('#tipo').val(tipo)
+}
+
 function createContrato(id, responsable) {
     $.ajax({
         url: '/terceros/cargar_contactos',

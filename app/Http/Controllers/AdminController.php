@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use App\Models\Sistema\Tipo_Vehiculo;
 use App\Models\Sistema\Tipo_Vinculacion;
 use App\Models\Sistema\Tipo_Carroceria;
+use App\Models\Sistema\Admin_inspeccion;
 use App\Models\Sistema\Marca;
 use App\Models\Sistema\Linea;
 use App\Models\Sistema\Cargo;
@@ -48,7 +49,7 @@ class AdminController extends Controller
         } else {
             return redirect()->route('users')->with('create', 0);
         }
-        
+
     }
 
     public function showUser(Request $request) {
@@ -60,8 +61,8 @@ class AdminController extends Controller
         }
 
         return [
-            'user' => $user, 
-            'rol' => $user->roles()->first()->name, 
+            'user' => $user,
+            'rol' => $user->roles()->first()->name,
             'permisos' => $permisos
         ];
     }
@@ -95,7 +96,7 @@ class AdminController extends Controller
             $user->givePermissionTo($request['permisos']);
         }
         return redirect()->route('users')->with('update', 1);
-        
+
     }
 
     public function admin_vehiculos() {
@@ -147,7 +148,7 @@ class AdminController extends Controller
                 return redirect()->route('datos-vehiculos')->with(['create' => 1]);
                 break;
         }
-        
+
     }
 
     public function cargos() {
@@ -160,5 +161,27 @@ class AdminController extends Controller
         }
 
         return redirect()->route('cargos')->with(['create' => 0]);
+    }
+
+    public function inspecciones() {
+        $generalidades = Admin_inspeccion::where('tipo', 'Generalidades')->get();
+        $botiquin = Admin_inspeccion::where('tipo', 'Botiquin')->get();
+        $luces = Admin_inspeccion::where('tipo', 'Luces y estado mecanico')->get();
+        $equipos = Admin_inspeccion::where('tipo', 'Equipos de carretera')->get();
+
+        return view('admin.inspecciones', [
+            'generalidades' => $generalidades,
+            'botiquin' => $botiquin,
+            'luces' => $luces,
+            'equipos' => $equipos,
+        ]);
+    }
+
+    public function agg_admin_inspeccion(Request $request) {
+        if (Admin_inspeccion::create($request->all())) {
+            return redirect()->route('inspecciones')->with(['create' => 1]);
+        }
+
+        return redirect()->route('inspecciones')->with(['create' => 0]);
     }
 }

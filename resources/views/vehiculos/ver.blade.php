@@ -28,7 +28,8 @@
 
                                 <a href="/vehiculos"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
                                 <button type="button" class="btn btn-primary ml-2 btn-lg mb-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Editar</button>
-                                <a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos" class="btn btn-info btn-lg mb-2 float-right">Mantenimientos</a>
+                                <a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos" class="btn btn-info btn-lg mb-2 float-right ml-2">Mantenimientos</a>
+                                <a href="/vehiculos/{{ $vehiculo->id }}/inspecciones" class="btn btn-info btn-lg mb-2 float-right">Inspecciones</a>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">

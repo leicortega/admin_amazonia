@@ -28,7 +28,7 @@
                                 @endif
 
                                 <a href="/terceros"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
-                                <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Editar</button>
+                                <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#modal-editar-tercero">Editar</button>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">
@@ -915,6 +915,131 @@ ________________________________________________
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+{{-- EDITAR TERCERO MODAL --}}
+<div class="modal fade bs-example-modal-xl" id="modal-editar-tercero" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Editar Tercero</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/terceros/create" id="form-create-tercero" method="POST">
+                    @csrf
+
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Tipo Identificacion</label>
+                                    <select name="tipo_identificacion" class="form-control" required>
+                                        <option value="">Seleccione tipo</option>
+                                        <option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
+                                        <option value="Cedula de Extrangeria">Cedula de Extrangeria</option>
+                                        <option value="Nit">Nit</option>
+                                        <option value="Registro Civil">Registro Civil</option>
+                                        <option value="Tarjeta de Identidad">Tarjeta de Identidad</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Numero Identificación</label>
+                                    <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificación" required="">
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Nombre Completo</label>
+                                    <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Escriba el nombre" required="">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Tipo Cliente</label>
+                                    <select name="tipo_tercero" class="form-control" required>
+                                        <option value="">Seleccione tipo</option>
+                                        <option value="Cliente">Cliente</option>
+                                        <option value="Convenio">Convenio</option>
+                                        <option value="Colegio o Institución Educativa">Colegio o Institución Educativa</option>
+                                        <option value="Aseguradora">Aseguradora</option>
+                                        <option value="Ente Territorial">Ente Territorial</option>
+                                        <option value="CDA (Centro de Diagnóstico Automotor)">CDA (Centro de Diagnóstico Automotor)</option>
+                                        <option value="Documentación Interna">Documentación Interna</option>
+                                        <option value="Proveedores">Proveedores</option>
+                                        <option value="Rastreo Satelital GPS">Rastreo Satelital GPS</option>
+                                        <option value="SEGUIMIENTO">SEGUIMIENTO</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Régimen</label>
+                                    <select name="regimen" class="form-control" required>
+                                        <option value="">Seleccione régimen</option>
+                                        <option value="Comun">Comun</option>
+                                        <option value="Simplificado">Simplificado</option>
+                                        <option value="Natural">Natural</option>
+                                        <option value="Gran Contibuyente">Registro Civil</option>
+                                        <option value="Persona Juridica">Persona Juridica</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Departamento</label>
+                                    <select name="departamento" id="departamento" onchange="cargarMunicipios(this.value)" class="form-control" required>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Municipio</label>
+                                    <select name="municipio" id="municipio" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Dirección</label>
+                                    <input class="form-control" type="text" name="direccion" placeholder="Escriba la Dirección" required="">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row mb-3">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Correo</label>
+                                    <input class="form-control" type="text" name="correo" id="correo" placeholder="Escriba la Dirección" required="">
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Telefono</label>
+                                    <input class="form-control" type="text" name="telefono" id="telefono" placeholder="Escriba la Dirección" required="">
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="cotizacion_id" id="cotizacion_id" />
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+                </form>
+
+            </div>
         </div>
     </div>
 </div>

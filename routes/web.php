@@ -15,6 +15,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     // Administrar Cargos
     Route::get('/admin/sistema/cargos', 'AdminController@cargos')->name('cargos');
     Route::post('/admin/sistema/agg_cargo', 'AdminController@agg_cargo');
+    // Administrar Inspecciones
+    Route::get('/admin/sistema/inspecciones', 'AdminController@inspecciones')->name('inspecciones');
+    Route::post('/admin/sistema/inspecciones/agg_admin_inspeccion', 'AdminController@agg_admin_inspeccion');
 });
 
 // Rutas para Correos
@@ -74,6 +77,16 @@ Route::group(['middleware' => ['permission:vehiculo|universal']], function () {
     Route::post('/vehiculos/mantenimiento/agregar_detalle_actividad', 'MantenimientosController@agregar_detalle_actividad');
     Route::post('/vehiculos/mantenimiento/agregar_facruta', 'MantenimientosController@agregar_facruta');
     Route::post('/vehiculos/mantenimiento/agregar_firma', 'MantenimientosController@agregar_firma');
+
+    // Rutas para Inspecciones
+    Route::get('/vehiculos/inspecciones', 'InspeccionesController@index');
+    Route::get('/vehiculos/{id}/inspecciones', 'InspeccionesController@inspecciones_vehiculo');
+    Route::get('/vehiculos/inspecciones/agregar', 'InspeccionesController@agregar_view');
+    Route::post('/vehiculos/inspecciones/agregar', 'InspeccionesController@agregar');
+    Route::get('/vehiculos/inspecciones/ver/{id}', 'InspeccionesController@ver')->name('ver_inspeccion');
+    Route::post('/vehiculos/inspecciones/agregar_adjunto', 'InspeccionesController@agregar_adjunto');
+    Route::post('/vehiculos/inspecciones/cerrar', 'InspeccionesController@cerrar');
+    Route::get('/vehiculos/inspecciones/pdf/{id}', 'InspeccionesController@pdf');
 });
 
 // Rutas para Personal

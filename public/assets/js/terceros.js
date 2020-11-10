@@ -276,6 +276,8 @@ function cargarDepartamentos() {
 				html += '<option value="'+dpt.departamento+'">'+dpt.departamento+'</option>';
 			});
 			$('#departamento').html(html);
+			$('#departamento_origen').html(html);
+			$('#departamento_destino').html(html);
 		}
     })
 }

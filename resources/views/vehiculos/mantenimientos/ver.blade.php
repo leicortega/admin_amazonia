@@ -329,6 +329,7 @@
                                         <option value="INVERIONES FLOTA HUILA SA">INVERIONES FLOTA HUILA SA</option>
                                         <option value="MASSER S.A.S">MASSER S.A.S</option>
                                         <option value="TECNOSUR LOCALIZACIÓN Y RASTREO ">TECNOSUR LOCALIZACIÓN Y RASTREO </option>
+                                        <option value="JAIME ALONSO BARRIOS">JAIME ALONSO BARRIOS</option>
                                     </select>
                                 </div>
                             </div>

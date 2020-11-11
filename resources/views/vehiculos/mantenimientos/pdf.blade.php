@@ -44,6 +44,23 @@
 
     </table>
 
+    <br><br><br><br>
+
+    <table width="100%" border="1" cellspacing="0" cellpadding="0" style="padding: 5px;line-height: 16px;">
+
+        <tr>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">Fecha y hora de diligenciamiento: {{ $mantenimiento->fecha }}</td>
+        </tr>
+
+        <tr>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="1">No interno: </td>
+            <td style="color: #000000; border: 1px solid #000;padding: 5px;" colspan="1"></td>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="1">Inspector: </td>
+            <td style="color: #000000; border: 1px solid #000;padding: 5px;" colspan="1">N/A</td>
+        </tr>
+
+    </table>
+
 
 </body>
 </html>

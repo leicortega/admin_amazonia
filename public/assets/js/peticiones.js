@@ -89,8 +89,8 @@ function showUser(id) {
                                 <label class="custom-control-label" for="custominlineCheck44">Control ingreso</label>
                             </div>
                             <div class="custom-control custom-checkbox custom-control-inline">
-                                <input type="checkbox" class="custom-control-input" id="custominlineCheck5" name="permisos[]" value="vehiculos" ${data.permisos.includes('vehiculos') ? 'checked=""' : ''}>
-                                <label class="custom-control-label" for="custominlineCheck5">Vehiculos</label>
+                                <input type="checkbox" class="custom-control-input" id="custominlineCheck55" name="permisos[]" value="vehiculos" ${data.permisos.includes('vehiculos') ? 'checked=""' : ''}>
+                                <label class="custom-control-label" for="custominlineCheck55">Vehiculos</label>
                             </div>
                         </div>
                     </div>

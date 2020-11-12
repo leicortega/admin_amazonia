@@ -59,6 +59,7 @@ class InspeccionesController extends Controller
                     'campo' => $request['campo_'.$i],
                     'cantidad' => $request['cantidad_'.$i],
                     'estado' => $request['estado_'.$i],
+                    'admin_inspecciones_id' => $request['id_'.$i],
                     'inspecciones_id' => $inspeccion->id
                 ]);
             }
@@ -114,9 +115,11 @@ class InspeccionesController extends Controller
     }
 
     public function pdf(Request $request) {
-        $inspeccion = Inspeccion::with('users')->with('vehiculo')->with('detalle')->with('adjuntos')->find($request->id);
+        $inspeccion = Inspeccion::with('users')->with('vehiculo')->with(array('detalle' => function ($query) {
+            $query->with('admin_inspecciones');
+        }))->with('adjuntos')->find($request->id);
 
-        // dd($inspeccion);
+        dd($inspeccion);
 
         return PDF::loadView('vehiculos.inspecciones.pdf', compact('inspeccion'))->setPaper('A4')->stream('inspeccion.pdf');
     }

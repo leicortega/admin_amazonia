@@ -20,6 +20,10 @@ class CreateDetalleInspeccionesTable extends Migration
             $table->string('cantidad');
             $table->string('estado');
 
+            $table->foreignId('admin_inspecciones_id')
+                ->constrained()
+                ->onDelete('cascade');
+
             $table->foreignId('inspecciones_id')
                 ->constrained()
                 ->onDelete('cascade');

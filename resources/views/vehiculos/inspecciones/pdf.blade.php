@@ -22,6 +22,12 @@
             bottom: 20px;
             text-align: center;
         }
+        table {
+            border-collapse: collapse;
+        }
+        .rows td {
+            border: 1px solid brown;
+        }
     </style>
 
 </head>
@@ -46,54 +52,62 @@
 
     <br><br><br><br>
 
-    <table width="100%" border="1" cellspacing="0" cellpadding="0" style="text-align: center;line-height: 16px;">
+    <table width="100%" border="1" cellspacing="0" cellpadding="0" style="padding: 3px;line-height: 16px;">
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Reportado por: </td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="3">{{ $inspeccion->users->name }}</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Placa: </td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ $inspeccion->vehiculo->placa }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Reportado por: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="3">{{ $inspeccion->users->name }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Placa: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ $inspeccion->vehiculo->placa }}</td>
         </tr>
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">No interno: </td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ $inspeccion->vehiculo->numero_interno }}</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Inspector: </td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">N/A</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Admin GPS</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1"></td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">No interno: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ $inspeccion->vehiculo->numero_interno }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Inspector: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">N/A</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Admin GPS</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1"></td>
         </tr>
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="3">Datos de INICIO: </td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="3">Datos de CIERRE</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="3">Datos de INICIO: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="3">Datos de CIERRE</td>
         </tr>
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Fecha: </td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Hora:</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Kilometraje: </td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Fecha: </td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Hora:</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Kilometraje: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Fecha: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Hora:</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Kilometraje: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Fecha: </td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Hora:</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Kilometraje: </td>
         </tr>
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->format('Y-m-d') }}</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->format('H:i:s') }}</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ $inspeccion->kilometraje_inicio }}</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_final)->format('Y-m-d') }}</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_final)->format('H:i:s') }}</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ $inspeccion->kilometraje_final }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->format('Y-m-d') }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->format('H:i:s') }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ $inspeccion->kilometraje_inicio }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_final)->format('Y-m-d') }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ \Carbon\Carbon::createFromDate($inspeccion->fecha_final)->format('H:i:s') }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ $inspeccion->kilometraje_final }}</td>
         </tr>
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ ($inspeccion->kilometraje_final == NULL)  ? 'Iniciada' : 'Cerrada'}}</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Total kilometros</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ $inspeccion->kilometraje_inicio - $inspeccion->kilometraje_final }}</td>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;" colspan="1">Total tiempo</td>
-            <td style="color: #000000; border: 1px solid #000;" colspan="1">{{ $inspeccion->fecha_inicio - $inspeccion->fecha_final }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ ($inspeccion->kilometraje_final == NULL)  ? 'Iniciada' : 'Cerrada'}}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Total kilometros</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ $inspeccion->kilometraje_inicio - $inspeccion->kilometraje_final }}</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Total tiempo</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="1">{{ $inspeccion->fecha_inicio }}</td>
+        </tr>
+
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;text-align: left;height:80px;" colspan="6"><p style="margin-top: -40px;"><b>Observacions: </b>{{ $inspeccion->observaciones_inicio }} <b>al cierre</b> {{ $inspeccion->observaciones_final }}</p></td>
+        </tr>
+
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">No Aplica (NA) No Dispone (ND) Malo (M) Regular (R) Bueno (B)</td>
         </tr>
 
     </table>

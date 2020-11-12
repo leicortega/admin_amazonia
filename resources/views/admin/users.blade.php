@@ -9,7 +9,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="row p-xl-5 p-md-3">                   
+                        <div class="row p-xl-5 p-md-3">
                             <div class="table-responsive mb-3" id="Resultados">
 
                                 @if ($errors->any())
@@ -33,7 +33,7 @@
                                         El Usuario se actualizo correctamente.
                                     </div>
                                 @endif
-                                
+
                                 @if (session()->has('create') && session('create') == 0)
                                     <div class="alert alert-danger">
                                         Ocurrio un error, contacte al desarrollador.
@@ -67,7 +67,7 @@
                                                         </div>
                                                         <div class="col-2">
                                                             <button type="submit" class="btn btn-primary">Buscar</button>
-                                                            
+
                                                         </div>
                                                     </div>
                                                 </form> --}}
@@ -102,13 +102,13 @@
                                                 </td>
                                             </tr>
                                         @endforeach
-                                        
+
                                     </tbody>
                                 </table>
                             </div>
 
                             {{ $users->links() }}
-                            
+
                         </div>
                     </div>
                 </div>
@@ -131,28 +131,28 @@
             <div class="modal-body">
                 <form action="/admin/users/create" method="POST">
                     @csrf
-                
+
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Nombre</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="text" name="name" placeholder="Escriba el nombre" autocomplete="off" required />
                         </div>
                     </div>
-                            
+
                     <div class="form-group row">
                         <label for="identificacion" class="col-sm-2 col-form-label">Identificacion</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificacion" autocomplete="off" required />
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="email" class="col-sm-2 col-form-label">Correo (opcional)</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="email" name="email" placeholder="Escriba el correo" autocomplete="off" />
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="estado" class="col-sm-2 col-form-label">Estado</label>
                         <div class="col-sm-10">
@@ -163,14 +163,14 @@
                             </select>
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
                         <div class="col-sm-10">
                             <input class="form-control" type="password" name="password" placeholder="Escriba la contraseña" autocomplete="off" required />
                         </div>
                     </div>
-                
+
                     <div class="form-group row">
                         <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
                         <div class="col-sm-10">
@@ -181,7 +181,7 @@
                             </select>
                         </div>
                     </div>
-                
+
                     <div class="form-group row d-none divPermisos">
                         <label for="permiso" class="col-sm-2 col-form-label">Permiso</label>
                         <div class="col-sm-10 mt-2">
@@ -201,13 +201,17 @@
                                 <input type="checkbox" class="custom-control-input" id="custominlineCheck4" name="permisos[]" value="control ingreso">
                                 <label class="custom-control-label" for="custominlineCheck4">Control Ingreso</label>
                             </div>
+                            <div class="custom-control custom-checkbox custom-control-inline">
+                                <input type="checkbox" class="custom-control-input" id="custominlineCheck4" name="permisos[]" value="control ingreso">
+                                <label class="custom-control-label" for="custominlineCheck4">Vehiculos</label>
+                            </div>
                         </div>
                     </div>
-                
+
                     <div class="mt-3">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Crear</button>
-                    </div> 
-                
+                    </div>
+
                 </form>
             </div>
         </div>

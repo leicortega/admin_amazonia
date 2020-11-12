@@ -87,6 +87,7 @@
                                                     <div class="form-group row mb-0">
                                                         <label class="col-md-5 col-form-label">{{ $item->nombre }}</label>
                                                         <input type="hidden" name="campo_{{ $key }}" value="{{ $item->nombre }}">
+                                                        <input type="hidden" name="id_{{ $key }}" value="{{ $item->id }}">
                                                         <label class="col-md-3 col-form-label">{{ $item->cantidad }}</label>
                                                         <input type="hidden" name="cantidad_{{ $key }}" value="{{ $item->cantidad }}">
                                                         <div class="col-md-4">

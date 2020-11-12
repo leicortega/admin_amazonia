@@ -202,7 +202,7 @@
                                 <label class="custom-control-label" for="custominlineCheck4">Control Ingreso</label>
                             </div>
                             <div class="custom-control custom-checkbox custom-control-inline">
-                                <input type="checkbox" class="custom-control-input" id="custominlineCheck4" name="permisos[]" value="control ingreso">
+                                <input type="checkbox" class="custom-control-input" id="custominlineCheck4" name="permisos[]" value="vehiculos">
                                 <label class="custom-control-label" for="custominlineCheck4">Vehiculos</label>
                             </div>
                         </div>

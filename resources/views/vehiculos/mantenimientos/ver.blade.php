@@ -35,7 +35,9 @@
                                 <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
 
                                 <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_factura">Registrar Factura</button>
-                                <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_firma">Firmar Solicitud</button>
+                                @if (!$mantenimiento->persona_contabilidad)
+                                    <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_firma">Firmar Solicitud</button>
+                                @endif
                                 <a href="/vehiculos/print/mantenimiento/{{ $mantenimiento->id }}" target="_blank" class="btn btn-success mb-2 ml-2 float-right">Reporte PDF</a>
 
                                 @if (session()->has('update') && session('update') == 1)
@@ -385,12 +387,13 @@
                             <div class="col-sm-6">
                                 <label for="persona_firma">Persona que firma</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="persona_firma" class="form-control" id="persona_firma" required>
+                                    <input type="text" name="persona_firma" id="persona_firma" class="form-control" value="{{ auth()->user()->name }}" readonly>
+                                    {{-- <select name="persona_firma" class="form-control" id="persona_firma" required>
                                         <option value="">Seleccione</option>
                                         @foreach (\App\Models\Personal::all() as $persona)
                                             <option value="{{ $persona->nombres }} {{ $persona->primer_apellido }}">{{ $persona->nombres }} {{ $persona->primer_apellido }}</option>
                                         @endforeach
-                                    </select>
+                                    </select> --}}
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -398,8 +401,8 @@
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="tipo" class="form-control" required>
                                         <option value="">Seleccione</option>
-                                        <option value="Autorizar">Autorizar</option>
-                                        <option value="Contabilidad">Contabilidad</option>
+                                        <?php echo $mantenimiento->persona_autoriza ? '' : '<option value="Autorizar">Autorizar</option>'; ?>
+                                        <?php echo $mantenimiento->persona_autoriza ? '<option value="Contabilidad">Contabilidad</option>' : ''; ?>
                                     </select>
                                 </div>
                             </div>

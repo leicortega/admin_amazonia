@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificationMail;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use PDF;
@@ -19,17 +21,24 @@ class MantenimientosController extends Controller
 {
     public function index() {
         $vehiculos = Vehiculo::all();
-        $solicitados = Mantenimiento::where('estado', 'Solicitado')->with('vehiculo')->with('personal')->paginate(10);
+        $solicitados = Mantenimiento::where('estado', 'Solicitado')->with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);
 
         return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados]);
     }
 
     public function solicitar_mantenimiento(Request $request) {
-        $mantenimiento = Mantenimiento::create($request->all())->save();
+        $mantenimiento = Mantenimiento::create($request->all());
 
-        $redirect = ($mantenimiento) ? '/vehiculos/'.$request['vehiculo_id'].'/mantenimientos' : '/vehiculos/mantenimientos';
-        $error    = ($mantenimiento) ? 0 : 1;
-        $mensaje  = ($mantenimiento) ? 'Solicitud generada correctamente' : 'ERROR! Solicitud no generada correctamente';
+        $redirect = ($mantenimiento->save()) ? '/vehiculos/'.$request['vehiculo_id'].'/mantenimientos' : '/vehiculos/mantenimientos';
+        $error    = ($mantenimiento->save()) ? 0 : 1;
+        $mensaje  = ($mantenimiento->save()) ? 'Solicitud generada correctamente' : 'ERROR! Solicitud no generada correctamente';
+
+        $data = [
+            'titulo' => 'SOLICITUD DE MANTENIMIENTO',
+            'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
+        ];
+
+        Mail::to(['calidad@amazoniacl.com', 'gerencia@amazoniacl.com'])->send(new NotificationMail($data));
 
         return redirect($redirect)->with(['error' => $error, 'mensaje' => $mensaje]);
     }
@@ -42,9 +51,9 @@ class MantenimientosController extends Controller
     }
 
     public function ver(Request $request) {
-        $mantenimiento = Mantenimiento::find($request['id'])->with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
+        $mantenimiento = Mantenimiento::with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
             $query->with('detalle_actividades');
-        }])->with('facturas')->first();
+        }])->with('facturas')->find($request['id']);
 
         return view('vehiculos.mantenimientos.ver', ['mantenimiento' => $mantenimiento]);
     }
@@ -138,6 +147,13 @@ class MantenimientosController extends Controller
                 'fecha_autorizacion' => $date->format('Y-m-d H:m:s'),
                 'observaciones_autorizacion' => $request['observaciones'],
             ]);
+
+            $data = [
+                'titulo' => 'SE AUTORIZO MANTENIMINETO',
+                'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
+            ];
+
+            Mail::to('contabilidad@amazoniacl.com')->send(new NotificationMail($data));
         } else {
             $mantenimiento->update([
                 'persona_contabilidad' => $request['persona_firma'],

@@ -72,7 +72,8 @@ class InspeccionesController extends Controller
             'link' => 'https://admin.amazoniacl.com/vehiculos/inspecciones/ver/'.$inspeccion->id
         ];
 
-        Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
+        Mail::to('leicortega@gmail.com')->send(new NotificationMail($data));
+        // Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
 
         return redirect()->route('ver_inspeccion', $inspeccion->id)->with(['error' => 0, 'mensaje' => 'Inspeccion agregada correctamente']);
     }

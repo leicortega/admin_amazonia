@@ -107,12 +107,115 @@
         </tr>
 
         <tr>
-            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">No Aplica (NA) No Dispone (ND) Malo (M) Regular (R) Bueno (B)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">GENERALIDADES</td>
         </tr>
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+        </tr>
+
+        @for ($i = 0; $i < $inspeccion->detalle->count(); $i++)
+            @if ($inspeccion->detalle[$i]->admin_inspecciones->tipo == 'Generalidades')
+                <tr>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i]->estado }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i+1]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i+1]->estado }}</td>
+                </tr>
+                <?php $i = $i + 1; ?>
+            @endif
+        @endfor
+
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">BOTIQUIN</td>
+        </tr>
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+        </tr>
+
+        @for ($i = 0; $i < $inspeccion->detalle->count(); $i++)
+            @if ($inspeccion->detalle[$i]->admin_inspecciones->tipo == 'Botiquin')
+                <tr>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i]->estado }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i+1]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i+1]->estado }}</td>
+                </tr>
+                <?php $i = $i + 1; ?>
+            @endif
+        @endfor
+
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">LUCES Y ESTADO MECANICO</td>
+        </tr>
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+        </tr>
+
+        @for ($i = 0; $i < $inspeccion->detalle->count(); $i++)
+            @if ($inspeccion->detalle[$i]->admin_inspecciones->tipo == 'Luces y estado mecanico')
+                <tr>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i]->estado }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i+1]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i+1]->estado }}</td>
+                </tr>
+                <?php $i = $i + 1; ?>
+            @endif
+        @endfor
+
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">EQUIPOS DE CARRETERA</td>
+        </tr>
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">Documento(s)</td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">Estado</td>
+        </tr>
+
+        @for ($i = 0; $i < $inspeccion->detalle->count(); $i++)
+            @if ($inspeccion->detalle[$i]->admin_inspecciones->tipo == 'Equipos de carretera')
+                <tr>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i]->estado }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="2">{{ $inspeccion->detalle[$i+1]->campo }}</td>
+                    <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;" colspan="1">{{ $inspeccion->detalle[$i+1]->estado }}</td>
+                </tr>
+                <?php $i = $i + 1; ?>
+            @endif
+        @endfor
+
+    </table>
+
+    <table width="100%" border="1" cellspacing="0" cellpadding="0" style="padding: 3px;line-height: 16px;">
+
+        <tr>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">EVIDENCIA FOTOGRAFICA</td>
+        </tr>
+
+        @foreach ($inspeccion->adjuntos as $adjunto)
+            <tr>
+                <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;text-align: center;" colspan="6">{{ $adjunto->elemento }}</td>
+            </tr>
+            <tr>
+                <td style="color: #000000;padding: 3px;border: 1px solid #000;font-weight: bold;max-width: 290px;" colspan="3"><img src="../public/storage/{{ $adjunto->adjunto }}" style="max-width: 290px;" alt=""></td>
+                <td style="color: #000000;padding: 3px;border: 1px solid #000;" colspan="3">{{ $adjunto->observaciones }}</td>
+            </tr>
+        @endforeach
 
     </table>
 
 
 </body>
 </html>
+
 

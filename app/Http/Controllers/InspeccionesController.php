@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Mail\NotificationMail;
 use Carbon\Carbon;
 use PDF;
 
@@ -65,6 +67,13 @@ class InspeccionesController extends Controller
             }
         }
 
+        $data = [
+            'titulo' => 'NUEVA INSPECCIÓN AGREGADA',
+            'link' => 'https://admin.amazoniacl.com/vehiculos/inspecciones/ver/'.$inspeccion->id
+        ];
+
+        Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
+
         return redirect()->route('ver_inspeccion', $inspeccion->id)->with(['error' => 0, 'mensaje' => 'Inspeccion agregada correctamente']);
     }
 
@@ -118,8 +127,6 @@ class InspeccionesController extends Controller
         $inspeccion = Inspeccion::with('users')->with('vehiculo')->with(array('detalle' => function ($query) {
             $query->with('admin_inspecciones');
         }))->with('adjuntos')->find($request->id);
-
-        dd($inspeccion);
 
         return PDF::loadView('vehiculos.inspecciones.pdf', compact('inspeccion'))->setPaper('A4')->stream('inspeccion.pdf');
     }

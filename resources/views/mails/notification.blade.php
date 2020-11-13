@@ -207,7 +207,7 @@
                     <td height="36" class="em_height">&nbsp;</td>
                   </tr>
                   <tr>
-                    <td  align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:18px; font-weight:bold; line-height:20px; text-transform:uppercase; color:#5a8d3e;">{{ $data->titulo }}</td>
+                    <td  align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:18px; font-weight:bold; line-height:20px; text-transform:uppercase; color:#5a8d3e;"><?php echo $data['titulo']; ?></td>
                   </tr>
                   <tr>
                     <td height="16" style="font-size:1px; line-height:1px;">&nbsp;</td>
@@ -226,7 +226,7 @@
                       <table width="400" border="0" cellspacing="0" cellpadding="0" align="center" class="em_wrapper" style="max-width:200px;">
                         <tr>
                           <td  width="9">&nbsp;</td>
-                          <td  width="45" bgcolor="#5a8d3e" height="45" align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff;"><a href="{{ $data->link }}" target="_blank" style="color:#ffffff; text-decoration:none;">VER</a></td>
+                          <td  width="45" bgcolor="#5a8d3e" height="45" align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff;"><a href="<?php echo $data['link']; ?>" target="_blank" style="color:#ffffff; text-decoration:none;">VER</a></td>
                           <td  width="10">&nbsp;</td>
                         </tr>
                       </table>

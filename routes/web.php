@@ -110,6 +110,9 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::get('/personal/otro_si/print/{id}', 'PersonalController@print_otrosi');
     Route::get('/personal/contrato/print/{id}', 'PersonalController@print_contrato');
     Route::get('/personal/certificado-laboral/print/{id}', 'PersonalController@print_certificado');
+    Route::post('/personal/buscar_usuario', 'PersonalController@buscar_usuario');
+    Route::post('/personal/crear_clave', 'PersonalController@crear_clave');
+    Route::post('/personal/update_clave', 'PersonalController@update_clave');
 });
 
 // Rutas para Terceros
@@ -138,12 +141,22 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
 });
 
-// Rutas para Terceros
+// Rutas para BLOG
 Route::group(['middleware' => ['permission:blog|universal']], function () {
     Route::get('/blog', 'BlogController@index')->name('blog');
     Route::get('/blog/post/crear', 'BlogController@crear');
     Route::post('/blog/post/crear', 'BlogController@crear_post');
     Route::get('/blog/post/ver/{id}', 'BlogController@ver');
+});
+
+// Rutas para BLOG
+Route::group(['middleware' => ['permission:tareas|universal']], function () {
+    Route::get('/tareas', 'TareasController@index')->name('tareas');
+    Route::get('/tareas/asignadas', 'TareasController@asignadas')->name('asignadas');
+    Route::get('/tareas/completadas', 'TareasController@completadas')->name('completadas');
+    Route::post('/tareas/agregar', 'TareasController@agregar');
+    Route::post('/tareas/agregar_estado', 'TareasController@agregar_estado');
+    Route::get('/tareas/ver/{id}', 'TareasController@ver');
 });
 
 // Rutas para las Notificaciones

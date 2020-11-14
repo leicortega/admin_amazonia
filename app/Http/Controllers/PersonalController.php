@@ -3,15 +3,21 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
+
 use App\Models\Personal;
 use App\Models\Cargos_personal;
 use App\Models\Contratos_personal;
 use App\Models\Documentos_personal;
 use App\Models\Otro_si;
 use Carbon\Carbon;
+use App\User;
 use PDF;
 
 class PersonalController extends Controller
@@ -207,5 +213,78 @@ class PersonalController extends Controller
         return PDF::loadView('personal.contrato', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
 
         dd($contrato);
+    }
+
+    public function buscar_usuario(Request $request) {
+        $user = User::where('identificacion', $request['identificacion'])->first();
+
+        if ($user == null) {
+            return null;
+        }
+
+        $permisos = array();
+
+        foreach ($user->permissions as $permiso) {
+            array_push($permisos, $permiso->name);
+        }
+
+        return [
+            'user' => $user,
+            'rol' => $user->roles()->first()->name,
+            'permisos' => $permisos
+        ];
+    }
+
+    public function crear_clave(Request $request) {
+
+        $user = User::create([
+            'name' => $request['name'],
+            'identificacion' => $request['identificacion'],
+            'email' => $request['email'],
+            'password' => Hash::make($request['password']),
+            'estado' => $request['estado'],
+        ]);
+
+        if ($user->save()) {
+            if ($request['tipo'] == 'admin') {
+                $user->assignRole($request['tipo']);
+            } else {
+                $user->assignRole($request['tipo']);
+                $user->givePermissionTo($request['permisos']);
+            }
+            return redirect()->back()->with('create', 1);
+        } else {
+            return redirect()->back()->with('create', 0);
+        }
+
+    }
+
+    public function update_clave(Request $request) {
+
+        $user = User::find($request['user_id']);
+
+        if ($request['password']) {
+            $user->update([
+                'password' => Hash::make($request['password'])
+            ]);
+        }
+
+        $user->update([
+            'name' => $request['name'],
+            'identificacion' => $request['identificacion'],
+            'email' => $request['email'],
+            'estado' => $request['estado'],
+        ]);
+
+        if ($request['tipo'] == 'admin') {
+            $user->assignRole($request['tipo']);
+            $user->removeRole('general');
+        } else {
+            $user->assignRole($request['tipo']);
+            $user->removeRole('admin');
+            $user->revokePermissionTo(Permission::all());
+            $user->givePermissionTo($request['permisos']);
+        }
+        return redirect()->back()->with('update', 1);
     }
 }

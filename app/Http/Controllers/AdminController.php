@@ -75,8 +75,6 @@ class AdminController extends Controller
             $user->update([
                 'password' => Hash::make($request['password'])
             ]);
-
-            dd($request);
         }
 
         $user->update([

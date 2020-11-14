@@ -100,6 +100,15 @@
                         </li>
                     @endcanany
 
+                    @canany(['tareas', 'universal'])
+                        <li>
+                            <a href="tareas" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim fas fa-business-time mx-1"></i></div>
+                                <span>Tareas</span>
+                            </a>
+                        </li>
+                    @endcanany
+
                     @canany(['blog', 'universal'])
                         <li>
                             <a href="blog" class="waves-effect">
@@ -314,6 +323,16 @@
 
                     <li><a href="/terceros"  class="waves-effect">Datos Terceros</a></li>
                     <li><a href="/terceros/correspondencia"  class="waves-effect">Correspondencia</a></li>
+
+                @endif
+
+                @if ( Request::is('tareas') || Request::is('tareas/*') )
+
+                    <li class="menu-title">Tareas</li>
+
+                    <li><a href="/tareas"  class="waves-effect">Pendientes</a></li>
+                    <li><a href="/tareas/asignadas"  class="waves-effect">Asignadas</a></li>
+                    <li><a href="/tareas/completadas"  class="waves-effect">Completadas</a></li>
 
                 @endif
 

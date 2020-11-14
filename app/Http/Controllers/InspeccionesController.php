@@ -23,6 +23,7 @@ class InspeccionesController extends Controller
 
     public function __construct() {
         $this->date = Carbon::now('America/Bogota');
+        $this->middleware('auth');
     }
 
     public function index() {

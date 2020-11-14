@@ -19,6 +19,10 @@ use App\Models\Detalle_actividad_mantenimiento;
 
 class MantenimientosController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function index() {
         $vehiculos = Vehiculo::all();
         $solicitados = Mantenimiento::where('estado', 'Solicitado')->with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);

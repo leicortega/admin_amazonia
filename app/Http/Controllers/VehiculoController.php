@@ -16,6 +16,10 @@ use App\Models\Vehiculo;
 
 class VehiculoController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function index() {
         $propietarios = DB::table('cargos_personal')
                         ->join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')

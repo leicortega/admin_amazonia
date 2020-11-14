@@ -69,8 +69,6 @@ $(document).ready(function () {
     });
 });
 
-
-
 function showPersonal(id) {
     $.ajax({
         url: '/personal/registro/ver/'+id,
@@ -392,4 +390,39 @@ function eliminar_documento(id, personal_id, tipo, id_table) {
             cargar_documentos(data.tipo, id_table, personal_id)
         }
     });
+}
+
+function generar_clave(identificacion) {
+    $.ajax({
+        url: '/personal/buscar_usuario',
+        type: 'POST',
+        data: { identificacion:identificacion },
+        success: function (data) {
+            if (data) {
+                $('#modal-create-clave').modal('show');
+                $('#user_id').val(data.user.id);
+                $("#estado_user option[value='"+data.user.estado+"']").attr("selected", true);
+                $("#tipo_user option[value='"+data.rol+"']").attr("selected", true);
+                if (data.rol == 'general') {
+                    $('#div_permisos').removeClass('d-none');
+                    data.permisos.forEach(permiso => {
+                        $("#"+permiso).attr("checked", true);
+                    });
+                }
+                $('#title_modal_clave').text('Editar Usuario');
+                $('#submit_modal_clave').text('Actualizar');
+                $('#form_clave').attr("action", "/personal/update_clave");
+            } else {
+                $('#modal-create-clave').modal('show');
+            }
+        }
+    });
+}
+
+function selectTipo(tipo) {
+    if (tipo == 'general') {
+        $('#div_permisos').removeClass('d-none')
+    } else {
+        $('#div_permisos').addClass('d-none')
+    }
 }

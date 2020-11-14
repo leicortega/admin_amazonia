@@ -17,6 +17,10 @@ use PDF;
 
 class TercerosController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function index() {
         $terceros = Tercero::paginate(20);
 

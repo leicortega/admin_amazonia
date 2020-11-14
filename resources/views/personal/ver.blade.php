@@ -26,12 +26,19 @@
                                     </div>
                                 @endif
 
-                                <a href="/personal/registro"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="/personal/datos-personal"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
                                 <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#editar_personal_modal">Editar</button>
+                                <button type="button" class="btn btn-primary btn-lg mb-2 mr-2 float-right" onclick="generar_clave({{ $personal->identificacion }})">Clave</button>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-primary">
                                         Personal actualizado correctamente
+                                    </div>
+                                @endif
+
+                                @if (session()->has('create') && session('create') == 1)
+                                    <div class="alert alert-primary">
+                                        clave creada correctamente
                                     </div>
                                 @endif
 
@@ -1148,7 +1155,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -1199,7 +1206,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -1280,7 +1287,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -1360,7 +1367,7 @@
                             <div class="col-sm-4">
                                 <label for="segundo_apellido">Segundo Apellido</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" value="{{ $personal->segundo_apellido }}" required="">
+                                    <input type="text" class="form-control" id="segundo_apellido" name="segundo_apellido" value="{{ $personal->segundo_apellido }}">
                                 </div>
                             </div>
                             <div class="col-sm-4">
@@ -1444,7 +1451,94 @@
                     <input type="hidden" name="id" value="{{ $personal->id }}">
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- MODAL GENERAR CLAVE --}}
+<div class="modal fade bs-example-modal-lg" id="modal-create-clave" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="title_modal_clave">Crear Usuario</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/personal/crear_clave" id="form_clave" method="POST">
+                    @csrf
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="text" name="name" placeholder="Escriba el nombre" autocomplete="off" value="{{ $personal->nombres }} {{ $personal->primer_apellido }} {{ $personal->segundo_apellido }}" readonly required />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="identificacion" class="col-sm-2 col-form-label">Identificacion</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificacion" readonly value="{{ $personal->identificacion }}" autocomplete="off" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label">Correo (opcional)</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="email" name="email" placeholder="Escriba el correo" readonly value="{{ $personal->correo }}" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="estado" class="col-sm-2 col-form-label">Estado</label>
+                        <div class="col-sm-10">
+                            <select name="estado" id="estado_user" class="form-control" required>
+                                <option value="">Seleccione el estado</option>
+                                <option value="Activo">Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" type="password" name="password" placeholder="Escriba la contraseña" autocomplete="off" />
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="tipo" class="col-sm-2 col-form-label">Tipo</label>
+                        <div class="col-sm-10">
+                            <select name="tipo" id="tipo_user" class="form-control" onchange="selectTipo(this.value)" required>
+                                <option value="">Seleccione el tipo</option>
+                                <option value="admin">admin</option>
+                                <option value="general">general</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row d-none" id="div_permisos">
+                        <label for="permiso" class="col-sm-2 col-form-label">Permiso</label>
+                        <div class="col-sm-10 mt-2">
+                            @foreach (\Spatie\Permission\Models\Permission::all() as $permiso)
+                                <div class="custom-control custom-checkbox custom-control-inline">
+                                    <input type="checkbox" class="custom-control-input" id="{{ $permiso->name }}" name="permisos[]" value="{{ $permiso->name }}">
+                                    <label class="custom-control-label" for="{{ $permiso->name }}">{{ $permiso->name }}</label>
+                                </div>
+                            @endforeach
+                            <input type="hidden" name="user_id" id="user_id">
+                        </div>
+                    </div>
+
+                    <div class="mt-4 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="submit_modal_clave" type="submit">Crear</button>
                     </div>
 
                 </form>

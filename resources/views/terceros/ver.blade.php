@@ -851,6 +851,10 @@ ________________________________________________
                                         @endforeach
                                     </select>
                                 </div>
+
+                            </div>
+
+                            <div class="col-sm-12 d-flex">
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Conductor dos</label>
                                     <select name="conductor_dos_id" id="conductor_dos_id" class="form-control">
@@ -873,7 +877,6 @@ ________________________________________________
                                         @endforeach
                                     </select>
                                 </div>
-
                             </div>
                         </div>
 

@@ -278,7 +278,9 @@ class TercerosController extends Controller
             'tipo_contrato' => $request['tipo_contrato'],
             'objeto_contrato' => $request['objeto_contrato'],
             'vehiculo_id' => $request['vehiculo_id'],
-            'conductor_id' => $request['conductor_id'],
+            'conductor_uno_id' => $request['conductor_uno_id'],
+            'conductor_dos_id' => $request['conductor_dos_id'],
+            'conductor_tres_id' => $request['conductor_tres_id'],
             'responsable_contrato_id' => $request['identificacion_responsable'],
             'contrato_parte_uno' => $request['contrato_parte_uno'],
             'contrato_parte_dos' => $request['contrato_parte_dos'],
@@ -294,14 +296,18 @@ class TercerosController extends Controller
         $tercero = Tercero::where('identificacion', $cotizacion->tercero_id)->first();
         $responsable = Contactos_tercero::where('identificacion', $cotizacion->responsable_contrato_id)->first();
         $vehiculo = Vehiculo::find($cotizacion->vehiculo_id);
-        $conductor = Personal::find($cotizacion->conductor_id);
+        $conductor = Personal::find($cotizacion->conductor_uno_id);
+        $conductor_dos = Personal::find($cotizacion->conductor_dos_id);
+        $conductor_tres = Personal::find($cotizacion->conductor_tres_id);
 
         $data = [
             'cotizacion' => $cotizacion,
             'tercero' => $tercero,
             'responsable' => $responsable,
             'vehiculo' => $vehiculo,
-            'conductor' => $conductor
+            'conductor' => $conductor,
+            'conductor_dos' => $conductor_dos,
+            'conductor_tres' => $conductor_tres
         ];
 
         return PDF::loadView('cotizaciones.contrato', compact('data'))->setPaper('A4')->stream('cotizacion.pdf');

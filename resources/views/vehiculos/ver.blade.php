@@ -92,8 +92,8 @@
                                 {{-- TAB CONDUCTORESexpande --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_conductores({{ $vehiculo->id }})" data-parent="#accordion" href="#collapseConductores" aria-expanded="false" aria-controls="collapseConductores" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CONDUCTORES</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CONDUCTORES</h5>
                                         </div>
                                     </a>
 
@@ -144,8 +144,8 @@
                                 {{-- TAB DOCUMENTOS LEGALES --}}
                                 <div class="card mb-0">
                                     <a class="text-dark collapsed" onclick="documentos_legales('Tarjeta de Propiedad', {{ $vehiculo->id }}, 'content_table_documentos_legales')" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <div class="card-header" id="headingTwo">
-                                            <h5 class="m-0 font-size-14">DOCUMENTOS LEGALES</h5>
+                                        <div class="card-header bg-dark" id="headingTwo">
+                                            <h5 class="m-0 font-size-14 text-white">DOCUMENTOS LEGALES</h5>
                                         </div>
                                     </a>
                                     <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="">
@@ -438,8 +438,8 @@
                                 {{-- TAB VINCULACION --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Certificado de desvinculación', {{ $vehiculo->id }}, 'content_table_certificado_desvinculacion')" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                                        <div class="card-header" id="headingThree">
-                                        <h5 class="m-0 font-size-14">VINCULACION</h5>
+                                        <div class="card-header bg-dark" id="headingThree">
+                                        <h5 class="m-0 font-size-14 text-white">VINCULACION</h5>
                                         </div>
                                     </a>
                                     <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion" style="">
@@ -670,8 +670,8 @@
                                 {{-- TAB COMPRAVENTA DE VEHICULO --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Compraventa', {{ $vehiculo->id }}, 'content_table_compraventa')" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
-                                        <div class="card-header" id="headingFour">
-                                        <h5 class="m-0 font-size-14">COMPRAVENTA DE VEHICULO</h5>
+                                        <div class="card-header bg-dark" id="headingFour">
+                                        <h5 class="m-0 font-size-14 text-white">COMPRAVENTA DE VEHICULO</h5>
                                         </div>
                                     </a>
                                     <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion" style="">
@@ -720,8 +720,8 @@
                                 {{-- TAB CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Convenios colaboración empresarial (SIG-F-73)', {{ $vehiculo->id }}, 'content_table_convenios_colaboracion')" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
-                                        <div class="card-header" id="headingFive">
-                                        <h5 class="m-0 font-size-14">CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS</h5>
+                                        <div class="card-header bg-dark" id="headingFive">
+                                        <h5 class="m-0 font-size-14 text-white">CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS</h5>
                                         </div>
                                     </a>
                                     <div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordion" style="">
@@ -801,8 +801,8 @@
                                 {{-- TAB INSPECCIONES MENSUALES --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima inspección mensual (SIG-F-89)', {{ $vehiculo->id }}, 'content_table_ultima_inspeccion')" data-parent="#accordion" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
-                                        <div class="card-header" id="headingSix">
-                                        <h5 class="m-0 font-size-14">INSPECCIONES MENSUALES</h5>
+                                        <div class="card-header bg-dark" id="headingSix">
+                                        <h5 class="m-0 font-size-14 text-white">INSPECCIONES MENSUALES</h5>
                                         </div>
                                     </a>
                                     <div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordion" style="">
@@ -851,8 +851,8 @@
                                 {{-- TAB ACTAS DE ENTREGA Y RECIBIDO --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima acta entrega y/o recibido (SIG-F-47)', {{ $vehiculo->id }}, 'content_table_ultima_acta_entrega')" data-parent="#accordion" href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
-                                        <div class="card-header" id="headingSeven">
-                                        <h5 class="m-0 font-size-14">ACTAS DE ENTREGA Y RECIBIDO</h5>
+                                        <div class="card-header bg-dark" id="headingSeven">
+                                        <h5 class="m-0 font-size-14 text-white">ACTAS DE ENTREGA Y RECIBIDO</h5>
                                         </div>
                                     </a>
                                     <div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordion" style="">
@@ -901,8 +901,8 @@
                                 {{-- TAB BIMESTRAL --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima bimestarl CDA', {{ $vehiculo->id }}, 'content_table_ultima_bimestral')" data-parent="#accordion" href="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
-                                        <div class="card-header" id="headingEight">
-                                        <h5 class="m-0 font-size-14">BIMESTRAL</h5>
+                                        <div class="card-header bg-dark" id="headingEight">
+                                        <h5 class="m-0 font-size-14 text-white">BIMESTRAL</h5>
                                         </div>
                                     </a>
                                     <div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordion" style="">
@@ -951,8 +951,8 @@
                                 {{-- TAB SOPORTE DE MANTENIMIENTOS --}}
                                 <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultimo soporte de mantenimiento', {{ $vehiculo->id }}, 'content_table_ultimo_mantenimiento')" data-parent="#accordion" href="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
-                                        <div class="card-header" id="headingNine">
-                                        <h5 class="m-0 font-size-14">SOPORTE DE MANTENIMIENTOS</h5>
+                                        <div class="card-header bg-dark" id="headingNine">
+                                        <h5 class="m-0 font-size-14 text-white">SOPORTE DE MANTENIMIENTOS</h5>
                                         </div>
                                     </a>
                                     <div id="collapseNine" class="collapse" aria-labelledby="headingNine" data-parent="#accordion" style="">

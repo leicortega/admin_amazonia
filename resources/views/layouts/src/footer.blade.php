@@ -13,7 +13,7 @@
 <!-- apexcharts -->
 {{-- <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script> --}}
 
-<script src="{{ asset('assets/libs/jquery-knob/jquery.knob.min.js') }}"></script> 
+<script src="{{ asset('assets/libs/jquery-knob/jquery.knob.min.js') }}"></script>
 
 <!-- Jq vector map -->
 <script src="{{ asset('assets/libs/jqvmap/jquery.vmap.min.js') }}"></script>

@@ -170,9 +170,9 @@ class MantenimientosController extends Controller
     }
 
     public function print(Request $request) {
-        $mantenimiento = Mantenimiento::find($request['id'])->with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
+        $mantenimiento = Mantenimiento::with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
             $query->with('detalle_actividades');
-        }])->with('facturas')->first();
+        }])->with('facturas')->find($request['id']);
 
         return PDF::loadView('vehiculos.mantenimientos.pdf', compact('mantenimiento'))->setPaper('A4')->stream('mantenimiento.pdf');
     }

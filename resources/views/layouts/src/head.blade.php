@@ -18,11 +18,11 @@
     <link href="{{ asset('assets/libs/jqvmap/jqvmap.min.css') }}" rel="stylesheet" />
 
     <!-- Bootstrap Css -->
-    <link href="{{ asset('assets/css/bootstrap-dark.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
     <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="{{ asset('assets/css/app-dark.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
     {{-- CSRF Token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}">

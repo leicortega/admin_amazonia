@@ -138,8 +138,8 @@
                                 {{-- TAB CONTRATO LABORAL --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_contratos({{ $personal->id }})" data-parent="#accordion" href="#collapseContratos" aria-expanded="false" aria-controls="collapseContratos" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CONTRATO LABORAL</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CONTRATO LABORAL</h5>
                                         </div>
                                     </a>
 
@@ -175,8 +175,8 @@
                                 {{-- TAB HOJA DE VIDA --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('HOJA DE VIDA', 'content_table_hoja_vida', {{ $personal->id }})" data-parent="#accordion" href="#collapseHojaVida" aria-expanded="false" aria-controls="collapseHojaVida" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">HOJA DE VIDA</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">HOJA DE VIDA</h5>
                                         </div>
                                     </a>
 
@@ -213,8 +213,8 @@
                                 {{-- TAB CÉDULA DE CIUDADANÍA --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CÉDULA DE CIUDADANÍA', 'content_table_cedula', {{ $personal->id }})" data-parent="#accordion" href="#collapseCedula" aria-expanded="false" aria-controls="collapseCedula" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CÉDULA DE CIUDADANÍA</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CÉDULA DE CIUDADANÍA</h5>
                                         </div>
                                     </a>
 
@@ -251,8 +251,8 @@
                                 {{-- TAB LICENCIA DE CONDUCCIÓN --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('LICENCIA DE CONDUCCIÓN', 'content_table_licencia', {{ $personal->id }})" data-parent="#accordion" href="#collapseLicencia" aria-expanded="false" aria-controls="collapseLicencia" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">LICENCIA DE CONDUCCIÓN</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">LICENCIA DE CONDUCCIÓN</h5>
                                         </div>
                                     </a>
 
@@ -289,8 +289,8 @@
                                 {{-- TAB RUNT --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('RUNT', 'content_table_runt', {{ $personal->id }})" data-parent="#accordion" href="#collapseRunt" aria-expanded="false" aria-controls="collapseRunt" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">RUNT</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">RUNT</h5>
                                         </div>
                                     </a>
 
@@ -327,8 +327,8 @@
                                 {{-- TAB SIMIT --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SIMIT', 'content_table_simit', {{ $personal->id }})" data-parent="#accordion" href="#collapseSimit" aria-expanded="false" aria-controls="collapseSimit" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">SIMIT</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">SIMIT</h5>
                                         </div>
                                     </a>
 
@@ -365,8 +365,8 @@
                                 {{-- TAB COMPETENCIA --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('COMPETENCIA', 'content_table_competencia', {{ $personal->id }})" data-parent="#accordion" href="#collapseCompetencia" aria-expanded="false" aria-controls="collapseCompetencia" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">COMPETENCIA</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">COMPETENCIA</h5>
                                         </div>
                                     </a>
 
@@ -403,8 +403,8 @@
                                 {{-- TAB CERTIFICADO DE MANEJO DEFENSIVO --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CERTIFICADO DE MANEJO DEFENSIVO', 'content_table_manejo_defensivo', {{ $personal->id }})" data-parent="#accordion" href="#collapseManejo" aria-expanded="false" aria-controls="collapseManejo" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CERTIFICADO DE MANEJO DEFENSIVO</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CERTIFICADO DE MANEJO DEFENSIVO</h5>
                                         </div>
                                     </a>
 
@@ -441,8 +441,8 @@
                                 {{-- TAB EXPERIENCIA LABORAL --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EXPERIENCIA LABORAL', 'content_table_experiencia_laboral', {{ $personal->id }})" data-parent="#accordion" href="#collapseExperiencia" aria-expanded="false" aria-controls="collapseExperiencia" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">EXPERIENCIA LABORAL</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">EXPERIENCIA LABORAL</h5>
                                         </div>
                                     </a>
 
@@ -479,8 +479,8 @@
                                 {{-- TAB OTROS SOPORTES HV --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('OTROS SOPORTES HV', 'content_table_soportes_hv', {{ $personal->id }})" data-parent="#accordion" href="#collapseSoportesHV" aria-expanded="false" aria-controls="collapseSoportesHV" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">OTROS SOPORTES HV</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">OTROS SOPORTES HV</h5>
                                         </div>
                                     </a>
 
@@ -517,8 +517,8 @@
                                 {{-- TAB CONSENTIMIENTO TOMA DE EXAMEN --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CONSENTIMIENTO TOMA DE EXAMEN', 'content_table_consentimiento_examen', {{ $personal->id }})" data-parent="#accordion" href="#collapseConsentimiento" aria-expanded="false" aria-controls="collapseConsentimiento" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CONSENTIMIENTO TOMA DE EXAMEN</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CONSENTIMIENTO TOMA DE EXAMEN</h5>
                                         </div>
                                     </a>
 
@@ -555,8 +555,8 @@
                                 {{-- TAB EXAMENES MEDICOS --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EXAMENES MEDICOS', 'content_table_examenes_medicos', {{ $personal->id }})" data-parent="#accordion" href="#collapseExamenesMedicos" aria-expanded="false" aria-controls="collapseExamenesMedicos" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">EXAMENES MEDICOS</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">EXAMENES MEDICOS</h5>
                                         </div>
                                     </a>
 
@@ -593,8 +593,8 @@
                                 {{-- TAB SEGURIDAD SOCIAL --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SEGURIDAD SOCIAL', 'content_table_seguridad_social', {{ $personal->id }})" data-parent="#accordion" href="#collapseSeguridadSocial" aria-expanded="false" aria-controls="collapseSeguridadSocial" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">SEGURIDAD SOCIAL</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">SEGURIDAD SOCIAL</h5>
                                         </div>
                                     </a>
 
@@ -631,8 +631,8 @@
                                 {{-- TAB CONTRATO DE TRABAJO --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CONTRATO DE TRABAJO', 'content_table_contrato_trabajo', {{ $personal->id }})" data-parent="#accordion" href="#collapseContratoTrabajo" aria-expanded="false" aria-controls="collapseContratoTrabajo" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CONTRATO DE TRABAJO</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CONTRATO DE TRABAJO</h5>
                                         </div>
                                     </a>
 
@@ -669,8 +669,8 @@
                                 {{-- TAB PERFIL DEL CARGO --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('PERFIL DEL CARGO', 'content_table_perfil_cargo', {{ $personal->id }})" data-parent="#accordion" href="#collapsePerfilCargo" aria-expanded="false" aria-controls="collapsePerfilCargo" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">PERFIL DEL CARGO</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">PERFIL DEL CARGO</h5>
                                         </div>
                                     </a>
 
@@ -707,8 +707,8 @@
                                 {{-- TAB TEMAS DE INDUCCION --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('TEMAS DE INDUCCION', 'content_table_temas_induccion', {{ $personal->id }})" data-parent="#accordion" href="#collapseTemasInduccion" aria-expanded="false" aria-controls="collapseTemasInduccion" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">TEMAS DE INDUCCION</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">TEMAS DE INDUCCION</h5>
                                         </div>
                                     </a>
 
@@ -745,8 +745,8 @@
                                 {{-- TAB EVALUACIÓN DE INDUCCIÓN --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EVALUACIÓN DE INDUCCIÓN', 'content_table_evaluacion_induccion', {{ $personal->id }})" data-parent="#accordion" href="#collapseEvaluacionInduccion" aria-expanded="false" aria-controls="collapseEvaluacionInduccion" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">EVALUACIÓN DE INDUCCIÓN</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">EVALUACIÓN DE INDUCCIÓN</h5>
                                         </div>
                                     </a>
 
@@ -783,8 +783,8 @@
                                 {{-- TAB EVALUACION TEORICA --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EVALUACION TEORICA', 'content_table_evaluacion_teorica', {{ $personal->id }})" data-parent="#accordion" href="#collapseEvaluacionTeorica" aria-expanded="false" aria-controls="collapseEvaluacionTeorica" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">EVALUACION TEORICA</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">EVALUACION TEORICA</h5>
                                         </div>
                                     </a>
 
@@ -821,8 +821,8 @@
                                 {{-- TAB EVALUACIÓN PRACTICA --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EVALUACIÓN PRACTICA', 'content_table_evaluacion_practica', {{ $personal->id }})" data-parent="#accordion" href="#collapseEvaluacionPractica" aria-expanded="false" aria-controls="collapseEvaluacionPractica" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">EVALUACIÓN PRACTICA</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">EVALUACIÓN PRACTICA</h5>
                                         </div>
                                     </a>
 
@@ -859,8 +859,8 @@
                                 {{-- TAB TRATAMIENTO DATOS PERSONALES --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('TRATAMIENTO DATOS PERSONALES', 'content_table_datos_personales', {{ $personal->id }})" data-parent="#accordion" href="#collapseDatosPersonales" aria-expanded="false" aria-controls="collapseDatosPersonales" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">TRATAMIENTO DATOS PERSONALES</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">TRATAMIENTO DATOS PERSONALES</h5>
                                         </div>
                                     </a>
 
@@ -897,8 +897,8 @@
                                 {{-- TAB SEGUMIENTO EMPLEADO --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SEGUMIENTO EMPLEADO', 'content_table_seguimiento_empleado', {{ $personal->id }})" data-parent="#accordion" href="#collapseSeguimientoEmpleado" aria-expanded="false" aria-controls="collapseSeguimientoEmpleado" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">SEGUMIENTO EMPLEADO</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">SEGUMIENTO EMPLEADO</h5>
                                         </div>
                                     </a>
 
@@ -935,8 +935,8 @@
                                 {{-- TAB TERMINACIÓN CONTRATO LABORAL --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('TERMINACIÓN CONTRATO LABORAL', 'content_table_terminacion_contrato', {{ $personal->id }})" data-parent="#accordion" href="#collapseTerminacionContrato" aria-expanded="false" aria-controls="collapseTerminacionContrato" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">TERMINACIÓN CONTRATO LABORAL</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">TERMINACIÓN CONTRATO LABORAL</h5>
                                         </div>
                                     </a>
 
@@ -973,8 +973,8 @@
                                 {{-- TAB NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO', 'content_table_examen_retiro', {{ $personal->id }})" data-parent="#accordion" href="#collapseExamenRetiro" aria-expanded="false" aria-controls="collapseExamenRetiro" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO</h5>
                                         </div>
                                     </a>
 
@@ -1011,8 +1011,8 @@
                                 {{-- TAB SEGUIMIENTO --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SEGUIMIENTO', 'content_table_seguimiento', {{ $personal->id }})" data-parent="#accordion" href="#collapseSeguimiento" aria-expanded="false" aria-controls="collapseSeguimiento" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">SEGUIMIENTO</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">SEGUIMIENTO</h5>
                                         </div>
                                     </a>
 

@@ -127,8 +127,8 @@
                                 {{-- TAB DOCUMENTOS ADJUNTOS --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos({{ $tercero[0]->id }})" data-parent="#accordion" href="#collapseDocumentosAdjuntos" aria-expanded="false" aria-controls="collapseDocumentosAdjuntos" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">DOCUMENTOS ADJUNTOS</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">DOCUMENTOS ADJUNTOS</h5>
                                         </div>
                                     </a>
 
@@ -161,8 +161,8 @@
                                 {{-- TAB CONTACTOS --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_contactos({{ $tercero[0]->id }})" data-parent="#accordion" href="#collapseContactos" aria-expanded="false" aria-controls="collapseContactos" class="text-dark collapsed">
-                                        <div class="card-header" id="headingOne">
-                                            <h5 class="m-0 font-size-14">CONTACTOS</h5>
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">CONTACTOS</h5>
                                         </div>
                                     </a>
 
@@ -196,8 +196,8 @@
                                 {{-- TAB COTIZACIONES --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_cotizaciones({{ $tercero[0]->identificacion }})" data-parent="#accordion" href="#collapseCotizaciones" aria-expanded="false" aria-controls="collapseCotizaciones" class="text-dark collapsed">
-                                        <div class="card-header" id="headingTwo">
-                                            <h5 class="m-0 font-size-14">COTIZACIONES</h5>
+                                        <div class="card-header bg-dark" id="headingTwo">
+                                            <h5 class="m-0 font-size-14 text-white">COTIZACIONES</h5>
                                         </div>
                                     </a>
 
@@ -231,8 +231,8 @@
                                 {{-- TAB CONTRATOS --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_contratos({{ $tercero[0]->identificacion }})" data-parent="#accordion" href="#collapseContratos" aria-expanded="false" aria-controls="collapseContratos" class="text-dark collapsed">
-                                        <div class="card-header" id="headingTwo">
-                                            <h5 class="m-0 font-size-14">CONTRATOS</h5>
+                                        <div class="card-header bg-dark" id="headingTwo">
+                                            <h5 class="m-0 font-size-14 text-white">CONTRATOS</h5>
                                         </div>
                                     </a>
 
@@ -447,11 +447,11 @@
 
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Fecha Inicio</label>
-                                            <input class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_ida" id="fecha_ida" placeholder="yyyy-mm-dd" />
+                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_ida" id="fecha_ida" placeholder="yyyy-mm-dd" />
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Fecha Final</label>
-                                            <input class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_regreso" id="fecha_regreso" placeholder="yyyy-mm-dd" />
+                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_regreso" id="fecha_regreso" placeholder="yyyy-mm-dd" />
                                         </div>
                                     </div>
                                 </div>
@@ -680,8 +680,8 @@ Señores:
 {{ $tercero[0]->nombre }}
 {{ $tercero[0]->tipo_identificacion == 'Cedula de Ciudadania' ? 'CC. '.$tercero[0]->identificacion : 'NIT. '.$tercero[0]->identificacion }}
 Dirección: {{ $tercero[0]->direccion ?? 'N/A' }}
-E-mail: {{ $tercero[0]->nombre ?? 'N/A' }}
-Telefono(s): {{ $tercero[0]->nombre ?? 'N/A' }}
+E-mail: {{ $tercero[0]->correo ?? 'N/A' }}
+Telefono(s): {{ $tercero[0]->telefono ?? 'N/A' }}
 <?php $date = \Carbon\Carbon::now('America/Bogota'); ?>
 
 COTIZACIÓN No. {{ 'COT'.$date->format('Y').$date->format('m').$date->format('d').$date->format('H').$date->format('i').'-'.$date->format('s') }}
@@ -841,8 +841,30 @@ ________________________________________________
                                     </select>
                                 </div>
                                 <div class="col-sm-6">
-                                    <label class="col-sm-12 col-form-label">Conductor</label>
-                                    <select name="conductor_id" id="conductor_id" class="form-control" required>
+                                    <label class="col-sm-12 col-form-label">Conductor uno</label>
+                                    <select name="conductor_uno_id" id="conductor_uno_id" class="form-control" required>
+                                        <option value="">Seleccione vehiculo</option>
+                                        @foreach (\App\Models\Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
+                                            $query->where('cargos.nombre', 'Conductor');
+                                        })->get() as $conductor)
+                                            <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Conductor dos</label>
+                                    <select name="conductor_dos_id" id="conductor_dos_id" class="form-control">
+                                        <option value="">Seleccione vehiculo</option>
+                                        @foreach (\App\Models\Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
+                                            $query->where('cargos.nombre', 'Conductor');
+                                        })->get() as $conductor)
+                                            <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Conductor tres</label>
+                                    <select name="conductor_tres_id" id="conductor_tres_id" class="form-control">
                                         <option value="">Seleccione vehiculo</option>
                                         @foreach (\App\Models\Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
                                             $query->where('cargos.nombre', 'Conductor');
@@ -863,7 +885,7 @@ ________________________________________________
 
                             <div class="col-sm-12 d-flex">
                                 <div class="col-sm-12">
-                                    <textarea name="contrato_parte_uno" id="contrato_parte_uno" rows="5" class="form-control" required="">Entre los suscritos a saber, AMAZONIA CONSULTORIA & LOGISTICA SAS, Identificada con Nit. 900447438-6 sociedad domiciliada en la ciudad de Neiva, representada legalmente por, JOIMER OSORIO BAQUERO, mayor de edad, vecino de Neiva - Huila, identificado con la cédula de ciudadanía No. 7706232 de Neiva Huila, quien en adelante se denominará El CONTRATISTA, por una parte, y por la otra Leiner Fabian Ortega , Identificado(a) Cédula de Ciudadania  No 1075262366 domiciliado(a)en la ciudad de Barranquilla
+                                    <textarea name="contrato_parte_uno" id="contrato_parte_uno" rows="5" class="form-control" required="">Entre los suscritos a saber, AMAZONIA CONSULTORIA & LOGISTICA SAS, Identificada con Nit. 900447438-6 sociedad domiciliada en la ciudad de Neiva, representada legalmente por, JOIMER OSORIO BAQUERO, mayor de edad, vecino de Neiva - Huila, identificado con la cédula de ciudadanía No. 7706232 de Neiva Huila, quien en adelante se denominará El CONTRATISTA, por una parte, y por la otra {{ $tercero[0]->nombre }} , Identificado(a) Cédula de Ciudadania  No {{ $tercero[0]->identificacion }} domiciliado(a)en la ciudad de {{ $tercero[0]->municipio }}
                                     </textarea>
                                 </div>
                             </div>
@@ -1031,8 +1053,6 @@ ________________________________________________
                             </div>
                         </div>
                     </div>
-
-                    <input type="hidden" name="cotizacion_id" id="cotizacion_id" />
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>

@@ -276,11 +276,11 @@
 
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Correo</label>
-                                    <input class="form-control" type="text" name="correo" id="correo" placeholder="Escriba la Dirección" required="">
+                                    <input class="form-control" type="text" name="correo" id="correo" placeholder="Escriba el correo" required="">
                                 </div>
                                 <div class="col-sm-6">
                                     <label class="col-sm-12 col-form-label">Telefono</label>
-                                    <input class="form-control" type="text" name="telefono" id="telefono" placeholder="Escriba la Dirección" required="">
+                                    <input class="form-control" type="text" name="telefono" id="telefono" placeholder="Escriba el telefono" required="">
                                 </div>
 
                             </div>

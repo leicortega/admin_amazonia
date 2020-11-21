@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\Documentos_legales_vehiculo;
 use App\Models\Conductores_vehiculo;
 use App\Models\Cargos_personal;
+use App\Models\Personal;
 use App\Models\Vehiculo;
 
 class VehiculoController extends Controller
@@ -66,7 +67,11 @@ class VehiculoController extends Controller
             $query->where('cargos.nombre', 'Conductor');
         })->get();
 
-        return view('vehiculos.ver', ['vehiculo' => Vehiculo::find($request['id']), 'conductores' => $conductores, 'propietarios' => $propietarios]);
+        $alerta_documentos = Documentos_legales_vehiculo::where('vehiculo_id', $request['id'])->whereNotNull('fecha_fin_vigencia')->where('ultimo', 1)->orderBy('fecha_fin_vigencia', 'desc')->get();
+
+        // dd($alerta_documentos);
+
+        return view('vehiculos.ver', ['vehiculo' => Vehiculo::find($request['id']), 'conductores' => $conductores, 'propietarios' => $propietarios, 'alerta_documentos' => $alerta_documentos]);
     }
 
     public function agg_conductor(Request $request) {
@@ -120,6 +125,8 @@ class VehiculoController extends Controller
         } else {
             $date = Carbon::now('America/Bogota');
 
+            Documentos_legales_vehiculo::where('tipo', $request['tipo'])->where('vehiculo_id', $request['vehiculo_id'])->update(['ultimo' => 0]);
+
             $documento = Documentos_legales_vehiculo::create([
                 'tipo' => $request['tipo'],
                 'consecutivo' => $request['consecutivo'],
@@ -128,6 +135,7 @@ class VehiculoController extends Controller
                 'fecha_fin_vigencia' => $request['fecha_fin_vigencia'],
                 'entidad_expide' => $request['entidad_expide'],
                 'estado' => 'activo',
+                'ultimo' => 1,
                 'vehiculo_id' => $request['vehiculo_id'],
             ]);
 
@@ -148,7 +156,6 @@ class VehiculoController extends Controller
 
             return 0;
         }
-
     }
 
     public function cargar_tarjeta_propiedad(Request $request) {

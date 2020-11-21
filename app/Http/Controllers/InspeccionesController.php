@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Mail\NotificationMail;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use PDF;
 
@@ -80,8 +81,15 @@ class InspeccionesController extends Controller
 
     public function ver(Request $request) {
         $inspeccion = Inspeccion::with('users')->with('vehiculo')->with('detalle')->with('adjuntos')->find($request->id);
+        $novedad = [];
 
-        return view('vehiculos.inspecciones.ver', ['inspeccion' => $inspeccion]);
+        foreach ($inspeccion->detalle as $detalle) {
+            if ($detalle->estado == 'Regular' || $detalle->estado == 'Malo') {
+                array_push($novedad, ['elemento' => $detalle->campo, 'estado' => $detalle->estado]);
+            }
+        }
+
+        return view('vehiculos.inspecciones.ver', ['inspeccion' => $inspeccion, 'novedad' => $novedad]);
     }
 
     public function agregar_adjunto(Request $request) {
@@ -130,5 +138,22 @@ class InspeccionesController extends Controller
         }))->with('adjuntos')->find($request->id);
 
         return PDF::loadView('vehiculos.inspecciones.pdf', compact('inspeccion'))->setPaper('A4')->stream('inspeccion.pdf');
+    }
+
+    public function filter(Request $request) {
+        $desde = Str::before($request['rango'], ' - ').' 00:00:00';
+        $hasta = Str::after($request['rango'], ' - ').' 23:59:00';
+
+        $vehiculos = Vehiculo::all();
+        $inspecciones = Inspeccion::whereBetween('fecha_inicio', [$desde, $hasta])->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
+
+        return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones]);
+    }
+
+    public function certificado(Request $request) {
+
+        $contenido = $request['area'];
+
+        return PDF::loadView('vehiculos.inspecciones.certificado_inspeccion', compact('contenido'))->setPaper('A4')->stream('certificado_inspeccion.pdf');
     }
 }

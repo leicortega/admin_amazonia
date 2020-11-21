@@ -23,6 +23,7 @@ class CreateDocumentosLegalesVehiculosTable extends Migration
             $table->date('fecha_fin_vigencia')->nullable();
             $table->string('entidad_expide', 120);
             $table->string('estado', 120);
+            $table->enum('ultimo', [1,0])->default(1);
             $table->string('documento_file', 120)->nullable();
 
             $table->foreignId('vehiculo_id')

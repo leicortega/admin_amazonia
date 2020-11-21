@@ -87,6 +87,8 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/vehiculos/inspecciones/agregar_adjunto', 'InspeccionesController@agregar_adjunto');
     Route::post('/vehiculos/inspecciones/cerrar', 'InspeccionesController@cerrar');
     Route::get('/vehiculos/inspecciones/pdf/{id}', 'InspeccionesController@pdf');
+    Route::post('/vehiculos/inspecciones/filter', 'InspeccionesController@filter');
+    Route::post('/vehiculos/inspecciones/certificado', 'InspeccionesController@certificado');
 });
 
 // Rutas para Personal

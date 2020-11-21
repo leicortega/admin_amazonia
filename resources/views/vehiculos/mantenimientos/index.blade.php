@@ -37,15 +37,17 @@
                                 <div class="container-fluid">
                                     <div class="row p-0">
                                         <div class="col-8">
-                                            <div class="form-group mb-4">
-                                                <label>Seleccione el vehiculo</label>
-                                                <select class="selectize" onchange="window.location.href=this.value">
-                                                    <option value="">Seleccione</option>
-                                                    @foreach ($vehiculos as $vehiculo)
-                                                        <option value="/vehiculos/{{ $vehiculo->id }}/mantenimientos"><a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos">{{ $vehiculo->placa }}</a></option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
+                                            @role('admin')
+                                                <div class="form-group mb-4">
+                                                    <label>Seleccione el vehiculo</label>
+                                                    <select class="selectize" onchange="window.location.href=this.value">
+                                                        <option value="">Seleccione</option>
+                                                        @foreach ($vehiculos as $vehiculo)
+                                                            <option value="/vehiculos/{{ $vehiculo->id }}/mantenimientos"><a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos">{{ $vehiculo->placa }}</a></option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                            @endrole
                                         </div>
                                         <div class="col-4 mt-3">
                                             <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#solicitar_mantenimiento_modal">Solicitar</button>

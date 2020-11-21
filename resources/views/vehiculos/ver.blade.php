@@ -26,8 +26,30 @@
                                     </div>
                                 @endif
 
+                                <div class="alert alert-danger mb-3" role="alert">
+                                    <h5 class="text-danger"><b>Documentos Vencidos</b></h5>
+                                    <ul>
+                                        @foreach ($alerta_documentos as $alerta)
+                                            @if (\Carbon\Carbon::now('America/Bogota')->format('Y-m-d') > $alerta['fecha_fin_vigencia'])
+                                                <li>{{ $alerta['tipo'] }} - {{ $alerta['fecha_fin_vigencia'] }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+
+                                <div class="alert alert-warning mb-3" role="alert">
+                                    <h5 class="text-warning"><b>Documentos Por Vencer</b></h5>
+                                    <ul>
+                                        @foreach ($alerta_documentos as $alerta)
+                                            @if (\Carbon\Carbon::parse($alerta['fecha_fin_vigencia'])->diffInDays(\Carbon\Carbon::now('America/Bogota')) < 15 && \Carbon\Carbon::now('America/Bogota')->format('Y-m-d') < $alerta['fecha_fin_vigencia'])
+                                                <li>{{ $alerta['tipo'] }} - {{ $alerta['fecha_fin_vigencia'] }}</li>
+                                            @endif
+                                        @endforeach
+                                    </ul>
+                                </div>
+
                                 <a href="/vehiculos"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
-                                <button type="button" class="btn btn-primary ml-2 btn-lg mb-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Editar</button>
+                                @role('admin') <button type="button" class="btn btn-primary ml-2 btn-lg mb-2 float-right" data-toggle="modal" data-target="#aggVehiculo">Editar</button> @endrole
                                 <a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos" class="btn btn-info btn-lg mb-2 float-right ml-2">Mantenimientos</a>
                                 <a href="/vehiculos/{{ $vehiculo->id }}/inspecciones" class="btn btn-info btn-lg mb-2 float-right">Inspecciones</a>
 

@@ -41,10 +41,10 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="/vehiculos/">Vehiculos</a></li>
-                                <li><a href="/vehiculos/tanqueos">Tanqueos</a></li>
-                                <li><a href="/vehiculos/inspecciones">Inspecciones</a></li>
-                                <li><a href="/vehiculos/graficas">Graficas Tanqueos</a></li>
-                                <li><a href="/vehiculos/mantenimientos">Mantenimientos</a></li>
+                                @role('admin') <li><a href="/vehiculos/tanqueos">Tanqueos</a></li> @endrole
+                                @role('admin') <li><a href="/vehiculos/inspecciones">Inspecciones</a></li> @endrole
+                                @role('admin') <li><a href="/vehiculos/graficas">Graficas Tanqueos</a></li> @endrole
+                                @role('admin') <li><a href="/vehiculos/mantenimientos">Mantenimientos</a></li> @endrole
                             </ul>
                         </li>
                     @endcanany
@@ -290,10 +290,10 @@
                     <li class="menu-title">Vehiculos</li>
 
                     <li><a href="/vehiculos/"  class="waves-effect">Vehiculos</a></li>
-                    <li><a href="/vehiculos/tanqueos"  class="waves-effect">Tanqueos</a></li>
-                    <li><a href="/vehiculos/inspecciones"  class="waves-effect">Inspecciones</a></li>
-                    <li><a href="/vehiculos/graficas"  class="waves-effect">Graficas Tanqueos</a></li>
-                    <li><a href="/vehiculos/mantenimientos"  class="waves-effect">Mantenimientos</a></li>
+                    @role('admin') <li><a href="/vehiculos/tanqueos"  class="waves-effect">Tanqueos</a></li> @endrole
+                    @role('admin') <li><a href="/vehiculos/inspecciones"  class="waves-effect">Inspecciones</a></li> @endrole
+                    @role('admin') <li><a href="/vehiculos/graficas"  class="waves-effect">Graficas Tanqueos</a></li> @endrole
+                    @role('admin') <li><a href="/vehiculos/mantenimientos"  class="waves-effect">Mantenimientos</a></li> @endrole
 
                 @endif
 

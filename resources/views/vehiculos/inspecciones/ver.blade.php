@@ -42,6 +42,7 @@
                                             <h4>Reporto: {{ $inspeccion->users->name }}</h4>
                                         </div>
                                         <div class="col-sm-8 mb-3 text-right">
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#certificado_inspeccion">Certificado</button>
                                             @if ($inspeccion->kilometraje_final == NULL)
                                                 <button class="btn btn-primary" data-toggle="modal" data-target="#cerrar_inspeccion">Cerrar</button>
                                             @endif
@@ -253,11 +254,57 @@
         </div>
     </div>
 </div>
+
+{{-- CERTIFICADO INSPECCION --}}
+<div class="modal fade bs-example-modal-xl" id="certificado_inspeccion" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Certificado inspeccion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/vehiculos/inspecciones/certificado" method="POST">
+                    @csrf
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" id="textarea-correo">
+                                    <h4 class="header-title text-center">Contenido</h4>
+
+                                    <textarea id="elm1" name="area" class="text-white" style="min-height: 750px">
+                                        <p>Puerto as&iacute;s, 13 de febrero de 2020</p>
+                                        <p>&nbsp;</p>
+                                        <p><br />Se&ntilde;ores<br />___________________<br />Nit:_____________<br />{Direccion}<br />{Ciudad}</p>
+                                        <p>&nbsp;</p>
+                                        <p><br />Ref: Hallazgos de mantenimiento</p>
+                                        <p><br />Reciba un cordial saludo.<br />Por medio de la presente, me permito informar sobre los hallazgos encontrados en inspecciones anteriores de parte del &aacute;rea de mantenimiento en donde se encontraron los siguientes hallazgos</p>
+                                        <ul>
+                                            @foreach ($novedad as $item)
+                                                <li>{{ $item['elemento'] }} en estado {{ $item['estado'] }}</li>
+                                            @endforeach
+                                        </ul>
+                                        <p>En vista de estos acontecimientos el cliente opto por inutilizar el veh&iacute;culo hasta cerrar dichos hallazgos, ya que, el servicio especial que ellos contratan exigen el servicio de aire acondicionado por las condiciones clim&aacute;ticas del terreno. Por tal motivo el &aacute;rea de operaciones y antenimiento toma la decisi&oacute;n de que el veh&iacute;culo sea arreglado inmediatamente.</p>
+                                        <p><br />Agradezco su atenci&oacute;n prestada y su colaboraci&oacute;n oportuna.<br />Cordialmente,</p>
+                                        <p>&nbsp;</p>
+                                        <p><br />______________________________<br />{{ auth()->user()->name }}<br /></p>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
-
-
-
-
-
-
-

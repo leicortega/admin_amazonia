@@ -37,7 +37,7 @@
                                     </div>
                                 @endif
 
-                                <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#aggVehiculo">Agregar +</button>
+                                @role('admin') <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#aggVehiculo">Agregar +</button> @endrole
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
                                     <thead>
@@ -84,6 +84,16 @@
                                     </thead>
                                     <tbody>
                                         @foreach ($vehiculos as $vehiculo)
+                                            <?php
+
+                                                if (auth()->user()->hasRole('general')) {
+
+                                                    if(\App\Models\Conductores_vehiculo::where('personal_id', \App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id)->where('vehiculo_id', $vehiculo->id_vehiculo)->count() == 0) {
+                                                        continue;
+                                                    }
+                                                }
+
+                                            ?>
                                             <tr>
                                                 <th>{{ $vehiculo->placa }}</th>
                                                 <td>{{ $vehiculo->numero_interno }}</td>

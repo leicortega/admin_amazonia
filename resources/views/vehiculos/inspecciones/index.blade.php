@@ -35,22 +35,38 @@
                                 @endif
 
                                 <div class="container-fluid">
-                                    <div class="row p-0">
-                                        <div class="col-8">
-                                            <div class="form-group mb-4">
-                                                <label>Seleccione el vehiculo</label>
-                                                <select class="selectize" onchange="window.location.href=this.value">
-                                                    <option value="">Seleccione</option>
-                                                    @foreach ($vehiculos as $vehiculo)
-                                                        <option value="/vehiculos/{{ $vehiculo->id }}/inspecciones"><a href="/vehiculos/{{ $vehiculo->id }}/inspecciones">{{ $vehiculo->placa }}</a></option>
-                                                    @endforeach
-                                                </select>
+                                    <form action="/vehiculos/inspecciones/filter" method="POST">
+                                        @csrf
+
+                                        <div class="row p-0">
+                                            <div class="col-3">
+                                                @role('admin')
+                                                    <div class="form-group mb-4">
+                                                        <label>Seleccione el vehiculo</label>
+                                                        <select class="selectize" onchange="window.location.href=this.value">
+                                                            <option value="">Seleccione</option>
+                                                            @foreach ($vehiculos as $vehiculo)
+                                                                <option value="/vehiculos/{{ $vehiculo->id }}/inspecciones"><a href="/vehiculos/{{ $vehiculo->id }}/inspecciones">{{ $vehiculo->placa }}</a></option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                @endrole
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <div class="form-group mb-4">
+                                                    <label>Rango de fechas</label>
+                                                    <input type="text" class="form-control datepicker-here" name="rango" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-2 mt-4">
+                                                <button type="submit" class="btn btn-primary btn-lg mb-2">Buscar</button>
+                                            </div>
+
+                                            <div class="col-4 mt-4 text-right">
+                                                <a href="/vehiculos/inspecciones/agregar" class="btn btn-primary btn-lg float-right mb-2">Agregar</a>
                                             </div>
                                         </div>
-                                        <div class="col-4 mt-3">
-                                            <a href="/vehiculos/inspecciones/agregar" class="btn btn-primary btn-lg float-right mb-2">Agregar</a>
-                                        </div>
-                                    </div>
+                                    </form>
                                 </div>
 
 
@@ -76,7 +92,7 @@
                                                 <th>{{ $inspeccion->vehiculo->placa }}</th>
                                                 <th>{{ $inspeccion->users->name }}</th>
                                                 <th>{{ $inspeccion->fecha_inicio }}</th>
-                                                <th>{{ $inspeccion->fecha_inicio ? 'Cerrada' : 'Iniciada' }}</th>
+                                                <th>{{ $inspeccion->fecha_final ? 'Cerrada' : 'Iniciada' }}</th>
                                                 <td class="text-center">
                                                     <a href="/vehiculos/inspecciones/ver/{{ $inspeccion->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Inspeccion">
                                                         <i class="mdi mdi-eye"></i>

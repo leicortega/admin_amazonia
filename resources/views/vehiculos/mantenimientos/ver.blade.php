@@ -332,6 +332,18 @@
                                         <option value="MASSER S.A.S">MASSER S.A.S</option>
                                         <option value="TECNOSUR LOCALIZACIÓN Y RASTREO ">TECNOSUR LOCALIZACIÓN Y RASTREO </option>
                                         <option value="JAIME ALONSO BARRIOS">JAIME ALONSO BARRIOS</option>
+
+                                        <option value="DILLANCOL S.A">DILLANCOL S.A</option>
+                                        <option value="MONTALLANTAS CARE PAPA 2">MONTALLANTAS CARE PAPA 2</option>
+                                        <option value="MONTALLANTAS LA 15">MONTALLANTAS LA 15</option>
+                                        <option value="CALAIRES PAC">CALAIRES PAC</option>
+                                        <option value="MARIA EDILMA CRUZ VARGAS">MARIA EDILMA CRUZ VARGAS</option>
+                                        <option value="TORNI HERRAMIENTAS DEL SUR">TORNI HERRAMIENTAS DEL SUR</option>
+                                        <option value="SERVICIO EL PAJARO">SERVICIO EL PAJARO</option>
+                                        <option value="RADIADORES AUTORODAJES">RADIADORES AUTORODAJES</option>
+                                        <option value="TALLER ELECTRICO PITUFO">TALLER ELECTRICO PITUFO</option>
+                                        <option value="CENTRO DE SERVICIO AUTOMOTRIZ GASCA SU TALLER AMIGO">CENTRO DE SERVICIO AUTOMOTRIZ GASCA SU TALLER AMIGO</option>
+
                                     </select>
                                 </div>
                             </div>

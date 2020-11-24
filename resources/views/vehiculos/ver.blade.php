@@ -41,7 +41,7 @@
                                     <h5 class="text-warning"><b>Documentos Por Vencer</b></h5>
                                     <ul>
                                         @foreach ($alerta_documentos as $alerta)
-                                            @if (\Carbon\Carbon::parse($alerta['fecha_fin_vigencia'])->diffInDays(\Carbon\Carbon::now('America/Bogota')) < 15 && \Carbon\Carbon::now('America/Bogota')->format('Y-m-d') < $alerta['fecha_fin_vigencia'])
+                                            @if (\Carbon\Carbon::parse($alerta['fecha_fin_vigencia'])->diffInDays(\Carbon\Carbon::now('America/Bogota')) < 30 && \Carbon\Carbon::now('America/Bogota')->format('Y-m-d') < $alerta['fecha_fin_vigencia'])
                                                 <li>{{ $alerta['tipo'] }} - {{ $alerta['fecha_fin_vigencia'] }}</li>
                                             @endif
                                         @endforeach

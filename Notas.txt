@@ -1,1 +1,12 @@
 Modulos a desarrollar: Desarrollar anctividad y seguimiento de tareas.
+
+
+Generar notificacion de documentos vencidos por vencer al correo de calidad y gerencia
+
+
+Modulo de contabilidad {
+    vehiculo
+    concepto
+    por pagar
+    por cobrar
+}

@@ -552,13 +552,13 @@ function crearTercero() {
 function cargarDepartamentos() {
     var html = '<option value="">Seleccione</option>';
 	$.ajax({
-		url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?$select=departamento&$group=departamento',
-		type: 'GET',
+		url: '/app/sistema/get/departamentos',
+        type: 'POST',
 		success: function (data) {
 			data.forEach(dpt => {
-				html += '<option value="'+dpt.departamento+'">'+dpt.departamento+'</option>';
+				html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
 			});
-			$('#departamento').html(html)
+			$('#departamento').html(html);
 		}
     })
 }
@@ -566,21 +566,22 @@ function cargarDepartamentos() {
 function cargarMunicipios(dpt) {
     var html = '<option value="">Seleccione</option>';
     $.ajax({
-        url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento='+dpt,
-        type: 'GET',
+        url: '/app/sistema/get/municipios',
+        type: 'POST',
+        data: { dpt:dpt },
         success: function (data) {
-            data.forEach(dpt => {
-                html += '<option value="'+dpt.municipio+'">'+dpt.municipio+'</option>';
+            data.municipios.forEach(dpt => {
+                html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
             });
-            $('#municipio').html(html)
+            $('#municipio').html(html);
         }
     })
 }
 
 function datos_vehiculos(tipo) {
     $('#modal-create-datos-vehiculo').modal('show')
-    $('#modal-create-datos-vehiculo-title').text('Agregar '+tipo)
-    $('#datos_vehiculo_tipo').val(tipo)
+    $('#modal-create-datos-vehiculo-title').text('Agregar '+tipo);
+    $('#datos_vehiculo_tipo').val(tipo);
 }
 
 function datos_inspecciones(tipo) {

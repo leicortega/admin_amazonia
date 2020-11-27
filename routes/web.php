@@ -4,6 +4,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('index');
 
+// APP Routes Utilitaries
+Route::post('/app/sistema/get/departamentos', 'AdminController@departamentos');
+Route::post('/app/sistema/get/municipios', 'AdminController@municipios');
+
 // Rutas para administrador
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/users', 'AdminController@users')->name('users');

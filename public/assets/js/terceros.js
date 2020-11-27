@@ -269,11 +269,11 @@ function total_cotizacion() {
 function cargarDepartamentos() {
     let html = '<option value="">Seleccione el departamento</option>';
 	$.ajax({
-		url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?$select=departamento&$group=departamento',
-		type: 'GET',
+		url: '/app/sistema/get/departamentos',
+        type: 'POST',
 		success: function (data) {
 			data.forEach(dpt => {
-				html += '<option value="'+dpt.departamento+'">'+dpt.departamento+'</option>';
+				html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
 			});
 			$('#departamento').html(html);
 			$('#departamento_origen').html(html);
@@ -285,11 +285,12 @@ function cargarDepartamentos() {
 function dptOrigen(dpt) {
     var html = '<option value="">Seleccione</option>';
     $.ajax({
-        url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento='+dpt,
-        type: 'GET',
+        url: '/app/sistema/get/municipios',
+        type: 'POST',
+        data: { dpt:dpt },
         success: function (data) {
-            data.forEach(dpt => {
-                html += '<option value="'+dpt.municipio+'">'+dpt.municipio+'</option>';
+            data.municipios.forEach(dpt => {
+                html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
             });
             $('.ciudad_origen').html(html)
         }
@@ -299,11 +300,12 @@ function dptOrigen(dpt) {
 function dptDestino(dpt) {
     var html = '<option value="">Seleccione</option>';
     $.ajax({
-        url: 'https://www.datos.gov.co/resource/xdk5-pm3f.json?departamento='+dpt,
-        type: 'GET',
+        url: '/app/sistema/get/municipios',
+        type: 'POST',
+        data: { dpt:dpt },
         success: function (data) {
-            data.forEach(dpt => {
-                html += '<option value="'+dpt.municipio+'">'+dpt.municipio+'</option>';
+            data.municipios.forEach(dpt => {
+                html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
             });
             $('.ciudad_destino').html(html)
         }

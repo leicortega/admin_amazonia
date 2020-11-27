@@ -14,6 +14,8 @@ use App\Models\Sistema\Admin_inspeccion;
 use App\Models\Sistema\Marca;
 use App\Models\Sistema\Linea;
 use App\Models\Sistema\Cargo;
+use App\Models\Sistema\Departamento;
+use App\Models\Sistema\Municipio;
 use App\User;
 
 class AdminController extends Controller
@@ -181,5 +183,13 @@ class AdminController extends Controller
         }
 
         return redirect()->route('inspecciones')->with(['create' => 0]);
+    }
+
+    public function departamentos() {
+        return Departamento::all();
+    }
+
+    public function municipios(Request $request) {
+        return Departamento::where('nombre', $request['dpt'])->with('municipios')->first();
     }
 }

@@ -12,8 +12,10 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use PDF;
 
+use App\Models\Personal;
 use App\Models\Vehiculo;
 use App\Models\Inspeccion;
+use App\Models\Mantenimiento;
 use App\Models\Detalle_inspeccion;
 use App\Models\Sistema\Admin_inspeccion;
 use App\Models\Adjuntos_inspeccion;
@@ -49,6 +51,9 @@ class InspeccionesController extends Controller
     }
 
     public function agregar(Request $request) {
+        $novedades = [];
+        $count = 0;
+
         $inspeccion = Inspeccion::create([
             'fecha_inicio' => $request->fecha_inicio,
             'kilometraje_inicio' => $request->kilometraje_inicio,
@@ -59,6 +64,10 @@ class InspeccionesController extends Controller
 
         if ($inspeccion->save()) {
             for ($i=0; $i <= $request->total; $i++) {
+                if ($request['estado_'.$i] == 'Regular' || $request['estado_'.$i] == 'Malo') {
+                    array_push($novedades, ['elemento' => $request['campo_'.$i], 'estado' => $request['estado_'.$i]]);
+                    $count++;
+                }
                 Detalle_inspeccion::create([
                     'campo' => $request['campo_'.$i],
                     'cantidad' => $request['cantidad_'.$i],
@@ -67,6 +76,32 @@ class InspeccionesController extends Controller
                     'inspecciones_id' => $inspeccion->id
                 ]);
             }
+        }
+
+        if ($count > 0) {
+            $descripcion = 'Mantenimiento generado automaticamente de acuerdo a la inspeccion #'.$inspeccion->id.' en la cual se encontraron las siguientes novedades: ';
+
+            foreach ($novedades as $novedad) {
+                $descripcion .= $novedad['elemento'].' en estado '.$novedad['estado'].', ';
+            }
+
+            $descripcion .= 'y con las siguientes observaciones: '.$request->observaciones_inicio;
+
+            $mantenimiento = Mantenimiento::create([
+                'fecha' => $this->date->format('Y-m-d'),
+                'vehiculo_id' => $request->vehiculo_id,
+                'personal_id' => Personal::where('identificacion', auth()->user()->identificacion)->first()->id,
+                'descripcion_solicitud' => $descripcion
+            ]);
+
+            $data_mantenimiento = [
+                'titulo' => 'NUEVA SOLICITUD DE MANTENIMIENTO',
+                'link' => 'https://admin.amazoniacl.com/vehiculos/mantenimientos/autorizar/'.$mantenimiento->id
+            ];
+
+            $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
+
+            Mail::to([$propietario])->send(new NotificationMail($data_mantenimiento));
         }
 
         $data = [
@@ -151,7 +186,6 @@ class InspeccionesController extends Controller
     }
 
     public function certificado(Request $request) {
-
         $contenido = $request['area'];
 
         return PDF::loadView('vehiculos.inspecciones.certificado_inspeccion', compact('contenido'))->setPaper('A4')->stream('certificado_inspeccion.pdf');

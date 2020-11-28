@@ -81,6 +81,10 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/vehiculos/mantenimiento/agregar_detalle_actividad', 'MantenimientosController@agregar_detalle_actividad');
     Route::post('/vehiculos/mantenimiento/agregar_facruta', 'MantenimientosController@agregar_facruta');
     Route::post('/vehiculos/mantenimiento/agregar_firma', 'MantenimientosController@agregar_firma');
+    Route::get('/vehiculos/mantenimientos/autorizar/{id}', 'MantenimientosController@autorizar_view');
+    Route::post('/vehiculos/mantenimientos/autorizar', 'MantenimientosController@autorizar');
+    Route::post('/vehiculos/mantenimientos/autorizar_contabilidad', 'MantenimientosController@autorizar_contabilidad');
+    Route::get('/vehiculos/mantenimientos/eliminar_factura/{id}', 'MantenimientosController@eliminar_factura');
 
     // Rutas para Inspecciones
     Route::get('/vehiculos/inspecciones', 'InspeccionesController@index');
@@ -93,6 +97,11 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos/inspecciones/pdf/{id}', 'InspeccionesController@pdf');
     Route::post('/vehiculos/inspecciones/filter', 'InspeccionesController@filter');
     Route::post('/vehiculos/inspecciones/certificado', 'InspeccionesController@certificado');
+});
+
+// Rutas para Contabilidad
+Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
+    Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad');
 });
 
 // Rutas para Personal

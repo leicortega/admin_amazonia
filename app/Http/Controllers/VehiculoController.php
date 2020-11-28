@@ -29,12 +29,23 @@ class VehiculoController extends Controller
                         ->where('cargos.nombre', 'Propietario')
                         ->get();
 
-        $vehiculos = DB::table('vehiculos')
+        if (auth()->user()->hasRole('general')) {
+            $vehiculos = DB::table('vehiculos')
+                        ->join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
+                        ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
+                        ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
+                        ->join('conductores_vehiculo', 'vehiculos.id', '=', 'conductores_vehiculo.vehiculo_id')
+                        ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*')
+                        ->where('conductores_vehiculo.personal_id', \App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id)
+                        ->paginate(10);
+        } else {
+            $vehiculos = DB::table('vehiculos')
                         ->join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
                         ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
                         ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
                         ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*')
                         ->paginate(10);
+        }
 
         return view('vehiculos.index', ['propietarios' => $propietarios, 'vehiculos' => $vehiculos]);
     }

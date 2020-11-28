@@ -19,7 +19,7 @@ class CreateMantenimientosTable extends Migration
             // Solicitado
             $table->dateTime('fecha');
             $table->longText('descripcion_solicitud');
-            $table->enum('estado', ['Solicitado', 'Aprobado'])->default('Solicitado');
+            $table->enum('estado', ['Solicitado', 'Aprobado', 'Cerrado'])->default('Solicitado');
 
             // Contabilidad
             $table->string('persona_contabilidad', 120)->nullable();
@@ -30,6 +30,11 @@ class CreateMantenimientosTable extends Migration
             $table->string('persona_autoriza', 120)->nullable();
             $table->dateTime('fecha_autorizacion')->nullable();
             $table->longText('observaciones_autorizacion')->nullable();
+
+            // Cierre
+            $table->string('persona_cierre', 120)->nullable();
+            $table->dateTime('fecha_cierre')->nullable();
+            $table->longText('observaciones_cierre')->nullable();
 
 
             // Relaciones

@@ -86,12 +86,12 @@
                                         @foreach ($vehiculos as $vehiculo)
                                             <?php
 
-                                                if (auth()->user()->hasRole('general')) {
+                                                // if (auth()->user()->hasRole('general')) {
 
-                                                    if(\App\Models\Conductores_vehiculo::where('personal_id', \App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id)->where('vehiculo_id', $vehiculo->id_vehiculo)->count() == 0) {
-                                                        continue;
-                                                    }
-                                                }
+                                                //     if(\App\Models\Conductores_vehiculo::where('personal_id', \App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id)->where('vehiculo_id', $vehiculo->id_vehiculo)->count() == 0) {
+                                                //         continue;
+                                                //     }
+                                                // }
 
                                             ?>
                                             <tr>

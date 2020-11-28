@@ -25,7 +25,8 @@ class MantenimientosController extends Controller
 
     public function index() {
         $vehiculos = Vehiculo::all();
-        $solicitados = Mantenimiento::where('estado', 'Solicitado')->with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);
+        $solicitados = Mantenimiento::with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);
+        // $solicitados = Mantenimiento::where('estado', 'Solicitado')->with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);
 
         return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados]);
     }
@@ -145,28 +146,14 @@ class MantenimientosController extends Controller
         $date = Carbon::now('America/Bogota');
         $mantenimiento = Mantenimiento::find($request['mantenimientos_id_firma']);
 
-        if ($request['tipo'] == 'Autorizar') {
-            $mantenimiento->update([
-                'persona_autoriza' => $request['persona_firma'],
-                'fecha_autorizacion' => $date->format('Y-m-d H:m:s'),
-                'observaciones_autorizacion' => $request['observaciones'],
-            ]);
+        $mantenimiento->update([
+            'estado' => $request['tipo'],
+            'persona_cierre' => $request['persona_firma'],
+            'fecha_cierre' => $date->format('Y-m-d H:m:s'),
+            'observaciones_cierre' => $request['observaciones'],
+        ]);
 
-            $data = [
-                'titulo' => 'SE AUTORIZO MANTENIMINETO',
-                'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
-            ];
-
-            Mail::to('contabilidad@amazoniacl.com')->send(new NotificationMail($data));
-        } else {
-            $mantenimiento->update([
-                'persona_contabilidad' => $request['persona_firma'],
-                'fecha_contabilidad' => $date->format('Y-m-d H:m:s'),
-                'observaciones_contabilidad' => $request['observaciones'],
-            ]);
-        }
-
-        return redirect()->back()->with(['error' => 0, 'mensaje' => 'Firma agregada correctamente']);
+        return redirect()->back()->with(['error' => 0, 'mensaje' => 'Mantenimiento cerrado correctamente']);
     }
 
     public function print(Request $request) {
@@ -175,5 +162,55 @@ class MantenimientosController extends Controller
         }])->with('facturas')->find($request['id']);
 
         return PDF::loadView('vehiculos.mantenimientos.pdf', compact('mantenimiento'))->setPaper('A4')->stream('mantenimiento.pdf');
+    }
+
+    public function autorizar_view(Request $request) {
+        $mantenimiento = Mantenimiento::with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
+            $query->with('detalle_actividades');
+        }])->with('facturas')->find($request['id']);
+
+        return view('vehiculos.mantenimientos.ver', ['mantenimiento' => $mantenimiento]);
+    }
+
+    public function autorizar(Request $request) {
+        $date = Carbon::now('America/Bogota');
+        $mantenimiento = Mantenimiento::find($request['mantenimientos_id']);
+
+        $autorizado = ($request['btn_autorizar'] == 'Si') ? 'Aprobado' : 'No Aprobado';
+
+        $mantenimiento->update([
+            'estado' => $autorizado,
+            'persona_autoriza' => auth()->user()->name,
+            'fecha_autorizacion' => $date->format('Y-m-d H:m:s'),
+            'observaciones_autorizacion' => $request['observaciones'],
+        ]);
+
+        $data = [
+            'titulo' => 'SE AUTORIZO MANTENIMINETO',
+            'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
+        ];
+
+        Mail::to('contabilidad@amazoniacl.com')->send(new NotificationMail($data));
+
+        return redirect()->back()->with(['error' => 0, 'mensaje' => 'Firma agregada correctamente, mantenimiento '.$autorizado]);
+    }
+
+    public function autorizar_contabilidad(Request $request) {
+        $date = Carbon::now('America/Bogota');
+        $mantenimiento = Mantenimiento::find($request['mantenimientos_id']);
+
+        $mantenimiento->update([
+            'persona_contabilidad' => auth()->user()->name,
+            'fecha_contabilidad' => $date->format('Y-m-d H:m:s'),
+            'observaciones_contabilidad' => $request['observaciones'],
+        ]);
+
+        return redirect()->back()->with(['error' => 0, 'mensaje' => 'Firma agregada correctamente, autorizacion de contabilidad']);
+    }
+
+    public function eliminar_factura(Request $request) {
+        Facturas_mantenimiento::find($request['id'])->delete();
+
+        return redirect()->back()->with(['error' => 0, 'mensaje' => 'Factura eliminada correctamente']);
     }
 }

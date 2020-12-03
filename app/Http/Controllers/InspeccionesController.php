@@ -101,7 +101,7 @@ class InspeccionesController extends Controller
 
             $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
 
-            Mail::to([$propietario])->send(new NotificationMail($data_mantenimiento));
+            Mail::to([$propietario, 'gerencia@amazoniacl.com', 'calidad@amazoniacl.com'])->send(new NotificationMail($data_mantenimiento));
         }
 
         $data = [

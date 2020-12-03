@@ -10,3 +10,6 @@ Modulo de contabilidad {
     por pagar
     por cobrar
 }
+
+
+En el momento de autorizar, agregar si asume el gasto la empresa o el propietario

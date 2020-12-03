@@ -8,6 +8,9 @@ Route::get('/', 'HomeController@index')->name('index');
 Route::post('/app/sistema/get/departamentos', 'AdminController@departamentos');
 Route::post('/app/sistema/get/municipios', 'AdminController@municipios');
 
+Route::get('/app/sistema/get/departamentos', 'AdminController@departamentos');
+Route::get('/app/sistema/get/municipios', 'AdminController@municipios');
+
 // Rutas para administrador
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/users', 'AdminController@users')->name('users');

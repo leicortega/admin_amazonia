@@ -30,6 +30,7 @@ class CreateMantenimientosTable extends Migration
             $table->string('persona_autoriza', 120)->nullable();
             $table->dateTime('fecha_autorizacion')->nullable();
             $table->longText('observaciones_autorizacion')->nullable();
+            $table->enum('asume', ['Empresa', 'Propietario'])->nullable();
 
             // Cierre
             $table->string('persona_cierre', 120)->nullable();

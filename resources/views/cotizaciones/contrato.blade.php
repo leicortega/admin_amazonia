@@ -163,21 +163,21 @@
                 <td style="padding: 3px;" colspan="2"><b>NOMBRES Y APELLIDOS </b><br>{{ $data['conductor']['nombres'] }} {{ $data['conductor']['primer_apellido'] }} {{ $data['conductor']['segundo_apellido'] ?? '' }}</td>
                 <td style="padding: 3px;" colspan="1"><b>Nº DE IDENTIFICACIÓN </b><br>{{ $data['conductor']['identificacion'] }}</td>
                 <td style="padding: 3px;" colspan="1"><b>NºLICENCIA CONDUCCIÓN </b><br>{{ $data['conductor']['identificacion'] }}</td>
-                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['conductor']['fecha_ingreso'] }}</td>
+                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['vigencia'] }}</td>
             </tr>
             <tr>
                 <td style="padding: 3px; background:#ccc;" colspan="1"><b>DATOS DEL CONDUCTOR 2 </b></td>
                 <td style="padding: 3px;" colspan="2"><b>NOMBRES Y APELLIDOS </b><br>{{ $data['conductor_dos']['nombres'] ?? 'N/A' }} {{ $data['conductor_dos']['primer_apellido'] }} {{ $data['conductor_dos']['segundo_apellido'] ?? '' }}</td>
                 <td style="padding: 3px;" colspan="1"><b>Nº DE IDENTIFICACIÓN </b><br>{{ $data['conductor_dos']['identificacion'] ?? 'N/A' }}</td>
                 <td style="padding: 3px;" colspan="1"><b>NºLICENCIA CONDUCCIÓN </b><br>{{ $data['conductor_dos']['identificacion'] ?? 'N/A' }}</td>
-                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['conductor_dos']['fecha_ingreso'] ?? 'N/A' }}</td>
+                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['vigencia_dos'] ?? 'N/A' }}</td>
             </tr>
             <tr>
                 <td style="padding: 3px; background:#ccc;" colspan="1"><b>DATOS DEL CONDUCTOR 3 </b></td>
                 <td style="padding: 3px;" colspan="2"><b>NOMBRES Y APELLIDOS </b><br>{{ $data['conductor_tres']['nombres'] ?? 'N/A' }} {{ $data['conductor_tres']['primer_apellido'] }} {{ $data['conductor_tres']['segundo_apellido'] ?? '' }}</td>
                 <td style="padding: 3px;" colspan="1"><b>Nº DE IDENTIFICACIÓN </b><br>{{ $data['conductor_tres']['identificacion'] ?? 'N/A' }}</td>
                 <td style="padding: 3px;" colspan="1"><b>NºLICENCIA CONDUCCIÓN </b><br>{{ $data['conductor_tres']['identificacion'] ?? 'N/A' }}</td>
-                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['conductor_tres']['fecha_ingreso'] ?? 'N/A' }}</td>
+                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['vigencia_tres']?? 'N/A' }}</td>
             </tr>
             <tr>
                 <td style="padding: 3px; background:#ccc;" colspan="1"><b>RESPONSABLE DEL CONTRATANTE </b></td>

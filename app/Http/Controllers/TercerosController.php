@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Tercero;
 use App\Models\Perfiles_tercero;
 use App\Models\Contactos_tercero;
+use App\Models\Documentos_personal;
 use App\Models\Documentos_tercero;
 use App\Models\Cotizacion;
 use App\Models\Personal;
@@ -297,8 +298,11 @@ class TercerosController extends Controller
         $responsable = Contactos_tercero::where('identificacion', $cotizacion->responsable_contrato_id)->first();
         $vehiculo = Vehiculo::find($cotizacion->vehiculo_id);
         $conductor = Personal::find($cotizacion->conductor_uno_id);
+        $vigencia = Documentos_personal::where('tipo', 'LICENCIA DE CONDUCCIÓN')->where('personal_id', $cotizacion->conductor_uno_id)->orderBy('id', 'desc')->first()->fecha_fin_vigencia;
         $conductor_dos = Personal::find($cotizacion->conductor_dos_id);
+        $vigencia_dos = Documentos_personal::where('tipo', 'LICENCIA DE CONDUCCIÓN')->where('personal_id', $cotizacion->conductor_dos_id)->orderBy('id', 'desc')->first()->fecha_fin_vigencia ?? NULL;
         $conductor_tres = Personal::find($cotizacion->conductor_tres_id);
+        $vigencia_tres = Documentos_personal::where('tipo', 'LICENCIA DE CONDUCCIÓN')->where('personal_id', $cotizacion->conductor_tres_id)->orderBy('id', 'desc')->first()->fecha_fin_vigencia ?? NULL;
 
         $data = [
             'cotizacion' => $cotizacion,
@@ -306,8 +310,11 @@ class TercerosController extends Controller
             'responsable' => $responsable,
             'vehiculo' => $vehiculo,
             'conductor' => $conductor,
+            'vigencia' =>$vigencia,
             'conductor_dos' => $conductor_dos,
-            'conductor_tres' => $conductor_tres
+            'vigencia_dos' => $vigencia_dos,
+            'conductor_tres' => $conductor_tres,
+            'vigencia_tres' => $vigencia_tres
         ];
 
         return PDF::loadView('cotizaciones.contrato', compact('data'))->setPaper('A4')->stream('cotizacion.pdf');

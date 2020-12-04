@@ -77,11 +77,23 @@
                                         </tr>
                                         <tr>
                                             <td class="table-bg-dark"><b>Contabilidad</b></td>
-                                            <td>{{ $mantenimiento->persona_contabilidad ?? 'N/A' }}</td>
+                                            @if ($mantenimiento->asume && $mantenimiento->asume == 'Propietario')
+                                                <td>Asume el {{ $mantenimiento->asume }}</td>
+                                            @else
+                                                <td>{{ $mantenimiento->persona_contabilidad ?? 'N/A' }}</td>
+                                            @endif
                                             <td class="table-bg-dark"><b>Fecha y hora contabilidad</b></td>
-                                            <td>{{ $mantenimiento->fecha_contabilidad ?? 'N/A' }}</td>
+                                            @if ($mantenimiento->asume && $mantenimiento->asume == 'Propietario')
+                                                <td>Asume el {{ $mantenimiento->asume }}</td>
+                                            @else
+                                                <td>{{ $mantenimiento->fecha_contabilidad ?? 'N/A' }}</td>
+                                            @endif
                                             <td class="table-bg-dark"><b>Observaciones Contabilidad</b></td>
-                                            <td>{{ $mantenimiento->observaciones_contabilidad ?? 'N/A' }}</td>
+                                            @if ($mantenimiento->asume && $mantenimiento->asume == 'Propietario')
+                                                <td>Asume el {{ $mantenimiento->asume }}</td>
+                                            @else
+                                                <td>{{ $mantenimiento->observaciones_contabilidad ?? 'N/A' }}</td>
+                                            @endif
                                         </tr>
                                         <tr>
                                             <td colspan="6"><b>Descripciones:</b> {{ $mantenimiento->descripcion_solicitud ?? 'N/A' }}</td>
@@ -122,6 +134,17 @@
                                                         </div>
 
                                                         <input type="hidden" name="mantenimientos_id" value="{{ $mantenimiento->id }}">
+                                                        <div class="my-2">
+                                                            <h5 class="font-size-18 mb-3">¿Quien asume los gastos?</h5>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="custominlineRadio1" name="asume" value="Propietario" class="custom-control-input">
+                                                                <label class="custom-control-label" for="custominlineRadio1">Propietario</label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio" id="custominlineRadio2" name="asume" value="Empresa" class="custom-control-input" checked="">
+                                                                <label class="custom-control-label" for="custominlineRadio2">Empresa</label>
+                                                            </div>
+                                                        </div>
 
                                                         <button type="submit" name="btn_autorizar" value="Si" class="btn btn-primary mt-1 mr-2 waves-effect waves-light"><i class="mdi mdi-check mr-1"></i> Autorizar</button>
                                                         <button type="submit" name="btn_autorizar" value="No" class="btn btn-danger mt-1 waves-effect waves-light"><i class="mdi mdi-music-accidental-double-sharp mr-1"></i> No autorizar</button>
@@ -133,7 +156,7 @@
                                     </div>
                                 @endif
 
-                                @if ($mantenimiento->persona_autoriza && !$mantenimiento->persona_contabilidad)
+                                @if ($mantenimiento->persona_autoriza && !$mantenimiento->persona_contabilidad && $mantenimiento->asume == 'Empresa')
                                     <div class="col-lg-12 ml-auto text-center">
                                         <div class="mt-4 mt-5">
                                             <h5>Autorización de contabilidad</h5>
@@ -166,7 +189,7 @@
                                     </div>
                                 @endif
 
-                                @if ($mantenimiento->persona_autoriza && ($mantenimiento->estado == 'Aprobado' || $mantenimiento->estado == 'Cerrado') && $mantenimiento->persona_contabilidad)
+                                @if ($mantenimiento->persona_autoriza && ($mantenimiento->estado == 'Aprobado' || $mantenimiento->estado == 'Cerrado') && ($mantenimiento->persona_contabilidad || $mantenimiento->asume == 'Propietario'))
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr class="text-center table-bg-dark">
@@ -186,7 +209,9 @@
                                                     <td>{{ $factura->valor }}</td>
                                                     <td class="text-center">
                                                         <button type="button" class="btn btn-info"><i class="fa fa-eye" onclick="mostrar_imagen('{{ $factura->factura_imagen }}')"></i></button>
-                                                        <button type="button" class="btn btn-danger"><i class="far fa-window-close" onclick="eliminar_factura('{{ $factura->id }}')"></i></button>
+                                                        @if ($mantenimiento->estado != 'Cerrado')
+                                                            <button type="button" class="btn btn-danger"><i class="far fa-window-close" onclick="eliminar_factura('{{ $factura->id }}')"></i></button>
+                                                        @endif
                                                     </td>
                                                 </tr>
                                                 <?php $total = $total + $factura->valor; ?>
@@ -203,7 +228,7 @@
 
                             <hr class="w-100">
 
-                            @if ($mantenimiento->persona_autoriza && ($mantenimiento->estado == 'Aprobado' || $mantenimiento->estado == 'Cerrado') && $mantenimiento->persona_contabilidad)
+                            @if ($mantenimiento->persona_autoriza && ($mantenimiento->estado == 'Aprobado' || $mantenimiento->estado == 'Cerrado') && ($mantenimiento->persona_contabilidad || $mantenimiento->asume == 'Propietario'))
                                 <div class="table-responsive mb-3">
 
                                     @if ($mantenimiento->estado != 'Cerrado')

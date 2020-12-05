@@ -2,6 +2,8 @@
 
 @extends('layouts.app')
 
+@section('jsMain') <script src="{{ asset('assets/js/contabilidad.js') }}"></script> @endsection
+
 @section('content')
 <div class="page-content-wrapper">
     <div class="container-fluid">
@@ -42,6 +44,7 @@
                                         <tr>
                                             <th scope="col">Responsable</th>
                                             <th scope="col">Fecha</th>
+                                            <th scope="col">Vehiculo</th>
                                             <th scope="col">Concepto</th>
                                             <th scope="col">Por Pagar</th>
                                             <th scope="col">Por Cobrar</th>
@@ -49,17 +52,18 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($registros as $tarea)
+                                        @foreach ($registros as $registro)
                                             <tr>
-                                                <th>{{ $tarea->asignado_id->name }}</th>
-                                                <td>{{ $tarea->fecha }}</td>
-                                                <td>{{ $tarea->estado }}</td>
-                                                <td>{{ $tarea->fecha_limite }}</td>
-                                                <td>{{ $tarea->fecha_limite }}</td>
+                                                <th>{{ $registro->persona_creo }}</th>
+                                                <td>{{ $registro->fecha }}</td>
+                                                <td>{{ $registro->placa }}</td>
+                                                <td>{{ $registro->concepto }}</td>
+                                                <td>{{ number_format($registro->valor_pagar) }}</td>
+                                                <td>{{ number_format($registro->valor_cobrar) }}</td>
                                                 <td class="text-center">
-                                                    <a href="/tareas/ver/{{ $tarea->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Tarea">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="ver_anexo('{{ $registro->anexo }}')" data-toggle="tooltip" data-placement="top" title="Ver Anexo">
                                                         <i class="mdi mdi-eye"></i>
-                                                    </button></a>
+                                                    </button>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -92,40 +96,46 @@
             </div>
             <div class="modal-body">
 
-                <form action="/tareas/agregar" method="POST" enctype="multipart/form-data">
+                <form action="/contabilidad/create" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="container p-3">
 
                         <div class="row">
-                            <div class="col-sm-12">
+                            <div class="col-sm-6">
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="asignado" class="form-control" id="asignado" required>
+                                    <select name="vehiculos_id" class="form-control" id="vehiculos_id" required>
                                         <option value=""></option>
-                                        @foreach (\App\User::all() as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @foreach (\App\Models\Vehiculo::all() as $vehiculo)
+                                            <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="asignado">Agregar Registro Contable a</label>
+                                    <label for="vehiculos_id">Agregar Registro Contable a</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="file" class="form-control" id="anexo" name="anexo" />
+                                    <label for="anexo">Anexo</label>
                                 </div>
                             </div>
                             <div class="col-sm-12 mb-4">
-                                <label for="tarea">Descripcion</label>
-                                <textarea name="tarea" id="tarea" rows="10" class="form-control" required placeholder="Escriba la descripcion de la tarea"></textarea>
+                                <label for="concepto">Concepto</label>
+                                <textarea name="concepto" id="concepto" rows="5" class="form-control" required placeholder="Escriba el concepto del registro"></textarea>
                             </div>
                         </div>
 
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="form-group form-group-custom mb-4">
-                                    <input type="text" class="form-control datepicker-here" data-language="es" data-date-format="yyyy-mm-dd" id="fecha_limite" name="fecha_limite" required>
-                                    <label for="fecha_limite">Fecha limite</label>
+                                    <input type="number" class="form-control" id="valor_pagar" name="valor_pagar" placeholder="Escriba el valor a pagar">
+                                    <label for="valor_pagar">Valor a pagar</label>
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-group-custom mb-4">
-                                    <input type="file" class="form-control" id="adjunto" name="adjunto">
-                                    <label for="adjunto">Adjunto (opcional)</label>
+                                    <input type="number" class="form-control" id="valor_cobrar" name="valor_cobrar" placeholder="Escriba el valor a cobrar">
+                                    <label for="valor_cobrar">Valor a cobrar</label>
                                 </div>
                             </div>
                         </div>
@@ -137,6 +147,23 @@
                     </div>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Anexo de registro contable --}}
+<div class="modal fade bs-example-modal-lg" id="modal_ver_anexo" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-correo">Anexo de registro contable</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="content_modal_anexo"></div>
             </div>
         </div>
     </div>

@@ -28,7 +28,7 @@
                                 @endif
 
                                 <a href="/terceros"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
-                                <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#modal-editar-tercero">Editar</button>
+                                <button type="button" class="btn btn-primary btn-lg mb-2 float-right" onclick="editar_tercero({{ $tercero[0]->id }})">Editar</button>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">
@@ -956,7 +956,7 @@ ________________________________________________
             </div>
             <div class="modal-body">
 
-                <form action="/terceros/create" id="form-create-tercero" method="POST">
+                <form action="/terceros/update" id="form-create-tercero" method="POST">
                     @csrf
 
                     <div class="container">
@@ -965,7 +965,7 @@ ________________________________________________
 
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Tipo Identificacion</label>
-                                    <select name="tipo_identificacion" class="form-control" required>
+                                    <select name="tipo_identificacion" id="tipo_identificacion" class="form-control" required>
                                         <option value="">Seleccione tipo</option>
                                         <option value="Cedula de Ciudadania">Cedula de Ciudadania</option>
                                         <option value="Cedula de Extrangeria">Cedula de Extrangeria</option>
@@ -976,7 +976,7 @@ ________________________________________________
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Numero Identificación</label>
-                                    <input class="form-control" type="number" name="identificacion" placeholder="Escriba la identificación" required="">
+                                    <input class="form-control" type="number" name="identificacion" id="identificacion" placeholder="Escriba la identificación" required="">
                                 </div>
 
                                 <div class="col-sm-3">
@@ -985,7 +985,7 @@ ________________________________________________
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Tipo Cliente</label>
-                                    <select name="tipo_tercero" class="form-control" required>
+                                    <select name="tipo_tercero" id="tipo_tercero" class="form-control" required>
                                         <option value="">Seleccione tipo</option>
                                         <option value="Cliente">Cliente</option>
                                         <option value="Convenio">Convenio</option>
@@ -1010,7 +1010,7 @@ ________________________________________________
 
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Régimen</label>
-                                    <select name="regimen" class="form-control" required>
+                                    <select name="regimen" id="regimen" class="form-control" required>
                                         <option value="">Seleccione régimen</option>
                                         <option value="Comun">Comun</option>
                                         <option value="Simplificado">Simplificado</option>
@@ -1033,7 +1033,7 @@ ________________________________________________
                                 </div>
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Dirección</label>
-                                    <input class="form-control" type="text" name="direccion" placeholder="Escriba la Dirección" required="">
+                                    <input class="form-control" type="text" name="direccion" id="direccion" placeholder="Escriba la Dirección" required="">
                                 </div>
 
                             </div>
@@ -1056,6 +1056,8 @@ ________________________________________________
                             </div>
                         </div>
                     </div>
+
+                    <input type="hidden" name="tercero_id" value="{{ $tercero[0]->id }}">
 
                     <div class="mt-5 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>

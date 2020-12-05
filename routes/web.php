@@ -7,6 +7,7 @@ Route::get('/', 'HomeController@index')->name('index');
 // APP Routes Utilitaries
 Route::post('/app/sistema/get/departamentos', 'AdminController@departamentos');
 Route::post('/app/sistema/get/municipios', 'AdminController@municipios');
+Route::post('/app/sistema/alertas/documentos', 'AlertasController@alerta_documentos');
 
 Route::get('/app/sistema/get/departamentos', 'AdminController@departamentos');
 Route::get('/app/sistema/get/municipios', 'AdminController@municipios');
@@ -105,6 +106,7 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
 // Rutas para Contabilidad
 Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad');
+    Route::post('/contabilidad/create', 'ContabilidadController@create');
 });
 
 // Rutas para Personal
@@ -138,6 +140,7 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::get('/terceros', 'TercerosController@index')->name('terceros');
     Route::get('/terceros/ver/{id}', 'TercerosController@ver')->name('ver-tercero');
     Route::post('/terceros/create', 'TercerosController@create');
+    Route::post('/terceros/update', 'TercerosController@update');
     Route::post('/terceros/agg_contacto', 'TercerosController@agg_contacto');
     Route::post('/terceros/cargar_contactos', 'TercerosController@cargar_contactos');
     Route::post('/terceros/eliminar_contacto', 'TercerosController@eliminar_contacto');
@@ -157,6 +160,7 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/editar_contrato', 'TercerosController@editar_contrato');
     Route::post('/terceros/cargar_contratos', 'TercerosController@cargar_contratos');
     Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
+    Route::post('/terceros/get_tercero', 'TercerosController@get_tercero');
 });
 
 // Rutas para BLOG

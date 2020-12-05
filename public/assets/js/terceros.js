@@ -494,3 +494,35 @@ function eliminar_contacto(id) {
         }
     });
 }
+
+function editar_tercero(id) {
+    $.ajax({
+        url: '/terceros/get_tercero',
+        type: 'POST',
+        data: { id:id },
+        success: function (data) {
+            $('#tipo_identificacion').val(data.tipo_identificacion);
+            $('#identificacion').val(data.identificacion);
+            $('#nombre').val(data.nombre);
+            $('#tipo_tercero').val(data.tipo_tercero);
+            $('#regimen').val(data.regimen);
+            $('#departamento').val(data.departamento);
+            $('#municipio').val(data.municipio);
+            $('#direccion').val(data.direccion);
+            $('#correo').val(data.correo);
+            $('#telefono').val(data.telefono);
+
+            $('#modal-editar-tercero').modal('show');
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+

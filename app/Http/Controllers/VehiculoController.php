@@ -80,8 +80,6 @@ class VehiculoController extends Controller
 
         $alerta_documentos = Documentos_legales_vehiculo::where('vehiculo_id', $request['id'])->whereNotNull('fecha_fin_vigencia')->where('ultimo', 1)->orderBy('fecha_fin_vigencia', 'desc')->get();
 
-        // dd($alerta_documentos);
-
         return view('vehiculos.ver', ['vehiculo' => Vehiculo::find($request['id']), 'conductores' => $conductores, 'propietarios' => $propietarios, 'alerta_documentos' => $alerta_documentos]);
     }
 

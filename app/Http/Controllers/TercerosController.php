@@ -334,4 +334,16 @@ class TercerosController extends Controller
             'responsable' => $responsable,
         ];
     }
+
+    public function get_tercero(Request $request) {
+        return Tercero::find($request['id']);
+    }
+
+    public function update(Request $request) {
+        if(Tercero::find($request['tercero_id'])->update($request->all())) {
+            return redirect()->back()->with('update', 1);
+        }
+
+        return redirect()->back()->with('update', 0);
+    }
 }

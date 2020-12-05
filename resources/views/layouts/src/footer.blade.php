@@ -27,3 +27,14 @@
 <script src="{{ asset('assets/js/peticiones.js') }}"></script>
 
 @yield('jsMain')
+
+<script>
+    // Alerta Documentos
+    $.ajax({
+        url: '/app/sistema/alertas/documentos',
+        type: 'POST',
+        success: function (data) {
+            console.log(data);
+        }
+    });
+</script>

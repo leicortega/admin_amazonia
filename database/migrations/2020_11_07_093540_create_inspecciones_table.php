@@ -24,6 +24,8 @@ class CreateInspeccionesTable extends Migration
             $table->float('kilometraje_final')->nullable();
             $table->longText('observaciones_final')->nullable();
 
+            $table->longText('certificado')->nullable();
+
             // Relaciones
             $table->foreignId('users_id')
                 ->constrained()

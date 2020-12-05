@@ -42,6 +42,7 @@
                                             <h4>Reporto: {{ $inspeccion->users->name }}</h4>
                                         </div>
                                         <div class="col-sm-8 mb-3 text-right">
+                                            <button class="btn btn-primary" data-toggle="modal" data-target="#plantilla_certificado_inspeccion">Plantilla Certificado</button>
                                             <button class="btn btn-primary" data-toggle="modal" data-target="#certificado_inspeccion">Certificado</button>
                                             @if ($inspeccion->kilometraje_final == NULL)
                                                 <button class="btn btn-primary" data-toggle="modal" data-target="#cerrar_inspeccion">Cerrar</button>
@@ -255,6 +256,99 @@
     </div>
 </div>
 
+{{-- PLANTILLA CERTIFICADO INSPECCION --}}
+<div class="modal fade bs-example-modal-xl" id="plantilla_certificado_inspeccion" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Certificado inspeccion</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/vehiculos/inspecciones/certificado" method="POST">
+                    @csrf
+
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-body" id="textarea-correo">
+                                    <h4 class="header-title text-center">Contenido</h4>
+
+                                    <textarea class="elm1" name="area" class="text-white" style="min-height: 750px">
+                                        <p>Neiva,&nbsp; {{ \Carbon\Carbon::now('America/Bogota')->format('d') }} de {{ \Carbon\Carbon::now('America/Bogota')->formatLocalized('%B') }} {{ \Carbon\Carbon::now('America/Bogota')->format('Y') }}</p>
+                                        <p>&nbsp;</p>
+                                        <p><strong>{{ \App\Models\Personal::find($inspeccion->vehiculo->personal_id)->nombres }} {{ \App\Models\Personal::find($inspeccion->vehiculo->personal_id)->primer_apellido }} {{ \App\Models\Personal::find($inspeccion->vehiculo->personal_id)->segundo_apellido ?? '' }}</strong></p>
+                                        <p>Propietario veh&iacute;culo {{ $inspeccion->vehiculo->placa }}</p>
+                                        <p>Ciudad</p>
+                                        <p>&nbsp;</p>
+                                        <p>Asunto: Plan de acci&oacute;n hallazgos de inspecci&oacute;n</p>
+                                        <p>Cordial saludo</p>
+                                        <p>&nbsp;</p>
+                                        <p>Por medio de la presente me permito informar sobre los hallazgos encontrados en la inspecci&oacute;n del d&iacute;a {{ \Carbon\Carbon::now('America/Bogota')->format('d') }} de {{ \Carbon\Carbon::now('America/Bogota')->formatLocalized('%B') }} de {{ \Carbon\Carbon::now('America/Bogota')->format('Y') }}:</p>
+                                        <ul>
+                                            @foreach ($novedad as $item)
+                                                <li>{{ $item['elemento'] }} en estado {{ $item['estado'] }}</li>
+                                            @endforeach
+                                        </ul>
+                                        <p>Teniendo en cuenta lo anterior, me permito solicitar amablemente su colaboraci&oacute;n para realizar la respectiva acci&oacute;n frente a las evidencias halladas</p>
+                                        <p>Plan de acci&oacute;n</p>
+                                        <table width="525" border="1">
+                                            <tbody>
+                                                <tr>
+                                                    <td width="80">
+                                                        <p><strong>ITEM </strong></p>
+                                                    </td>
+                                                    <td width="350">
+                                                        <p><strong>PLAN DE ACCIÓN</strong></p>
+                                                    </td>
+                                                    <td width="95">
+                                                        <p><strong>FECHA </strong></p>
+                                                    </td>
+                                                </tr>
+                                                @foreach ($novedad as $key => $item)
+                                                    <tr>
+                                                        <td width="80">
+                                                            <p><strong>{{ $key + 1 }}</strong></p>
+                                                        </td>
+                                                        <td width="350">
+                                                            <p><strong>{{ $item['elemento'] }}</strong></p>
+                                                        </td>
+                                                        <td width="95">
+                                                            <p><strong>INMEDIATO </strong></p>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                        <p>Agradezco remitir soporte de factura de los procedimientos realizados, con el objetivo de dar aprobaci&oacute;n de rodamiento del veh&iacute;culo y dar cumplimiento a nuestro sistema de&nbsp; gesti&oacute;n</p>
+                                        <p>&nbsp;</p>
+                                        <p>Gracias por la atenci&oacute;n</p>
+                                        <p>&nbsp;</p>
+                                        <p>Cordialmente</p>
+                                        <p><img src="{{ asset('assets/images/firma.png') }}" alt="" width="181" height="86" /></p>
+                                        <p><strong>NATHALIE CASTRO TENGON&Oacute; </strong></p>
+                                        <p>Coordinadora HSEQ</p>
+                                    </textarea>
+                                </div>
+                            </div>
+                        </div> <!-- end col -->
+                    </div>
+
+                    <input type="hidden" name="inspeccion_id" value="{{ $inspeccion->id }}"/>
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- CERTIFICADO INSPECCION --}}
 <div class="modal fade bs-example-modal-xl" id="certificado_inspeccion" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -276,27 +370,15 @@
                                 <div class="card-body" id="textarea-correo">
                                     <h4 class="header-title text-center">Contenido</h4>
 
-                                    <textarea id="elm1" name="area" class="text-white" style="min-height: 750px">
-                                        <p>Puerto as&iacute;s, 13 de febrero de 2020</p>
-                                        <p>&nbsp;</p>
-                                        <p><br />Se&ntilde;ores<br />___________________<br />Nit:_____________<br />{Direccion}<br />{Ciudad}</p>
-                                        <p>&nbsp;</p>
-                                        <p><br />Ref: Hallazgos de mantenimiento</p>
-                                        <p><br />Reciba un cordial saludo.<br />Por medio de la presente, me permito informar sobre los hallazgos encontrados en inspecciones anteriores de parte del &aacute;rea de mantenimiento en donde se encontraron los siguientes hallazgos</p>
-                                        <ul>
-                                            @foreach ($novedad as $item)
-                                                <li>{{ $item['elemento'] }} en estado {{ $item['estado'] }}</li>
-                                            @endforeach
-                                        </ul>
-                                        <p>En vista de estos acontecimientos el cliente opto por inutilizar el veh&iacute;culo hasta cerrar dichos hallazgos, ya que, el servicio especial que ellos contratan exigen el servicio de aire acondicionado por las condiciones clim&aacute;ticas del terreno. Por tal motivo el &aacute;rea de operaciones y antenimiento toma la decisi&oacute;n de que el veh&iacute;culo sea arreglado inmediatamente.</p>
-                                        <p><br />Agradezco su atenci&oacute;n prestada y su colaboraci&oacute;n oportuna.<br />Cordialmente,</p>
-                                        <p>&nbsp;</p>
-                                        <p><br />______________________________<br />{{ auth()->user()->name }}<br /></p>
+                                    <textarea class="elm1" name="area" class="text-white" style="min-height: 750px">
+                                        {{ $inspeccion->certificado ?? 'Aun no ha generado un certificado' }}
                                     </textarea>
                                 </div>
                             </div>
                         </div> <!-- end col -->
                     </div>
+
+                    <input type="hidden" name="inspeccion_id" value="{{ $inspeccion->id }}"/>
 
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>

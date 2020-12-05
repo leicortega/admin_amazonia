@@ -124,6 +124,8 @@ class InspeccionesController extends Controller
             }
         }
 
+        // dd($inspeccion);
+
         return view('vehiculos.inspecciones.ver', ['inspeccion' => $inspeccion, 'novedad' => $novedad]);
     }
 
@@ -186,6 +188,10 @@ class InspeccionesController extends Controller
     }
 
     public function certificado(Request $request) {
+        Inspeccion::find($request['inspeccion_id'])->update([
+            'certificado' => $request['area']
+        ]);
+
         $contenido = $request['area'];
 
         return PDF::loadView('vehiculos.inspecciones.certificado_inspeccion', compact('contenido'))->setPaper('A4')->stream('certificado_inspeccion.pdf');

@@ -9,7 +9,7 @@ class Inspeccion extends Model
     protected $table = 'inspecciones';
 
     protected $fillable = [
-        'fecha_inicio', 'kilometraje_inicio', 'observaciones_inicio', 'fecha_final', 'kilometraje_final', 'observaciones_final', 'users_id', 'vehiculo_id',
+        'fecha_inicio', 'kilometraje_inicio', 'observaciones_inicio', 'fecha_final', 'kilometraje_final', 'observaciones_final', 'certificado', 'users_id', 'vehiculo_id',
     ];
 
     public function users() {

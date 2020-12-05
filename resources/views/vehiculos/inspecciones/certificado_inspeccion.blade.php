@@ -19,8 +19,8 @@
         .footer {
             position: fixed;
             left: 0;
-            bottom: 20px;
-            text-align: center;
+            bottom: 50px;
+            width: 100%;
         }
         table {
             border-collapse: collapse;
@@ -33,26 +33,29 @@
 </head>
 <body>
 
-    <table width="100%" border="1" cellspacing="0" cellpadding="0" style="text-align: center;">
-
-            <tr>
-                <td rowspan="1" style="padding: 5px" width="150px">
-                    {{-- <img src="{{ asset('assets/images/logo_amazonia.png') }}" alt=""> --}}
-                    <img src="https://app.amazoniacl.com/images/logo_amazonia2.png" width="95px" alt="">
-                </td>
-                <td><b>SISTEMA INTEGRADO DE GESTION</b></td>
-                <td width="150px"><b>CODIGO <br><br>###</b></td>
-            </tr>
-            {{-- <tr>
-                <td><b>INSPECCIÓN DE VEHÍCULOS</b></td>
-                <td><b>VIGENCIA <br><br>12-01-2019</b></td>
-            </tr> --}}
-
-    </table>
-
-    <br><br><br><br>
+    <img src="https://app.amazoniacl.com/images/logo_amazonia2.png" width="150px" alt="" style="float: right; margin-top:20px;">
 
     <?php echo $contenido; ?>
+
+    <table class="footer" style="border: none; margin-top:60px;position:absolute; font-size: 14px;">
+        <tbody style="justify-content: space-between !important;">
+            <tr style="border: none;">
+                <td style="border: none;text-align:left;">
+                    <p>
+                        <b>
+                            Neiva Calle 19 Sur NO 10-18 Tel: 098 8600663 Cel: 315 928 0528 <br>
+                            El reaujil Calle 6 No 5-52 Centro Cel: 316 8756699 <br>
+                            E-mail: info@amazoniacl.com gerencia@amazonia.com <br>
+                            www.amazoniacl.com <br>
+                        </b>
+                    </p>
+                </td>
+                <td style="border: none;">
+                    <img src="{{ public_path('assets/images/logo2.jpg') }}" alt="">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
 
 </body>

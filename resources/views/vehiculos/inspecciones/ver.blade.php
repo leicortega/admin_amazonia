@@ -328,7 +328,7 @@
                                         <p>Gracias por la atenci&oacute;n</p>
                                         <p>&nbsp;</p>
                                         <p>Cordialmente</p>
-                                        <p><img src="blob:https://admin.amazoniacl.com/007607db-d4a6-4865-8cf9-945eedf6358a" alt="" width="237" height="113" /></p>
+                                        <p><img src="https://admin.amazoniacl.com/assets/images/firma.png" alt="" width="237" height="113" /></p>
                                         <p><strong>NATHALIE CASTRO TENGON&Oacute; </strong></p>
                                         <p>Coordinadora HSEQ</p>
                                     </textarea>

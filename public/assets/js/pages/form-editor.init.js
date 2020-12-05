@@ -19,7 +19,7 @@ $(document).ready(function(){
         };
 
         input.click();
-      },relative_urls: false,})
+      },relative_urls: false,remove_script_host: false})
 
     $(".selectize").selectize()
 });

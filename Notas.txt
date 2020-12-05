@@ -13,3 +13,15 @@ Modulo de contabilidad {
 
 
 En el momento de autorizar, agregar si asume el gasto la empresa o el propietario
+
+===================================== 05/12/2020 =================================
+
+
+Generar un modulo en vehiculos donde relaciones las actividades realizadas a los vehiculos y ahi relacionar todo el proceso llevado a cabo de ese vehiculo
+(trazabilidad mantenimientos)
+
+corregir el dia de la inspeccion en el certificado
+
+revisar por que no deja cargar imagnes cuando sontomadas con la camara
+
+Permitir agregar varias cotizaciones con diferentes trayectos para un mismo contrato

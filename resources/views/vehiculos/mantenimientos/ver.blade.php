@@ -466,6 +466,10 @@
                                         <option value="RADIADORES AUTORODAJES">RADIADORES AUTORODAJES</option>
                                         <option value="TALLER ELECTRICO PITUFO">TALLER ELECTRICO PITUFO</option>
                                         <option value="CENTRO DE SERVICIO AUTOMOTRIZ GASCA SU TALLER AMIGO">CENTRO DE SERVICIO AUTOMOTRIZ GASCA SU TALLER AMIGO</option>
+                                        <option value="CENTRO DE SERVICIO AUTOMOTRIZ GASCA">CENTRO DE SERVICIO AUTOMOTRIZ GASCA</option>
+                                        <option value="SERVICIO AUTOMOTRIZ JARA">SERVICIO AUTOMOTRIZ JARA</option>
+                                        <option value="IMPORTADORA USA">IMPORTADORA USA</option>
+                                        <option value="TORNICAT DEL HUILA">TORNICAT DEL HUILA</option>
 
                                     </select>
                                 </div>

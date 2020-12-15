@@ -62,7 +62,7 @@
         </tr>
 
         <tr>
-            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">CONDUCTOR ENCARGADO: {{ $mantenimiento->personal->nombres }} {{ $mantenimiento->personal->primer_apellido }} {{ $mantenimiento->personal->segundo_apellido ?? '' }}</td>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">ENCARGADO: {{ $mantenimiento->personal->nombres }} {{ $mantenimiento->personal->primer_apellido }} {{ $mantenimiento->personal->segundo_apellido ?? '' }}</td>
         </tr>
         <tr>
             <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">ESTADO: {{ $mantenimiento->estado }}</td>

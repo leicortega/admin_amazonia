@@ -6,6 +6,21 @@
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
 @endsection
 
+@section('jsMain') <script>
+    function change_select_elemento(option) {
+        if (option == 'Otro') {
+            $('#elemento_otro').html(`
+                <div class="col-sm-12">
+                    <label for="observaciones">Elemento</label>
+                    <input type="text" class="form-control mb-3" name="input_elemento" id="input_elemento" required>
+                </div>
+            `);
+        } else {
+            $('#elemento_otro').html(``);
+        }
+    }
+</script> @endsection
+
 @extends('layouts.app')
 
 @section('content')
@@ -169,14 +184,19 @@
                             <div class="col-sm-12">
                                 <label for="elemento">Elemento</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="elemento" id="elemento" class="form-control" required>
+                                    <select name="elemento" id="elemento" class="form-control" onchange="change_select_elemento(this.value)" required>
                                         <option value="">Seleccione</option>
                                         @foreach (\App\Models\Sistema\Admin_inspeccion::all() as $item)
                                             <option value="{{ $item->nombre }}">{{ $item->nombre }}</option>
                                         @endforeach>
+                                        <option value="Otro">Otro</option>
                                     </select>
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row" id="elemento_otro">
+
                         </div>
 
                         <div class="row">
@@ -209,7 +229,7 @@
     </div>
 </div>
 
-{{-- AGREGAR AGREGAR DOCUMENTO --}}
+{{-- AGREGAR CERRAR INSPECCION --}}
 <div class="modal fade bs-example-modal-xl" id="cerrar_inspeccion" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -287,7 +307,7 @@
                                         <p>Asunto: Plan de acci&oacute;n hallazgos de inspecci&oacute;n</p>
                                         <p>Cordial saludo</p>
                                         <p>&nbsp;</p>
-                                        <p>Por medio de la presente me permito informar sobre los hallazgos encontrados en la inspecci&oacute;n del d&iacute;a {{ \Carbon\Carbon::now('America/Bogota')->format('d') }} de {{ \Carbon\Carbon::now('America/Bogota')->formatLocalized('%B') }} de {{ \Carbon\Carbon::now('America/Bogota')->format('Y') }}:</p>
+                                        <p>Por medio de la presente me permito informar sobre los hallazgos encontrados en la inspecci&oacute;n del d&iacute;a {{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->format('d') }} de {{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->formatLocalized('%B') }} de {{ \Carbon\Carbon::createFromDate($inspeccion->fecha_inicio)->format('Y') }}:</p>
                                         <ul>
                                             @foreach ($novedad as $item)
                                                 <li>{{ $item['elemento'] }} en estado {{ $item['estado'] }}</li>
@@ -299,25 +319,25 @@
                                             <tbody>
                                                 <tr>
                                                     <td width="80">
-                                                        <p><strong>ITEM </strong></p>
+                                                        <p style="margin: 0px;padding: 0px;"><strong> ITEM </strong></p>
                                                     </td>
                                                     <td width="350">
-                                                        <p><strong>PLAN DE ACCIÓN</strong></p>
+                                                        <p style="margin: 0px;padding: 0px;"><strong> PLAN DE ACCIÓN</strong></p>
                                                     </td>
                                                     <td width="95">
-                                                        <p><strong>FECHA </strong></p>
+                                                        <p style="margin: 0px;padding: 0px;"><strong> FECHA </strong></p>
                                                     </td>
                                                 </tr>
                                                 @foreach ($novedad as $key => $item)
                                                     <tr>
                                                         <td width="80">
-                                                            <p><strong>{{ $key + 1 }}</strong></p>
+                                                            <p style="margin: 0px;padding: 0px;"><strong> {{ $key + 1 }}</strong></p>
                                                         </td>
-                                                        <td width="350">
-                                                            <p><strong>{{ $item['elemento'] }}</strong></p>
+                                                        <td>
+                                                            <p style="margin: 0px;padding: 0px;"><strong> {{ $item['elemento'] }}</strong></p>
                                                         </td>
-                                                        <td width="95">
-                                                            <p><strong>INMEDIATO </strong></p>
+                                                        <td>
+                                                            <p style="margin: 0px;padding: 0px;"><strong> INMEDIATO </strong></p>
                                                         </td>
                                                     </tr>
                                                 @endforeach

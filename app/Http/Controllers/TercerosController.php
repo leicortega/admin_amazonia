@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\Tercero;
 use App\Models\Perfiles_tercero;
 use App\Models\Contactos_tercero;
 use App\Models\Documentos_personal;
 use App\Models\Documentos_tercero;
+use App\Models\Trayectos_contrato;
+use App\Models\Contrato;
 use App\Models\Cotizacion;
 use App\Models\Personal;
 use App\Models\Vehiculo;
@@ -62,7 +65,7 @@ class TercerosController extends Controller
             'identificacion' => $request['identificacion_contacto'],
             'nombre' => $request['nombre_contacto'],
             'telefono' => $request['telefono_contacto'],
-            'correo' => $request['correo_contacto'],
+            'direccion' => $request['direccion_contacto'],
             'terceros_id' => $request['terceros_id'],
         ])->save();
 
@@ -82,7 +85,7 @@ class TercerosController extends Controller
     }
 
     public function cargar_responsable_contrato(Request $request) {
-        return Contactos_tercero::where('identificacion', $request['responsable'])->first();
+        return Contactos_tercero::where('identificacion', $request['responsable'])->where('terceros_id', $request['tercero'])->first();
     }
 
     public function agg_perfil_tercero(Request $request) {
@@ -258,36 +261,92 @@ class TercerosController extends Controller
     }
 
     public function cargar_contratos(Request $request) {
-        return Cotizacion::where('tercero_id', $request['terceros_id'])->where('contrato_generado', 1)->get();
+        // return Contrato::where('tercero_id', $request['terceros_id'])->get();
+        return DB::table('contratos')
+            ->join('vehiculos', 'vehiculos.id', '=', 'contratos.vehiculo_id')
+            ->join('contactos_terceros', 'contactos_terceros.identificacion', '=', 'contratos.responsable_contrato_id')
+            ->select('contratos.id', 'contratos.fecha', 'vehiculos.placa', 'contactos_terceros.nombre')
+            ->groupBy('contratos.id')
+            ->get();
     }
 
     public function generar_contrato(Request $request) {
+        $date = Carbon::now('America/Bogota');
+
         if ( $request['select_responsable'] == 'Nuevo' ) {
             Contactos_tercero::create([
                 'identificacion' => $request['identificacion_responsable'],
                 'nombre' => $request['nombre_responsable'],
-                'correo' => $request['correo_responsable'],
+                'direccion' => $request['direccion_responsable'],
                 'telefono' => $request['telefono_responsable'],
                 'terceros_id' => $request['tercero_id_contrato'],
-            ])->save();
+            ]);
         }
 
         $cotizacion = Cotizacion::find($request['cotizacion_id_contrato']);
 
-        $cotizacion->update([
-            'contrato_generado' => 1,
-            'tipo_contrato' => $request['tipo_contrato'],
-            'objeto_contrato' => $request['objeto_contrato'],
+        $contrato = Contrato::create([
+            'fecha' => $date->format('Y-m-d'),
             'vehiculo_id' => $request['vehiculo_id'],
             'conductor_uno_id' => $request['conductor_uno_id'],
             'conductor_dos_id' => $request['conductor_dos_id'],
             'conductor_tres_id' => $request['conductor_tres_id'],
             'responsable_contrato_id' => $request['identificacion_responsable'],
+            'tipo_contrato' => $request['tipo_contrato'],
+            'objeto_contrato' => $request['objeto_contrato'],
             'contrato_parte_uno' => $request['contrato_parte_uno'],
             'contrato_parte_dos' => $request['contrato_parte_dos'],
+            'tercero_id' => $cotizacion['tercero_id'],
+            'cotizacion_id' => $request['cotizacion_id_contrato'],
         ]);
 
-        return ['tercero' => $request['tercero_id_return'], 'cotizacion' => $request['cotizacion_id_contrato']];
+        $trayecto = Trayectos_contrato::create([
+            'fecha' => $cotizacion['fecha'],
+            'nombre' => $cotizacion['nombre'],
+            'correo' => $cotizacion['correo'],
+            'telefono' => $cotizacion['telefono'],
+            'departamento_origen' => $cotizacion['departamento_origen'],
+            'ciudad_origen' => $cotizacion['ciudad_origen'],
+            'departamento_destino' => $cotizacion['departamento_destino'],
+            'ciudad_destino' => $cotizacion['ciudad_destino'],
+            'fecha_ida' => $cotizacion['fecha_ida'],
+            'fecha_regreso' => $cotizacion['fecha_regreso'],
+            'tipo_servicio' => $cotizacion['tipo_servicio'],
+            'tipo_vehiculo' => $cotizacion['tipo_vehiculo'],
+            'recorrido' => $cotizacion['recorrido'],
+            'descripcion' => $cotizacion['descripcion'],
+            'observaciones' => $cotizacion['observaciones'],
+            'combustible' => $cotizacion['combustible'],
+            'conductor' => $cotizacion['conductor'],
+            'peajes' => $cotizacion['peajes'],
+            'cotizacion_por' => $cotizacion['cotizacion_por'],
+            'valor_unitario' => $cotizacion['valor_unitario'],
+            'cantidad' => $cotizacion['cantidad'],
+            'total' => $cotizacion['total'],
+            'trayecto_dos' => $cotizacion['trayecto_dos'],
+            'responsable_id' => $cotizacion['responsable_id'],
+            'tercero_id' => $cotizacion['tercero_id'],
+            'contratos_id' => $contrato->id
+        ]);
+
+        // $cotizacion->update([
+        //     'contrato_generado' => 1,
+        //     'tipo_contrato' => $request['tipo_contrato'],
+        //     'objeto_contrato' => $request['objeto_contrato'],
+        //     'vehiculo_id' => $request['vehiculo_id'],
+        //     'conductor_uno_id' => $request['conductor_uno_id'],
+        //     'conductor_dos_id' => $request['conductor_dos_id'],
+        //     'conductor_tres_id' => $request['conductor_tres_id'],
+        //     'responsable_contrato_id' => $request['identificacion_responsable'],
+        //     'contrato_parte_uno' => $request['contrato_parte_uno'],
+        //     'contrato_parte_dos' => $request['contrato_parte_dos'],
+        // ]);
+
+        if ($contrato->save() && $trayecto->save()) {
+            return ['tercero' => $request['tercero_id_return'], 'cotizacion' => $request['cotizacion_id_contrato']];
+        } else {
+            return ['error' => true];
+        }
 
     }
 
@@ -345,5 +404,9 @@ class TercerosController extends Controller
         }
 
         return redirect()->back()->with('update', 0);
+    }
+
+    public function ver_trayectos(Request $request) {
+        return Trayectos_contrato::where('contratos_id', $request['id'])->get();
     }
 }

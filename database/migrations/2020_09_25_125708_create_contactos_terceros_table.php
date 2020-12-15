@@ -19,7 +19,7 @@ class CreateContactosTercerosTable extends Migration
             $table->bigInteger('identificacion');
             $table->string('nombre');
             $table->bigInteger('telefono');
-            $table->string('correo');
+            $table->string('direccion');
 
             $table->foreignId('terceros_id')
                 ->constrained()

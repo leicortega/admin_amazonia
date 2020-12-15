@@ -123,7 +123,7 @@ function cargar_contactos(id) {
                         <td scope="row">${ contacto.identificacion }</td>
                         <td>${ contacto.nombre }</td>
                         <td>${ contacto.telefono }</td>
-                        <td>${ contacto.correo }</td>
+                        <td>${ contacto.direccion }</td>
                         <td class="text-center"><button type="button" onclick="eliminar_contacto(${ contacto.id })" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 `;
@@ -241,12 +241,12 @@ function cargar_contratos(terceros_id) {
                 <tr>
                     <td scope="row">${ indice+1 }</td>
                     <td>${ new Date(cotizacion.fecha).toLocaleDateString() }</td>
-                    <td>${ cotizacion.tipo_servicio }</td>
-                    <td>${ cotizacion.tipo_vehiculo }</td>
-                    <td>${ cotizacion.ciudad_origen } - ${ cotizacion.ciudad_destino }</td>
+                    <td>${ cotizacion.nombre }</td>
+                    <td>${ cotizacion.placa }</td>
                     <td class="text-center">
                         <button type="button" onclick="editar_contrato(${ cotizacion.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
                         <button type="button" onclick="ver_contrato(${ cotizacion.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="ver_trayectos(${ cotizacion.id })" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-plus"></i></button>
                         <button type="button" onclick="eliminar_cotizacion(${ cotizacion.id }, 'Contrato')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
@@ -257,6 +257,67 @@ function cargar_contratos(terceros_id) {
 
         }
     });
+}
+
+function ver_trayectos(id) {
+    $.ajax({
+        url: '/terceros/ver_trayectos',
+        type: 'POST',
+        data: {id:id},
+        success: function (data) {
+            console.log(data);
+            content = `<button type="button" class="btn btn-lg btn-primary mb-3" onclick="agregar_trayecto(${id})">Agregar Trayecto</button>
+
+                        <table class="table table-bordered">
+                            <thead class="thead-inverse">
+                                <tr>
+                                    <th scope="col">N°</th>
+                                    <th scope="col">Fecha</th>
+                                    <th scope="col">Trayecto</th>
+                                    <th scope="col">Servicio</th>
+                                    <th scope="col">Vehiculo</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+            `;
+
+            data.forEach( function (trayecto, indice) {
+                content += `
+                <tr>
+                    <td scope="row">${ indice+1 }</td>
+                    <td>${ new Date(trayecto.fecha).toLocaleDateString() }</td>
+                    <td>${ trayecto.ciudad_origen } - ${ trayecto.ciudad_destino }</td>
+                    <td>${ trayecto.tipo_servicio }</td>
+                    <td>${ trayecto.tipo_vehiculo }</td>
+                    <td class="text-center">
+                        <button type="button" onclick="editar_trayecto(${ trayecto.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_contrato(${ trayecto.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="editar_trayecto(${ trayecto.id }, 'Contrato')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+                `;
+            });
+
+            content += `</tbody>
+            </table>`;
+
+            $('#content_ver_trayectos').html(content);
+            $('#modal-ver-trayectos').modal('show');
+
+        }
+    });
+}
+
+function agregar_trayecto(id) {
+    $('#modal_agregar_trayecto').modal('show');
+}
+
+function total_cotizacion_trayecto() {
+    let valor = $('#valor_unitario_trayecto').val()
+    let cantidad = $('#cantidad_trayecto').val()
+
+    $('#total_trayecto').val(valor*cantidad)
 }
 
 function total_cotizacion() {
@@ -277,7 +338,9 @@ function cargarDepartamentos() {
 			});
 			$('#departamento').html(html);
 			$('#departamento_origen').html(html);
-			$('#departamento_destino').html(html);
+            $('#departamento_destino').html(html);
+            $('#departamento_origen_trayecto').html(html);
+			$('#departamento_destino_trayecto').html(html);
 		}
     })
 }
@@ -447,7 +510,7 @@ function editar_contrato(id) {
             $('#select_responsable option[value="'+ data.responsable.identificacion + '"]').attr("selected", true);
             $('#identificacion_responsable').val(data.responsable.identificacion);
             $('#nombre_responsable').val(data.responsable.nombre);
-            $('#correo_responsable').val(data.responsable.correo);
+            $('#direccion_responsable').val(data.responsable.direccion);
             $('#telefono_responsable').val(data.responsable.telefono);
             $('#tipo_contrato option[value="'+ data.cotizacion.tipo_contrato + '"]').attr("selected", true);
             $('#objeto_contrato').val(data.cotizacion.objeto_contrato);
@@ -462,15 +525,16 @@ function editar_contrato(id) {
 }
 
 function cargar_responsable_contrato(responsable) {
+    let tercero = $('#terceros_id').val();
     $.ajax({
         url: '/terceros/cargar_responsable_contrato',
         type: 'post',
-        data: {responsable:responsable},
+        data: {responsable:responsable, tercero:tercero},
         success: function (data) {
             if ( data ) {
                 $('#identificacion_responsable').val(data.identificacion).attr('readonly', true);
                 $('#nombre_responsable').val(data.nombre).attr('readonly', true);
-                $('#correo_responsable').val(data.correo).attr('readonly', true);
+                $('#direccion_responsable').val(data.direccion).attr('readonly', true);
                 $('#telefono_responsable').val(data.telefono).attr('readonly', true);
             }
         }
@@ -479,7 +543,7 @@ function cargar_responsable_contrato(responsable) {
     if (responsable == 'Nuevo') {
         $('#identificacion_responsable').val('').attr('readonly', false);
         $('#nombre_responsable').val('').attr('readonly', false);
-        $('#correo_responsable').val('').attr('readonly', false);
+        $('#direccion_responsable').val('').attr('readonly', false);
         $('#telefono_responsable').val('').attr('readonly', false);
     }
 }

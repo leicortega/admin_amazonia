@@ -41,10 +41,10 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="/vehiculos/">Vehiculos</a></li>
-                                @role('admin') <li><a href="/vehiculos/tanqueos">Tanqueos</a></li> @endrole
-                                @role('admin') <li><a href="/vehiculos/inspecciones">Inspecciones</a></li> @endrole
-                                @role('admin') <li><a href="/vehiculos/graficas">Graficas Tanqueos</a></li> @endrole
-                                @role('admin') <li><a href="/vehiculos/mantenimientos">Mantenimientos</a></li> @endrole
+                                <li><a href="/vehiculos/tanqueos">Tanqueos</a></li>
+                                <li><a href="/vehiculos/inspecciones">Inspecciones</a></li>
+                                <li><a href="/vehiculos/graficas">Graficas Tanqueos</a></li>
+                                <li><a href="/vehiculos/mantenimientos">Mantenimientos</a></li>
                             </ul>
                         </li>
                     @endcanany

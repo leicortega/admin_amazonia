@@ -161,6 +161,7 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/cargar_contratos', 'TercerosController@cargar_contratos');
     Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
     Route::post('/terceros/get_tercero', 'TercerosController@get_tercero');
+    Route::post('/terceros/ver_trayectos', 'TercerosController@ver_trayectos');
 });
 
 // Rutas para BLOG
@@ -180,6 +181,10 @@ Route::group(['middleware' => ['permission:tareas|universal']], function () {
     Route::post('/tareas/agregar_estado', 'TareasController@agregar_estado');
     Route::get('/tareas/ver/{id}', 'TareasController@ver');
 });
+
+// RUTAS PARA GOOGLE DRIVE
+Route::get('/hseq/list', 'HseqController@list');
+Route::get('/hseq/list/{path}/{folder}', 'HseqController@list_folder');
 
 // Rutas para las Notificaciones
 Route::get('/notificaciones/ver/{id}', 'NotificationController@ver');

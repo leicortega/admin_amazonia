@@ -139,8 +139,10 @@ class InspeccionesController extends Controller
             $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
         }
 
+        $elemento = ($request['input_elemento']) ? $request['input_elemento'] : $request['elemento'];
+
         $adjunto = Adjuntos_inspeccion::create([
-            'elemento' => $request->elemento,
+            'elemento' => $elemento,
             'observaciones' => $request->observaciones,
             'adjunto' => $nombre_completo_file_documento,
             'inspecciones_id' => $request->inspeccion_id,

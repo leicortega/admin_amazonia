@@ -14,14 +14,30 @@ Modulo de contabilidad {
 
 En el momento de autorizar, agregar si asume el gasto la empresa o el propietario
 
+==================================================================================
 ===================================== 05/12/2020 =================================
-
+==================================================================================
 
 Generar un modulo en vehiculos donde relaciones las actividades realizadas a los vehiculos y ahi relacionar todo el proceso llevado a cabo de ese vehiculo
 (trazabilidad mantenimientos)
 
-corregir el dia de la inspeccion en el certificado
+corregir el dia de la inspeccion en el certificado -------------------------------------------------- (REALIZADO)
 
-revisar por que no deja cargar imagnes cuando sontomadas con la camara
+revisar por que no deja cargar imagnes cuando sontomadas con la camara ------------------------- (PENDIENTE)
 
-Permitir agregar varias cotizaciones con diferentes trayectos para un mismo contrato
+Permitir agregar varias cotizaciones con diferentes trayectos para un mismo contrato -------------------- (EN DESARROLLO)
+
+Agregar un input de direccion a los contactos de los terceros --------------------------------------- (REALIZADO)
+
+Habilitar la pestaña de inpsecciones y mantenimientos para los conductores -------------------------- (REALIZADO)
+
+Crear un modulo de documentacion de la empresa ---------------------------------------- (PENDIENTE)
+
+Modificar el contrato para que aparezca la informacion de colaboracion y con en el extracto cuando es un vehiculo con convenio ---------- (REALIZADO)
+
+
+==================================================================================
+===================================== 12/12/2020 =================================
+==================================================================================
+Modificar en el contrato para que apareca el convenio cuando es propio y cuando es convenio y cuando es vinculado se deja propio
+Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio listar las empresas con documentacion

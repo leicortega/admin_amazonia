@@ -346,8 +346,8 @@
                                     <input class="form-control" type="text" name="nombre_responsable" id="nombre_responsable" placeholder="Escriba el nombre" required="">
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Correo</label>
-                                    <input class="form-control" type="text" name="correo_responsable" id="correo_responsable" placeholder="Escriba la correo" required="">
+                                    <label class="col-sm-12 col-form-label">Direccion</label>
+                                    <input class="form-control" type="text" name="direccion_responsable" id="direccion_responsable" placeholder="Escriba la direccion" required="">
                                 </div>
                             </div>
 

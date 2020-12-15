@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Contactos_tercero extends Model
 {
     protected $fillable = [
-        'identificacion', 'nombre', 'telefono', 'correo', 'terceros_id'
+        'identificacion', 'nombre', 'telefono', 'direccion', 'terceros_id'
     ];
 }

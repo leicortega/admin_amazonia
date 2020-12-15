@@ -124,7 +124,7 @@ class CotizacionesController extends Controller
             Contactos_tercero::create([
                 'identificacion' => $request['identificacion_responsable'],
                 'nombre' => $request['nombre_responsable'],
-                'correo' => $request['correo_responsable'],
+                'direccion' => $request['direccion_responsable'],
                 'telefono' => $request['telefono_responsable'],
                 'terceros_id' => $request['tercero_id_contrato'],
             ])->save();

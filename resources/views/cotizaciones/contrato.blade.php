@@ -123,7 +123,14 @@
 	<p><b>CONTRATANTE: {{ $data['tercero']['nombre'] }}</b></p>
 	<p><b>NIT/CC: {{ $data['tercero']['identificacion'] }}</b></p>
 	<p><b>OBJETO CONTRATO: {{ $data['cotizacion']['objeto_contrato'] }}</b></p>
-	<p><b>ORIGEN-DESTINO: {{ $data['cotizacion']['ciudad_origen'] }} - {{ $data['cotizacion']['ciudad_destino'] }}</b></p>
+    <p><b>ORIGEN-DESTINO: {{ $data['cotizacion']['ciudad_origen'] }} - {{ $data['cotizacion']['ciudad_destino'] }}</b></p>
+    {{-- {{$data['vehiculo']['tipo_vinculacion_id']}} --}}
+
+    @if ($data['vehiculo']['tipo_vinculacion_id'] == 3)
+        <p><b>COLABORACION:</b> CONVENIO  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>CON:</b> {{ $data['tercero']['nombre'] }}</p>
+    @endif
+
+    <br>
 
     <p style="text-align: center;font-weight: bold;">VIGENCIA DEL CONTRATO</p>
 
@@ -183,7 +190,7 @@
                 <td style="padding: 3px; background:#ccc;" colspan="1"><b>RESPONSABLE DEL CONTRATANTE </b></td>
                 <td style="padding: 3px;" colspan="2"><b>NOMBRES Y APELLIDOS </b><br>{{ $data['responsable']['nombre'] }}</td>
                 <td style="padding: 3px;" colspan="1"><b>Nº DE IDENTIFICACIÓN </b><br>{{ $data['responsable']['identificacion'] }}</td>
-                <td style="padding: 3px;" colspan="1"><b>CORREO </b><br>{{ $data['responsable']['correo'] }}</td>
+                <td style="padding: 3px;" colspan="1"><b>DIRECCIÓN </b><br>{{ $data['responsable']['direccion'] }}</td>
                 <td style="padding: 3px;" colspan="1"><b>TELÉFONO </b><br>{{ $data['responsable']['telefono'] }}</td>
             </tr>
             <tr>

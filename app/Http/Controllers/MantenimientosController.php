@@ -12,6 +12,7 @@ use Carbon\Carbon;
 use PDF;
 
 use App\Models\Vehiculo;
+use App\Models\Personal;
 use App\Models\Mantenimiento;
 use App\Models\Facturas_mantenimiento;
 use App\Models\Actividad_mantenimiento;
@@ -32,6 +33,8 @@ class MantenimientosController extends Controller
     }
 
     public function solicitar_mantenimiento(Request $request) {
+        $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
+
         $mantenimiento = Mantenimiento::create($request->all());
 
         $redirect = ($mantenimiento->save()) ? '/vehiculos/'.$request['vehiculo_id'].'/mantenimientos' : '/vehiculos/mantenimientos';
@@ -43,7 +46,7 @@ class MantenimientosController extends Controller
             'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
         ];
 
-        Mail::to(['calidad@amazoniacl.com', 'gerencia@amazoniacl.com'])->send(new NotificationMail($data));
+        Mail::to(['calidad@amazoniacl.com', 'gerencia@amazoniacl.com', $propietario])->send(new NotificationMail($data));
 
         return redirect($redirect)->with(['error' => $error, 'mensaje' => $mensaje]);
     }

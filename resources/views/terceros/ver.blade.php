@@ -246,7 +246,8 @@
                                                         <th scope="col">N°</th>
                                                         <th scope="col">Fecha</th>
                                                         <th scope="col">Responable</th>
-                                                        <th scope="col">Vehiculo</th>
+                                                        <th scope="col">Tipo</th>
+                                                        <th scope="col">Objeto</th>
                                                         <th scope="col">Acciones</th>
                                                     </tr>
                                                 </thead>
@@ -914,6 +915,107 @@ ________________________________________________
     </div>
 </div>
 
+{{-- Modal EDITAR Cotrato --}}
+<div class="modal fade bs-example-modal-xl" id="modal_editar_contrato" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal_editar_contrato">Editar Contrato</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/terceros/actualizar_contrato" id="form_actualizar_contrato" method="POST">
+                    @csrf
+
+                    <div class="container">
+                        <div class="form-group row">
+
+                            <h5 class="col-12">RESPONSABLE</h5>
+
+                            <div class="col-sm-12 d-flex">
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Seleccione responsable</label>
+                                    <select name="select_responsable" id="select_responsable_update" onchange="cargar_responsable_contrato(this.value)" class="form-control" required>
+                                        <option value="">Seleccione responsable</option>
+                                        <option value="Nuevo">Nuevo</option>
+                                        @foreach (\App\Models\Contactos_tercero::where('terceros_id', $tercero[0]->id)->get() as $item)
+                                            <option value="{{ $item->identificacion }}">{{ $item->nombre }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Numero Identificación</label>
+                                    <input class="form-control" type="number" name="identificacion_responsable" id="identificacion_responsable_update" placeholder="Escriba la identificación" required="">
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Nombre Completo</label>
+                                    <input class="form-control" type="text" name="nombre_responsable" id="nombre_responsable_update" placeholder="Escriba el nombre" required="">
+                                </div>
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Dirección</label>
+                                    <input class="form-control" type="text" name="direccion_responsable" id="direccion_responsable_update" placeholder="Escriba la direccion" required="">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Telefono</label>
+                                    <input class="form-control" type="number" name="telefono_responsable" id="telefono_responsable_update" placeholder="Escriba el Telefono" required="">
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Tipo Contrato</label>
+                                    <select name="tipo_contrato" id="tipo_contrato_update" class="form-control" required>
+                                        <option value="">Seleccione tipo</option>
+                                        <option value="ASALARIADO">ASALARIADO</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <label class="col-sm-12 col-form-label">Objeto del contrato</label>
+                                    <textarea name="objeto_contrato" id="objeto_contrato_update" rows="3" class="form-control" placeholder="Escriba el objeto del contrato" required=""></textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row mb-3">
+
+                            <h5 class="col-12">CONTRATO</h5>
+
+                            <div class="col-sm-12 d-flex">
+                                <div class="col-sm-12">
+                                    <textarea name="contrato_parte_uno" id="contrato_parte_uno_update" rows="5" class="form-control" required=""></textarea>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 d-flex mt-2">
+                                <div class="col-sm-12">
+                                    <textarea name="contrato_parte_dos" id="contrato_parte_dos_update" rows="25" class="form-control" required=""></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" name="contrato_id" id="contrato_id" />
+                    <input type="hidden" name="tercero_id_return" value="{{ $tercero[0]->identificacion }}" />
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 {{-- Modal Eliminar Cotizacioón --}}
 <div class="modal fade" id="modal_eliminar_cotizacion" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -933,6 +1035,35 @@ ________________________________________________
                     </div>
                     <input type="hidden" name="cotizacion_id" id="cotizacion_id" />
                     <input type="hidden" name="tercero_id" id="tercero_id" value="{{ $tercero[0]->identificacion }}" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Eliminar CONTRATO --}}
+<div class="modal fade" id="modal_eliminar_contrato" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form action="/terceros/eliminar_contrato" id="form_eliminar_contrato" method="post">
+                @csrf
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_eliminar_contrato_tilte">Eliminar contrato</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="modal_eliminar_contrato_content">
+
+                    </div>
+                    <input type="hidden" name="contrato_id" id="contrato_id_delete" />
+                    <input type="hidden" name="tercero_id" id="tercero_id_delete" value="{{ $tercero[0]->identificacion }}" />
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -1101,7 +1232,7 @@ ________________________________________________
                     @csrf
 
                     <div id="modal-content-cotizacion">
-                        <div class="card-body" id="form_part_one">
+                        <div class="card-body">
 
                             <div class="form-group row">
                                 <div class="col-sm-6 d-flex">
@@ -1110,11 +1241,11 @@ ________________________________________________
 
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Fecha Inicio</label>
-                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_ida" placeholder="yyyy-mm-dd" />
+                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_ida" id="fecha_ida_trayecto" placeholder="yyyy-mm-dd" />
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Fecha Final</label>
-                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_regreso" placeholder="yyyy-mm-dd" />
+                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_regreso" id="fecha_regreso_trayecto" placeholder="yyyy-mm-dd" />
                                         </div>
                                     </div>
                                 </div>
@@ -1124,7 +1255,7 @@ ________________________________________________
 
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Tipo Servicio</label>
-                                            <select class="form-control" name="tipo_servicio">
+                                            <select class="form-control" name="tipo_servicio" id="tipo_servicio_trayecto">
                                                 <option value="">Seleccione</option>
                                                 <option value="Carga y/o Encomiendas">Carga y/o Encomiendas</option>
                                                 <option value="Empresarial">Empresarial</option>
@@ -1135,7 +1266,7 @@ ________________________________________________
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Tipo Vehiculo</label>
-                                            <select name="tipo_vehiculo" class="form-control" >
+                                            <select name="tipo_vehiculo" id="tipo_vehiculo_trayecto" class="form-control" >
 												<option value="">Seleccione</option>
 												<option value="Station wagon">Station wagon</option>
 												<option value="Buseta">Buseta</option>
@@ -1168,7 +1299,7 @@ ________________________________________________
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-form-label">Municipio</label>
-                                            <select name="ciudad_origen" class="ciudad_origen form-control" >
+                                            <select name="ciudad_origen" id="ciudad_origen_trayecto" class="ciudad_origen form-control" >
                                                 <option value="">Seleccione el municipio</option>
                                             </select>
                                         </div>
@@ -1186,7 +1317,7 @@ ________________________________________________
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-form-label">Municipio</label>
-                                            <select name="ciudad_destino" class="ciudad_destino form-control" >
+                                            <select name="ciudad_destino" id="ciudad_destino_trayecto" class="ciudad_destino form-control" >
                                                 <option value="">Seleccione el municipio</option>
                                             </select>
                                         </div>
@@ -1200,7 +1331,7 @@ ________________________________________________
                                         <h5 class="col-form-label col-sm-12">Descripción del Trayecto<hr class="m-0"></h5>
 
                                         <div class="col-sm-12">
-                                            <textarea class="form-control" type="text" name="descripcion" placeholder="Describa los municipios intermedios entre el origen y el destino." ></textarea>
+                                            <textarea class="form-control" type="text" name="descripcion" id="descripcion_trayecto" placeholder="Describa los municipios intermedios entre el origen y el destino." ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1212,7 +1343,7 @@ ________________________________________________
                                         <h5 class="col-form-label col-sm-12">Observaciones del Trayecto<hr class="m-0"></h5>
 
                                         <div class="col-sm-12">
-                                            <textarea class="form-control" type="text" name="observaciones" placeholder="Ejemplo 'El recorrido inicia en la calle 0 No 0-00 a las 05:00AM.' " ></textarea>
+                                            <textarea class="form-control" type="text" name="observaciones" id="observaciones_trayecto" placeholder="Ejemplo 'El recorrido inicia en la calle 0 No 0-00 a las 05:00AM.' " ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1227,36 +1358,36 @@ ________________________________________________
                                             <label class="col-sm-12 col-form-label">Conbustible</label>
 
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="combustible" value="Si" class="custom-control-input">
-                                                <label class="custom-control-label" for="combustible">Si</label>
+                                                <input type="radio" id="combustible3" name="combustible_trayecto" value="Si" class="custom-control-input">
+                                                <label class="custom-control-label" for="combustible3">Si</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="combustible" value="No" class="custom-control-input" checked="">
-                                                <label class="custom-control-label" for="combustible2">No</label>
+                                                <input type="radio" id="combustible4" name="combustible_trayecto" value="No" class="custom-control-input" checked="">
+                                                <label class="custom-control-label" for="combustible4">No</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="col-sm-12 col-form-label">Conductor</label>
 
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="conductor" value="Si" class="custom-control-input">
-                                                <label class="custom-control-label" for="conductor">Si</label>
+                                                <input type="radio" id="conductor3" name="conductor_trayecto" value="Si" class="custom-control-input">
+                                                <label class="custom-control-label" for="conductor3">Si</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="conductor" value="No" class="custom-control-input" checked="">
-                                                <label class="custom-control-label" for="conductor2">No</label>
+                                                <input type="radio" id="conductor4" name="conductor_trayecto" value="No" class="custom-control-input" checked="">
+                                                <label class="custom-control-label" for="conductor4">No</label>
                                             </div>
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="col-sm-12 col-form-label">Peajes</label>
 
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="peajes" value="Si" class="custom-control-input">
-                                                <label class="custom-control-label" for="peajes">Si</label>
+                                                <input type="radio" id="peajes3" name="peajes_trayecto" value="Si" class="custom-control-input">
+                                                <label class="custom-control-label" for="peajes3">Si</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" name="peajes" value="No" class="custom-control-input" checked="">
-                                                <label class="custom-control-label" for="peajes2">No</label>
+                                                <input type="radio" id="peajes4" name="peajes_trayecto" value="No" class="custom-control-input" checked="">
+                                                <label class="custom-control-label" for="peajes4">No</label>
                                             </div>
                                         </div>
                                     </div>
@@ -1267,16 +1398,16 @@ ________________________________________________
                                         <h5 class="col-sm-12 col-form-label">Cotización por<hr class="m-0"></h5>
 
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" name="cotizacion_por" value="Dias" class="custom-control-input" checked=""/>
-                                            <label class="custom-control-label" for="cotizacion_por">Dia(s)</label>
+                                            <input type="radio" id="cotizacion_por4" name="cotizacion_por_trayecto" value="Dias" class="custom-control-input" checked=""/>
+                                            <label class="custom-control-label" for="cotizacion_por4">Dia(s)</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" name="cotizacion_por" value="Trayecto" class="custom-control-input" />
-                                            <label class="custom-control-label" for="cotizacion_por2">Trayecto(s)</label>
+                                            <input type="radio" id="cotizacion_por5" name="cotizacion_por_trayecto" value="Trayecto" class="custom-control-input" />
+                                            <label class="custom-control-label" for="cotizacion_por5">Trayecto(s)</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" name="cotizacion_por" value="Mensual" class="custom-control-input" />
-                                            <label class="custom-control-label" for="cotizacion_por3">Mensual</label>
+                                            <input type="radio" id="cotizacion_por6" name="cotizacion_por_trayecto" value="Mensual" class="custom-control-input" />
+                                            <label class="custom-control-label" for="cotizacion_por6">Mensual</label>
                                         </div>
                                     </div>
                                 </div>
@@ -1285,12 +1416,12 @@ ________________________________________________
                                         <h5 class="col-sm-12 col-form-label">Trayecto(s)<hr class="m-0"></h5>
 
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" name="recorrido" value="Solo ida" class="custom-control-input" checked=""/>
-                                            <label class="custom-control-label" for="recorrido">Solo ida</label>
+                                            <input type="radio" id="recorrido3" name="recorrido_trayecto" value="Solo ida" class="custom-control-input" checked=""/>
+                                            <label class="custom-control-label" for="recorrido3">Solo ida</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" name="recorrido" value="Ida y vuelta" class="custom-control-input" />
-                                            <label class="custom-control-label" for="recorrido2">Ida y vuelta</label>
+                                            <input type="radio" id="recorrido4" name="recorrido_trayecto" value="Ida y vuelta" class="custom-control-input" />
+                                            <label class="custom-control-label" for="recorrido4">Ida y vuelta</label>
                                         </div>
                                     </div>
                                 </div>
@@ -1311,7 +1442,7 @@ ________________________________________________
                                         </div>
                                         <div class="col-sm-4">
                                             <label class="col-form-label">Total</label>
-                                            <input class="form-control" type="number" name="total" id="total_trayecto" value="0" disabled/>
+                                            <input class="form-control" type="number" name="total" id="total_trayecto" value="0" readonly/>
                                         </div>
                                     </div>
                                 </div>
@@ -1323,13 +1454,69 @@ ________________________________________________
                                         <h5 class="col-form-label col-sm-12">Trayecto 2<hr class="m-0"></h5>
 
                                         <div class="col-sm-12">
-                                            <textarea class="form-control" type="number" name="trayecto_dos"></textarea>
+                                            <textarea class="form-control" type="number" name="trayecto_dos" id="trayecto_dos_trayecto"></textarea>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+
+                                <h5 class="col-12">VEHICULO</h5>
+
+                                <div class="col-sm-12 d-flex">
+
+                                    <div class="col-sm-6">
+                                        <label class="col-sm-12 col-form-label">Vehiculo</label>
+                                        <select name="vehiculo_id" id="vehiculo_id_trayecto" class="form-control" required>
+                                            <option value="">Seleccione vehiculo</option>
+                                            @foreach (\App\Models\Vehiculo::all() as $vehiculo)
+                                                <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }} - {{ $vehiculo->numero_interno }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="col-sm-12 col-form-label">Conductor uno</label>
+                                        <select name="conductor_uno_id" id="conductor_uno_id_trayecto" class="form-control" required>
+                                            <option value="">Seleccione vehiculo</option>
+                                            @foreach (\App\Models\Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
+                                                $query->where('cargos.nombre', 'Conductor');
+                                            })->get() as $conductor)
+                                                <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                </div>
+
+                                <div class="col-sm-12 d-flex">
+                                    <div class="col-sm-6">
+                                        <label class="col-sm-12 col-form-label">Conductor dos</label>
+                                        <select name="conductor_dos_id" id="conductor_dos_id_trayecto" class="form-control">
+                                            <option value="">Seleccione vehiculo</option>
+                                            @foreach (\App\Models\Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
+                                                $query->where('cargos.nombre', 'Conductor');
+                                            })->get() as $conductor)
+                                                <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="col-sm-12 col-form-label">Conductor tres</label>
+                                        <select name="conductor_tres_id" id="conductor_tres_id_trayecto" class="form-control">
+                                            <option value="">Seleccione vehiculo</option>
+                                            @foreach (\App\Models\Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
+                                                $query->where('cargos.nombre', 'Conductor');
+                                            })->get() as $conductor)
+                                                <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
                             <input type="hidden" name="contratos_id" id="contratos_id" />
+                            <input type="hidden" name="trayecto_creado" id="trayecto_creado" />
 
                         </div>
 

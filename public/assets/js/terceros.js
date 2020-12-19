@@ -90,17 +90,65 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#form_eliminar_contrato').submit(function () {
+        $.ajax({
+            url: '/terceros/eliminar_contrato',
+            type: 'POST',
+            data: $('#form_eliminar_contrato').serialize(),
+            success: function (data) {
+                $('#modal_eliminar_contrato').modal('hide');
+                $('#form_eliminar_contrato')[0].reset();
+                cargar_contratos(data);
+            }
+        });
+
+        return false;
+    });
+
     $('#form_generar_contrato').submit(function () {
         $.ajax({
             url: '/terceros/generar_contrato',
             type: 'POST',
             data: $('#form_generar_contrato').serialize(),
             success: function (data) {
-                console.log(data.tercero);
                 $('#modal-crear-contrato').modal('hide');
                 $('#form_generar_contrato')[0].reset();
                 cargar_contratos(data.tercero);
-                window.open('/terceros/print_contrato/'+data.cotizacion, '_blank');
+                window.open('/terceros/print_contrato/'+data.trayecto, '_blank');
+            }
+        });
+
+        return false;
+    });
+
+    $('#form_actualizar_contrato').submit(function () {
+        $.ajax({
+            url: '/terceros/actualizar_contrato',
+            type: 'POST',
+            data: $('#form_actualizar_contrato').serialize(),
+            success: function (data) {
+                console.log(data);
+                $('#modal_editar_contrato').modal('hide');
+                $('#form_actualizar_contrato')[0].reset();
+                cargar_contratos(data.tercero);
+                window.open('/terceros/print_contrato/contrato/'+data.contrato, '_blank');
+            }
+        });
+
+        return false;
+    });
+
+    $('#form_agregar_trayecto').submit(function () {
+        $.ajax({
+            url: '/terceros/agregar_trayecto',
+            type: 'POST',
+            data: $('#form_agregar_trayecto').serialize(),
+            success: function (data) {
+                console.log(data);
+                $('#modal_agregar_trayecto').modal('hide');
+                $('#form_agregar_trayecto')[0].reset();
+                ver_trayectos(data.contrato);
+                window.open('/terceros/print_contrato/'+data.trayecto, '_blank');
             }
         });
 
@@ -242,12 +290,13 @@ function cargar_contratos(terceros_id) {
                     <td scope="row">${ indice+1 }</td>
                     <td>${ new Date(cotizacion.fecha).toLocaleDateString() }</td>
                     <td>${ cotizacion.nombre }</td>
-                    <td>${ cotizacion.placa }</td>
+                    <td>${ cotizacion.tipo_contrato }</td>
+                    <td>${ cotizacion.objeto_contrato }</td>
                     <td class="text-center">
                         <button type="button" onclick="editar_contrato(${ cotizacion.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
                         <button type="button" onclick="ver_contrato(${ cotizacion.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <button type="button" onclick="ver_trayectos(${ cotizacion.id })" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-plus"></i></button>
-                        <button type="button" onclick="eliminar_cotizacion(${ cotizacion.id }, 'Contrato')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="eliminar_contrato(${ cotizacion.id }, 'Contrato')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -293,7 +342,7 @@ function ver_trayectos(id) {
                     <td class="text-center">
                         <button type="button" onclick="editar_trayecto(${ trayecto.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
                         <button type="button" onclick="ver_contrato(${ trayecto.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
-                        <button type="button" onclick="editar_trayecto(${ trayecto.id }, 'Contrato')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="eliminar_trayecto(${ trayecto.id }, ${ id })" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -310,7 +359,22 @@ function ver_trayectos(id) {
 }
 
 function agregar_trayecto(id) {
+    $('#form_agregar_trayecto')[0].reset();
     $('#modal_agregar_trayecto').modal('show');
+    $('#contratos_id').val(id);
+    $('#trayecto_creado').val(null);
+    $('#vehiculo_id_trayecto option[value=""]').attr("selected", true);
+    $('#conductor_uno_id_trayecto option[value=""]').attr("selected", true);
+    $('#conductor_dos_id_trayecto option[value=""]').attr("selected", true);
+    $('#conductor_tres_id_trayecto option[value=""]').attr("selected", true);
+    $('#tipo_servicio_trayecto option[value=""]').attr("selected", true);
+    $('#tipo_vehiculo_trayecto option[value=""]').attr("selected", true);
+    $('#departamento_origen_trayecto option[value=""]').attr("selected", true);
+    $('#departamento_destino_trayecto option[value=""]').attr("selected", true);
+    $('#ciudad_origen_trayecto').html('<option value="">Seleccione el departamento</option>');
+    $('#ciudad_destino_trayecto').html('<option value="">Seleccione el departamento</option>');
+    $('#ciudad_origen_trayecto option[value=""]').attr("selected", true);
+    $('#ciudad_destino_trayecto option[value=""]').attr("selected", true);
 }
 
 function total_cotizacion_trayecto() {
@@ -448,7 +512,7 @@ function ver_cotizacion(id) {
 }
 
 function ver_contrato(id) {
-    window.open('/terceros/print_contrato/' + id, '_blank');
+    window.open('/terceros/print_contrato/contrato/' + id, '_blank');
 }
 
 function eliminar_cotizacion(id, title) {
@@ -457,8 +521,15 @@ function eliminar_cotizacion(id, title) {
     $('#modal_eliminar_cotizacion_tilte').text('Eliminar ' + title);
     $('#modal_eliminar_cotizacion_content').html(`
         <h2>¿Seguro desea eliminar ${ title == 'Contrato' ? 'el contrato' : 'la cotizacion' }?</h2>
-        <br>
-        <h5>Se eliminara ${ title == 'Contrato' ? 'la cotizacion' : 'el contrato si lo hay' }</h5>
+    `);
+}
+
+function eliminar_contrato(id, title) {
+    $('#modal_eliminar_contrato').modal('show');
+    $('#contrato_id_delete').val(id);
+    $('#modal_eliminar_contrato_tilte').text('Eliminar ' + title);
+    $('#modal_eliminar_contrato_content').html(`
+        <h2>¿Seguro desea eliminar ${ title == 'Contrato' ? 'el contrato' : 'la cotizacion' }?</h2>
     `);
 }
 
@@ -505,21 +576,18 @@ function editar_contrato(id) {
         type: 'POST',
         data: { id:id },
         success: function (data) {
-            console.log(data);
-            $('#modal-crear-contrato').modal('show');
-            $('#select_responsable option[value="'+ data.responsable.identificacion + '"]').attr("selected", true);
-            $('#identificacion_responsable').val(data.responsable.identificacion);
-            $('#nombre_responsable').val(data.responsable.nombre);
-            $('#direccion_responsable').val(data.responsable.direccion);
-            $('#telefono_responsable').val(data.responsable.telefono);
-            $('#tipo_contrato option[value="'+ data.cotizacion.tipo_contrato + '"]').attr("selected", true);
-            $('#objeto_contrato').val(data.cotizacion.objeto_contrato);
-            $('#vehiculo_id option[value="'+ data.cotizacion.vehiculo_id + '"]').attr("selected", true);
-            $('#conductor_id option[value="'+ data.cotizacion.conductor_id + '"]').attr("selected", true);
-            $('#contrato_parte_uno').val(data.cotizacion.contrato_parte_uno);
-            $('#contrato_parte_dos').val(data.cotizacion.contrato_parte_dos);
+            $('#modal_editar_contrato').modal('show');
+            $('#select_responsable_update option[value="'+ data.responsable.identificacion + '"]').attr("selected", true);
+            $('#identificacion_responsable_update').val(data.responsable.identificacion);
+            $('#nombre_responsable_update').val(data.responsable.nombre);
+            $('#direccion_responsable_update').val(data.responsable.direccion);
+            $('#telefono_responsable_update').val(data.responsable.telefono);
+            $('#tipo_contrato_update option[value="'+ data.contrato.tipo_contrato + '"]').attr("selected", true);
+            $('#objeto_contrato_update').val(data.contrato.objeto_contrato);
+            $('#contrato_parte_uno_update').val(data.contrato.contrato_parte_uno);
+            $('#contrato_parte_dos_update').val(data.contrato.contrato_parte_dos);
 
-            $('#cotizacion_id_contrato').val(data.cotizacion.id);
+            $('#contrato_id').val(data.contrato.id);
         }
     });
 }
@@ -580,6 +648,63 @@ function editar_tercero(id) {
         }
     });
 }
+
+function eliminar_trayecto(id, contrato) {
+    if (window.confirm("¿Seguro desea eliminar el trayecto?")) {
+        $.ajax({
+            url: '/terceros/eliminar_trayecto',
+            type: 'post',
+            data: {id:id, contrato:contrato},
+            success: function (data) {
+                ver_trayectos(data);
+            }
+        });
+    }
+}
+
+function editar_trayecto(id) {
+    $.ajax({
+        url: '/terceros/editar_trayecto',
+        type: 'POST',
+        data: { id:id },
+        success: function (data) {
+            $('#ciudad_origen_trayecto').html('<option value="'+data.ciudad_origen+'">'+data.ciudad_origen+'</option>');
+            $('#ciudad_destino_trayecto').html('<option value="'+data.ciudad_destino+'">'+data.ciudad_destino+'</option>');
+
+            $('#modal_agregar_trayecto').modal('show');
+            $('#fecha_ida_trayecto').val(data.fecha_ida);
+            $('#fecha_regreso_trayecto').val(data.fecha_regreso);
+            $('#tipo_servicio_trayecto option[value="'+ data.tipo_servicio + '"]').attr("selected", true);
+            $('#tipo_vehiculo_trayecto option[value="'+ data.tipo_vehiculo + '"]').attr("selected", true);
+            $('#departamento_origen_trayecto option[value="'+ data.departamento_origen + '"]').attr("selected", true);
+            $('#departamento_destino_trayecto option[value="'+ data.departamento_destino + '"]').attr("selected", true);
+            $('#ciudad_origen_trayecto option[value="'+ data.ciudad_origen + '"]').attr("selected", true);
+            $('#ciudad_destino_trayecto option[value="'+ data.ciudad_destino + '"]').attr("selected", true);
+            $('#descripcion_trayecto').val(data.descripcion);
+            $('#observaciones_trayecto').val(data.observaciones);
+            $('input[name=combustible_trayecto][value="'+data.combustible+'"]').attr('checked', true);
+            $('input[name=conductor_trayecto][value="'+data.conductor+'"]').attr('checked', true);
+            $('input[name=peajes_trayecto][value="'+data.peajes+'"]').attr('checked', true);
+            $('input[name=cotizacion_por_trayecto][value="'+data.cotizacion_por+'"]').attr('checked', true);
+            $('input[name=recorrido_trayecto][value="'+data.recorrido+'"]').attr('checked', true);
+            $('#valor_unitario_trayecto').val(data.valor_unitario);
+            $('#cantidad_trayecto').val(data.cantidad);
+            $('#total_trayecto').val(data.total);
+            $('#trayecto_dos_trayecto').val(data.trayecto_dos);
+            $('#vehiculo_id_trayecto option[value="'+ data.vehiculo_id + '"]').attr("selected", true);
+            $('#conductor_uno_id_trayecto option[value="'+ data.conductor_uno_id + '"]').attr("selected", true);
+            $('#conductor_dos_id_trayecto option[value="'+ data.conductor_dos_id + '"]').attr("selected", true);
+            $('#conductor_tres_id_trayecto option[value="'+ data.conductor_tres_id + '"]').attr("selected", true);
+
+            $('#contratos_id').val(data.contratos.id);
+            $('#trayecto_creado').val(data.id);
+        }
+    });
+}
+
+
+
+
 
 
 

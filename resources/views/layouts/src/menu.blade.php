@@ -100,6 +100,15 @@
                         </li>
                     @endcanany
 
+                    @canany(['hseq', 'universal'])
+                        <li>
+                            <a href="hseq/list" class="waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim fa fa-shield-alt mx-1"></i></div>
+                                <span>HSEQ</span>
+                            </a>
+                        </li>
+                    @endcanany
+
                     @canany(['control ingreso', 'universal'])
                         <li>
                             <a href="control_ingreso/funcionarios" class="waves-effect">
@@ -342,6 +351,14 @@
                     <li><a href="/tareas"  class="waves-effect">Pendientes</a></li>
                     <li><a href="/tareas/asignadas"  class="waves-effect">Asignadas</a></li>
                     <li><a href="/tareas/completadas"  class="waves-effect">Completadas</a></li>
+
+                @endif
+
+                @if ( Request::is('hseq') || Request::is('hseq/*') )
+
+                    <li class="menu-title">HSEQ</li>
+
+                    <li><a href="/"  class="waves-effect">Volver</a></li>
 
                 @endif
 

@@ -17,10 +17,6 @@ class CreateContratosTable extends Migration
             $table->id();
 
             $table->date('fecha');
-            $table->bigInteger('vehiculo_id')->nullable();
-            $table->bigInteger('conductor_uno_id')->nullable();
-            $table->bigInteger('conductor_dos_id')->nullable();
-            $table->bigInteger('conductor_tres_id')->nullable();
             $table->bigInteger('responsable_contrato_id')->nullable();
             $table->string('tipo_contrato')->nullable();
             $table->string('objeto_contrato')->nullable();

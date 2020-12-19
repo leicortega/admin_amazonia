@@ -58,13 +58,13 @@
     </table>
 
     <br>
-    <p style="text-align: center;font-weight: bold;">CONTRATO No. {{ $data['cotizacion']['id'] }}</p>
+    <p style="text-align: center;font-weight: bold;">CONTRATO No. {{ $data['contrato']['id'] }}</p>
 
     <br>
     <br>
 
     <p style="text-align: justify; font-size: 14px;">
-        {{ $data['cotizacion']['contrato_parte_uno'] }} {{ $data['cotizacion']['contrato_parte_dos'] }}
+        {{ $data['contrato']['contrato_parte_uno'] }} {{ $data['contrato']['contrato_parte_dos'] }}
     </p>
 
     <br><br><br>
@@ -113,17 +113,17 @@
     </table>
 
     <p style="text-align: center;font-weight: bold;">FORMATO UNICO DE CONTRATO DE SERVICIO PUBLICO DE TRANSPORTE AUTOMOTOR ESPCIAL</p>
-    <p style="text-align: center;font-weight: bold;">No: 441000112202003{{ $data['cotizacion']['id'] }}</p>
+    <p style="text-align: center;font-weight: bold;">No: 441000112202003{{ $data['contrato']['id'] }}</p>
 
     <br>
 
     <p style="font-size: 11.5px !important;"><b>AMAZONIA C&L S.A.S</b></p>
 	<p><b>Nit:  900.447.438 - 6</b></p>
-    <p><b>CONTRATO Nº: {{ $data['cotizacion']['id'] }}</b></p>
+    <p><b>CONTRATO Nº: {{ $data['contrato']['id'] }}</b></p>
 	<p><b>CONTRATANTE: {{ $data['tercero']['nombre'] }}</b></p>
 	<p><b>NIT/CC: {{ $data['tercero']['identificacion'] }}</b></p>
-	<p><b>OBJETO CONTRATO: {{ $data['cotizacion']['objeto_contrato'] }}</b></p>
-    <p><b>ORIGEN-DESTINO: {{ $data['cotizacion']['ciudad_origen'] }} - {{ $data['cotizacion']['ciudad_destino'] }}</b></p>
+	<p><b>OBJETO CONTRATO: {{ $data['contrato']['objeto_contrato'] }}</b></p>
+    <p><b>ORIGEN-DESTINO: {{ $data['trayecto']['ciudad_origen'] }} - {{ $data['trayecto']['ciudad_destino'] }}</b></p>
     {{-- {{$data['vehiculo']['tipo_vinculacion_id']}} --}}
 
     @if ($data['vehiculo']['tipo_vinculacion_id'] == 3)
@@ -138,15 +138,15 @@
         <tbody>
             <tr>
                 <td style="padding: 5px;"><b>FECHA INICIAL</b></td>
-                <td style="padding: 5px;"><b>DIA: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_ida'])->day }}</td>
-                <td style="padding: 5px;"><b>MES: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_ida'])->month }}</td>
-                <td style="padding: 5px;"><b>AÑO: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_ida'])->year }}</td>
+                <td style="padding: 5px;"><b>DIA: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['trayecto']['fecha_ida'])->day }}</td>
+                <td style="padding: 5px;"><b>MES: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['trayecto']['fecha_ida'])->month }}</td>
+                <td style="padding: 5px;"><b>AÑO: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['trayecto']['fecha_ida'])->year }}</td>
             </tr>
             <tr>
                 <td style="padding: 5px;"><b>FECHA DE VENCIMIENTO</b></td>
-                <td style="padding: 5px;"><b>DIA: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_regreso'])->day }}</td>
-                <td style="padding: 5px;"><b>MES: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_regreso'])->month }}</td>
-                <td style="padding: 5px;"><b>AÑO: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['cotizacion']['fecha_regreso'])->year }}</td>
+                <td style="padding: 5px;"><b>DIA: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['trayecto']['fecha_regreso'])->day }}</td>
+                <td style="padding: 5px;"><b>MES: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['trayecto']['fecha_regreso'])->month }}</td>
+                <td style="padding: 5px;"><b>AÑO: </b>{{ \Carbon\Carbon::createFromFormat('Y-m-d', $data['trayecto']['fecha_regreso'])->year }}</td>
             </tr>
         </tbody>
     </table>
@@ -170,7 +170,7 @@
                 <td style="padding: 3px;" colspan="2"><b>NOMBRES Y APELLIDOS </b><br>{{ $data['conductor']['nombres'] }} {{ $data['conductor']['primer_apellido'] }} {{ $data['conductor']['segundo_apellido'] ?? '' }}</td>
                 <td style="padding: 3px;" colspan="1"><b>Nº DE IDENTIFICACIÓN </b><br>{{ $data['conductor']['identificacion'] }}</td>
                 <td style="padding: 3px;" colspan="1"><b>NºLICENCIA CONDUCCIÓN </b><br>{{ $data['conductor']['identificacion'] }}</td>
-                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['vigencia'] }}</td>
+                <td style="padding: 3px;" colspan="1"><b>VIGENCIA </b><br>{{ $data['vigencia'] ?? 'N/A' }}</td>
             </tr>
             <tr>
                 <td style="padding: 3px; background:#ccc;" colspan="1"><b>DATOS DEL CONDUCTOR 2 </b></td>

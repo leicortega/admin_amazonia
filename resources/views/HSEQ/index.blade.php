@@ -23,17 +23,26 @@
                             @endif
 
                             @if (session()->has('create'))
-                                <div class="alert {{ (session()->has('create') == 1) ? 'alert-success' : 'alert-danger' }}">
+                                <div class="alert col-12 {{ (session()->has('create') == 1) ? 'alert-success' : 'alert-danger' }}">
                                     {{ session('mensaje') }}
                                 </div>
                             @endif
 
-                            @if (!Request::is('hseq/list'))
-                                <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a>
-                            @endif
+                            <div class="col-12">
+                                @if (!Request::is('hseq/list'))
+                                    {{-- @if ($files->count() > 0) --}}
+                                        {{-- <a href="/hseq/list/{{ $files[0]['dirname'] }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a> --}}
+                                    {{-- @else --}}
+                                        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a>
+                                    {{-- @endif --}}
+                                @endif
+                                <button class="btn btn-primary btn-lg float-right ml-2" data-toggle="modal" data-target="#modal_crear_carpeta">Crear Carpeta</button>
+                                <button class="btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modal_subir_archivo">Subir Documento</button>
+                            </div>
 
                             @if ($files->where('type', '=', 'dir')->count() > 0)
-                                <h3 class="col-12">Carpetas</h3>
+                                <h3 class="col-6">Carpetas</h3>
+
                                 <hr class="w-100">
 
                                 @foreach ($files->where('type', '=', 'dir') as $dir)
@@ -51,7 +60,12 @@
                                             </div>
 
                                             <div class="card-footer text-center">
-                                                <a href="/hseq/list/{{ $dir['path'] }}">Entrar</a>
+
+                                                <td class="text-center col-12">
+                                                    <a href="/hseq/list/{{ $dir['path'] }}" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-eye"></i></a>
+
+                                                    <button type="button" onclick="eliminar_carpeta('{{ $dir['path'] }}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                                                </td>
                                             </div>
                                         </div>
                                     </div>
@@ -63,7 +77,7 @@
                                 <hr class="w-100">
 
                                 @foreach ($files->where('type', '=', 'file') as $file)
-                                    <div class="col-lg-3">
+                                    <div class="col-lg-4">
                                         <div class="card border shadow-none">
                                             <div class="card-body">
                                                 <div class="media">
@@ -77,11 +91,21 @@
                                             </div>
 
                                             <div class="card-footer text-center">
-                                                @if ($file['mimetype'] == 'image/jpeg')
-                                                    <a href="javascript:ver_imagen('{{ $file['basename'] }}')">Ver Imagen</a>
-                                                @else
-                                                    <a href="javascript:ver_documento('{{ $file['basename'] }}')">Ver Documento</a>
-                                                @endif
+                                                <td class="text-center col-12">
+                                                    @if ($file['mimetype'] == 'image/jpeg')
+                                                        <button type="button" onclick="ver_imagen('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                    @elseif($file['mimetype'] == 'application/pdf')
+                                                        <button type="button" onclick="ver_pdf('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                    @elseif($file['mimetype'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || $file['mimetype'] == 'text/csv')
+                                                        <button type="button" onclick="ver_excel('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                    @else
+                                                        <button type="button" onclick="ver_documento('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                    @endif
+
+                                                    <button type="button" onclick="descargar('{{ $file['name'] }}', '{{ $file['path'] }}', '{{ $file['mimetype'] }}')" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></button>
+
+                                                    <button type="button" onclick="eliminar_archivo('{{ $file['path'] }}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                                                </td>
                                             </div>
                                         </div>
                                     </div>
@@ -110,6 +134,82 @@
             </div>
             <div class="modal-body">
                 <div id="content_modal_ver_documento"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Crear Carpeta --}}
+<div class="modal fade bs-example-modal-xl" id="modal_crear_carpeta" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-correo">Crear carpeta</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/hseq/create-dir" method="post">
+                    @csrf
+
+                    <div class="container p-3">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control" id="nombre_carpeta" name="nombre_carpeta" required>
+                                    <label for="nombre_carpeta">Nombre de la carpeta</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="path" value="{{ Request::is('hseq/list') ? '/' : Request::path() }}" />
+
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Subir Archivo --}}
+<div class="modal fade bs-example-modal-xl" id="modal_subir_archivo" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-correo">Subir archivo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/hseq/subir_archivo" method="post" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="container p-3">
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="file">Seleccione el archivo</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="file" class="form-control" id="file" name="file" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <input type="hidden" name="path" value="{{ Request::is('hseq/list') ? '/' : Request::path() }}" />
+
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

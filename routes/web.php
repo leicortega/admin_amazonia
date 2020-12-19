@@ -155,13 +155,19 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/crear_cotizacion', 'TercerosController@crear_cotizacion');
     Route::get('/terceros/print_cotizacion/{id}', 'TercerosController@print_cotizacion');
     Route::get('/terceros/print_contrato/{id}', 'TercerosController@print_contrato');
+    Route::get('/terceros/print_contrato/contrato/{id}', 'TercerosController@print_contrato_contrato');
     Route::post('/terceros/eliminar_cotizacion', 'TercerosController@eliminar_cotizacion');
+    Route::post('/terceros/eliminar_contrato', 'TercerosController@eliminar_contrato');
     Route::post('/terceros/editar_cotizacion', 'TercerosController@editar_cotizacion');
     Route::post('/terceros/editar_contrato', 'TercerosController@editar_contrato');
     Route::post('/terceros/cargar_contratos', 'TercerosController@cargar_contratos');
     Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
     Route::post('/terceros/get_tercero', 'TercerosController@get_tercero');
     Route::post('/terceros/ver_trayectos', 'TercerosController@ver_trayectos');
+    Route::post('/terceros/agregar_trayecto', 'TercerosController@agregar_trayecto');
+    Route::post('/terceros/eliminar_trayecto', 'TercerosController@eliminar_trayecto');
+    Route::post('/terceros/editar_trayecto', 'TercerosController@editar_trayecto');
+    Route::post('/terceros/actualizar_contrato', 'TercerosController@actualizar_contrato');
 });
 
 // Rutas para BLOG
@@ -185,6 +191,12 @@ Route::group(['middleware' => ['permission:tareas|universal']], function () {
 // RUTAS PARA GOOGLE DRIVE
 Route::get('/hseq/list', 'HseqController@list');
 Route::get('/hseq/list/{path}/{folder}', 'HseqController@list_folder');
+Route::get('/hseq/list/{path}', 'HseqController@list_folder_return');
+Route::post('/hseq/create-dir', 'HseqController@create_dir');
+Route::post('/hseq/subir_archivo', 'HseqController@subir_archivo');
+Route::get('/hseq/descargar', 'HseqController@descargar');
+Route::get('/hseq/eliminar_archivo', 'HseqController@eliminar_archivo');
+Route::get('/hseq/eliminar_carpeta', 'HseqController@eliminar_carpeta');
 
 // Rutas para las Notificaciones
 Route::get('/notificaciones/ver/{id}', 'NotificationController@ver');

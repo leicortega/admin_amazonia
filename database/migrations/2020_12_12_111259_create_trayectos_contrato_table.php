@@ -39,8 +39,10 @@ class CreateTrayectosContratoTable extends Migration
             $table->integer('cantidad')->nullable();
             $table->bigInteger('total')->nullable();
             $table->longText('trayecto_dos')->nullable();
-            $table->bigInteger('responsable_id')->nullable();
-            $table->bigInteger('tercero_id')->nullable();
+            $table->bigInteger('vehiculo_id')->nullable();
+            $table->bigInteger('conductor_uno_id')->nullable();
+            $table->bigInteger('conductor_dos_id')->nullable();
+            $table->bigInteger('conductor_tres_id')->nullable();
 
             // Relaciones
             $table->foreignId('contratos_id')

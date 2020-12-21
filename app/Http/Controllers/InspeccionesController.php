@@ -91,6 +91,7 @@ class InspeccionesController extends Controller
                 'fecha' => $this->date->format('Y-m-d'),
                 'vehiculo_id' => $request->vehiculo_id,
                 'personal_id' => Personal::where('identificacion', auth()->user()->identificacion)->first()->id,
+                'inspecciones_id' => $inspeccion->id,
                 'descripcion_solicitud' => $descripcion
             ]);
 

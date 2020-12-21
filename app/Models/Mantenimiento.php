@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Mantenimiento extends Model
 {
     protected $fillable = [
-        'fecha', 'descripcion_solicitud', 'estado', 'persona_contabilidad', 'fecha_contabilidad', 'observaciones_contabilidad', 'persona_autoriza', 'fecha_autorizacion', 'observaciones_autorizacion', 'asume', 'persona_cierre', 'fecha_cierre', 'observaciones_cierre', 'vehiculo_id', 'personal_id'
+        'fecha', 'descripcion_solicitud', 'estado', 'persona_contabilidad', 'fecha_contabilidad', 'observaciones_contabilidad', 'persona_autoriza', 'fecha_autorizacion', 'observaciones_autorizacion', 'asume', 'persona_cierre', 'fecha_cierre', 'observaciones_cierre', 'vehiculo_id', 'personal_id', 'inspecciones_id'
     ];
 
     public function vehiculo() {

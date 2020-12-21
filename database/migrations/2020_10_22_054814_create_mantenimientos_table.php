@@ -47,6 +47,11 @@ class CreateMantenimientosTable extends Migration
                 ->constrained('personal')
                 ->onDelete('cascade');
 
+            $table->foreignId('inspecciones_id')
+                ->constrained('inspecciones')
+                ->onDelete('cascade')
+                ->nullable();
+
             $table->timestamps();
         });
     }

@@ -133,6 +133,7 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::post('/personal/buscar_usuario', 'PersonalController@buscar_usuario');
     Route::post('/personal/crear_clave', 'PersonalController@crear_clave');
     Route::post('/personal/update_clave', 'PersonalController@update_clave');
+    Route::post('/personal/eliminar_contrato', 'PersonalController@eliminar_contrato');
 });
 
 // Rutas para Terceros
@@ -207,8 +208,4 @@ Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-
 Route::get('/mail/template', function () { return view('mails.template'); });
-
-
-

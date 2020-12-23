@@ -223,7 +223,7 @@ function cargar_contratos(id) {
                             <a href="/personal/contrato/print/${ contrato.id }" target="_blank"><button type="button" title="Imprimir contrato" onclick="contrato_pdf(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></button></a>
                             <a href="/personal/certificado-laboral/print/${ contrato.id }" target="_blank"><button type="button" title="Imprimir certificado" onclick="certificado(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-primary waves-effect waves-light"><i class="fa fa-print"></i></button></a>
                             <button type="button" title="Editar contrato" onclick="editar_contrato(${ contrato.id })" class="btn btn-warning waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                            <button type="button" title="Eliminar contrato" onclick="eliminar_contrato(${ contrato.id })" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                            <button type="button" title="Eliminar contrato" onclick="eliminar_contrato(${ contrato.id }, ${contrato.personal_id})" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                         </td>
                         <td style="max-width: 300px;">`;
                         contrato.otro_si.forEach(otro_si => {
@@ -388,6 +388,17 @@ function eliminar_documento(id, personal_id, tipo, id_table) {
         data: {id:id, personal_id:personal_id, tipo:tipo},
         success: function (data) {
             cargar_documentos(data.tipo, id_table, personal_id)
+        }
+    });
+}
+
+function eliminar_contrato(id, personal_id) {
+    $.ajax({
+        url: '/personal/eliminar_contrato',
+        type: 'POST',
+        data: {id:id, personal_id:personal_id},
+        success: function (data) {
+            cargar_contratos(data)
         }
     });
 }

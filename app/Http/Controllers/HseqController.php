@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 
 class HseqController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth');
+    }
+
     public function list() {
         $dir = '/16OSoQwhwXii2Fhtd65_OL3RFLs9cXS2m';
         $recursive = false;

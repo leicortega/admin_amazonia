@@ -19,6 +19,7 @@ use App\Models\Mantenimiento;
 use App\Models\Detalle_inspeccion;
 use App\Models\Sistema\Admin_inspeccion;
 use App\Models\Adjuntos_inspeccion;
+use App\Models\Hallazgos_inspeccion;
 
 class InspeccionesController extends Controller
 {
@@ -91,26 +92,30 @@ class InspeccionesController extends Controller
                 'fecha' => $this->date->format('Y-m-d'),
                 'vehiculo_id' => $request->vehiculo_id,
                 'personal_id' => Personal::where('identificacion', auth()->user()->identificacion)->first()->id,
-                'inspecciones_id' => $inspeccion->id,
                 'descripcion_solicitud' => $descripcion
             ]);
 
-            $data_mantenimiento = [
-                'titulo' => 'NUEVA SOLICITUD DE MANTENIMIENTO',
-                'link' => 'https://admin.amazoniacl.com/vehiculos/mantenimientos/autorizar/'.$mantenimiento->id
-            ];
+            $hallazgos_inspeccion = Hallazgos_inspeccion::create([
+                'inspecciones_id' => $inspeccion->id,
+                'mantenimientos_id' => $mantenimiento->id
+            ]);
 
-            $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
+            // $data_mantenimiento = [
+            //     'titulo' => 'NUEVA SOLICITUD DE MANTENIMIENTO',
+            //     'link' => 'https://admin.amazoniacl.com/vehiculos/mantenimientos/autorizar/'.$mantenimiento->id
+            // ];
 
-            Mail::to([$propietario, 'gerencia@amazoniacl.com', 'calidad@amazoniacl.com'])->send(new NotificationMail($data_mantenimiento));
+            // $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
+
+            // Mail::to([$propietario, 'gerencia@amazoniacl.com', 'calidad@amazoniacl.com'])->send(new NotificationMail($data_mantenimiento));
         }
 
-        $data = [
-            'titulo' => 'NUEVA INSPECCIÓN AGREGADA',
-            'link' => 'https://admin.amazoniacl.com/vehiculos/inspecciones/ver/'.$inspeccion->id
-        ];
+        // $data = [
+        //     'titulo' => 'NUEVA INSPECCIÓN AGREGADA',
+        //     'link' => 'https://admin.amazoniacl.com/vehiculos/inspecciones/ver/'.$inspeccion->id
+        // ];
 
-        Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
+        // Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
 
         return redirect()->route('ver_inspeccion', $inspeccion->id)->with(['error' => 0, 'mensaje' => 'Inspeccion agregada correctamente']);
     }

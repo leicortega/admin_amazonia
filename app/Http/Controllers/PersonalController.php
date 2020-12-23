@@ -287,4 +287,10 @@ class PersonalController extends Controller
         }
         return redirect()->back()->with('update', 1);
     }
+
+    public function eliminar_contrato(Request $request) {
+        Contratos_personal::find($request['id'])->delete();
+
+        return $request['personal_id'];
+    }
 }

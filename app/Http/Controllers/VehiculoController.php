@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 
 use App\Models\Documentos_legales_vehiculo;
 use App\Models\Conductores_vehiculo;
+use App\Models\Hallazgos_inspeccion;
 use App\Models\Cargos_personal;
 use App\Models\Personal;
 use App\Models\Vehiculo;
@@ -178,5 +179,11 @@ class VehiculoController extends Controller
 
     public function get_documento_legal(Request $request) {
         return Documentos_legales_vehiculo::find($request['id']);
+    }
+
+    public function trazabilidad_inspecciones(Request $request, $id) {
+        $trazabilidad = Hallazgos_inspeccion::where('vehiculos_id', $request['id'])->with('inspeccion')->with('mantenimiento')->orderBy('created_at', 'desc')->paginate(10);
+
+        return view('vehiculos.trazabilidad_inspecciones', ['trazabilidad' => $trazabilidad, 'id' => $id]);
     }
 }

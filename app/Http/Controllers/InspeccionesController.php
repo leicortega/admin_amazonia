@@ -97,25 +97,26 @@ class InspeccionesController extends Controller
 
             $hallazgos_inspeccion = Hallazgos_inspeccion::create([
                 'inspecciones_id' => $inspeccion->id,
-                'mantenimientos_id' => $mantenimiento->id
+                'mantenimientos_id' => $mantenimiento->id,
+                'vehiculos_id' => $request->vehiculo_id
             ]);
 
-            // $data_mantenimiento = [
-            //     'titulo' => 'NUEVA SOLICITUD DE MANTENIMIENTO',
-            //     'link' => 'https://admin.amazoniacl.com/vehiculos/mantenimientos/autorizar/'.$mantenimiento->id
-            // ];
+            $data_mantenimiento = [
+                'titulo' => 'NUEVA SOLICITUD DE MANTENIMIENTO',
+                'link' => 'https://admin.amazoniacl.com/vehiculos/mantenimientos/autorizar/'.$mantenimiento->id
+            ];
 
-            // $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
+            $propietario = Personal::find(Vehiculo::find($request->vehiculo_id)->personal_id)->correo;
 
-            // Mail::to([$propietario, 'gerencia@amazoniacl.com', 'calidad@amazoniacl.com'])->send(new NotificationMail($data_mantenimiento));
+            Mail::to([$propietario, 'gerencia@amazoniacl.com', 'calidad@amazoniacl.com'])->send(new NotificationMail($data_mantenimiento));
         }
 
-        // $data = [
-        //     'titulo' => 'NUEVA INSPECCIÓN AGREGADA',
-        //     'link' => 'https://admin.amazoniacl.com/vehiculos/inspecciones/ver/'.$inspeccion->id
-        // ];
+        $data = [
+            'titulo' => 'NUEVA INSPECCIÓN AGREGADA',
+            'link' => 'https://admin.amazoniacl.com/vehiculos/inspecciones/ver/'.$inspeccion->id
+        ];
 
-        // Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
+        Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
 
         return redirect()->route('ver_inspeccion', $inspeccion->id)->with(['error' => 0, 'mensaje' => 'Inspeccion agregada correctamente']);
     }

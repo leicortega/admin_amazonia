@@ -74,6 +74,7 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/vehiculos/cargar_tarjeta_propiedad', 'VehiculoController@cargar_tarjeta_propiedad');
     Route::post('/vehiculos/eliminar_documento_legal', 'VehiculoController@eliminar_documento_legal');
     Route::post('/vehiculos/get_documento_legal', 'VehiculoController@get_documento_legal');
+    Route::get('/vehiculos/trazabilidad_inspecciones/{id}', 'VehiculoController@trazabilidad_inspecciones');
 
     // RUTAS MANTENIMIENTOS
     Route::get('/vehiculos/mantenimientos', 'MantenimientosController@index');
@@ -101,6 +102,7 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos/inspecciones/pdf/{id}', 'InspeccionesController@pdf');
     Route::post('/vehiculos/inspecciones/filter', 'InspeccionesController@filter');
     Route::post('/vehiculos/inspecciones/certificado', 'InspeccionesController@certificado');
+    Route::post('/vehiculos/inspecciones/certificado/{id}', 'InspeccionesController@certificado');
 });
 
 // Rutas para Contabilidad

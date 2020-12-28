@@ -24,6 +24,10 @@ class CreateHallazgosInspecciones extends Migration
                 ->constrained()
                 ->cascadeOnDelete();
 
+            $table->foreignId('vehiculos_id')
+                ->constrained()
+                ->cascadeOnDelete();
+
             $table->timestamps();
         });
     }

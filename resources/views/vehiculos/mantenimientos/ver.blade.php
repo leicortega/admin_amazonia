@@ -470,6 +470,7 @@
                                         <option value="SERVICIO AUTOMOTRIZ JARA">SERVICIO AUTOMOTRIZ JARA</option>
                                         <option value="IMPORTADORA USA">IMPORTADORA USA</option>
                                         <option value="TORNICAT DEL HUILA">TORNICAT DEL HUILA</option>
+                                        <option value="REPUESTODO DEL HUILA AROS S.A.S">REPUESTODO DEL HUILA AROS S.A.S</option>
 
                                     </select>
                                 </div>

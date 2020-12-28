@@ -222,6 +222,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             return `
                 <option value=""></option>
                 <option value="SEGUROS GENERALES SURAMERICANA S. A" ${ (entidad == "SEGUROS GENERALES SURAMERICANA S. A") ? 'selected' : '' }>SEGUROS GENERALES SURAMERICANA S. A.</option>
+                <option value="MINISTERIO DE TRANSPORTE" ${ (entidad == "MINISTERIO DE TRANSPORTE") ? 'selected' : '' }>MINISTERIO DE TRANSPORTE.</option>
                 <option value="AXA COLPATRIA SEGUROS S.A." ${ (entidad == "AXA COLPATRIA SEGUROS S.A.") ? 'selected' : '' }>AXA COLPATRIA SEGUROS S.A.</option>
                 <option value="TECNOSUR LOCALIZACIÓN Y RASTREO" ${ (entidad == "TECNOSUR LOCALIZACIÓN Y RASTREO") ? 'selected' : '' }>TECNOSUR LOCALIZACIÓN Y RASTREO </option>
                 <option value="COMPAÑIA DE SEGUROS BOLIVAR S.A." ${ (entidad == "COMPAÑIA DE SEGUROS BOLIVAR S.A.") ? 'selected' : '' }>COMPAÑIA DE SEGUROS BOLIVAR S.A.</option>

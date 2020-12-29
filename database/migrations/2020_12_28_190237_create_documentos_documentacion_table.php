@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDocumentacionTable extends Migration
+class CreateDocumentosDocumentacionTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,15 @@ class CreateDocumentacionTable extends Migration
      */
     public function up()
     {
-        Schema::create('documentacion', function (Blueprint $table) {
+        Schema::create('documentos_documentacion', function (Blueprint $table) {
             $table->id();
 
             $table->string('nombre');
+            $table->string('file');
+
+            $table->foreignId('documentacion_id')
+                ->constrained('documentacion')
+                ->cascadeOnDelete();
 
             $table->timestamps();
         });
@@ -29,6 +34,6 @@ class CreateDocumentacionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('documentacion');
+        Schema::dropIfExists('documentos_documentacion');
     }
 }

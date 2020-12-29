@@ -114,46 +114,7 @@ function documentos_legales(tipo, vehiculo_id, id_table) {
                 `;
             });
 
-            $('#'+id_table).html(content)
-
-            // switch (tipo) {
-            //     case 'Tarjeta de Propiedad':
-            //         $('#content_table_documentos_legales').html(content)
-            //         break;
-
-            //     case 'Tarjeta Operación':
-            //         $('#content_table_tarjeta_operacion').html(content)
-            //         break;
-
-            //     case 'SOAT':
-            //         $('#content_table_soat').html(content)
-            //         break;
-
-            //     case 'Técnico Mecánica':
-            //         $('#content_table_tecnico_mecanica').html(content)
-            //         break;
-
-            //     case 'Seguro Todo Riesgo':
-            //         $('#content_table_seguro').html(content)
-            //         break;
-
-            //     case 'Certificado GPS':
-            //         $('#content_table_gps').html(content)
-            //         break;
-
-            //     case 'RUNT':
-            //         $('#content_table_runt').html(content)
-            //         break;
-
-            //     case 'Póliza contractual':
-            //         $('#content_table_contractual').html(content)
-            //         break;
-
-            //     case 'Póliza extracontractual':
-            //         $('#content_table_extracontractual').html(content)
-            //         break;
-
-            // }
+            $('#'+id_table).html(content);
         }
     })
 }

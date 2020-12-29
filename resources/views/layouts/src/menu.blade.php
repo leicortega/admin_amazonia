@@ -369,6 +369,15 @@
 
                 @endif
 
+                @if ( Request::is('informacion/documentacion') || Request::is('informacion/documentacion/*') )
+
+                    <li class="menu-title">Documentación</li>
+
+                    <li><a href="/" class="waves-effect">Atras</a></li>
+                    <li><a href="#" data-toggle="modal" data-target="#modal_crear_modulo" class="waves-effect">Agregar Modulo</a></li>
+
+                @endif
+
             </ul>
 
         </div>

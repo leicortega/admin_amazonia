@@ -211,3 +211,11 @@ Auth::routes(['register' => false]);
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/mail/template', function () { return view('mails.template'); });
+
+// Rutas para modulo Documentacíon
+Route::get('/informacion/documentacion', 'DocumentacionController@index');
+Route::post('/informacion/documentacion/create_modulo', 'DocumentacionController@create_modulo');
+Route::post('/informacion/documentacion/delete_modulo', 'DocumentacionController@delete_modulo');
+Route::post('/informacion/documentacion/agregar_documento', 'DocumentacionController@agregar_documento');
+Route::post('/informacion/documentacion/cargar_documentos', 'DocumentacionController@cargar_documentos');
+Route::post('/informacion/documentacion/delete_documento', 'DocumentacionController@delete_documento');

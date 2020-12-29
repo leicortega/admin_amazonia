@@ -41,3 +41,18 @@ Modificar el contrato para que aparezca la informacion de colaboracion y con en 
 ==================================================================================
 Modificar en el contrato para que apareca el convenio cuando es propio y cuando es convenio y cuando es vinculado se deja propio
 Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio listar las empresas con documentacion
+
+
+
+==================================================================================
+===================================== 29/12/2020 =================================
+==================================================================================
+-Revisar el error en el certificado
+-Agregar datos de cierre al reporte PDF
+-En el punto de cierre redreccionar al reporte PDF del mantenimientos
+-Generar reporte de docuemtos en el modulo de documentacion
+-Cambiar el fondo del modulo de documentacion
+-Revisar el extracto (convenio, con)
+
+-Carta de aceptacion, pagare carta de instrucciones (No aplica fecha de vencimiento)
+

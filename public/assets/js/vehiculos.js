@@ -460,6 +460,7 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
                 <option value="TRANSSERVICIOS CJ S.A.S" ${ (entidad == 'TRANSSERVICIOS CJ S.A.S') ? 'selected' : '' }>TRANSSERVICIOS CJ S.A.S</option>
                 <option value="TRANSPORTES MULTIMODAL GROUP S.A.S" ${ (entidad == 'TRANSPORTES MULTIMODAL GROUP S.A.S') ? 'selected' : '' }>TRANSPORTES MULTIMODAL GROUP S.A.S</option>
                 <option value="ESTURIVANNS S.A.S" ${ (entidad == 'ESTURIVANNS S.A.S') ? 'selected' : '' }>ESTURIVANNS S.A.S</option>
+                <option value="TRANSPORTES ESPECIALES GOLDEN" ${ (entidad == 'TRANSPORTES ESPECIALES GOLDEN') ? 'selected' : '' }>TRANSPORTES ESPECIALES GOLDEN</option>
             `;
             break;
 

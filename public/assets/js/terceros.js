@@ -341,7 +341,7 @@ function ver_trayectos(id) {
                     <td>${ trayecto.tipo_vehiculo }</td>
                     <td class="text-center">
                         <button type="button" onclick="editar_trayecto(${ trayecto.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_contrato(${ trayecto.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="ver_trayecto(${ trayecto.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <button type="button" onclick="eliminar_trayecto(${ trayecto.id }, ${ id })" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
@@ -513,6 +513,10 @@ function ver_cotizacion(id) {
 
 function ver_contrato(id) {
     window.open('/terceros/print_contrato/contrato/' + id, '_blank');
+}
+
+function ver_trayecto(id) {
+    window.open('/terceros/print_contrato/' + id, '_blank');
 }
 
 function eliminar_cotizacion(id, title) {

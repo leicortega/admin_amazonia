@@ -28,6 +28,24 @@ $(document).ready(function () {
         return false;
     });
 
+    $('#form_exportar_documentos').submit(function () {
+        $('#btn_submit_exportar_documentos').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
+
+        $.ajax({
+            url: '/informacion/documentacion/exportar_documentos',
+            type: 'POST',
+            data: $('#form_exportar_documentos').serialize(),
+            success: function (data) {
+                $('#btn_submit_exportar_documentos').html('Enviar').attr('disabled', false);
+                $('#form_exportar_documentos')[0].reset();
+                $('#modal_exportar').modal('hide');
+                window.open('/storage/docs/documentacion/documentacion.zip', '_blank');
+            }
+        });
+
+        return false;
+    });
+
 });
 
 function eliminar_modulo(id) {
@@ -142,4 +160,25 @@ function eliminar_documento(id, id_modulo) {
             }
         });
     }
+}
+
+function exportar_documentos() {
+    $.ajax({
+        url: '/informacion/documentacion/cargar_documentos_all',
+        type: 'POST',
+        success: function (data) {
+            let content = '';
+            data.forEach(item => {
+                content += `
+                    <div class="custom-control custom-checkbox mb-2">
+                        <input type="checkbox" class="custom-control-input" id="customCheck${item.id}" name="documentos[]" value="${item.id}">
+                        <label class="custom-control-label" for="customCheck${item.id}">${item.nombre}</label>
+                    </div>
+                `;
+            });
+
+            $('#content_exportar_documentos').html(content);
+            $('#modal_exportar').modal('show');
+        }
+    });
 }

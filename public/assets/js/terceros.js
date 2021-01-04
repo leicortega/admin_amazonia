@@ -31,7 +31,6 @@ $(document).ready(function () {
             contentType: false,
 	        processData: false,
             success: function (data) {
-                console.log(data)
                 $('#agg_documento')[0].reset();
                 $('#agg_documento_modal').modal('hide');
                 cargar_documentos(data.terceros_id);
@@ -127,7 +126,6 @@ $(document).ready(function () {
             type: 'POST',
             data: $('#form_actualizar_contrato').serialize(),
             success: function (data) {
-                console.log(data);
                 $('#modal_editar_contrato').modal('hide');
                 $('#form_actualizar_contrato')[0].reset();
                 cargar_contratos(data.tercero);
@@ -144,7 +142,6 @@ $(document).ready(function () {
             type: 'POST',
             data: $('#form_agregar_trayecto').serialize(),
             success: function (data) {
-                console.log(data);
                 $('#modal_agregar_trayecto').modal('hide');
                 $('#form_agregar_trayecto')[0].reset();
                 ver_trayectos(data.contrato);
@@ -314,7 +311,6 @@ function ver_trayectos(id) {
         type: 'POST',
         data: {id:id},
         success: function (data) {
-            console.log(data);
             content = `<button type="button" class="btn btn-lg btn-primary mb-3" onclick="agregar_trayecto(${id})">Agregar Trayecto</button>
 
                         <table class="table table-bordered">

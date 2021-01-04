@@ -98,6 +98,20 @@
         <tr>
             <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">OBSERVACIONES: {{ $mantenimiento->observaciones_contabilidad }}</td>
         </tr>
+
+        <tr>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;text-align:center;" colspan="4">DATOS DE CIERRE</td>
+        </tr>
+
+        <tr>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">FECHA: {{ $mantenimiento->fecha_cierre }}</td>
+        </tr>
+        <tr>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">NOMBRE: {{ $mantenimiento->persona_cierre }}</td>
+        </tr>
+        <tr>
+            <td style="color: #000000; border: 1px solid #000;font-weight: bold;padding: 5px;" colspan="4">OBSERVACIONES: {{ $mantenimiento->observaciones_cierre }}</td>
+        </tr>
         <?php $valor = 0; ?>
         @foreach ($mantenimiento->facturas as $factura)
             <?php

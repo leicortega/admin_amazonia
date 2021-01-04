@@ -123,11 +123,13 @@
 	<p><b>CONTRATANTE: {{ $data['tercero']['nombre'] }}</b></p>
 	<p><b>NIT/CC: {{ $data['tercero']['identificacion'] }}</b></p>
 	<p><b>OBJETO CONTRATO: {{ $data['contrato']['objeto_contrato'] }}</b></p>
-    <p><b>ORIGEN-DESTINO: {{ $data['trayecto']['ciudad_origen'] }} - {{ $data['trayecto']['ciudad_destino'] }}</b></p>
+    <p><b>ORIGEN-DESTINO: {{ $data['trayecto']['ciudad_origen'] }} - {{ $data['trayecto']['ciudad_destino'] }} {{ $data['trayecto']['recorrido'] == 'Ida y vuelta' ? 'con retorno por el mismo corredor vial' : '' }}</b></p>
     {{-- {{$data['vehiculo']['tipo_vinculacion_id']}} --}}
 
-    @if ($data['vehiculo']['tipo_vinculacion_id'] == 3)
+    @if ($data['vehiculo']['tipo_vinculacion_id'] == 1)
         <p><b>COLABORACION:</b> CONVENIO  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>CON:</b> {{ $data['tercero']['nombre'] }}</p>
+    @else
+        <p><b>COLABORACION:</b> PROPIO</p>
     @endif
 
     <br>

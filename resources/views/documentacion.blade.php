@@ -30,7 +30,7 @@
                     </div>
 
                     @foreach ($documentacion as $key => $row)
-                        <div class="timeline-item {{ $key % 2 == 0 ? 'timeline-left' : '' }}">
+                        <div class="timeline-item {{ $key % 2 == 0 ? 'timeline-left' : '' }} {{ $key > 0 ? 'just-top' : '' }}">
                             <div class="timeline-block">
                                 <div class="timeline-box card">
                                     <div class="card-body">
@@ -176,6 +176,44 @@
 
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_submit_agregar_documento" type="submit">Enviar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- MODAL EXPORTAR --}}
+<div class="modal fade bs-example-modal-xl" id="modal_exportar" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Exportar Documentación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/informacion/documentacion/exportar_documentos" id="form_exportar_documentos" method="POST">
+                    @csrf
+
+                    <div class="container p-3">
+
+                        <div class="col-sm-12">
+                            <div class="mt-4 mt-sm-0">
+                                <h5 class="font-size-14 mb-3">Seleccionar documentos a exportar</h5>
+
+                                <div id="content_exportar_documentos"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_submit_exportar_documentos" type="submit">Enviar</button>
                     </div>
 
                 </form>

@@ -375,6 +375,7 @@
 
                     <li><a href="/" class="waves-effect">Atras</a></li>
                     <li><a href="#" data-toggle="modal" data-target="#modal_crear_modulo" class="waves-effect">Agregar Modulo</a></li>
+                    <li><a href="javascript:exportar_documentos()" class="waves-effect">Exportar Documentación</a></li>
 
                 @endif
 

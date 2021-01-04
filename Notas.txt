@@ -47,12 +47,13 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 ==================================================================================
 ===================================== 29/12/2020 =================================
 ==================================================================================
--Revisar el error en el certificado
--Agregar datos de cierre al reporte PDF
--En el punto de cierre redreccionar al reporte PDF del mantenimientos
--Generar reporte de docuemtos en el modulo de documentacion
--Cambiar el fondo del modulo de documentacion
--Revisar el extracto (convenio, con)
+-Revisar el error en el certificado -------------------------------------------------------- YA
+-Agregar datos de cierre al reporte PDF ---------------------------------------------------- YA
+-En el punto de cierre redreccionar al reporte PDF del mantenimientos ---------------------- YA
+-Generar reporte de docuemtos en el modulo de documentacion -------------------------------- YA
+-Cambiar el fondo del modulo de documentacion ---------------------------------------------- YA
+-Revisar el extracto (convenio, con) ------------------------------------------------------- YA
+-Revisar recorrido de extracto ('Solo ida e Ida y vuelta = Por el mismo corredor vial') ---- YA
 
 -Carta de aceptacion, pagare carta de instrucciones (No aplica fecha de vencimiento)
 

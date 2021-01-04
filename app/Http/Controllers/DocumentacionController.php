@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use ZipArchive;
 
 use App\Models\Documentacion;
 use App\Models\Documentos_documentacion;
@@ -65,5 +66,28 @@ class DocumentacionController extends Controller
 
     public function delete_documento(Request $request) {
         return Documentos_documentacion::find($request['id'])->delete();
+    }
+
+    public function cargar_documentos_all() {
+        return Documentos_documentacion::all();
+    }
+
+    public function exportar_documentos(Request $request) {
+        $zip = new ZipArchive();
+
+        if(!$zip->open(public_path('storage/docs/documentacion/documentacion.zip'), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE){
+            return 'error';
+        }
+
+        foreach ($request['documentos'] as $row) {
+            $documento = Documentos_documentacion::find($row)->file;
+            $documento_nombre = Documentos_documentacion::find($row)->nombre;
+            $documento_extencion = pathinfo($documento, PATHINFO_EXTENSION);
+            $zip->addFile('storage/'.$documento, $documento_nombre.'.'.$documento_extencion);
+        }
+
+        $zip->close();
+
+        return true;
     }
 }

@@ -267,10 +267,10 @@ class TercerosController extends Controller
     }
 
     public function cargar_contratos(Request $request) {
-        // return Contrato::where('tercero_id', $request['terceros_id'])->get();
         return DB::table('contratos')
             ->join('contactos_terceros', 'contactos_terceros.identificacion', '=', 'contratos.responsable_contrato_id')
             ->select('contratos.id', 'contratos.fecha', 'contratos.tipo_contrato', 'contratos.objeto_contrato', 'contactos_terceros.nombre')
+            ->where('tercero_id', $request['terceros_id'])
             ->groupBy('contratos.id')
             ->get();
     }

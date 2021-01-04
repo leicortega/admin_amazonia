@@ -71,13 +71,15 @@
                                                     </a>
                                                 </li>
                                                 <li class="li {{ $item->mantenimiento->persona_cierre ? 'complete' : '' }}">
-                                                    <div class="timestamp">
-                                                        <span class="author">{{ $item->mantenimiento->persona_cierre ?? 'Aun no hay cierre' }}</span>
-                                                        <span class="date">{{ $item->mantenimiento->fecha_cierre ?? 'Mantenimiento sin cierre' }}<span>
-                                                    </div>
-                                                    <div class="status">
-                                                        <h4> Cierre </h4>
-                                                    </div>
+                                                    <a href="/vehiculos/print/mantenimiento/{{ $item->mantenimiento->id }}" target="_blank">
+                                                        <div class="timestamp">
+                                                            <span class="author">{{ $item->mantenimiento->persona_cierre ?? 'Aun no hay cierre' }}</span>
+                                                            <span class="date">{{ $item->mantenimiento->fecha_cierre ?? 'Mantenimiento sin cierre' }}<span>
+                                                        </div>
+                                                        <div class="status">
+                                                            <h4> Cierre </h4>
+                                                        </div>
+                                                    </a>
                                                 </li>
                                             @endforeach
                                         </ul>

@@ -219,3 +219,5 @@ Route::post('/informacion/documentacion/delete_modulo', 'DocumentacionController
 Route::post('/informacion/documentacion/agregar_documento', 'DocumentacionController@agregar_documento');
 Route::post('/informacion/documentacion/cargar_documentos', 'DocumentacionController@cargar_documentos');
 Route::post('/informacion/documentacion/delete_documento', 'DocumentacionController@delete_documento');
+Route::post('/informacion/documentacion/cargar_documentos_all', 'DocumentacionController@cargar_documentos_all');
+Route::post('/informacion/documentacion/exportar_documentos', 'DocumentacionController@exportar_documentos');

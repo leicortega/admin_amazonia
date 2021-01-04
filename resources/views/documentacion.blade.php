@@ -196,7 +196,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/informacion/documentacion/exportar_documentos" id="form_exportar_documento" method="POST">
+                <form action="/informacion/documentacion/exportar_documentos" id="form_exportar_documentos" method="POST">
                     @csrf
 
                     <div class="container p-3">

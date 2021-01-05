@@ -19,8 +19,9 @@ class CreateContabilidadTable extends Migration
             $table->string('persona_creo');
             $table->date('fecha');
             $table->string('concepto');
-            $table->integer('valor_pagar')->nullable();
-            $table->integer('valor_cobrar')->nullable();
+            $table->bigInteger('valor');
+            $table->string('tipo');
+            $table->string('estado')->nullable();
             $table->string('anexo')->nullable();
 
             $table->foreignId('vehiculos_id')

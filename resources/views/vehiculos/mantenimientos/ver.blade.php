@@ -117,7 +117,7 @@
                                         <div class="mt-4 mt-5">
                                             <h5>Autorizar mantenimiento</h5>
                                             <div class="text-muted">
-                                                @if (\App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id == $mantenimiento->vehiculo->personal_id || auth()->user()->id == 5 || auth()->user()->id == 6)
+                                                @if (\App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id ?? 0 == $mantenimiento->vehiculo->personal_id || auth()->user()->id == 5 || auth()->user()->id == 6)
                                                     <p class="mb-4">Esta solicitud de mantenimiento requiere autorizacion para seguir con el proceso</p>
                                                 @else
                                                     <p class="mb-4">Usted no tiene permisos para autorizar este mantenimiento</p>

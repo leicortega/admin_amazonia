@@ -9,7 +9,7 @@ class Contabilidad extends Model
     protected $table = 'contabilidad';
 
     protected $fillable = [
-        'persona_creo', 'fecha', 'concepto', 'valor_pagar', 'valor_cobrar', 'anexo', 'vehiculos_id'
+        'persona_creo', 'fecha', 'concepto', 'valor', 'tipo', 'estado', 'anexo', 'vehiculos_id'
     ];
 
     public function vehiculo() {

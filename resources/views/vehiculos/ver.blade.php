@@ -112,7 +112,7 @@
                             </div>
 
                             <div id="accordion" class="col-12">
-                                {{-- TAB CONDUCTORESexpande --}}
+                                {{-- TAB CONDUCTORES --}}
                                 <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_conductores({{ $vehiculo->id }})" data-parent="#accordion" href="#collapseConductores" aria-expanded="false" aria-controls="collapseConductores" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">

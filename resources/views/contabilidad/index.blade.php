@@ -42,28 +42,30 @@
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th scope="col">Responsable</th>
-                                            <th scope="col">Fecha</th>
                                             <th scope="col">Vehiculo</th>
-                                            <th scope="col">Concepto</th>
+                                            <th scope="col">Propietario</th>
+                                            <th scope="col">Estado de cuenta</th>
+                                            {{-- <th scope="col">Concepto</th>
                                             <th scope="col">Por Pagar</th>
-                                            <th scope="col">Por Cobrar</th>
+                                            <th scope="col">Por Cobrar</th> --}}
                                             <th scope="col">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($registros as $registro)
+                                        @foreach ($vehiculos as $vehiculo)
                                             <tr>
-                                                <th>{{ $registro->persona_creo }}</th>
-                                                <td>{{ $registro->fecha }}</td>
-                                                <td>{{ $registro->placa }}</td>
-                                                <td>{{ $registro->concepto }}</td>
+                                                <th>{{ $vehiculo->placa }}</th>
+                                                <td>{{ \App\Models\Personal::find($vehiculo->personal_id)->nombres }} {{ \App\Models\Personal::find($vehiculo->personal_id)->primer_apellido }}</td>
+                                                <td>0</td>
+                                                {{-- <td>{{ $registro->concepto }}</td>
                                                 <td>{{ number_format($registro->valor_pagar) }}</td>
-                                                <td>{{ number_format($registro->valor_cobrar) }}</td>
+                                                <td>{{ number_format($registro->valor_cobrar) }}</td> --}}
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="ver_anexo('{{ $registro->anexo }}')" data-toggle="tooltip" data-placement="top" title="Ver Anexo">
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </button>
+                                                    <a href="/contabilidad/ver/{{ $vehiculo->id }}">
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver registros">
+                                                            <i class="mdi mdi-eye"></i>
+                                                        </button>
+                                                    </a>
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -72,7 +74,7 @@
                                 </table>
                             </div>
 
-                            {{ $registros->links() }}
+                            {{ $vehiculos->links() }}
 
                         </div>
                     </div>

@@ -102,12 +102,13 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos/inspecciones/pdf/{id}', 'InspeccionesController@pdf');
     Route::post('/vehiculos/inspecciones/filter', 'InspeccionesController@filter');
     Route::post('/vehiculos/inspecciones/certificado', 'InspeccionesController@certificado');
-    Route::post('/vehiculos/inspecciones/certificado/{id}', 'InspeccionesController@certificado');
+    Route::get('/vehiculos/inspecciones/certificado/{id}', 'InspeccionesController@certificado_view');
 });
 
 // Rutas para Contabilidad
 Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad');
+    Route::get('/contabilidad/ver/{id}', 'ContabilidadController@ver');
     Route::post('/contabilidad/create', 'ContabilidadController@create');
 });
 

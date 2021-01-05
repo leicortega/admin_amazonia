@@ -47,7 +47,8 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 ==================================================================================
 ===================================== 29/12/2020 =================================
 ==================================================================================
--Revisar el error en el certificado -------------------------------------------------------- YA
+-Revisar el error en el certificado ------------- VOLVER A HACER
+-Corregir contratos tercero (aparecen contratos que no son) -------------------------------- YA
 -Agregar datos de cierre al reporte PDF ---------------------------------------------------- YA
 -En el punto de cierre redreccionar al reporte PDF del mantenimientos ---------------------- YA
 -Generar reporte de docuemtos en el modulo de documentacion -------------------------------- YA
@@ -57,3 +58,16 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 
 -Carta de aceptacion, pagare carta de instrucciones (No aplica fecha de vencimiento)
 
+
+
+==================================================================================
+===================================== 04/01/2021 =================================
+==================================================================================
+-Agregar campo empresa convenio en vehiculo
+-Poner botones cargando cuando se da enviar
+-Error al dar atras en pestaña de HSEQ
+-Terminar modulo de contabilidad
+-Revisar el error en el certificado
+-En el extracto PDF quitar el contrato y dejar solo el trayecto
+-Agregar firma del gerente en el extracto
+-En la clausula 3 del contrato quitar nombre Leiner Fabian Ortega y poner el nombre del contrante

@@ -216,7 +216,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" id="div_item1">
                                 <div class="form-group form-group-custom mb-4">
                                     <div class="form-group form-group-custom mb-4">
                                         <select name="personal_id" class="form-control" id="personal_id" required>
@@ -229,9 +229,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-4" id="div_item2">
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="tipo_vinculacion_id" class="form-control" id="tipo_vinculacion_id" required>
+                                    <select name="tipo_vinculacion_id" class="form-control" id="tipo_vinculacion_id" onchange="select_tipo_vinculacion(this.value)" required>
                                         <option value=""></option>
                                         @foreach (\App\Models\Sistema\Tipo_Vinculacion::all() as $tipo_vinculacion)
                                             <option value="{{ $tipo_vinculacion->id }}">{{ $tipo_vinculacion->nombre }}</option>
@@ -240,7 +240,15 @@
                                     <label for="tipo_vinculacion_id">Tipo Vinculacion</label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+
+                            <div class="col-sm-3 d-none" id="div_empresa_convenio">
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control" id="empresa_convenio" name="empresa_convenio" >
+                                    <label for="empresa_convenio">Empresa Convenio</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4" id="div_item3">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="number" class="form-control" id="tarjeta_operacion" name="tarjeta_operacion" required="">
                                     <label for="tarjeta_operacion">Tarjeta Operación</label>

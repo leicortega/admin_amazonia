@@ -58,8 +58,9 @@ class ContabilidadController extends Controller
             'persona_creo' => auth()->user()->name,
             'fecha' => $this->date->format('Y-m-d'),
             'concepto' => $request['concepto'],
-            'valor_pagar' => $request['valor_pagar'],
-            'valor_cobrar' => $request['valor_cobrar'],
+            'valor' => $request['valor'],
+            'tipo' => $request['tipo'],
+            'estado' => 0,
             'anexo' => $nombre_completo_file_documento ?? null,
             'vehiculos_id' => $request['vehiculos_id'],
         ]);
@@ -103,7 +104,8 @@ class ContabilidadController extends Controller
             'total_por_pagar' => $total_por_pagar,
             'total_por_cobrar' => $total_por_cobrar,
             'estado_cuenta' => $estado_cuenta,
-            'estado' => $estado
+            'estado' => $estado,
+            'id' => $request['id']
         ]);
     }
 }

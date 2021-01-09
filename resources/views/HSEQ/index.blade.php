@@ -33,7 +33,8 @@
                                     {{-- @if ($files->count() > 0) --}}
                                         {{-- <a href="/hseq/list/{{ $files[0]['dirname'] }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a> --}}
                                     {{-- @else --}}
-                                        <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a>
+                                        <a href="{{ $back }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a>
+                                        {{-- <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a> --}}
                                     {{-- @endif --}}
                                 @endif
                                 <button class="btn btn-primary btn-lg float-right ml-2" data-toggle="modal" data-target="#modal_crear_carpeta">Crear Carpeta</button>
@@ -62,7 +63,7 @@
                                             <div class="card-footer text-center">
 
                                                 <td class="text-center col-12">
-                                                    <a href="/hseq/list/{{ $dir['path'] }}" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-eye"></i></a>
+                                                    <a href="/hseq/list/{{ $dir['basename'] }}" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-eye"></i></a>
 
                                                     <button type="button" onclick="eliminar_carpeta('{{ $dir['path'] }}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                                                 </td>

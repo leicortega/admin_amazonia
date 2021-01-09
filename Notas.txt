@@ -63,11 +63,13 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 ==================================================================================
 ===================================== 04/01/2021 =================================
 ==================================================================================
--Agregar campo empresa convenio en vehiculo
+-Agregar campo empresa convenio en vehiculo ------------------------------------------------------------- YA
 -Poner botones cargando cuando se da enviar
 -Error al dar atras en pestaña de HSEQ
--Terminar modulo de contabilidad
--Revisar el error en el certificado
--En el extracto PDF quitar el contrato y dejar solo el trayecto
--Agregar firma del gerente en el extracto
--En la clausula 3 del contrato quitar nombre Leiner Fabian Ortega y poner el nombre del contrante
+-Terminar modulo de contabilidad ------------------------------------------------------------------------ YA
+-Revisar el error en el certificado --------------------------------------------------------------------- YA
+-En el extracto PDF quitar el contrato y dejar solo el trayecto ----------------------------------------- YA
+-Agregar firma del gerente en el extracto --------------------------------------------------------------- YA
+-En la clausula 3 del contrato quitar nombre Leiner Fabian Ortega y poner el nombre del contrante ------- YA
+-Corregir en numero del extracto y seguir el consecutivo del aplicativo anterior ------------------------ NO HE PODIDO INGRESAR A LA BASE DE DATOS DEL APLICATIVO ANTERIOR POR LA IP
+-Corregir el numero del extracto, debe tener 21 numeros ------------------------------------------------- YA

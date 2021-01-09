@@ -26,6 +26,7 @@ class CreateVehiculosTable extends Migration
             $table->integer('tarjeta_operacion');
             $table->string('color');
             $table->enum('estado', ['Activo', 'Inactivo']);
+            $table->strinng('empresa_convenio')->nullable();
 
             $table->foreignId('tipo_vehiculo_id')
                 ->constrained('tipo_vehiculo')
@@ -51,7 +52,7 @@ class CreateVehiculosTable extends Migration
                 ->constrained('personal')
                 ->onDelete('cascade');
 
-            
+
             $table->timestamps();
         });
     }

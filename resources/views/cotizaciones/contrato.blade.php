@@ -38,11 +38,10 @@
 </head>
 <body>
 
-    <table width="100%" border="1" cellspacing="0" cellpadding="0" style="text-align: center;">
+    {{-- <table width="100%" border="1" cellspacing="0" cellpadding="0" style="text-align: center;">
 
         <tr>
             <td rowspan="2" style="padding: 5px" width="150px">
-                {{-- <img src="{{ asset('assets/images/logo_amazonia.png') }}" alt=""> --}}
                 <img src="https://app.amazoniacl.com/images/logo_amazonia2.png" width="95px" alt="">
             </td>
             <td><b>SISTEMA INTEGRADO DE GESTION</b></td>
@@ -100,7 +99,7 @@
         </tbody>
     </table>
 
-    <div clas='saltopagina' style="page-break-after:always !important;"></div>
+    <div clas='saltopagina' style="page-break-after:always !important;"></div> --}}
 
     <table class="table">
         <tbody>
@@ -113,13 +112,13 @@
     </table>
 
     <p style="text-align: center;font-weight: bold;">FORMATO UNICO DE CONTRATO DE SERVICIO PUBLICO DE TRANSPORTE AUTOMOTOR ESPCIAL</p>
-    <p style="text-align: center;font-weight: bold;">No: 441000112202003{{ $data['contrato']['id'] }}</p>
+    <p style="text-align: center;font-weight: bold;">No: 441000112{{ $data['anio'] }}{{ $data['contrato_numero'] }}{{ $data['extracto_numero'] }}</p>
 
     <br>
 
     <p style="font-size: 11.5px !important;"><b>AMAZONIA C&L S.A.S</b></p>
 	<p><b>Nit:  900.447.438 - 6</b></p>
-    <p><b>CONTRATO Nº: {{ $data['contrato']['id'] }}</b></p>
+    <p><b>CONTRATO Nº: {{ $data['contrato_numero'] }}</b></p>
 	<p><b>CONTRATANTE: {{ $data['tercero']['nombre'] }}</b></p>
 	<p><b>NIT/CC: {{ $data['tercero']['identificacion'] }}</b></p>
 	<p><b>OBJETO CONTRATO: {{ $data['contrato']['objeto_contrato'] }}</b></p>
@@ -127,9 +126,11 @@
     {{-- {{$data['vehiculo']['tipo_vinculacion_id']}} --}}
 
     @if ($data['vehiculo']['tipo_vinculacion_id'] == 1)
-        <p><b>COLABORACION:</b> CONVENIO  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>CON:</b> {{ $data['tercero']['nombre'] }}</p>
-    @else
+        <p><b>COLABORACION:</b> CONVENIO  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;  <b>CON:</b> {{ $data['vehiculo']['empresa_convenio'] }}</p>
+    @elseif($data['vehiculo']['tipo_vinculacion_id'] == 2)
         <p><b>COLABORACION:</b> PROPIO</p>
+    @else
+        <p><b>COLABORACION:</b> VINCULADO</p>
     @endif
 
     <br>
@@ -204,7 +205,7 @@
                     <b> E mail:</b> transporte@amazoniacl.com <br>
                 </td>
 
-                <td style="padding: 3px;" colspan="2"><b><br><br><br><br><br><br><br>FIRMA Y SELLO GERENTE</b></td>
+                <td style="padding: 3px;" colspan="2"><img width="210" src="{{ public_path() }}/assets/images/firma_gerente.jpg" alt="Firma Gerente"><br>FIRMA Y SELLO GERENTE</b></td>
             </tr>
         </tbody>
     </table>

@@ -456,6 +456,29 @@ class TercerosController extends Controller
         $conductor_tres = Personal::find($trayecto->conductor_tres_id);
         $vigencia_tres = Documentos_personal::where('tipo', 'LICENCIA DE CONDUCCIÓN')->where('personal_id', $trayecto->conductor_tres_id)->orderBy('id', 'desc')->first()->fecha_fin_vigencia ?? NULL;
 
+        $anio = Carbon::now()->format('Y');
+
+        if ($trayecto->id > 999) {
+            $extracto_numero = $trayecto->id;
+        } else if($trayecto->id > 99 && $trayecto->id < 999) {
+            $extracto_numero = '0'.$trayecto->id;
+        } else if($trayecto->id > 9 && $trayecto->id < 99) {
+            $extracto_numero = '00'.$trayecto->id;
+        } else {
+            $extracto_numero = '000'.$trayecto->id;
+        }
+
+        if ($trayecto->contratos->id > 999) {
+            $contrato_numero = $trayecto->contratos->id;
+        } else if($trayecto->contratos->id > 99 && $trayecto->contratos->id < 999) {
+            $contrato_numero = '0'.$trayecto->contratos->id;
+        } else if($trayecto->contratos->id > 9 && $trayecto->contratos->id < 99) {
+            $contrato_numero = '00'.$trayecto->contratos->id;
+        } else {
+            $contrato_numero = '000'.$trayecto->contratos->id;
+        }
+
+
         $data = [
             'trayecto' => $trayecto,
             'contrato' => $trayecto->contratos,
@@ -467,7 +490,10 @@ class TercerosController extends Controller
             'conductor_dos' => $conductor_dos,
             'vigencia_dos' => $vigencia_dos,
             'conductor_tres' => $conductor_tres,
-            'vigencia_tres' => $vigencia_tres
+            'vigencia_tres' => $vigencia_tres,
+            'anio' => $anio,
+            'extracto_numero' => $extracto_numero,
+            'contrato_numero' => $contrato_numero
         ];
 
         return PDF::loadView('cotizaciones.contrato', compact('data'))->setPaper('A4')->stream('cotizacion.pdf');

@@ -182,7 +182,7 @@ Route::group(['middleware' => ['permission:blog|universal']], function () {
     Route::get('/blog/post/ver/{id}', 'BlogController@ver');
 });
 
-// Rutas para BLOG
+// Rutas para Tareas
 Route::group(['middleware' => ['permission:tareas|universal']], function () {
     Route::get('/tareas', 'TareasController@index')->name('tareas');
     Route::get('/tareas/asignadas', 'TareasController@asignadas')->name('asignadas');

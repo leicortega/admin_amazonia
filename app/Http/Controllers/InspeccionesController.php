@@ -207,9 +207,7 @@ class InspeccionesController extends Controller
     }
 
     public function certificado_view(Request $request) {
-        $contenido = Inspeccion::find($request['id']);
-
-        $contenido = $request['certificado'];
+        $contenido = Inspeccion::find($request['id'])->certificado;
 
         return PDF::loadView('vehiculos.inspecciones.certificado_inspeccion', compact('contenido'))->setPaper('A4')->stream('certificado_inspeccion.pdf');
     }

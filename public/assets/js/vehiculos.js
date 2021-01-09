@@ -532,3 +532,18 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
 
     }
 }
+
+function select_tipo_vinculacion(tipo) {
+    console.log(tipo);
+    if (tipo == 1) {
+        $('#div_empresa_convenio').removeClass('d-none');
+        $('#div_item1').removeClass('col-sm-4').addClass('col-sm-3');
+        $('#div_item2').removeClass('col-sm-4').addClass('col-sm-3');
+        $('#div_item3').removeClass('col-sm-4').addClass('col-sm-3');
+    } else {
+        $('#div_empresa_convenio').addClass('d-none');
+        $('#div_item1').removeClass('col-sm-3').addClass('col-sm-4');
+        $('#div_item2').removeClass('col-sm-3').addClass('col-sm-4');
+        $('#div_item3').removeClass('col-sm-3').addClass('col-sm-4');
+    }
+}

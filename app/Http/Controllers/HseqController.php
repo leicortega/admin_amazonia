@@ -21,9 +21,13 @@ class HseqController extends Controller
 
     public function list_folder(Request $request) {
         $dir = $request['folder'];
+        $path = $request['path'];
         $recursive = false;
+        // $contents = collect(\Storage::cloud()->listContents($path, $recursive));
         $contents = collect(\Storage::cloud()->listContents($dir, $recursive));
 
+        // dd($contents);
+        // dd(\Storage::sharedGet($path));
         return view('HSEQ.index', ['files' => $contents]);
     }
 
@@ -32,8 +36,17 @@ class HseqController extends Controller
         $recursive = false;
         $contents = collect(\Storage::cloud()->listContents($dir, $recursive));
 
-        // dd($contents);
-        return view('HSEQ.index', ['files' => $contents]);
+        // return view('HSEQ.index', ['files' => $contents]);
+
+        // dd($contents->where('type', '=', 'file')->count());
+
+        if ($contents->where('type', '=', 'file')->count() > 0 && $contents->where('type', '=', 'dir')->count() == 0) {
+            $back = '/hseq/list/'.$contents[0]['dirname'];
+        } else {
+            $back = url()->previous();
+        }
+
+        return view('HSEQ.index', ['files' => $contents, 'back' => $back]);
     }
 
     public function create_dir(Request $request) {

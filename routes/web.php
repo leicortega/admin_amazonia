@@ -9,6 +9,7 @@ Route::post('/app/sistema/get/departamentos', 'AdminController@departamentos');
 Route::post('/app/sistema/get/municipios', 'AdminController@municipios');
 Route::post('/app/sistema/alertas/documentos', 'AlertasController@alerta_documentos');
 
+// RUTAS APP OBCONSULTORES
 Route::get('/app/sistema/get/departamentos', 'AdminController@departamentos');
 Route::get('/app/sistema/get/municipios', 'AdminController@municipios');
 

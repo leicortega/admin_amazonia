@@ -79,7 +79,7 @@
                                                     <button class="btn btn-primary btn-block waves-effect waves-light" type="submit">Ingresar</button>
                                                 </div>
                                                 <div class="mt-5 text-center">
-                                                    <a href="auth-register.html" class="text-muted">2020 © Amazonia C&L.</a>
+                                                    <a href="auth-register.html" class="text-muted">2021 © Amazonia C&L.</a>
                                                 </div>
                                             </div>
                                         </div>

@@ -65,7 +65,7 @@
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="text-center d-none d-sm-block">
-                                    2020 © Amazonia C&L.
+                                    2021 © Amazonia C&L.
                                 </div>
                             </div>
                         </div>

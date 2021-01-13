@@ -557,6 +557,6 @@ class TercerosController extends Controller
         $terceros = Tercero::departamento($request->departamento)->ciudad($request->municipio)->orden($request->ordenarpor)->buscapor($request->search, $request->buscapor)->paginate(5);
 
 
-        return view('terceros.index', ['terceros' => $terceros, 'request' => $request]);
+        return view('terceros.index', ['terceros' => $terceros]);
     }
 }

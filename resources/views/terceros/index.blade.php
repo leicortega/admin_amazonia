@@ -38,6 +38,20 @@
                                     </div>
                                 @endif
 
+                                {{-- botones de filtro --}}
+
+                                <button type="button" class="btn btn-primary btn-lg float-left mb-2" onclick="cargarDepartamentos()" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
+                                </button>
+
+                                @if(request()->routeIs('terceros_filtro'))
+                                    <a href="{{route('terceros')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                        Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+
+
+                                {{-- end botones de fitro --}}
+
                                 <button type="button" class="btn btn-primary btn-lg float-right mb-2" onclick="cargarDepartamentos()" data-toggle="modal" data-target="#modal-crear-tercero">Agregar +</button>
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
@@ -241,6 +255,91 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="modal fade bs-example-modal-xl" id="modal-filtro" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-cotizacion">Agregar Filtros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="{{route('terceros_filtro')}}" id="form-create-tercero" method="POST">
+                    @csrf
+                    <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
+                    <div class="container">
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Ordenar Por</label>
+                                    <select name="ordenarpor" class="form-control">
+                                        <option value="">Selecciona </option>
+                                        <option value="identificacion">Identificacion</option>
+                                        <option value="nombre">Nombre</option>
+                                        <option value="municipio">Ciudad</option>
+                                        <option value="correo">Correo</option>
+                                        <option value="telefono">Telefono</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Departamento</label>
+                                    <select name="departamento" id="departamento_2" onchange="cargarMunicipios(this.value)" class="form-control">
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Municipio</label>
+                                    <select name="municipio" id="municipio_2" class="form-control">
+                                        <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <h5 class="modal-title" id="modal-title-cotizacion">Buscar</h5>
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-6">
+                                    <select name="buscapor" class="form-control">
+                                        <option value="identificacion">Identificacion</option>
+                                        <option value="nombre">Nombre</option>
+                                        <option value="correo">Correo</option>
+                                        <option value="telefono">Telefono</option>
+                                    </select>
+                                </div>
+                                <div class="col-sm-6">
+                                        <input type="text" class="form-control" placeholder="Buscar" name="search"/>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
 
 @endsection
 

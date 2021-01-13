@@ -396,7 +396,8 @@ function cargarDepartamentos() {
 			data.forEach(dpt => {
 				html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
 			});
-			$('#departamento').html(html);
+            $('#departamento').html(html);
+            $('#departamento_2').html(html);
 			$('#departamento_origen').html(html);
             $('#departamento_destino').html(html);
             $('#departamento_origen_trayecto').html(html);

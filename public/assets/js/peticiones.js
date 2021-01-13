@@ -574,6 +574,7 @@ function cargarMunicipios(dpt) {
                 html += '<option value="'+dpt.nombre+'">'+dpt.nombre+'</option>';
             });
             $('#municipio').html(html);
+            $('#municipio_2').html(html);
         }
     })
 }

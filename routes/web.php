@@ -143,6 +143,7 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
 // Rutas para Terceros
 Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::get('/terceros', 'TercerosController@index')->name('terceros');
+    Route::post('/terceros', 'TercerosController@filtrar')->name('terceros_filtro');
     Route::get('/terceros/ver/{id}', 'TercerosController@ver')->name('ver-tercero');
     Route::post('/terceros/create', 'TercerosController@create');
     Route::post('/terceros/update', 'TercerosController@update');

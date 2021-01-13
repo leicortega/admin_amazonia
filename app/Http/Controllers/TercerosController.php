@@ -551,4 +551,12 @@ class TercerosController extends Controller
     public function editar_trayecto(Request $request) {
         return Trayectos_contrato::with('contratos')->find($request['id']);
     }
+
+    public function filtrar(Request $request){
+
+        $terceros = Tercero::departamento($request->departamento)->ciudad($request->municipio)->orden($request->ordenarpor)->buscapor($request->search, $request->buscapor)->paginate(5);
+
+
+        return view('terceros.index', ['terceros' => $terceros, 'request' => $request]);
+    }
 }

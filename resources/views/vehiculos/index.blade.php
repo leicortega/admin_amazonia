@@ -42,6 +42,8 @@
                                 <button type="button" class="btn btn-primary btn-lg float-left mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
                                 </button>
 
+
+
                                 @if(request()->routeIs('vehiculos_filtro'))
                                     <a href="{{route('vehiculos')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
@@ -137,6 +139,7 @@
     </div> <!-- container-fluid -->
 </div>
 
+{{-- AGREGAR VEHICULO --}}
 <div class="modal fade bs-example-modal-xl" id="aggVehiculo" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -397,9 +400,6 @@
                                     <select name="buscapor" class="form-control">
                                         <option value="placa">Placa</option>
                                         <option value="numero_interno">Nº Interno</option>
-                                        <option value="personal_id">Propietario</option>
-                                        <option value="tipo_vehiculo_id">Tipo</option>
-                                        <option value="marca_id">Marca</option>
                                     </select>
                                 </div>
                                 <div class="col-sm-6">

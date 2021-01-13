@@ -3,8 +3,6 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('index');
-Route::get('/filtros_destroy/{ruta}', 'HomeController@destroy')->name('destroy_filtros');
-Route::post('/filtros', 'HomeController@filtrar')->name('filtro');
 
 // APP Routes Utilitaries
 Route::post('/app/sistema/get/departamentos', 'AdminController@departamentos');
@@ -96,15 +94,16 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos/mantenimientos/eliminar_factura/{id}', 'MantenimientosController@eliminar_factura');
 
     // Rutas para Inspecciones
-    Route::get('/vehiculos/inspecciones', 'InspeccionesController@index');
-    Route::get('/vehiculos/{id}/inspecciones', 'InspeccionesController@inspecciones_vehiculo');
+    Route::get('/vehiculos/inspecciones', 'InspeccionesController@index')->name('inspecciones');
+    Route::get('/vehiculos/inspecciones/filtro', 'InspeccionesController@filtro')->name('inspecciones_filtro');
+    // Route::get('/vehiculos/{id}/inspecciones', 'InspeccionesController@inspecciones_vehiculo');
     Route::get('/vehiculos/inspecciones/agregar', 'InspeccionesController@agregar_view');
     Route::post('/vehiculos/inspecciones/agregar', 'InspeccionesController@agregar');
     Route::get('/vehiculos/inspecciones/ver/{id}', 'InspeccionesController@ver')->name('ver_inspeccion');
     Route::post('/vehiculos/inspecciones/agregar_adjunto', 'InspeccionesController@agregar_adjunto');
     Route::post('/vehiculos/inspecciones/cerrar', 'InspeccionesController@cerrar');
     Route::get('/vehiculos/inspecciones/pdf/{id}', 'InspeccionesController@pdf');
-    Route::post('/vehiculos/inspecciones/filter', 'InspeccionesController@filter');
+    // Route::post('/vehiculos/inspecciones/filter', 'InspeccionesController@filter');
     Route::post('/vehiculos/inspecciones/certificado', 'InspeccionesController@certificado');
     Route::get('/vehiculos/inspecciones/certificado/{id}', 'InspeccionesController@certificado_view');
 });

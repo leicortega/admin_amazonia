@@ -29,7 +29,7 @@
                                         {{ session('mensaje') }}
                                     </div>
                                 @endif
-                                <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
 
                                 <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#modal_agregar_registro">Agregar +</button>
 

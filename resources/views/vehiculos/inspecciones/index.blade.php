@@ -34,8 +34,20 @@
                                     </div>
                                 @endif
 
-                                <div class="container-fluid">
-                                    <form action="/vehiculos/inspecciones/filter" method="POST">
+                                {{-- botones de filtro --}}
+                                <button type="button" class="btn btn-primary btn-lg float-left mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
+                                </button>
+
+
+                                @if(request()->routeIs('inspecciones_filtro'))
+                                    <a href="{{route('inspecciones')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                        Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                                {{-- end botones de fitro --}}
+
+                                
+                                    {{-- <form action="/vehiculos/inspecciones/filter" method="POST">
                                         @csrf
 
                                         <div class="row p-0">
@@ -57,17 +69,18 @@
                                                     <label>Rango de fechas</label>
                                                     <input type="text" class="form-control datepicker-here" name="rango" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
                                                 </div>
-                                            </div>
+                                            </div> 
                                             <div class="col-lg-2 mt-4">
                                                 <button type="submit" class="btn btn-primary btn-lg mb-2">Buscar</button>
                                             </div>
 
-                                            <div class="col-4 mt-4 text-right">
-                                                <a href="/vehiculos/inspecciones/agregar" class="btn btn-primary btn-lg float-right mb-2">Agregar</a>
-                                            </div>
+                                            
                                         </div>
-                                    </form>
-                                </div>
+                                    </form> --}}
+                                    <div class=" text-right">
+                                                <a href="/vehiculos/inspecciones/agregar" class="btn btn-primary btn-lg float-right mb-2">Agregar +</a>
+                                    </div>
+                                
 
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
@@ -116,6 +129,7 @@
     </div> <!-- container-fluid -->
 </div>
 
+{{-- AGREGAR MANTENIM,IENTO --}}
 <div class="modal fade bs-example-modal-xl" id="solicitar_mantenimiento_modal" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -184,6 +198,101 @@
                     </div>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- AGREGAR FILTRO --}}
+<div class="modal fade bs-example-modal-xl" id="modal-filtro" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-cotizacion">Agregar Filtros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="{{route('inspecciones_filtro')}}" id="form-create-tercero" method="GET">
+                    @csrf
+                    <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
+                    <div class="container">
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Ordenar Por</label>
+                                    <select name="ordenarpor" class="form-control">
+                                        <option value="">Selecciona </option>
+                                        <option value="vehiculo_id">Placa</option>
+                                        <option value="users_id">Encargado</option>
+                                        <option value="fecha_inicio">Fecha y hora</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Encargado</label>
+                                    <select name="encargado" id="propietario" class="form-control">
+                                        <option value="">Selecciona</option>
+                                        @foreach ($usuarios as $item)
+                                            <option value="{{$item->id}}">{{$item->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Estado</label>
+                                    <select name="estado" id="tipo" class="form-control">
+                                        <option value="">Selecciona</option>
+                                        <option value="true">Cerrada</option>
+                                        <option value="false">Iniciada</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Fecha</label>
+                                    <input type="text" class="form-control datepicker-here" name="fecha" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+                                <div class="col-sm-3">
+                                    @role('admin')
+                                        <div class="form-group mb-4">
+                                            <label>Seleccione placa del vehiculo</label>
+                                            <select class="selectize" name="placa">
+                                                <option value="">Seleccione</option>
+                                                @foreach ($vehiculos as $vehiculo)
+                                                    <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endrole
+                                </div>
+                                <div class="col-sm-3">
+                                    <div class="form-group mb-4">
+                                        <label>Rango de fechas</label>
+                                        <input type="text" class="form-control datepicker-here" name="fecha_range" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>

@@ -32,17 +32,20 @@ class InspeccionesController extends Controller
 
     public function index() {
         $vehiculos = Vehiculo::all();
+        $users=DB::table('users')->get();
         $inspecciones = Inspeccion::with('users')->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
+        
 
-        return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones]);
+        return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones, 'usuarios' => $users]);
     }
 
-    public function inspecciones_vehiculo(Request $request, $id) {
-        $vehiculos = Vehiculo::all();
-        $inspecciones = Inspeccion::where('vehiculo_id', $id)->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
+    // public function inspecciones_vehiculo(Request $request, $id) {
+    //     $vehiculos = Vehiculo::all();
+    //     $users=DB::table('users')->get();
+    //     $inspecciones = Inspeccion::where('vehiculo_id', $id)->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
 
-        return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones]);
-    }
+    //     return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones, 'usuarios' => $users]);
+    // }
 
     public function agregar_view(Request $request) {
         $vehiculos = Vehiculo::all();
@@ -186,15 +189,16 @@ class InspeccionesController extends Controller
         return PDF::loadView('vehiculos.inspecciones.pdf', compact('inspeccion'))->setPaper('A4')->stream('inspeccion.pdf');
     }
 
-    public function filter(Request $request) {
-        $desde = Str::before($request['rango'], ' - ').' 00:00:00';
-        $hasta = Str::after($request['rango'], ' - ').' 23:59:00';
+    // public function filter(Request $request) {
+    //     $desde = Str::before($request['rango'], ' - ').' 00:00:00';
+    //     $hasta = Str::after($request['rango'], ' - ').' 23:59:00';
 
-        $vehiculos = Vehiculo::all();
-        $inspecciones = Inspeccion::whereBetween('fecha_inicio', [$desde, $hasta])->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
+    //     $vehiculos = Vehiculo::all();
+    //     $users=DB::table('users')->get();
+    //     $inspecciones = Inspeccion::whereBetween('fecha_inicio', [$desde, $hasta])->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
 
-        return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones]);
-    }
+    //     return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones, 'usuarios' => $users]);
+    // }
 
     public function certificado(Request $request) {
         Inspeccion::find($request['inspeccion_id'])->update([
@@ -210,5 +214,44 @@ class InspeccionesController extends Controller
         $contenido = Inspeccion::find($request['id'])->certificado;
 
         return PDF::loadView('vehiculos.inspecciones.certificado_inspeccion', compact('contenido'))->setPaper('A4')->stream('certificado_inspeccion.pdf');
+    }
+
+    public function filtro(){
+
+        $vehiculos = Vehiculo::all();
+        $users=DB::table('users')->get();
+        $inspecciones = Inspeccion::with('users')->with('vehiculo')->with('detalle')->with('adjuntos');
+
+        
+
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
+            $inspecciones=$inspecciones->orderBy($_GET['ordenarpor']);
+        }
+        if(isset($_GET['encargado']) && $_GET['encargado']!=null){
+            $inspecciones=$inspecciones->where('users_id',$_GET['encargado']);
+        }
+        if(isset($_GET['estado']) && $_GET['estado']!=null){
+            if($_GET['estado']=='true'){
+                $inspecciones=$inspecciones->whereNotNull('fecha_final');
+            }else{
+                $inspecciones=$inspecciones->whereNull('fecha_final');
+            }
+        }
+        if(isset($_GET['fecha']) && $_GET['fecha']!=null){
+            $inspecciones=$inspecciones->where('fecha_inicio', 'like', $_GET['fecha']."%");
+        }
+        if(isset($_GET['placa']) && $_GET['placa']!=null){
+            $inspecciones=$inspecciones->where('vehiculo_id', $_GET['placa']);
+        }
+        if(isset($_GET['fecha_range']) && $_GET['fecha_range']!=null){
+            $desde = Str::before($_GET['fecha_range'], ' - ').' 00:00:00';
+            $hasta = Str::after($_GET['fecha_range'], ' - ').' 23:59:00';
+            $inspecciones=$inspecciones->whereBetween('fecha_inicio', [$desde, $hasta]);
+        }
+        
+        $inspecciones=$inspecciones->paginate(10);
+        
+        return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones, 'usuarios' => $users]);
+
     }
 }

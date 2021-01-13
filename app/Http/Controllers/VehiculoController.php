@@ -45,6 +45,7 @@ class VehiculoController extends Controller
                         ->paginate(10);
         }
 
+
         return view('vehiculos.index', ['propietarios' => $propietarios, 'vehiculos' => $vehiculos]);
     }
 
@@ -207,6 +208,8 @@ class VehiculoController extends Controller
                         ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*');
                         
         }
+
+
 
         if(isset($_GET['propietario']) && $_GET['propietario']!=null){
             $vehiculos=$vehiculos->where('personal_id', $_GET['propietario']);

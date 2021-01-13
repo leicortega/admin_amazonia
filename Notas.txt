@@ -86,3 +86,4 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 -Corregir en numero del extracto y seguir el consecutivo del aplicativo anterior ------------------------ NO HE PODIDO INGRESAR A LA BASE DE DATOS DEL APLICATIVO ANTERIOR POR LA IP
 -Cuando contabilidad autorice el mantenimiento enviar correo a calidad@amazoniacl.com y cuando el propietario autoriza
 -Crear modulo de solicitud de dinero en la pestaña de contabilidad
+-Cambiar Dashboard por Escritotio -------------------------------------------------------------YA

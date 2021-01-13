@@ -31,4 +31,5 @@ class HomeController extends Controller
 
         return view('welcome', ['cotizaciones' => $cotizaciones, 'correos' => $correos, 'notificaciones' => $notificaciones]);
     }
+
 }

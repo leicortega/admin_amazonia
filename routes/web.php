@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('index');
+Route::get('/filtros_destroy/{ruta}', 'HomeController@destroy')->name('destroy_filtros');
+Route::post('/filtros', 'HomeController@filtrar')->name('filtro');
 
 // APP Routes Utilitaries
 Route::post('/app/sistema/get/departamentos', 'AdminController@departamentos');
@@ -65,6 +67,7 @@ Route::group(['middleware' => ['permission:control ingreso|universal']], functio
 // Rutas para Vehiculos
 Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos', 'VehiculoController@index')->name('vehiculos');
+    Route::get('/vehiculos/filtro', 'VehiculoController@filtrar')->name('vehiculos_filtro');
     Route::post('/vehiculos/create', 'VehiculoController@create');
     Route::post('/vehiculos/update', 'VehiculoController@update');
     Route::get('/vehiculos/ver/{id}', 'VehiculoController@ver')->name('ver-vehiculo');
@@ -143,7 +146,7 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
 // Rutas para Terceros
 Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::get('/terceros', 'TercerosController@index')->name('terceros');
-    Route::post('/terceros', 'TercerosController@filtrar')->name('terceros_filtro');
+    Route::get('/terceros/filtro/', 'TercerosController@filtrar')->name('terceros_filtro');
     Route::get('/terceros/ver/{id}', 'TercerosController@ver')->name('ver-tercero');
     Route::post('/terceros/create', 'TercerosController@create');
     Route::post('/terceros/update', 'TercerosController@update');

@@ -552,10 +552,24 @@ class TercerosController extends Controller
         return Trayectos_contrato::with('contratos')->find($request['id']);
     }
 
-    public function filtrar(Request $request){
+    public function filtrar(){
 
-        $terceros = Tercero::departamento($request->departamento)->ciudad($request->municipio)->orden($request->ordenarpor)->buscapor($request->search, $request->buscapor)->paginate(5);
+        $terceros=Tercero::select('terceros.*');
 
+        if(isset($_GET['departamento']) && ($_GET['departamento'])!=null){
+            $terceros=$terceros->where('departamento',$_GET['departamento']);
+        }
+        if(isset($_GET['municipio']) && $_GET['municipio']!=null){
+            $terceros=$terceros->where('municipio',$_GET['municipio']);
+        }
+        if(isset($_GET['search']) &&  isset($_GET['buscapor']) && $_GET['search']!=null){
+            $terceros=$terceros->where($_GET['buscapor'], 'like', "%".$_GET['search']."%");
+        }
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
+            $terceros=$terceros->orderBy($_GET['ordenarpor']);
+        }
+
+        $terceros=$terceros->paginate(20);
 
         return view('terceros.index', ['terceros' => $terceros]);
     }

@@ -119,7 +119,7 @@
                                 </table>
                             </div>
 
-                            {{ $terceros->links() }}
+                            {{ $terceros->appends(request()->input())->links() }}
 
                         </div>
                     </div>
@@ -257,7 +257,7 @@
 </div>
 
 
-
+{{-- AGREGAR FILTRO --}}
 <div class="modal fade bs-example-modal-xl" id="modal-filtro" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -269,7 +269,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('terceros_filtro')}}" id="form-create-tercero" method="POST">
+                <form action="{{route('terceros_filtro')}}" id="form-create-tercero" method="GET">
                     @csrf
                     <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
                     <div class="container">

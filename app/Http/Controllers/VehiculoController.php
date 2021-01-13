@@ -23,16 +23,14 @@ class VehiculoController extends Controller
     }
 
     public function index() {
-        $propietarios = DB::table('cargos_personal')
-                        ->join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
                         ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
                         ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
                         ->where('cargos.nombre', 'Propietario')
                         ->get();
 
         if (auth()->user()->hasRole('general')) {
-            $vehiculos = DB::table('vehiculos')
-                        ->join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
+            $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
                         ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
                         ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
                         ->join('conductores_vehiculo', 'vehiculos.id', '=', 'conductores_vehiculo.vehiculo_id')
@@ -40,8 +38,7 @@ class VehiculoController extends Controller
                         ->where('conductores_vehiculo.personal_id', \App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id)
                         ->paginate(10);
         } else {
-            $vehiculos = DB::table('vehiculos')
-                        ->join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
+            $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
                         ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
                         ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
                         ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*')
@@ -186,4 +183,53 @@ class VehiculoController extends Controller
 
         return view('vehiculos.trazabilidad_inspecciones', ['trazabilidad' => $trazabilidad, 'id' => $id]);
     }
+
+
+    public function filtrar(){
+
+        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+                        ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
+                        ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
+                        ->where('cargos.nombre', 'Propietario')
+                        ->get();
+
+        if (auth()->user()->hasRole('general')) {
+            $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
+                        ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
+                        ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
+                        ->join('conductores_vehiculo', 'vehiculos.id', '=', 'conductores_vehiculo.vehiculo_id')
+                        ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*')
+                        ->where('conductores_vehiculo.personal_id', \App\Models\Personal::where('identificacion', auth()->user()->identificacion)->first()->id);
+        } else {
+            $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
+                        ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
+                        ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
+                        ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*');
+                        
+        }
+
+        if(isset($_GET['propietario']) && $_GET['propietario']!=null){
+            $vehiculos=$vehiculos->where('personal_id', $_GET['propietario']);
+        }
+        if(isset($_GET['tipo']) && ($_GET['tipo'])!=null){
+            $vehiculos=$vehiculos->where('tipo_vehiculo_id',$_GET['tipo']);
+        }        
+        if(isset($_GET['marca']) && ($_GET['marca'])!=null){
+            $vehiculos=$vehiculos->where('marca_id',$_GET['marca']);
+        }
+        if(isset($_GET['buscapor']) && isset($_GET['search']) && ($_GET['search'])!=null){
+            $vehiculos=$vehiculos->where($_GET['buscapor'],'like',"%".$_GET['search']."%");
+        }
+        if(isset($_GET['ordenarpor']) && ($_GET['ordenarpor'])!=null){
+            $vehiculos=$vehiculos->orderBy($_GET['ordenarpor']);
+        }
+
+
+
+
+        $vehiculos=$vehiculos->paginate(10);
+
+        return view('vehiculos.index', ['propietarios' => $propietarios, 'vehiculos' => $vehiculos]);
+    }
+
 }

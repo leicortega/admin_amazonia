@@ -51,10 +51,14 @@
 
                     @canany(['contabilidad', 'universal'])
                         <li>
-                            <a href="/contabilidad" class="waves-effect">
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
                                 <div class="d-inline-block icons-sm mr-1"><i class="uim uim-graph-bar"></i></div>
                                 <span>Contabilidad</span>
                             </a>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="/contabilidad">Contabilidad</a></li>
+                                <li><a href="/solicitud-dinero">Solicitud de dinero</a></li>
+                            </ul>
                         </li>
                     @endcanany
 

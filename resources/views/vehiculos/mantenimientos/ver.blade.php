@@ -451,26 +451,9 @@
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="proveedor" id="proveedor" class="form-control" required>
                                         <option value="">Seleccione</option>
-                                        <option value="INVERIONES FLOTA HUILA SA">INVERIONES FLOTA HUILA SA</option>
-                                        <option value="MASSER S.A.S">MASSER S.A.S</option>
-                                        <option value="TECNOSUR LOCALIZACIÓN Y RASTREO ">TECNOSUR LOCALIZACIÓN Y RASTREO </option>
-                                        <option value="JAIME ALONSO BARRIOS">JAIME ALONSO BARRIOS</option>
-                                        <option value="DILLANCOL S.A">DILLANCOL S.A</option>
-                                        <option value="MONTALLANTAS CARE PAPA 2">MONTALLANTAS CARE PAPA 2</option>
-                                        <option value="MONTALLANTAS LA 15">MONTALLANTAS LA 15</option>
-                                        <option value="CALAIRES PAC">CALAIRES PAC</option>
-                                        <option value="MARIA EDILMA CRUZ VARGAS">MARIA EDILMA CRUZ VARGAS</option>
-                                        <option value="TORNI HERRAMIENTAS DEL SUR">TORNI HERRAMIENTAS DEL SUR</option>
-                                        <option value="SERVICIO EL PAJARO">SERVICIO EL PAJARO</option>
-                                        <option value="RADIADORES AUTORODAJES">RADIADORES AUTORODAJES</option>
-                                        <option value="TALLER ELECTRICO PITUFO">TALLER ELECTRICO PITUFO</option>
-                                        <option value="CENTRO DE SERVICIO AUTOMOTRIZ GASCA SU TALLER AMIGO">CENTRO DE SERVICIO AUTOMOTRIZ GASCA SU TALLER AMIGO</option>
-                                        <option value="CENTRO DE SERVICIO AUTOMOTRIZ GASCA">CENTRO DE SERVICIO AUTOMOTRIZ GASCA</option>
-                                        <option value="SERVICIO AUTOMOTRIZ JARA">SERVICIO AUTOMOTRIZ JARA</option>
-                                        <option value="IMPORTADORA USA">IMPORTADORA USA</option>
-                                        <option value="TORNICAT DEL HUILA">TORNICAT DEL HUILA</option>
-                                        <option value="REPUESTODO DEL HUILA AROS S.A.S">REPUESTODO DEL HUILA AROS S.A.S</option>
-
+                                        @foreach ($proveedores as $proveedor)
+                                            <option value="{{$proveedor->nombre}}">{{$proveedor->nombre}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>

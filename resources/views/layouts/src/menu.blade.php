@@ -154,6 +154,9 @@
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="admin/sistema/inspecciones">Administrar Inspecciones</a></li>
                             </ul>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{route('proveedores')}}">Administrar Proveedores</a></li>
+                            </ul>
                         </li>
 
                         <li>
@@ -225,6 +228,13 @@
                         <a href="/admin/sistema/inspecciones" class="waves-effect">
                             <div class="d-inline-block icons-sm"></div>
                             <span>Administrar Inspecciones</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('proveedores')}}" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span>Administrar Proveedores</span>
                         </a>
                     </li>
 

@@ -34,6 +34,8 @@
                                     </div>
                                 @endif
 
+                                <a href="{{ route('inspecciones') }}"><button type="button" class="btn btn-dark btn-lg mb-5">Atras</button></a>
+
                                 <div class="container-fluid">
                                     <form action="/vehiculos/inspecciones/agregar" method="post">
                                         @csrf

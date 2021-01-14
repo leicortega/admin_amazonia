@@ -12,6 +12,7 @@ use Illuminate\Support\Str;
 use Carbon\Carbon;
 use PDF;
 
+use App\Models\sistema\Proveedor;;
 use App\Models\Vehiculo;
 use App\Models\Personal;
 use App\Models\Mantenimiento;
@@ -61,11 +62,12 @@ class MantenimientosController extends Controller
     // }
 
     public function ver(Request $request) {
+        $provedores = Proveedor::orderBy('nombre')->get();
         $mantenimiento = Mantenimiento::with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
             $query->with('detalle_actividades');
         }])->with('facturas')->find($request['id']);
 
-        return view('vehiculos.mantenimientos.ver', ['mantenimiento' => $mantenimiento]);
+        return view('vehiculos.mantenimientos.ver', ['mantenimiento' => $mantenimiento, 'proveedores' => $provedores]);
     }
 
     public function agregar_actividad(Request $request) {

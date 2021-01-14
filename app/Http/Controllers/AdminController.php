@@ -14,6 +14,7 @@ use App\Models\Sistema\Admin_inspeccion;
 use App\Models\Sistema\Marca;
 use App\Models\Sistema\Linea;
 use App\Models\Sistema\Cargo;
+use App\Models\Sistema\Proveedor;
 use App\Models\Sistema\Departamento;
 use App\Models\Sistema\Municipio;
 use App\User;
@@ -184,6 +185,18 @@ class AdminController extends Controller
         }
 
         return redirect()->route('cargos')->with(['create' => 0]);
+    }
+
+    public function proveedores() {
+        return view('admin.proveedores', ['proveedores' => Proveedor::paginate(20)]);
+    }
+
+    public function add_proveedores(Request $request) {
+        if (Proveedor::create($request->all())->save()) {
+            return redirect()->route('proveedores')->with(['create' => 1]);
+        }
+
+        return redirect()->route('proveedores')->with(['create' => 0]);
     }
 
     public function inspecciones() {

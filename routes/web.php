@@ -28,6 +28,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     // Administrar Inspecciones
     Route::get('/admin/sistema/inspecciones', 'AdminController@inspecciones')->name('inspecciones');
     Route::post('/admin/sistema/inspecciones/agg_admin_inspeccion', 'AdminController@agg_admin_inspeccion');
+    //administrar proveedores
+    Route::get('/admin/sistema/proveedores', 'AdminController@proveedores')->name('proveedores');
+    Route::post('/admin/sistema/add_proveedor', 'AdminController@add_proveedores')->name('add_proveedores');
 });
 
 // Rutas para Correos

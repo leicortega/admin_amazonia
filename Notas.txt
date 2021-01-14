@@ -90,7 +90,7 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 
 
 
-buscador que busque con uno solo varias cosas
+
 boton de inspecciones
 
 contabilidad, personal, 

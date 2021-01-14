@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
@@ -24,6 +25,32 @@ class PersonalController extends Controller
 {
     public function registro() {
         $personal = Personal::paginate(20);
+
+        return view('personal.registro', ['personal' => $personal]);
+    }
+    public function filtro(){
+        $personal = Personal::select('personal.*');
+
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor'] != null){
+                $personal = $personal->orderBy($_GET['ordenarpor']);
+        }
+        if(isset($_GET['fecha']) && $_GET['fecha'] != null){
+            $personal = $personal->where('fecha_ingreso', 'like', $_GET['fecha']."%");
+        }
+        if(isset($_GET['fecha_range']) && $_GET['fecha_range']!=null){
+            $desde = Str::before($_GET['fecha_range'], ' - ');
+            $hasta = Str::after($_GET['fecha_range'], ' - ');
+            $personal = $personal->whereBetween('fecha_ingreso', [$desde, $hasta]);
+        }
+        if(isset($_GET['search']) && $_GET['search'] != null) {
+            $personal = $personal->where('nombres', 'like', "%" . $_GET['search'] . "%");
+            $personal = $personal->orwhere('primer_apellido', 'like', "%" . $_GET['search'] . "%");
+            $personal = $personal->orwhere('identificacion', 'like', "%" . $_GET['search'] . "%");
+            $personal = $personal->orwhere('correo', 'like', "%" . $_GET['search'] . "%");
+            $personal = $personal->orwhere('telefonos', 'like', "%" . $_GET['search'] . "%");
+        }
+
+        $personal = $personal->paginate(20);
 
         return view('personal.registro', ['personal' => $personal]);
     }

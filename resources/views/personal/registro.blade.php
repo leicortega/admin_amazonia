@@ -37,6 +37,18 @@
                                         Ocurrio un error, vuelva a intentarlo.
                                     </div>
                                 @endif
+                                
+                                {{-- botones de filtro --}}
+                                <button type="button" class="btn btn-primary btn-lg float-left mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
+                                </button>
+
+
+                                @if(request()->routeIs('personal_filtro'))
+                                    <a href="{{route('personal')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                        Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                                {{-- end botones de fitro --}}
 
                                 <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#aggPersonal">Agregar +</button>
 
@@ -442,6 +454,77 @@
                 </div>
 
 
+
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- AGREGAR FILTRO --}}
+<div class="modal fade bs-example-modal-xl" id="modal-filtro" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-personal">Agregar Filtros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="{{route('personal_filtro')}}" id="form-create-tercero" method="GET">
+                    @csrf
+                    <div class="container">
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Ordenar Por</label>
+                                    <select name="ordenarpor" class="form-control">
+                                        <option value="">Selecciona </option>
+                                        <option value="identificacion">Identificacion</option>
+                                        <option value="nombres">Nombre</option>
+                                        <option value="fecha_ingreso">Fecha Ingreso</option>
+                                        <option value="correo">Correo</option>
+                                        <option value="telefonos">Telefono</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <div class="form-group mb-4">
+                                        <label class="col-form-label">Rango de fechas</label>
+                                        <input type="text" class="form-control datepicker-here" name="fecha_range" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Fecha</label>
+                                    <input type="text" class="form-control datepicker-here" name="fecha" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd">
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+                                <div class="col-sm-12">
+                                    <div class="form-group mb-4">
+                                        <label class="col-form-label">Buscar</label>
+                                        <input type="text" class="form-control" placeholder="Buscar" name="search"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                    </div>
+
+                </form>
 
             </div>
         </div>

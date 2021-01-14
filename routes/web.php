@@ -120,6 +120,7 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
 // Rutas para Personal
 Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::get('/personal/datos-personal', 'PersonalController@registro')->name('personal');
+    Route::get('/personal/datos-personal/filtro', 'PersonalController@filtro')->name('personal_filtro');
     Route::post('/personal/create', 'PersonalController@create');
     Route::post('/personal/update', 'PersonalController@update');
     Route::get('/personal/ver/{id}', 'PersonalController@ver');

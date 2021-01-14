@@ -126,7 +126,7 @@
                                     </tbody>
                                 </table>
                             </div>
-                            
+
                             {{ $vehiculos->appends(request()->input())->links() }}
 
                         </div>
@@ -341,9 +341,9 @@
 
                 <form action="{{route('vehiculos_filtro')}}" id="form-create-tercero" method="GET">
                     @csrf
-                    <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
+                    <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
 
                                 <div class="col-sm-3">
@@ -393,19 +393,11 @@
 
                         <hr>
                         <h5 class="modal-title" id="modal-title-cotizacion">Buscar</h5>
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
-
-                                <div class="col-sm-6">
-                                    <select name="buscapor" class="form-control">
-                                        <option value="placa">Placa</option>
-                                        <option value="numero_interno">Nº Interno</option>
-                                    </select>
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" placeholder="Buscar por placa o nymero interno" name="search"/>
                                 </div>
-                                <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Buscar" name="search"/>
-                                </div>
-
                             </div>
                         </div>
 

@@ -31,6 +31,31 @@ class TercerosController extends Controller
         return view('terceros.index', ['terceros' => $terceros]);
     }
 
+    public function filtrar() {
+
+        $terceros = Tercero::select('terceros.*');
+
+        if(isset($_GET['departamento']) && ($_GET['departamento']) != null) {
+            $terceros = $terceros->where('departamento',$_GET['departamento']);
+        }
+        if(isset($_GET['municipio']) && $_GET['municipio'] != null){
+            $terceros = $terceros->where('municipio',$_GET['municipio']);
+        }
+        if(isset($_GET['search']) && $_GET['search'] != null) {
+            $terceros = $terceros->where('identificacion', 'like', "%".$_GET['search']."%");
+            $terceros = $terceros->orWhere('nombre', 'like', "%".$_GET['search']."%");
+            $terceros = $terceros->orWhere('correo', 'like', "%".$_GET['search']."%");
+            $terceros = $terceros->orWhere('telefono', 'like', "%".$_GET['search']."%");
+        }
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor'] != null){
+            $terceros = $terceros->orderBy($_GET['ordenarpor']);
+        }
+
+        $terceros = $terceros->paginate(20);
+
+        return view('terceros.index', ['terceros' => $terceros]);
+    }
+
     public function create(Request $request) {
         $this->validate($request, [
             'identificacion' => 'unique:terceros,identificacion'
@@ -550,27 +575,5 @@ class TercerosController extends Controller
 
     public function editar_trayecto(Request $request) {
         return Trayectos_contrato::with('contratos')->find($request['id']);
-    }
-
-    public function filtrar(){
-
-        $terceros=Tercero::select('terceros.*');
-
-        if(isset($_GET['departamento']) && ($_GET['departamento'])!=null){
-            $terceros=$terceros->where('departamento',$_GET['departamento']);
-        }
-        if(isset($_GET['municipio']) && $_GET['municipio']!=null){
-            $terceros=$terceros->where('municipio',$_GET['municipio']);
-        }
-        if(isset($_GET['search']) &&  isset($_GET['buscapor']) && $_GET['search']!=null){
-            $terceros=$terceros->where($_GET['buscapor'], 'like', "%".$_GET['search']."%");
-        }
-        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
-            $terceros=$terceros->orderBy($_GET['ordenarpor']);
-        }
-
-        $terceros=$terceros->paginate(20);
-
-        return view('terceros.index', ['terceros' => $terceros]);
     }
 }

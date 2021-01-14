@@ -61,9 +61,9 @@
                                                 </div>
                                             @endrole
                                         </div>
-                                        
+
                                     </div>
-                                    
+
                                 </div> --}}
                                 <div class="">
                                             <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#solicitar_mantenimiento_modal">Solicitar</button>
@@ -206,9 +206,9 @@
 
                 <form action="{{route('mantenimientos_filtro')}}" id="form-create-tercero" method="GET">
                     @csrf
-                    <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
+                    <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
 
                                 <div class="col-sm-3">
@@ -250,7 +250,7 @@
                         </div>
 
                         <hr>
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
                                 <div class="col-sm-3">
                                     @role('admin')

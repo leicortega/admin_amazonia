@@ -455,7 +455,6 @@
                                         <option value="MASSER S.A.S">MASSER S.A.S</option>
                                         <option value="TECNOSUR LOCALIZACIÓN Y RASTREO ">TECNOSUR LOCALIZACIÓN Y RASTREO </option>
                                         <option value="JAIME ALONSO BARRIOS">JAIME ALONSO BARRIOS</option>
-
                                         <option value="DILLANCOL S.A">DILLANCOL S.A</option>
                                         <option value="MONTALLANTAS CARE PAPA 2">MONTALLANTAS CARE PAPA 2</option>
                                         <option value="MONTALLANTAS LA 15">MONTALLANTAS LA 15</option>

@@ -34,7 +34,7 @@ class InspeccionesController extends Controller
         $vehiculos = Vehiculo::all();
         $users=DB::table('users')->get();
         $inspecciones = Inspeccion::with('users')->with('vehiculo')->with('detalle')->with('adjuntos')->paginate(10);
-        
+
 
         return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones, 'usuarios' => $users]);
     }
@@ -217,48 +217,45 @@ class InspeccionesController extends Controller
     }
 
     public function filtro(){
-
         $vehiculos = Vehiculo::all();
-        $users=DB::table('users')->get();
+        $users = DB::table('users')->get();
         $inspecciones = Inspeccion::with('users')->with('vehiculo')->with('detalle')->with('adjuntos');
 
-        
-
-        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
-            if($_GET['ordenarpor']=="encar"){
-                $inspecciones=$inspecciones->join('users', 'users.id', '=', 'inspecciones.users_id');
-                $inspecciones=$inspecciones->orderBy('users.name');
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor'] != null) {
+            if($_GET['ordenarpor'] == "encar"){
+                $inspecciones = $inspecciones->join('users', 'users.id', '=', 'inspecciones.users_id');
+                $inspecciones = $inspecciones->orderBy('users.name');
             }if($_GET['ordenarpor']=="placa"){
-                $inspecciones=$inspecciones->join('vehiculos', 'vehiculos.id', '=', 'inspecciones.vehiculo_id');
-                $inspecciones=$inspecciones->orderBy('vehiculos.placa');
-            }else if($_GET['ordenarpor']=="fecha_inicio"){
-                $inspecciones=$inspecciones->orderBy($_GET['ordenarpor']);
+                $inspecciones = $inspecciones->join('vehiculos', 'vehiculos.id', '=', 'inspecciones.vehiculo_id');
+                $inspecciones = $inspecciones->orderBy('vehiculos.placa');
+            }else if($_GET['ordenarpor'] == "fecha_inicio"){
+                $inspecciones = $inspecciones->orderBy($_GET['ordenarpor']);
             }
         }
-        if(isset($_GET['encargado']) && $_GET['encargado']!=null){
-            $inspecciones=$inspecciones->where('users_id',$_GET['encargado']);
+        if(isset($_GET['encargado']) && $_GET['encargado'] != null) {
+            $inspecciones = $inspecciones->where('users_id', $_GET['encargado']);
         }
-        if(isset($_GET['estado']) && $_GET['estado']!=null){
-            if($_GET['estado']=='true'){
-                $inspecciones=$inspecciones->whereNotNull('fecha_final');
+        if(isset($_GET['estado']) && $_GET['estado'] != null) {
+            if($_GET['estado'] == 'true'){
+                $inspecciones = $inspecciones->whereNotNull('fecha_final');
             }else{
-                $inspecciones=$inspecciones->whereNull('fecha_final');
+                $inspecciones = $inspecciones->whereNull('fecha_final');
             }
         }
-        if(isset($_GET['fecha']) && $_GET['fecha']!=null){
-            $inspecciones=$inspecciones->where('fecha_inicio', 'like', $_GET['fecha']."%");
+        if(isset($_GET['fecha']) && $_GET['fecha'] != null) {
+            $inspecciones = $inspecciones->where('fecha_inicio', 'like', $_GET['fecha']."%");
         }
-        if(isset($_GET['placa']) && $_GET['placa']!=null){
-            $inspecciones=$inspecciones->where('vehiculo_id', $_GET['placa']);
+        if(isset($_GET['placa']) && $_GET['placa'] != null) {
+            $inspecciones = $inspecciones->where('vehiculo_id', $_GET['placa']);
         }
-        if(isset($_GET['fecha_range']) && $_GET['fecha_range']!=null){
+        if(isset($_GET['fecha_range']) && $_GET['fecha_range'] != null) {
             $desde = Str::before($_GET['fecha_range'], ' - ').' 00:00:00';
             $hasta = Str::after($_GET['fecha_range'], ' - ').' 23:59:00';
-            $inspecciones=$inspecciones->whereBetween('fecha_inicio', [$desde, $hasta]);
+            $inspecciones = $inspecciones->whereBetween('fecha_inicio', [$desde, $hasta]);
         }
-        
-        $inspecciones=$inspecciones->paginate(10);
-        
+
+        $inspecciones = $inspecciones->paginate(10);
+
         return view('vehiculos.inspecciones.index', ['vehiculos' => $vehiculos, 'inspecciones' => $inspecciones, 'usuarios' => $users]);
 
     }

@@ -219,47 +219,44 @@ class MantenimientosController extends Controller
 
         return redirect()->back()->with(['error' => 0, 'mensaje' => 'Factura eliminada correctamente']);
     }
+
     public function filtrar(){
         $vehiculos = Vehiculo::all();
-        $users=DB::table('personal')->get();
+        $users = DB::table('personal')->get();
         $solicitados = Mantenimiento::with('vehiculo')->with('personal');
 
-
-        if(isset($_GET['encargado']) && $_GET['encargado']!=null){
-            $solicitados=$solicitados->where('personal_id',$_GET['encargado']);
+        if(isset($_GET['encargado']) && $_GET['encargado'] != null){
+            $solicitados = $solicitados->where('personal_id', $_GET['encargado']);
         }
-        if(isset($_GET['estado']) && $_GET['estado']!=null){
-            
-                $solicitados=$solicitados->where('estado', $_GET['estado']);
-            
+        if(isset($_GET['estado']) && $_GET['estado'] != null){
+            $solicitados=$solicitados->where('estado', $_GET['estado']);
         }
-        if(isset($_GET['fecha']) && $_GET['fecha']!=null){
-            $solicitados=$solicitados->where('fecha', 'like', $_GET['fecha']."%");
+        if(isset($_GET['fecha']) && $_GET['fecha'] != null){
+            $solicitados = $solicitados->where('fecha', 'like', $_GET['fecha']."%");
         }
-        if(isset($_GET['placa']) && $_GET['placa']!=null){
+        if(isset($_GET['placa']) && $_GET['placa'] != null){
             $solicitados=$solicitados->where('vehiculo_id', $_GET['placa']);
         }
-        if(isset($_GET['fecha_range']) && $_GET['fecha_range']!=null){
+        if(isset($_GET['fecha_range']) && $_GET['fecha_range'] != null){
             $desde = Str::before($_GET['fecha_range'], ' - ').' 00:00:00';
             $hasta = Str::after($_GET['fecha_range'], ' - ').' 23:59:00';
-            $solicitados=$solicitados->whereBetween('fecha', [$desde, $hasta]);
+            $solicitados = $solicitados->whereBetween('fecha', [$desde, $hasta]);
         }
 
         if(isset($_GET['search']) && $_GET['search']!=null){
-            $solicitados=$solicitados->where('descripcion_solicitud', 'like', '%'.$_GET['search'] . '%');
+            $solicitados = $solicitados->where('descripcion_solicitud', 'like', '%'.$_GET['search'] . '%');
         }
 
         if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
-            if($_GET['ordenarpor']=='placa'){
-                $solicitados=$solicitados->join('vehiculos', 'vehiculos.id', '=', 'mantenimientos.vehiculo_id');
-                $solicitados=$solicitados->orderBy('vehiculos.placa');
-            }else if($_GET['ordenarpor']=='encargado'){
-                $solicitados=$solicitados->join('personal', 'personal.id', '=', 'mantenimientos.personal_id');
-                $solicitados=$solicitados->orderBy('personal.nombres');
+            if($_GET['ordenarpor'] == 'placa'){
+                $solicitados = $solicitados->join('vehiculos', 'vehiculos.id', '=', 'mantenimientos.vehiculo_id');
+                $solicitados = $solicitados->orderBy('vehiculos.placa');
+            }else if($_GET['ordenarpor'] == 'encargado'){
+                $solicitados = $solicitados->join('personal', 'personal.id', '=', 'mantenimientos.personal_id');
+                $solicitados = $solicitados->orderBy('personal.nombres');
             }else{
-                $solicitados=$solicitados->orderBy('fecha');
+                $solicitados = $solicitados->orderBy('fecha');
             }
-            
         }
 
         $solicitados=$solicitados->paginate(10);

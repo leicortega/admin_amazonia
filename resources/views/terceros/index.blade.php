@@ -271,12 +271,12 @@
 
                 <form action="{{route('terceros_filtro')}}" id="form-create-tercero" method="GET">
                     @csrf
-                    <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
+                    <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Ordenar Por</label>
                                     <select name="ordenarpor" class="form-control">
                                         <option value="">Selecciona </option>
@@ -288,13 +288,13 @@
                                     </select>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Departamento</label>
                                     <select name="departamento" id="departamento_2" onchange="cargarMunicipios(this.value)" class="form-control">
                                     </select>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Municipio</label>
                                     <select name="municipio" id="municipio_2" class="form-control">
                                         <option value="">Selecciona</option>
@@ -306,19 +306,19 @@
 
                         <hr>
                         <h5 class="modal-title" id="modal-title-cotizacion">Buscar</h5>
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
 
-                                <div class="col-sm-6">
+                                {{-- <div class="col-sm-6">
                                     <select name="buscapor" class="form-control">
                                         <option value="identificacion">Identificacion</option>
                                         <option value="nombre">Nombre</option>
                                         <option value="correo">Correo</option>
                                         <option value="telefono">Telefono</option>
                                     </select>
-                                </div>
-                                <div class="col-sm-6">
-                                        <input type="text" class="form-control" placeholder="Buscar" name="search"/>
+                                </div> --}}
+                                <div class="col-sm-12">
+                                    <input type="text" class="form-control" placeholder="Buscar" name="search"/>
                                 </div>
 
                             </div>

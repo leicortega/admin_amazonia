@@ -23,7 +23,11 @@ class VehiculoController extends Controller
     }
 
     public function index() {
-        $propietarios = Personal::all();
+        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+                        ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
+                        ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
+                        ->where('cargos.nombre', 'Propietario')
+                        ->get();
 
         if (auth()->user()->hasRole('general')) {
             $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
@@ -183,14 +187,11 @@ class VehiculoController extends Controller
 
 
     public function filtrar(){
-
-        // $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
-        //                 ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
-        //                 ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
-        //                 ->where('cargos.nombre', 'Propietario')
-        //                 ->get();
-
-        $propietarios = Personal::all();
+        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+                        ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
+                        ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
+                        ->where('cargos.nombre', 'Propietario')
+                        ->get();
 
         if (auth()->user()->hasRole('general')) {
             $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
@@ -204,31 +205,26 @@ class VehiculoController extends Controller
                         ->join('personal', 'personal.id', '=', 'vehiculos.personal_id')
                         ->join('marca', 'marca.id', '=', 'vehiculos.marca_id')
                         ->select('vehiculos.id as id_vehiculo', 'vehiculos.*', 'marca.nombre as nombre_marca', 'tipo_vehiculo.nombre as nombre_tipo_vehiculo', 'personal.*');
-                        
         }
 
-
-
-        if(isset($_GET['propietario']) && $_GET['propietario']!=null){
-            $vehiculos=$vehiculos->where('personal_id', $_GET['propietario']);
+        if(isset($_GET['propietario']) && $_GET['propietario'] != null){
+            $vehiculos = $vehiculos->where('personal_id', $_GET['propietario']);
         }
-        if(isset($_GET['tipo']) && ($_GET['tipo'])!=null){
-            $vehiculos=$vehiculos->where('tipo_vehiculo_id',$_GET['tipo']);
-        }        
-        if(isset($_GET['marca']) && ($_GET['marca'])!=null){
-            $vehiculos=$vehiculos->where('marca_id',$_GET['marca']);
+        if(isset($_GET['tipo']) && ($_GET['tipo']) != null){
+            $vehiculos = $vehiculos->where('tipo_vehiculo_id',$_GET['tipo']);
         }
-        if(isset($_GET['buscapor']) && isset($_GET['search']) && ($_GET['search'])!=null){
-            $vehiculos=$vehiculos->where($_GET['buscapor'],'like',"%".$_GET['search']."%");
+        if(isset($_GET['marca']) && ($_GET['marca']) !=  null){
+            $vehiculos = $vehiculos->where('marca_id',$_GET['marca']);
         }
-        if(isset($_GET['ordenarpor']) && ($_GET['ordenarpor'])!=null){
-                $vehiculos=$vehiculos->orderBy($_GET['ordenarpor']);
+        if(isset($_GET['search']) && ($_GET['search']) != null){
+            $vehiculos = $vehiculos->where('placa', 'like', "%".$_GET['search']."%");
+            $vehiculos = $vehiculos->orWhere('numero_interno', 'like', "%".$_GET['search']."%");
+        }
+        if(isset($_GET['ordenarpor']) && ($_GET['ordenarpor']) != null){
+            $vehiculos = $vehiculos->orderBy($_GET['ordenarpor']);
         }
 
-
-
-
-        $vehiculos=$vehiculos->paginate(10);
+        $vehiculos = $vehiculos->paginate(10);
 
         return view('vehiculos.index', ['propietarios' => $propietarios, 'vehiculos' => $vehiculos]);
     }

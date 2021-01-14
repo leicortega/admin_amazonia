@@ -30,6 +30,29 @@ class AdminController extends Controller
         return view('admin.users', ['users' => $users]);
     }
 
+    public function filtro(){
+        $users = User::select('users.*');
+
+        if(isset($_GET['estado']) && $_GET['estado'] != null){
+            if($_GET['estado'] == "true"){
+                $users = $users->where('estado','Activo');
+            }else{
+                $users = $users->where('estado','Inactivo');
+            }
+        }
+        if(isset($_GET['search']) && $_GET['search'] != null) {
+            $users = $users->where('identificacion', 'like', "%".$_GET['search']."%");
+            $users = $users->orWhere('name', 'like', "%".$_GET['search']."%");
+            $users = $users->orWhere('email', 'like', "%".$_GET['search']."%");
+        }
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor'] != null){
+            $users = $users->orderBy($_GET['ordenarpor']);
+        }
+        $users = $users->paginate(10);
+
+        return view('admin.users', ['users' => $users]);
+    }
+
     public function createUser(FormCreateUserRequest $request) {
 
         $user = User::create([

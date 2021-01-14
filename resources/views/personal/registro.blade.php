@@ -120,7 +120,7 @@
                                 </table>
                             </div>
 
-                            {{ $personal->links() }}
+                            {{ $personal->appends(request()->input())->links() }}
 
                         </div>
                     </div>

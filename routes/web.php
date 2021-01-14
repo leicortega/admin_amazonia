@@ -16,6 +16,7 @@ Route::get('/app/sistema/get/municipios', 'AdminController@municipios');
 // Rutas para administrador
 Route::group(['middleware' => ['role:admin']], function () {
     Route::get('/admin/users', 'AdminController@users')->name('users');
+    Route::get('/admin/users/filtro', 'AdminController@filtro')->name('users_filtro');
     Route::post('/admin/users/create', 'AdminController@createUser')->name('user-create');
     Route::get('/admin/users/show/{id}', 'AdminController@showUser')->name('user-show');
     Route::post('/admin/users/update', 'AdminController@updateUser')->name('user-update');

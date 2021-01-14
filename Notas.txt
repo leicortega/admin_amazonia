@@ -78,7 +78,7 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 ==================================================================================
 ===================================== 12/01/2021 =================================
 ==================================================================================
--Filtros en todas los modulos
+-Filtros en todas los modulos =================================== FALTA FILTROS DE PERSONAL, CONTABILIDAD Y USUARIOS
 -Agregar Proveedores
 -Poner botones cargando cuando se da enviar
 -Error al dar atras en pestaña de HSEQ

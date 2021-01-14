@@ -32,7 +32,7 @@ class PersonalController extends Controller
         $personal = Personal::select('personal.*');
 
         if(isset($_GET['ordenarpor']) && $_GET['ordenarpor'] != null){
-                $personal = $personal->orderBy($_GET['ordenarpor']);
+            $personal = $personal->orderBy($_GET['ordenarpor']);
         }
         if(isset($_GET['fecha']) && $_GET['fecha'] != null){
             $personal = $personal->where('fecha_ingreso', 'like', $_GET['fecha']."%");

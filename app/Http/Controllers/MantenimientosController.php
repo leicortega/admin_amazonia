@@ -198,7 +198,7 @@ class MantenimientosController extends Controller
             'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
         ];
 
-        Mail::to('contabilidad@amazoniacl.com')->send(new NotificationMail($data));
+        Mail::to(['contabilidad@amazoniacl.com', 'calidad@amazoniacl.com'])->send(new NotificationMail($data));
 
         return redirect()->back()->with(['error' => 0, 'mensaje' => 'Firma agregada correctamente, mantenimiento '.$autorizado]);
     }
@@ -212,6 +212,13 @@ class MantenimientosController extends Controller
             'fecha_contabilidad' => $date->format('Y-m-d H:m:s'),
             'observaciones_contabilidad' => $request['observaciones'],
         ]);
+
+        $data = [
+            'titulo' => 'CONTABILIDAD AUTORIZO UN MANTENIMIENTO',
+            'link' => 'https://admin.amazoniacl.com/vehiculos/ver/mantenimiento/'.$mantenimiento->id
+        ];
+
+        Mail::to('calidad@amazoniacl.com')->send(new NotificationMail($data));
 
         return redirect()->back()->with(['error' => 0, 'mensaje' => 'Firma agregada correctamente, autorizacion de contabilidad']);
     }

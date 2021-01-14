@@ -88,3 +88,10 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 -Crear modulo de solicitud de dinero en la pestaña de contabilidad
 -Cambiar Dashboard por Escritotio -------------------------------------------------------------YA
 
+
+
+
+hacer botones atras
+hacer editar y eliminar de Proveedores
+
+

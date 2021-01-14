@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotificationMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 use PDF;
 
@@ -26,10 +27,11 @@ class MantenimientosController extends Controller
 
     public function index() {
         $vehiculos = Vehiculo::all();
+        $users=DB::table('personal')->get();
         $solicitados = Mantenimiento::with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);
         // $solicitados = Mantenimiento::where('estado', 'Solicitado')->with('vehiculo')->with('personal')->orderBy('fecha', 'desc')->paginate(10);
 
-        return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados]);
+        return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados, 'usuarios' => $users]);
     }
 
     public function solicitar_mantenimiento(Request $request) {
@@ -51,12 +53,12 @@ class MantenimientosController extends Controller
         return redirect($redirect)->with(['error' => $error, 'mensaje' => $mensaje]);
     }
 
-    public function mantenimientos_vehiculo(Request $request, $id) {
-        $vehiculos = Vehiculo::all();
-        $solicitados = Mantenimiento::where('vehiculo_id', $id)->with('vehiculo')->with('personal')->paginate(10);
+    // public function mantenimientos_vehiculo(Request $request, $id) {
+    //     $vehiculos = Vehiculo::all();
+    //     $solicitados = Mantenimiento::where('vehiculo_id', $id)->with('vehiculo')->with('personal')->paginate(10);
 
-        return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados]);
-    }
+    //     return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados]);
+    // }
 
     public function ver(Request $request) {
         $mantenimiento = Mantenimiento::with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
@@ -216,5 +218,52 @@ class MantenimientosController extends Controller
         Facturas_mantenimiento::find($request['id'])->delete();
 
         return redirect()->back()->with(['error' => 0, 'mensaje' => 'Factura eliminada correctamente']);
+    }
+    public function filtrar(){
+        $vehiculos = Vehiculo::all();
+        $users=DB::table('personal')->get();
+        $solicitados = Mantenimiento::with('vehiculo')->with('personal');
+
+
+        if(isset($_GET['encargado']) && $_GET['encargado']!=null){
+            $solicitados=$solicitados->where('personal_id',$_GET['encargado']);
+        }
+        if(isset($_GET['estado']) && $_GET['estado']!=null){
+            
+                $solicitados=$solicitados->where('estado', $_GET['estado']);
+            
+        }
+        if(isset($_GET['fecha']) && $_GET['fecha']!=null){
+            $solicitados=$solicitados->where('fecha', 'like', $_GET['fecha']."%");
+        }
+        if(isset($_GET['placa']) && $_GET['placa']!=null){
+            $solicitados=$solicitados->where('vehiculo_id', $_GET['placa']);
+        }
+        if(isset($_GET['fecha_range']) && $_GET['fecha_range']!=null){
+            $desde = Str::before($_GET['fecha_range'], ' - ').' 00:00:00';
+            $hasta = Str::after($_GET['fecha_range'], ' - ').' 23:59:00';
+            $solicitados=$solicitados->whereBetween('fecha', [$desde, $hasta]);
+        }
+
+        if(isset($_GET['search']) && $_GET['search']!=null){
+            $solicitados=$solicitados->where('descripcion_solicitud', 'like', '%'.$_GET['search'] . '%');
+        }
+
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
+            if($_GET['ordenarpor']=='placa'){
+                $solicitados=$solicitados->join('vehiculos', 'vehiculos.id', '=', 'mantenimientos.vehiculo_id');
+                $solicitados=$solicitados->orderBy('vehiculos.placa');
+            }else if($_GET['ordenarpor']=='encargado'){
+                $solicitados=$solicitados->join('personal', 'personal.id', '=', 'mantenimientos.personal_id');
+                $solicitados=$solicitados->orderBy('personal.nombres');
+            }else{
+                $solicitados=$solicitados->orderBy('fecha');
+            }
+            
+        }
+
+        $solicitados=$solicitados->paginate(10);
+
+        return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados, 'usuarios' => $users]);
     }
 }

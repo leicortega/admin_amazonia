@@ -352,9 +352,9 @@
                                         <option value="">Selecciona </option>
                                         <option value="placa">Placa</option>
                                         <option value="numero_interno">Nº Interno</option>
-                                        <option value="personal_id">Propietario</option>
-                                        <option value="tipo_vehiculo_id">Tipo</option>
-                                        <option value="marca_id">Marca</option>
+                                        <option value="personal.nombres">Propietario</option>
+                                        <option value="tipo_vehiculo.nombre">Tipo</option>
+                                        <option value="marca.nombre">Marca</option>
                                     </select>
                                 </div>
 
@@ -363,7 +363,7 @@
                                     <select name="propietario" id="prpietario" class="form-control">
                                         <option value="">Selecciona</option>
                                         @foreach ($propietarios as $propietario)
-                                            <option value="{{ $propietario->id }}">{{ $propietario->nombres }} {{ $propietario->primer_apellido }} {{ $propietario->segundo_apellido }}</option>
+                                            <option value="{{ $propietario->id }}">{{ $propietario->nombres }} {{ $propietario->primer_apellido }}</option>
                                         @endforeach
                                     </select>
                                 </div>

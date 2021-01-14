@@ -117,7 +117,8 @@
                                 </table>
                             </div>
 
-                            {{ $inspecciones->links() }}
+                            {{ $inspecciones->appends(request()->input())->links() }}
+                            
 
                         </div>
                     </div>
@@ -226,8 +227,8 @@
                                     <label class="col-sm-12 col-form-label">Ordenar Por</label>
                                     <select name="ordenarpor" class="form-control">
                                         <option value="">Selecciona </option>
-                                        <option value="vehiculo_id">Placa</option>
-                                        <option value="users_id">Encargado</option>
+                                        <option value="placa">Placa</option>
+                                        <option value="encar">Encargado</option>
                                         <option value="fecha_inicio">Fecha y hora</option>
                                     </select>
                                 </div>

@@ -23,11 +23,7 @@ class VehiculoController extends Controller
     }
 
     public function index() {
-        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
-                        ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
-                        ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
-                        ->where('cargos.nombre', 'Propietario')
-                        ->get();
+        $propietarios = Personal::all();
 
         if (auth()->user()->hasRole('general')) {
             $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
@@ -188,11 +184,13 @@ class VehiculoController extends Controller
 
     public function filtrar(){
 
-        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
-                        ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
-                        ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
-                        ->where('cargos.nombre', 'Propietario')
-                        ->get();
+        // $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+        //                 ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
+        //                 ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
+        //                 ->where('cargos.nombre', 'Propietario')
+        //                 ->get();
+
+        $propietarios = Personal::all();
 
         if (auth()->user()->hasRole('general')) {
             $vehiculos = Vehiculo::join('tipo_vehiculo', 'tipo_vehiculo.id', '=', 'vehiculos.tipo_vehiculo_id')
@@ -224,7 +222,7 @@ class VehiculoController extends Controller
             $vehiculos=$vehiculos->where($_GET['buscapor'],'like',"%".$_GET['search']."%");
         }
         if(isset($_GET['ordenarpor']) && ($_GET['ordenarpor'])!=null){
-            $vehiculos=$vehiculos->orderBy($_GET['ordenarpor']);
+                $vehiculos=$vehiculos->orderBy($_GET['ordenarpor']);
         }
 
 

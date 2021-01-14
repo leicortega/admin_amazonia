@@ -79,8 +79,9 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos/trazabilidad_inspecciones/{id}', 'VehiculoController@trazabilidad_inspecciones');
 
     // RUTAS MANTENIMIENTOS
-    Route::get('/vehiculos/mantenimientos', 'MantenimientosController@index');
-    Route::get('/vehiculos/{id}/mantenimientos', 'MantenimientosController@mantenimientos_vehiculo');
+    Route::get('/vehiculos/mantenimientos', 'MantenimientosController@index')->name('mantenimientos');
+    Route::get('/vehiculos/mantenimientos/filtro', 'MantenimientosController@filtrar')->name('mantenimientos_filtro');
+    // Route::get('/vehiculos/{id}/mantenimientos', 'MantenimientosController@mantenimientos_vehiculo');
     Route::get('/vehiculos/ver/mantenimiento/{id}', 'MantenimientosController@ver');
     Route::get('/vehiculos/print/mantenimiento/{id}', 'MantenimientosController@print');
     Route::post('/vehiculos/solicitar_mantenimiento', 'MantenimientosController@solicitar_mantenimiento');

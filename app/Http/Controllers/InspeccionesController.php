@@ -225,7 +225,15 @@ class InspeccionesController extends Controller
         
 
         if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
-            $inspecciones=$inspecciones->orderBy($_GET['ordenarpor']);
+            if($_GET['ordenarpor']=="encar"){
+                $inspecciones=$inspecciones->join('users', 'users.id', '=', 'inspecciones.users_id');
+                $inspecciones=$inspecciones->orderBy('users.name');
+            }if($_GET['ordenarpor']=="placa"){
+                $inspecciones=$inspecciones->join('vehiculos', 'vehiculos.id', '=', 'inspecciones.vehiculo_id');
+                $inspecciones=$inspecciones->orderBy('vehiculos.placa');
+            }else if($_GET['ordenarpor']=="fecha_inicio"){
+                $inspecciones=$inspecciones->orderBy($_GET['ordenarpor']);
+            }
         }
         if(isset($_GET['encargado']) && $_GET['encargado']!=null){
             $inspecciones=$inspecciones->where('users_id',$_GET['encargado']);

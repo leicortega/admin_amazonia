@@ -31,6 +31,17 @@
                                 @endif
                                 <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
 
+                                {{-- botones de filtro --}}
+                                <button type="button" class="btn btn-primary btn-lg ml-5 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
+                                </button>
+
+
+                                @if(request()->routeIs('contabilidad_filtro'))
+                                    <a href="{{route('contabilidad')}}" class="btn btn-primary btn-lg mb-2 ml-2">
+                                        Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
+                                    </a>
+                                @endif
+                                {{-- end botones de fitro --}}
                                 <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#modal_agregar_registro">Agregar +</button>
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
@@ -74,7 +85,7 @@
                                 </table>
                             </div>
 
-                            {{ $vehiculos->links() }}
+                            {{ $vehiculos->appends(request()->input())->links() }}
 
                         </div>
                     </div>
@@ -166,6 +177,86 @@
             </div>
             <div class="modal-body">
                 <div id="content_modal_anexo"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- AGREGAR FILTRO --}}
+<div class="modal fade bs-example-modal-xl" id="modal-filtro" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-cotizacion">Agregar Filtros</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="{{route('contabilidad_filtro')}}" id="form-create-tercero" method="GET">
+                    @csrf
+                    <div class="container">
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Ordenar Por</label>
+                                    <select name="ordenarpor" class="form-control">
+                                        <option value="">Selecciona </option>
+                                        <option value="placa">Placa</option>
+                                        <option value="propietario">Propietario</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Propietario</label>
+                                    <select name="propietario" id="propietario" class="form-control">
+                                        <option value="">Selecciona</option>
+                                        @foreach ($propietarios as $item)
+                                            <option value="{{$item->id}}">{{$item->nombres . $item->primer_apellido . $item->segundo_apellido}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    @role('admin')
+                                        <div class="form-group mb-4">
+                                            <label class="col-form-label">Seleccione placa del vehiculo</label>
+                                            <select class="selectize form-control" name="placa">
+                                                <option value="">Seleccione</option>
+                                                @foreach ($placas as $vehiculo)
+                                                    <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    @endrole
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <hr>
+                        <div class="form-group row">                            
+                            <div class="col-sm-12 d-flex">
+                                <div class="col-sm-12">
+                                    <div class="form-group mb-4">
+                                        <label>Buscar</label>
+                                        <input type="text" class="form-control" placeholder="Buscar Vehiculo o Propietario" name="search"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                    </div>
+
+                </form>
+
             </div>
         </div>
     </div>

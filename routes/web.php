@@ -112,6 +112,7 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
 // Rutas para Contabilidad
 Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/contabilidad', 'ContabilidadController@index')->name('contabilidad');
+    Route::get('/contabilidad/filtro', 'ContabilidadController@filtrar')->name('contabilidad_filtro');
     Route::get('/contabilidad/ver/{id}', 'ContabilidadController@ver');
     Route::post('/contabilidad/create', 'ContabilidadController@create');
 });

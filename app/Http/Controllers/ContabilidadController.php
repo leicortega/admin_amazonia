@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Contabilidad;
 use App\Models\Personal;
 use App\Models\Vehiculo;
+use App\Models\Cargos_personal;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
@@ -39,9 +40,47 @@ class ContabilidadController extends Controller
         //                 ->paginate(10);
         // }
 
+        $placas = Vehiculo::all();
+
+        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+                ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
+                ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
+                ->where('cargos.nombre', 'Propietario')
+                ->get();
+
         $vehiculos = Vehiculo::paginate(10);
 
-        return view('contabilidad.index', ['vehiculos' => $vehiculos]);
+        return view('contabilidad.index', ['vehiculos' => $vehiculos, 'propietarios' => $propietarios, 'placas' => $placas]);
+    }
+
+    public function filtrar(){
+
+        $propietarios = Cargos_personal::join('cargos', 'cargos.id', '=', 'cargos_personal.cargos_id')
+                ->join('personal', 'personal.id', '=', 'cargos_personal.personal_id')
+                ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
+                ->where('cargos.nombre', 'Propietario')
+                ->get();
+
+        $vehiculos = Vehiculo::select('vehiculos.*');
+        $placas = Vehiculo::all();
+
+        if(isset($_GET['propietario']) && $_GET['propietario'] != null) {
+            $vehiculos = $vehiculos->join('personal', 'personal.id', '=', 'vehiculos.personal_id');
+            $vehiculos = $vehiculos->where('personal.id',$_GET['propietario']);
+        }
+        if(isset($_GET['placa']) && $_GET['placa'] != null) {
+            $vehiculos = $vehiculos->where('id',$_GET['placa']);
+        }
+
+        if(isset($_GET['search']) && $_GET['search'] != null) {
+            $vehiculos = $vehiculos->join('personal', 'personal.id', '=', 'vehiculos.personal_id');
+            $vehiculos = $vehiculos->where('personal.nombres', 'like', "%" . $_GET['search'] . "%");
+            $vehiculos = $vehiculos->orwhere('placa', 'like', "%" . $_GET['search'] . "%");
+        }
+
+        $vehiculos = $vehiculos->paginate(10);
+
+        return view('contabilidad.index', ['vehiculos' => $vehiculos, 'propietarios' => $propietarios, 'placas' => $placas]);
     }
 
     public function create(Request $request) {

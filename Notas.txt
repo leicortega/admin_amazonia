@@ -87,3 +87,14 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 -Cuando contabilidad autorice el mantenimiento enviar correo a calidad@amazoniacl.com y cuando el propietario autoriza
 -Crear modulo de solicitud de dinero en la pestaña de contabilidad
 -Cambiar Dashboard por Escritotio -------------------------------------------------------------YA
+
+
+
+buscador que busque con uno solo varias cosas
+boton de inspecciones
+
+contabilidad, personal, 
+usuarios filtro y boton de atras buscar por nombfe
+
+migracion que se llame proveedores
+en administrar sistema

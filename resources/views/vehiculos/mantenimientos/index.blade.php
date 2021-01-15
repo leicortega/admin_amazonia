@@ -34,8 +34,10 @@
                                     </div>
                                 @endif
 
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+
                                 {{-- botones de filtro --}}
-                                <button type="button" class="btn btn-primary btn-lg float-left mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
+                                <button type="button" class="btn btn-primary btn-lg float-left ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
                                 </button>
 
 

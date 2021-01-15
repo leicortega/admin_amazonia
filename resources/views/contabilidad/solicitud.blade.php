@@ -1,10 +1,13 @@
-@section('title') Inspeccion Vehiculos @endsection
+@section('title') Solicitud De Dinero @endsection
 
 @section('Plugins')
     <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/js/solicitud_dinero.js') }}"></script>
 @endsection
+
+@section('jsMain') <script src="{{ asset('assets/js/solicitud_dinero.js') }}"></script> @endsection
 
 @extends('layouts.app')
 
@@ -34,6 +37,12 @@
                                     </div>
                                 @endif
 
+                                @if (session()->has('create'))
+                                    <div class="alert {{ (session()->has('create') == 1) ? 'alert-success' : 'alert-danger' }}">
+                                        {{ session('mensaje') }}
+                                    </div>
+                                @endif
+
                                 <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
 
                                 {{-- botones de filtro --}}
@@ -41,75 +50,64 @@
                                 </button>
 
 
-                                @if(request()->routeIs('inspecciones_filtro'))
-                                    <a href="{{route('inspecciones')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                @if(request()->routeIs('solicitud_filtro'))
+                                    <a href="{{route('solicitud_dinero')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
                                 {{-- end botones de fitro --}}
 
-                                
-                                    {{-- <form action="/vehiculos/inspecciones/filter" method="POST">
-                                        @csrf
-
-                                        <div class="row p-0">
-                                            <div class="col-3">
-                                                @role('admin')
-                                                    <div class="form-group mb-4">
-                                                        <label>Seleccione el vehiculo</label>
-                                                        <select class="selectize" onchange="window.location.href=this.value">
-                                                            <option value="">Seleccione</option>
-                                                            @foreach ($vehiculos as $vehiculo)
-                                                                <option value="/vehiculos/{{ $vehiculo->id }}/inspecciones"><a href="/vehiculos/{{ $vehiculo->id }}/inspecciones">{{ $vehiculo->placa }}</a></option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                @endrole
-                                            </div>
-                                            <div class="col-lg-3">
+                                {{-- <div class="container-fluid">
+                                    <div class="row p-0">
+                                        <div class="col-8">
+                                            @role('admin')
                                                 <div class="form-group mb-4">
-                                                    <label>Rango de fechas</label>
-                                                    <input type="text" class="form-control datepicker-here" name="rango" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
+                                                    <label>Seleccione el vehiculo</label>
+                                                    <select class="selectize" onchange="window.location.href=this.value">
+                                                        <option value="">Seleccione</option>
+                                                        @foreach ($vehiculos as $vehiculo)
+                                                            <option value="/vehiculos/{{ $vehiculo->id }}/mantenimientos"><a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos">{{ $vehiculo->placa }}</a></option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
-                                            </div> 
-                                            <div class="col-lg-2 mt-4">
-                                                <button type="submit" class="btn btn-primary btn-lg mb-2">Buscar</button>
-                                            </div>
-
-                                            
+                                            @endrole
                                         </div>
-                                    </form> --}}
-                                    <div class=" text-right">
-                                                <a href="/vehiculos/inspecciones/agregar" class="btn btn-primary btn-lg float-right mb-2">Agregar +</a>
+
                                     </div>
-                                
+
+                                </div> --}}
+                                <div class="">
+                                            <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#solicitar_dinero_modal">Solicitar <i class="fas fa-hand-holding-usd"></i></button>
+                                </div>
 
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
                                     <thead>
                                         <tr>
                                             <th colspan="12" class="text-center">
-                                                <div class="d-inline-block icons-sm mr-2"><i class="uim uim-comment-alt-message"></i></div>
-                                                <span class="header-title mt-2">Inspecciones realizadas</span>
+                                                <div class="d-inline-block icons-sm mr-2"><i class="fas fa-comment-dollar c-green"></i></div>
+                                                <span class="header-title mt-2">Solicitudes De Dinero</span>
                                             </th>
                                         </tr>
                                         <tr>
-                                            <th scope="col">Placa</th>
-                                            <th scope="col">Encargado</th>
-                                            <th scope="col">Fecha y hora</th>
-                                            <th scope="col">Estado</th>
-                                            <th scope="col">Acciones</th>
+                                            <th class="text-center"><b>Solicitante</b></th>
+                                            <th class="text-center"><b>Beneficiario</b></th>
+                                            <th class="text-center"><b>Fecha y hora</b></th>
+                                            <th class="text-center"><b>Tipo</b></th>
+                                            <th class="text-center"><b>Descripción</b></th>
+                                            <th class="text-center"><b>Acciones</b></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($inspecciones as $inspeccion)
+                                        @foreach ($solicitudes as $solicitud)
                                             <tr>
-                                                <th>{{ $inspeccion->vehiculo->placa }}</th>
-                                                <th>{{ $inspeccion->users->name }}</th>
-                                                <th>{{ $inspeccion->fecha_inicio }}</th>
-                                                <th>{{ $inspeccion->fecha_final ? 'Cerrada' : 'Iniciada' }}</th>
+                                                <th>{{ $solicitud->name }}</th>
+                                                <th>{{ $solicitud->nombres}} {{$solicitud->primer_apellido}}</th>
+                                                <th>{{ $solicitud->fecha_solicitud }}</th>
+                                                <th>{{ $solicitud->tipo_solicitud }}</th>
+                                                <th>{{ $solicitud->descripcion }}</th>
                                                 <td class="text-center">
-                                                    <a href="/vehiculos/inspecciones/ver/{{ $inspeccion->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Inspeccion">
+                                                    <a href="{{route('solicitud_dinero_ver', $solicitud->id)}}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Solicitud">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>
@@ -119,8 +117,7 @@
                                 </table>
                             </div>
 
-                            {{ $inspecciones->appends(request()->input())->links() }}
-                            
+                            {{ $solicitudes->appends(request()->input())->links() }}
 
                         </div>
                     </div>
@@ -132,37 +129,48 @@
     </div> <!-- container-fluid -->
 </div>
 
-{{-- AGREGAR MANTENIM,IENTO --}}
-<div class="modal fade bs-example-modal-xl" id="solicitar_mantenimiento_modal" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+<div class="modal fade bs-example-modal-xl" id="solicitar_dinero_modal" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title mt-0" id="modal-title-correo">Solicitar Mantenimiento</h5>
+                <h5 class="modal-title mt-0" id="modal-title-solicitud">Solicitar Dinero</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/solicitar_mantenimiento" method="POST">
+                <form action="{{route('solicitud_dinero_create')}}" method="POST">
                     @csrf
 
                     <div class="container p-3">
 
                         <div class="row">
-                            <div class="col-sm-6">
+                            <div class="col-sm-4">
                                 <label class="col-sm-12 col-form-label">Fecha Solicitud</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <input class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha" id="fecha" placeholder="yyyy-mm-dd" required/>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <label class="col-sm-12 col-form-label" for="tipo_vehiculo_id">Vehiculo</label>
+                            <div class="col-sm-4">
+                                <label class="col-sm-12 col-form-label" for="tipo_solicitud">Tipo De Solicitud</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <select class="selectize" name="vehiculo_id" id="vehiculo_id" required>
+                                    <select name="tipo" class="form-control" id="tipo_solicitud" required>
                                         <option value="">Seleccione</option>
-                                        @foreach ($vehiculos as $vehiculo)
-                                            <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }}</option>
+                                        <option value="Viaticos">Viáticos</option>
+                                        <option value="Mantenimientos">Mantenimiento</option>
+                                        <option value="Otros">Otros</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-4">
+                                <label class="col-sm-12 col-form-label" for="beneficiario">Beneficiario</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <select name="beneficiario" class="form-control" id="beneficiario" >
+                                        <option value="">Seleccione</option>
+                                        @foreach ($beneficiarios as $beneficiario)
+                                            <option value="{{$beneficiario->id}}">{{$beneficiario->nombres}} {{$beneficiario->primer_apellido}} {{$beneficiario->segundo_apellido}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -172,28 +180,55 @@
                         <hr class="w-100">
 
                         <div class="row">
-                            <div class="col-sm-6">
-                                <label class="col-sm-12 col-form-label" for="personal_id">Persona encargada</label>
+                            <div class="col-sm-5">
+                                <label class="col-sm-12 col-form-label">Conceptos</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="personal_id" class="form-control" id="personal_id" required>
-                                        <option value="">Seleccione</option>
-                                        @foreach (\App\Models\Personal::all() as $persona)
-                                            <option value="{{ $persona->id }}">{{ $persona->nombres }} {{ $persona->primer_apellido }}</option>
-                                        @endforeach
-                                    </select>
+                                    <input type="text" class="form-control" placeholder="Defina un concepto" name="concepto[]" required/>
                                 </div>
                             </div>
+                            <div class="col-sm-5">
+                                <label class="col-sm-12 col-form-label" >Valor</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="number" class="form-control" placeholder="Precio" name="precio[]" required/>
+                                </div>
+                            </div>
+                                                            
+                            <div class="col-sm-2 mt-4">
+                                <div class="form-group form-group-custom mb-4 mt-2">
+                                    <a href="javascript:void(0)" onclick="agrega_concepto()" class="add_concepto btn btn-primary btn-lg mb-2 float-left mt-1" data-toggle="tooltip" data-placement="top" title="Agregar Concepto"><i class="fas fa-plus"></i> Conceptos</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- <div class="row">
+                            <div class="col-sm-5">
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control" placeholder="Defina un concepto" name="concepto"/>
+                                </div>
+                            </div>
+                            <div class="col-sm-5">
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="number" class="form-control" placeholder="Precio" name="price"/>
+                                </div>
+                            </div>
+                                                            
+                            <div class="col-sm-2">
+                                <div class="form-group form-group-custom mb-4">
+                                    <a href="" class="btn btn-danger btn-lg mb-2 float-left" data-toggle="tooltip" data-placement="top" title="Eliminar concepto"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div> --}}
+                        <div class="add_concept_campo">
                         </div>
 
                         <hr class="w-100">
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <label for="descripcion_solicitud">Describa de manera clara el motivo del mantenimiento</label>
-                                <textarea type="text" class="form-control" id="descripcion_solicitud" name="descripcion_solicitud" required="" rows="10"></textarea>
+                                <label for="descripcion_solicitud">Describa de manera clara el motivo de la solicitud de dinero</label>
+                                <textarea type="text" class="form-control" id="descripcion_solicitud" name="descripcion_solicitud" required="" rows="5"></textarea>
                             </div>
                         </div>
-
                     </div>
 
                     <div class="mt-3 text-center">
@@ -205,6 +240,7 @@
         </div>
     </div>
 </div>
+
 
 {{-- AGREGAR FILTRO --}}
 <div class="modal fade bs-example-modal-xl" id="modal-filtro" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
@@ -218,11 +254,11 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('inspecciones_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('mantenimientos_filtro')}}" id="form-create-tercero" method="GET">
                     @csrf
-                    <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
+                    <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
 
                                 <div class="col-sm-3">
@@ -230,8 +266,8 @@
                                     <select name="ordenarpor" class="form-control">
                                         <option value="">Selecciona </option>
                                         <option value="placa">Placa</option>
-                                        <option value="encar">Encargado</option>
-                                        <option value="fecha_inicio">Fecha y hora</option>
+                                        <option value="encargado">Encargado</option>
+                                        <option value="fecha_hora">Fecha y hora</option>
                                     </select>
                                 </div>
 
@@ -239,9 +275,9 @@
                                     <label class="col-sm-12 col-form-label">Encargado</label>
                                     <select name="encargado" id="propietario" class="form-control">
                                         <option value="">Selecciona</option>
-                                        @foreach ($usuarios as $item)
-                                            <option value="{{$item->id}}">{{$item->name}}</option>
-                                        @endforeach
+                                        {{-- @foreach ($usuarios as $item)
+                                            <option value="{{$item->id}}">{{$item->nombres . $item->primer_apellido . $item->segundo_apellido}}</option>
+                                        @endforeach --}}
                                     </select>
                                 </div>
 
@@ -249,8 +285,9 @@
                                     <label class="col-sm-12 col-form-label">Estado</label>
                                     <select name="estado" id="tipo" class="form-control">
                                         <option value="">Selecciona</option>
-                                        <option value="true">Cerrada</option>
-                                        <option value="false">Iniciada</option>
+                                        <option value="Aprobado">Aprobado</option>
+                                        <option value="Cerrado">Cerrado</option>
+                                        <option value="Solicitado">Solicitado</option>
                                     </select>
                                 </div>
 
@@ -263,7 +300,7 @@
                         </div>
 
                         <hr>
-                        <div class="form-group row">                            
+                        <div class="form-group row">
                             <div class="col-sm-12 d-flex">
                                 <div class="col-sm-3">
                                     @role('admin')
@@ -271,9 +308,9 @@
                                             <label>Seleccione placa del vehiculo</label>
                                             <select class="selectize" name="placa">
                                                 <option value="">Seleccione</option>
-                                                @foreach ($vehiculos as $vehiculo)
+                                                {{-- @foreach ($vehiculos as $vehiculo)
                                                     <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }}</option>
-                                                @endforeach
+                                                @endforeach --}}
                                             </select>
                                         </div>
                                     @endrole
@@ -282,6 +319,12 @@
                                     <div class="form-group mb-4">
                                         <label>Rango de fechas</label>
                                         <input type="text" class="form-control datepicker-here" name="fecha_range" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group mb-4">
+                                        <label>Buscar</label>
+                                        <input type="text" class="form-control" placeholder="Buscar Motivos" name="search"/>
                                     </div>
                                 </div>
                             </div>
@@ -301,10 +344,3 @@
     </div>
 </div>
 @endsection
-
-
-
-
-
-
-

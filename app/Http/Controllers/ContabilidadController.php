@@ -147,4 +147,6 @@ class ContabilidadController extends Controller
             'id' => $request['id']
         ]);
     }
+
+
 }

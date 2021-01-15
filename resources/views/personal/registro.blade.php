@@ -37,9 +37,11 @@
                                         Ocurrio un error, vuelva a intentarlo.
                                     </div>
                                 @endif
+
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
                                 
                                 {{-- botones de filtro --}}
-                                <button type="button" class="btn btn-primary btn-lg float-left mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
+                                <button type="button" class="btn btn-primary btn-lg float-left ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
                                 </button>
 
 
@@ -478,7 +480,7 @@
                         <div class="form-group row">                            
                             <div class="col-sm-12 d-flex">
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Ordenar Por</label>
                                     <select name="ordenarpor" class="form-control">
                                         <option value="">Selecciona </option>
@@ -490,14 +492,14 @@
                                     </select>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <div class="form-group mb-4">
                                         <label class="col-form-label">Rango de fechas</label>
                                         <input type="text" class="form-control datepicker-here" name="fecha_range" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
                                     </div>
                                 </div>
 
-                                <div class="col-sm-3">
+                                <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Fecha</label>
                                     <input type="text" class="form-control datepicker-here" name="fecha" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd">
                                 </div>

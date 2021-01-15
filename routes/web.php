@@ -127,7 +127,8 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/solicitud-dinero/versoporte', 'SolicituddineroController@ver_soporte')->name('solicitud_ver_soporte');
     Route::post('/solicitud-dinero/verestado', 'SolicituddineroController@ver_estado')->name('solicitud_ver_estado');
     Route::post('/solicitud-dinero', 'SolicituddineroController@create')->name('solicitud_dinero_create');
-    Route::get('/solicitud-genera-pdf/{id}', 'SolicituddineroController@print')->name('solicitud_pdf');
+    Route::get('/solicitud-dinero/pdf/{id}', 'SolicituddineroController@print')->name('solicitud_pdf');
+    Route::get('/solicitud-dinero/filtro/filtrar', 'SolicituddineroController@filtro')->name('solicitud_filtro');
 });
 
 // Rutas para Personal

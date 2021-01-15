@@ -254,9 +254,8 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('mantenimientos_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('solicitud_filtro')}}" id="form-create-tercero" method="GET">
                     @csrf
-                    <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
@@ -265,35 +264,41 @@
                                     <label class="col-sm-12 col-form-label">Ordenar Por</label>
                                     <select name="ordenarpor" class="form-control">
                                         <option value="">Selecciona </option>
-                                        <option value="placa">Placa</option>
-                                        <option value="encargado">Encargado</option>
-                                        <option value="fecha_hora">Fecha y hora</option>
+                                        <option value="users.name">Solicitante</option>
+                                        <option value="personal.nombres">Beneficiario</option>
+                                        <option value="fecha_solicitud">Fecha y hora</option>
                                     </select>
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Encargado</label>
-                                    <select name="encargado" id="propietario" class="form-control">
+                                    <label class="col-sm-12 col-form-label">Tipo</label>
+                                    <select name="tipo" id="tipo" class="form-control">
                                         <option value="">Selecciona</option>
-                                        {{-- @foreach ($usuarios as $item)
-                                            <option value="{{$item->id}}">{{$item->nombres . $item->primer_apellido . $item->segundo_apellido}}</option>
-                                        @endforeach --}}
+                                        <option value="Viaticos">Viaticos</option>
+                                        <option value="Mantenimientos">Mantenimientos</option>
+                                        <option value="Otros">Otros</option>
+                                        
                                     </select>
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Estado</label>
-                                    <select name="estado" id="tipo" class="form-control">
+                                    <label class="col-sm-12 col-form-label">Beneficiario</label>
+                                    <select name="beneficiario" id="beneficiario" class="form-control">
                                         <option value="">Selecciona</option>
-                                        <option value="Aprobado">Aprobado</option>
-                                        <option value="Cerrado">Cerrado</option>
-                                        <option value="Solicitado">Solicitado</option>
+                                            @foreach (\App\Models\Personal::all() as $personal)
+                                            <option value="{{ $personal->id }}">{{ $personal->nombres }} {{ $personal->primer_apellido }} {{ $personal->segundo_apellido }}</option>
+                                            @endforeach
                                     </select>
                                 </div>
 
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Fecha</label>
-                                    <input type="text" class="form-control datepicker-here" name="fecha" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd">
+                                    <label class="col-sm-12 col-form-label">Solicitante</label>
+                                    <select name="solicitante" id="solicitante" class="form-control">
+                                        <option value="">Selecciona</option>
+                                        @foreach (\App\User::all() as $user)
+                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
 
                             </div>
@@ -302,19 +307,12 @@
                         <hr>
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
+
                                 <div class="col-sm-3">
-                                    @role('admin')
-                                        <div class="form-group mb-4">
-                                            <label>Seleccione placa del vehiculo</label>
-                                            <select class="selectize" name="placa">
-                                                <option value="">Seleccione</option>
-                                                {{-- @foreach ($vehiculos as $vehiculo)
-                                                    <option value="{{ $vehiculo->id }}">{{ $vehiculo->placa }}</option>
-                                                @endforeach --}}
-                                            </select>
-                                        </div>
-                                    @endrole
+                                    <label class="col-sm-12 col-form-label">Fecha</label>
+                                    <input type="text" class="form-control datepicker-here" name="fecha" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd">
                                 </div>
+
                                 <div class="col-sm-3">
                                     <div class="form-group mb-4">
                                         <label>Rango de fechas</label>
@@ -324,7 +322,7 @@
                                 <div class="col-sm-6">
                                     <div class="form-group mb-4">
                                         <label>Buscar</label>
-                                        <input type="text" class="form-control" placeholder="Buscar Motivos" name="search"/>
+                                        <input type="text" class="form-control" placeholder="Buscar" name="search"/>
                                     </div>
                                 </div>
                             </div>

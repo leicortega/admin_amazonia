@@ -336,6 +336,29 @@
 
                 @endif
 
+
+
+                @if ( Request::is('solicitud-dinero') || Request::is('solicitud-dinero/*') ||  Request::is('contabilidad') || Request::is('contabilidad/*'))
+
+                    <li class="menu-title">Contabilidad</li>
+
+                    <li>
+                        <a href="/contabilidad/" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span>Contabilidad</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/solicitud-dinero/" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span>Solicitud de dinero</span>
+                        </a>
+                    </li>
+
+
+                @endif
+
                 @if ( Request::is('personal') || Request::is('personal/*') )
 
                     <li class="menu-title">Administrar Sistema</li>

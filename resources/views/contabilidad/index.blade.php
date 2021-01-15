@@ -1,8 +1,8 @@
 @section('title') Contabilidad @endsection
 
-@extends('layouts.app')
-
 @section('jsMain') <script src="{{ asset('assets/js/contabilidad.js') }}"></script> @endsection
+
+@extends('layouts.app')
 
 @section('content')
 <div class="page-content-wrapper">

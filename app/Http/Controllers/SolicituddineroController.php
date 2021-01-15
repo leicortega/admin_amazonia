@@ -9,6 +9,7 @@ use App\Models\Conceptos_solicitud;
 use App\Models\Estados_solicitud;
 use App\Models\Archivos_soportados;
 use App\Models\Personal;
+use Illuminate\Support\Str;
 use PDF;
 
 use Carbon\Carbon;
@@ -136,6 +137,51 @@ class SolicituddineroController extends Controller
                 ->join('users', 'users.id', '=', 'solicitudes_dinero.personal_crea')->where('solicitudes_dinero.id',$id)->first();
                 
         return PDF::loadView('contabilidad.solicitudes_pdf', compact('solicitud', 'conceptos'))->setPaper('A4')->stream('solicitud.pdf');
+    }
+
+
+    public function filtro(){
+        $beneficiarios = Personal::all();
+        $solicitud = Solicitudes_dinero::join('personal', 'personal.id', '=', 'solicitudes_dinero.beneficiario')
+                ->join('users', 'users.id', '=', 'solicitudes_dinero.personal_crea')
+                ->select('solicitudes_dinero.*', 'users.name', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido');
+        
+
+        if(isset($_GET['tipo']) && $_GET['tipo'] != null){
+            $solicitud = $solicitud->where('tipo_solicitud', $_GET['tipo']);
+        }
+        if(isset($_GET['solicitante']) && $_GET['solicitante'] != null){
+            $solicitud = $solicitud->where('users.id', $_GET['solicitante']);
+        }
+        if(isset($_GET['beneficiario']) && $_GET['beneficiario'] != null){
+            $solicitud = $solicitud->where('personal.id', $_GET['beneficiario']);
+        }
+        if(isset($_GET['fecha']) && $_GET['fecha'] != null){
+            $solicitud = $solicitud->where('fecha_solicitud', $_GET['fecha'] . "%");
+        }
+        if(isset($_GET['fecha_range']) && $_GET['fecha_range'] != null){
+            $desde = Str::before($_GET['fecha_range'], ' - ').' 00:00:00';
+            $hasta = Str::after($_GET['fecha_range'], ' - ').' 23:59:00';
+            $solicitud = $solicitud->whereBetween('fecha_solicitud', [$desde, $hasta]);
+        }
+
+        if(isset($_GET['search']) && $_GET['search']!=null){
+            $solicitud = $solicitud->where('descripcion', 'like', '%'.$_GET['search'] . '%');
+            $solicitud = $solicitud->orwhere('personal.nombres', 'like', '%'.$_GET['search'] . '%');
+            $solicitud = $solicitud->orwhere('users.name', 'like', '%'.$_GET['search'] . '%');
+            $solicitud = $solicitud->orwhere('personal.primer_apellido', 'like', '%'.$_GET['search'] . '%');
+            $solicitud = $solicitud->orwhere('personal.segundo_apellido', 'like', '%'.$_GET['search'] . '%');
+            $solicitud = $solicitud->orwhere('fecha_solicitud', 'like', '%'.$_GET['search'] . '%');
+        }
+
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor']!=null){
+                $solicitud = $solicitud->orderBy($_GET['ordenarpor']);
+        }
+
+        $solicitud = $solicitud->paginate(10);
+
+        return view('contabilidad.solicitud', ['solicitudes' => $solicitud, 'beneficiarios' => $beneficiarios]);
+
     }
     
 

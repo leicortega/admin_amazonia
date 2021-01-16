@@ -228,4 +228,25 @@ class AdminController extends Controller
     public function municipios(Request $request) {
         return Departamento::where('nombre', $request['dpt'])->with('municipios')->first();
     }
+
+    public function edit_proveedores(Request $request){
+        $proveedor = Proveedor::find($request->id);
+        $proveedor->update([
+            'nombre' => $request->nombre
+        ]);
+
+        if($proveedor->save()){
+            return redirect()->route('proveedores')->with('create', 1);
+        }
+        return redirect()->route('proveedores')->with('create', 0);
+        
+    }
+
+    public function ver_proveedores(Request $request){
+        return Proveedor::find($request->id);
+    }
+
+    public function delete_proveedores(Request $request){
+        return Proveedor::find($request->id)->delete();
+    }
 }

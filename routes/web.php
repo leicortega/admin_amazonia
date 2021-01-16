@@ -31,6 +31,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     //administrar proveedores
     Route::get('/admin/sistema/proveedores', 'AdminController@proveedores')->name('proveedores');
     Route::post('/admin/sistema/add_proveedor', 'AdminController@add_proveedores')->name('add_proveedores');
+    Route::post('/admin/sistema/ver_proveedor', 'AdminController@ver_proveedores')->name('ver_proveedores');
+    Route::post('/admin/sistema/edit_proveedor', 'AdminController@edit_proveedores')->name('edit_proveedores');
+    Route::post('/admin/sistema/delete_proveedor', 'AdminController@delete_proveedores')->name('delete_proveedores');
 });
 
 // Rutas para Correos

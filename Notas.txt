@@ -83,15 +83,14 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 -Poner botones cargando cuando se da enviar
 -Error al dar atras en pestaña de HSEQ
 -Terminar modulo de contabilidad --------- ACTUALIZAR LA BASE DE DATOS
--Corregir en numero del extracto y seguir el consecutivo del aplicativo anterior ------------------------ NO HE PODIDO INGRESAR A LA BASE DE DATOS DEL APLICATIVO ANTERIOR POR LA IP
 -Cuando contabilidad autorice el mantenimiento enviar correo a calidad@amazoniacl.com y cuando el propietario autoriza ============ YA
--Crear modulo de solicitud de dinero en la pestaña de contabilidad
--Cambiar Dashboard por Escritotio -------------------------------------------------------------YA
+-Crear modulo de solicitud de dinero en la pestaña de contabilidad =========================== YA
+-Cambiar Dashboard por Escritotio ------------------------------------------------------------ YA
 
 
 
 
-hacer botones atras
-hacer editar y eliminar de Proveedores
+hacer botones atras ================================================= YA (FALTA EL DE INSPECCIONES/VER)
+hacer editar y eliminar de Proveedores ============================== YA
 
 

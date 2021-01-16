@@ -56,7 +56,11 @@ class MantenimientosController extends Controller
 
     public function mantenimientos_vehiculo(Request $request, $id) {
         $vehiculos = Vehiculo::all();
+<<<<<<< HEAD
         $users=DB::table('personal')->get();
+=======
+        $users = DB::table('personal')->get();
+>>>>>>> 2bf7fb56304231fe7e558f3ba48d5ff95302066a
         $solicitados = Mantenimiento::where('vehiculo_id', $id)->with('vehiculo')->with('personal')->paginate(10);
 
         return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados, 'usuarios' => $users]);

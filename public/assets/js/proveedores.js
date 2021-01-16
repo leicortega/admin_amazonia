@@ -11,6 +11,8 @@
 
     }
 
+    
+
     function delete_datos_proveedores(id){
          $.ajax({
             data: 'id='+id,

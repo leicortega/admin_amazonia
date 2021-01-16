@@ -33,7 +33,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ route('solicitud_dinero') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
 
                                 
                                 {{-- @if ($mantenimiento->facturas->count() > 0 && $mantenimiento->estado == 'Aprobado')
@@ -102,8 +102,11 @@
                                                         <i class="mdi mdi-eye"></i>
                                                         </button>
                                                     @endif
-                                                    @if($concepto->saldo != 0)
-                                                        <button onclick="add_id(this)" data-maximo="{{$concepto->saldo}}" data-ids="{{$concepto->id}}" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-placement="top" data-target="#agregar_soporte" title="Agregar Soporte">
+                                                    @php
+                                                        $estado = $estados->where('conceptos_id',$concepto->id)->orderBy('created_at', 'desc')->first()->estado;
+                                                    @endphp
+                                                    @if($concepto->saldo != 0 && $estado != 'Solicitado' && $estado != 'Cancelado' && $estado != 'Negado')
+                                                        <button onclick="add_id_t({{$concepto->saldo}}','{{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-placement="top" data-target="#agregar_soporte" title="Agregar Soporte">
                                                         <i class="mdi mdi-plus"></i>
                                                         </button>
                                                     @endif
@@ -115,9 +118,10 @@
                                                     <button onclick="verestado({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_estado" data-placement="top" title="Ver Estados">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button>
-                                                    <button onclick="add_id_estado({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#agregar_estado" data-placement="top" title="Agregar Estado">
+                                                    @role('admin') 
+                                                    <button onclick="add_id_estado({{$concepto->id}},'{{$estado}}')" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#agregar_estado" data-placement="top" title="Agregar Estado">
                                                         <i class="mdi mdi-plus"></i>
-                                                    </button>
+                                                    </button>@endrole
                                                 </td>
 
                                         </tr>
@@ -232,14 +236,14 @@
                             <div class="col-sm-6">
                                 <label for="estado">Estado</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="estado" class="form-control" id="estado" required>
-                                        <option value="">Seleccione</option>
+                                    <select name="estado" id="estados_selec" class="form-control" id="estado" required>
+                                        {{-- <option value="">Seleccione</option>
                                         <option value="Solicitado">Solicitado</option>
                                         <option value="Cancelado">Cancelado</option>
                                         <option value="Aprobado">Aprobado</option>
                                         <option value="Negado">Negado</option>
                                         <option value="Entregado">Entregado</option>
-                                        <option value="Modificar">Modificar</option>
+                                        <option value="Modificar">Modificar</option> --}}
                                     </select>
                                 </div>
                             </div>

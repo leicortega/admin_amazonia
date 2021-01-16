@@ -91,7 +91,8 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 
 
 
-hacer botones atras
-hacer editar y eliminar de Proveedores
+
+
+
 
 

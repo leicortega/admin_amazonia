@@ -54,12 +54,13 @@ class MantenimientosController extends Controller
         return redirect($redirect)->with(['error' => $error, 'mensaje' => $mensaje]);
     }
 
-    // public function mantenimientos_vehiculo(Request $request, $id) {
-    //     $vehiculos = Vehiculo::all();
-    //     $solicitados = Mantenimiento::where('vehiculo_id', $id)->with('vehiculo')->with('personal')->paginate(10);
+    public function mantenimientos_vehiculo(Request $request, $id) {
+        $vehiculos = Vehiculo::all();
+        $users=DB::table('personal')->get();
+        $solicitados = Mantenimiento::where('vehiculo_id', $id)->with('vehiculo')->with('personal')->paginate(10);
 
-    //     return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados]);
-    // }
+        return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados, 'usuarios' => $users]);
+    }
 
     public function ver(Request $request) {
         $provedores = Proveedor::orderBy('nombre')->get();

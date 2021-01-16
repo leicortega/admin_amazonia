@@ -48,6 +48,9 @@
                                         {{ session('mensaje') }}
                                     </div>
                                 @endif
+                                <a href="{{ route('inspecciones') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+
+                                
 
                                 <div class="container-fluid">
 

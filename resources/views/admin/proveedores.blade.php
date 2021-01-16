@@ -39,7 +39,7 @@
                                     <tr>
                                         <td>{{ $proveedor->nombre }}</td>
                                         <td><button type="button" onclick="editar_datos_proveedores({{ $proveedor->id }})" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-datos-proveedore"><i class="fas fa-edit"></i></button>
-                                        <button onclick="delete_datos_proveedores({{ $proveedor->id }})" type="button" class="btn btn-primary"><i class="fas fa-trash"></i></button>
+                                        <button onclick="delete_datos_proveedores({{ $proveedor->id }})" type="button" class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -78,7 +78,7 @@
                     </div>
                 
                     <div class="mt-4 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Agregar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit" disabled>Agregar</button>
                     </div> 
                 
                 </form>

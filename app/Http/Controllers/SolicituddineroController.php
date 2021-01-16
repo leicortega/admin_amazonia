@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Solicitudes_dinero;
 use App\Models\Conceptos_solicitud;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\NotificationMail;
 use App\Models\Estados_solicitud;
 use App\Models\Archivos_soportados;
 use App\Models\Personal;
@@ -52,6 +54,15 @@ class SolicituddineroController extends Controller
             ]);
         }
 
+
+        $data = [
+            'titulo' => 'SOLICITUD DE DINERO',
+            'link' => route('solicitud_dinero_ver', $solicitud->id)
+        ];
+
+        Mail::to(['calidad@amazoniacl.com', 'gerencia@amazoniacl.com'])->send(new NotificationMail($data));
+
+
         if ($solicitud->save()) {
             return redirect()->back()->with(['create' => 1, 'mensaje' => 'Registro agregado correctamente']);
         }
@@ -62,13 +73,14 @@ class SolicituddineroController extends Controller
 
     public function ver($id){
         $conceptos = Conceptos_solicitud::where('solicitud_id', $id);
+        $estados = Estados_solicitud::select('estados_solicitud.*');
         $solicitud = Solicitudes_dinero::join('personal', 'personal.id', '=', 'solicitudes_dinero.beneficiario')
                 ->join('users', 'users.id', '=', 'solicitudes_dinero.personal_crea')
                 ->where('solicitudes_dinero.id',$id)
                 ->select('solicitudes_dinero.*', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido',  'users.name')->first();
 
 
-        return view('contabilidad.ver_solicitud', ['solicitud' => $solicitud, 'conceptos' => $conceptos->get()]);
+        return view('contabilidad.ver_solicitud', ['solicitud' => $solicitud, 'conceptos' => $conceptos->get(), 'estados' => $estados]);
     }
 
     public function add_soporte(Request $request){
@@ -127,6 +139,7 @@ class SolicituddineroController extends Controller
         $estados = Estados_solicitud::where('conceptos_id', $request->id)
             ->join('users', 'users.id', '=', 'estados_solicitud.users_id')
             ->select('estados_solicitud.*', 'users.name')
+            ->orderBy('created_at', 'desc')
             ->get();
         return $estados;
     }

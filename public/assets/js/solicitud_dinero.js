@@ -9,11 +9,9 @@
         $(rem).parent('div').parent('div').parent('div').remove();
     }
 
-    function add_id(id){
-        id_pase = id.dataset.ids;
-        maximo= id.dataset.maximo;
+    function add_id_t(maximo,id){ 
         $('#soporte').attr('max', maximo);
-        $('.id_agregar_soporte').val(id_pase);
+        $('.id_agregar_soporte').val(id);
     }
 
 
@@ -36,8 +34,21 @@
 
     }
 
-    function add_id_estado(id){
+    function add_id_estado(id,estado){
         $('.id_estado').val(id);
+         $('#estados_selec').empty();
+
+        var html='<option value="">Seleccione</option>';
+        if(estado == "Solicitado"){
+            html = html + '<option value="Aprobado">Aprobado</option><option value="Negado">Negado</option>';
+        }
+        if(estado == "Cancelado"){
+            html = html + '<option value="Aprobado">Aprobado</option>';
+        }
+        if(estado == "Aprobado"){
+            html = html + '<option value="Cancelado">Cancelado</option><option value="Entregado">Entregado</option>';
+        }
+        $('#estados_selec').append(html);
     }
 
    function verestado(id){
@@ -58,6 +69,8 @@
          }); 
 
     }
+
+
 
 
 

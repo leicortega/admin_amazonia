@@ -110,7 +110,7 @@ hacer editar y eliminar de Proveedores ============================== YA
 -Agregar administracion documental (vigencia) modulo administrador
 -Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso)
 -Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar)
--Revisar el error en el modulo de solicitud de dinero
+-Revisar el error en el modulo de solicitud de dinero ===================
 -Poer filtro de seguridad en correos y cotizaciones para evitar el spam
 -Crear modulo de planifiacion (actividades realizadas por dia delpersonal)
 -Agregar vencimiento en documentacion (Para los docuementos que lo requieran)
@@ -122,7 +122,7 @@ Trabajando en:
 -Dejar fechas con formato dd/mm/yyyy
 -Agregar filtro por tipo de tercero en el modulo de terceros
 -Agregar historial de conductor activo del vehiculo
-
+-Revisar el error en el modulo de solicitud de dinero
 
 
 

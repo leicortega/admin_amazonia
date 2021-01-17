@@ -122,7 +122,7 @@ Trabajando en:
 -Dejar fechas con formato dd/mm/yyyy
 -Agregar filtro por tipo de tercero en el modulo de terceros
 -Agregar historial de conductor activo del vehiculo
--Revisar el error en el modulo de solicitud de dinero
+-Revisar el error en el modulo de solicitud de dinero ============================================== YA
 
 
 

@@ -103,7 +103,7 @@
                                                         </button>
                                                     @endif
                                                     @php
-                                                        $estado = $estados->where('conceptos_id',$concepto->id)->orderBy('created_at', 'desc')->first()->estado;
+                                                        $estado = $estados->where('conceptos_id', $concepto->id)->orderBy('created_at', 'desc')->first()['estado'];
                                                     @endphp
                                                     @if($concepto->saldo != 0 && $estado != 'Solicitado' && $estado != 'Cancelado' && $estado != 'Negado')
                                                         <button onclick="add_id_t({{$concepto->saldo}}','{{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-placement="top" data-target="#agregar_soporte" title="Agregar Soporte">
@@ -197,18 +197,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                            <tr class="text-center table-bg-dark">
-                                                <th class="align-middle"><b>Fecha Soporte</b></th>
-                                                <th class="align-middle"><b>Archivo</b></th>
-                                                <th class="align-middle"><b>Valor</b></th>
-                                            </tr>
-                                    </thead>
-                                    <tbody class="table_soportes">
+                <table class="table table-bordered">
+                    <thead>
+                            <tr class="text-center table-bg-dark">
+                                <th class="align-middle"><b>Fecha Soporte</b></th>
+                                <th class="align-middle"><b>Archivo</b></th>
+                                <th class="align-middle"><b>Valor</b></th>
+                            </tr>
+                    </thead>
+                    <tbody class="table_soportes">
 
-                                    </tbody>
-                                </table>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -2,7 +2,7 @@
 
 @section('jsMain')
     <script src="{{ asset('assets/js/peticiones.js') }}"></script>
-    <script src="{{ asset('assets/js/solicitud_dinero.js') }}"></script> 
+    <script src="{{ asset('assets/js/solicitud_dinero.js') }}"></script>
 @endsection
 
 @extends('layouts.app')
@@ -35,7 +35,7 @@
 
                                 <a href="{{ route('solicitud_dinero') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
 
-                                
+
                                 {{-- @if ($mantenimiento->facturas->count() > 0 && $mantenimiento->estado == 'Aprobado')
                                     <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_firma">Cerrar</button>
                                 @else
@@ -96,7 +96,7 @@
 
                                                 <td class="align-middle">{{$concepto->valor_entregado}}</td>
 
-                                                <td class="align-middle">{{$concepto->valor_soportado}}  &nbsp;&nbsp; 
+                                                <td class="align-middle">{{$concepto->valor_soportado}}  &nbsp;&nbsp;
                                                     @if ($concepto->valor_soportado != 0)
                                                         <button onclick="see_soportes({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_soporte" data-placement="top" title="Ver Soportes">
                                                         <i class="mdi mdi-eye"></i>
@@ -118,7 +118,7 @@
                                                     <button onclick="verestado({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_estado" data-placement="top" title="Ver Estados">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button>
-                                                    @role('admin') 
+                                                    @role('admin')
                                                     <button onclick="add_id_estado({{$concepto->id}},'{{$estado}}')" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#agregar_estado" data-placement="top" title="Agregar Estado">
                                                         <i class="mdi mdi-plus"></i>
                                                     </button>@endrole
@@ -127,7 +127,7 @@
                                         </tr>
                                         @endforeach
 
-                                            
+
                                     </tbody>
                                 </table>
 
@@ -288,7 +288,7 @@
                             </tr>
                     </thead>
                     <tbody class="table_estados">
-                        
+
                     </tbody>
                 </table>
             </div>

@@ -90,13 +90,40 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 
 
 
-<<<<<<< HEAD
-
-
-
-=======
 hacer botones atras ================================================= YA (FALTA EL DE INSPECCIONES/VER)
 hacer editar y eliminar de Proveedores ============================== YA
->>>>>>> 2bf7fb56304231fe7e558f3ba48d5ff95302066a
+
+
+==================================================================================
+===================================== 12/01/2021 =================================
+==================================================================================
+-Parametrizar permisos (que el administrador de contrato solo puedea ver los vehiculos de ese contrato)
+-Poner enlace para la plataforma de GPS
+-Eliminar descripcion del trayecto en cotizaciones
+-Boton para enviar cotizacion al correo del cliente
+-Dejar fechas con formato dd/mm/yyyy ===============
+-Cambiar mes a español en el contrato
+-Agregar filtro por tipo de tercero en el modulo de terceros
+-Poner obsercvacion y fecha de estado inactivo de vehiculos ==============
+-Agregar historial de conductor activo del vehiculo =================
+-Agregar conductor en el vehiculo (pestaña conductores) al momento de generar un trayecto
+-Agregar administracion documental (vigencia) modulo administrador
+-Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso)
+-Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar)
+-Revisar el error en el modulo de solicitud de dinero
+-Poer filtro de seguridad en correos y cotizaciones para evitar el spam
+-Crear modulo de planifiacion (actividades realizadas por dia delpersonal)
+-Agregar vencimiento en documentacion (Para los docuementos que lo requieran)
+-Dejar enlace a Ob para el modulo juridico
+
+Prioridad: Vehiculos
+
+Trabajando en:
+-Dejar fechas con formato dd/mm/yyyy
+-Agregar filtro por tipo de tercero en el modulo de terceros
+-Agregar historial de conductor activo del vehiculo
+
+
+
 
 

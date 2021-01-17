@@ -90,13 +90,7 @@ Dejar solo dos tipos de vinculacion [Convenio y Propio] cuando sea Convenio list
 
 
 
-<<<<<<< HEAD
-
-
-
-=======
 hacer botones atras ================================================= YA (FALTA EL DE INSPECCIONES/VER)
 hacer editar y eliminar de Proveedores ============================== YA
->>>>>>> 2bf7fb56304231fe7e558f3ba48d5ff95302066a
 
 

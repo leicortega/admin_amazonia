@@ -42,7 +42,7 @@
         if(estado == "Solicitado"){
             html = html + '<option value="Aprobado">Aprobado</option><option value="Negado">Negado</option>';
         }
-        if(estado == "Cancelado"){
+        if(estado == "Cancelado" || estado == 'Negado'){
             html = html + '<option value="Aprobado">Aprobado</option>';
         }
         if(estado == "Aprobado"){

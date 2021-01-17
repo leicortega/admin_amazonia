@@ -41,6 +41,9 @@ class TercerosController extends Controller
         if(isset($_GET['municipio']) && $_GET['municipio'] != null){
             $terceros = $terceros->where('municipio',$_GET['municipio']);
         }
+        if(isset($_GET['tipo_tercero']) && $_GET['tipo_tercero']){
+            $terceros = $terceros->where('tipo_tercero',$_GET['tipo_tercero']);
+        }
         if(isset($_GET['search']) && $_GET['search'] != null) {
             $terceros = $terceros->where('identificacion', 'like', "%".$_GET['search']."%");
             $terceros = $terceros->orWhere('nombre', 'like', "%".$_GET['search']."%");

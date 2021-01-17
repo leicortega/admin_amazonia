@@ -118,10 +118,13 @@
                                                     <button onclick="verestado({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_estado" data-placement="top" title="Ver Estados">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button>
-                                                    @role('admin') 
-                                                    <button onclick="add_id_estado({{$concepto->id}},'{{$estado}}')" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#agregar_estado" data-placement="top" title="Agregar Estado">
-                                                        <i class="mdi mdi-plus"></i>
-                                                    </button>@endrole
+                                                    @if ($estado != 'Entregado')
+                                                        @role('admin') 
+                                                            <button onclick="add_id_estado({{$concepto->id}},'{{$estado}}')" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#agregar_estado" data-placement="top" title="Agregar Estado">
+                                                                <i class="mdi mdi-plus"></i>
+                                                            </button>
+                                                        @endrole
+                                                    @endif
                                                 </td>
 
                                         </tr>

@@ -65,15 +65,15 @@
                                             <td class="table-bg-dark"><b>Encargado del proceso</b></td>
                                             <td>{{ $mantenimiento->personal->nombres }} {{ $mantenimiento->personal->primer_apellido }}</td>
                                             <td class="table-bg-dark"><b>Fecha y hora solicitud</b></td>
-                                            <td>{{ $mantenimiento->fecha }}</td>
+                                            <td>{{ Carbon\Carbon::parse($mantenimiento->fecha)->format('d-m-Y h:m:s') }}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-bg-dark"><b>Autoriza</b></td>
                                             <td>{{ $mantenimiento->persona_autoriza ?? 'N/A' }}</td>
                                             <td class="table-bg-dark"><b>Fecha y hora autorización</b></td>
-                                            <td>{{ $mantenimiento->fecha_autorizacion ?? 'N/A' }}</td>
+                                            <td>{{ Carbon\Carbon::parse($mantenimiento->fecha_autorizacion)->format('d-m-Y h:m:s') ?? 'N/A' }}</td>
                                             <td class="table-bg-dark"><b>Observaciones</b></td>
-                                            <td>{{ $mantenimiento->observaciones_autorizacion ?? 'N/A' }}</td>
+                                            <td>{{$mantenimiento->observaciones_autorizacion ?? 'N/A' }}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-bg-dark"><b>Contabilidad</b></td>
@@ -86,7 +86,7 @@
                                             @if ($mantenimiento->asume && $mantenimiento->asume == 'Propietario')
                                                 <td>Asume el {{ $mantenimiento->asume }}</td>
                                             @else
-                                                <td>{{ $mantenimiento->fecha_contabilidad ?? 'N/A' }}</td>
+                                                <td>{{ Carbon\Carbon::parse($mantenimiento->fecha_contabilidad)->format('d-m-Y h:m:s') ?? 'N/A' }}</td>
                                             @endif
                                             <td class="table-bg-dark"><b>Observaciones Contabilidad</b></td>
                                             @if ($mantenimiento->asume && $mantenimiento->asume == 'Propietario')
@@ -254,7 +254,7 @@
                                         <tbody>
                                             @foreach ($mantenimiento->actividades as $actividad)
                                                 <tr>
-                                                    <td>{{ $actividad->fecha }}</td>
+                                                    <td>{{ Carbon\Carbon::parse($actividad->fecha)->format('d-m-Y') }}</td>
                                                     <td>{{ $actividad->tipo }}</td>
                                                     <td>{{ $actividad->observaciones }}</td>
                                                     <td>

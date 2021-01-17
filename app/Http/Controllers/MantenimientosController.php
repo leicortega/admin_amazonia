@@ -19,6 +19,7 @@ use App\Models\Mantenimiento;
 use App\Models\Facturas_mantenimiento;
 use App\Models\Actividad_mantenimiento;
 use App\Models\Detalle_actividad_mantenimiento;
+use App\Models\Tercero;
 
 class MantenimientosController extends Controller
 {
@@ -56,18 +57,14 @@ class MantenimientosController extends Controller
 
     public function mantenimientos_vehiculo(Request $request, $id) {
         $vehiculos = Vehiculo::all();
-<<<<<<< HEAD
-        $users=DB::table('personal')->get();
-=======
         $users = DB::table('personal')->get();
->>>>>>> 2bf7fb56304231fe7e558f3ba48d5ff95302066a
         $solicitados = Mantenimiento::where('vehiculo_id', $id)->with('vehiculo')->with('personal')->paginate(10);
 
         return view('vehiculos.mantenimientos.index', ['vehiculos' => $vehiculos, 'solicitados' => $solicitados, 'usuarios' => $users]);
     }
 
     public function ver(Request $request) {
-        $provedores = Proveedor::orderBy('nombre')->get();
+        $provedores = Tercero::where('tipo_tercero', 'Proveedores')->orderBy('nombre')->get();
         $mantenimiento = Mantenimiento::with('vehiculo')->with('personal')->with(['actividades' => function ($query) {
             $query->with('detalle_actividades');
         }])->with('facturas')->find($request['id']);

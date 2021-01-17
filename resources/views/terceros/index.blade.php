@@ -276,7 +276,7 @@
                         <div class="form-group row">
                             <div class="col-sm-12 d-flex">
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Ordenar Por</label>
                                     <select name="ordenarpor" class="form-control">
                                         <option value="">Selecciona </option>
@@ -288,16 +288,33 @@
                                     </select>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Departamento</label>
                                     <select name="departamento" id="departamento_2" onchange="cargarMunicipios(this.value)" class="form-control">
                                     </select>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Municipio</label>
                                     <select name="municipio" id="municipio_2" class="form-control">
                                         <option value="">Selecciona</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-3">
+                                    <label class="col-sm-12 col-form-label">Tipo Tercero</label>
+                                    <select name="tipo_tercero" class="form-control" required>
+                                        <option value="">Seleccione tipo</option>
+                                        <option value="Cliente">Cliente</option>
+                                        <option value="Convenio">Convenio</option>
+                                        <option value="Colegio o Institución Educativa">Colegio o Institución Educativa</option>
+                                        <option value="Aseguradora">Aseguradora</option>
+                                        <option value="Ente Territorial">Ente Territorial</option>
+                                        <option value="CDA (Centro de Diagnóstico Automotor)">CDA (Centro de Diagnóstico Automotor)</option>
+                                        <option value="Documentación Interna">Documentación Interna</option>
+                                        <option value="Proveedores">Proveedores</option>
+                                        <option value="Rastreo Satelital GPS">Rastreo Satelital GPS</option>
+                                        <option value="SEGUIMIENTO">SEGUIMIENTO</option>
                                     </select>
                                 </div>
 

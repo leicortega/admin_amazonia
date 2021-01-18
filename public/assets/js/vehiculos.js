@@ -43,14 +43,21 @@ function cargar_conductores(id) {
             content = '';
             data.forEach( function (conductor, indice) {
                 fecha = new Date(conductor.created_at)
+
                 content += `
                 <tr>
                     <td scope="row">${ indice+1 }</td>
                     <td>${ conductor.personal.nombres } ${ conductor.personal.primer_apellido } ${ conductor.personal.segundo_apellido ?? '' }</td>
-                    <td>${ fecha.getDate() }/${ parseInt(fecha.getMonth()) + 1 }/${ fecha.getFullYear() }</td>
-                    <td>${ fecha.getDate() }/${ parseInt(fecha.getMonth()) + 1 }/${ fecha.getFullYear() }</td>
-                    <td>${ conductor.personal.estado }</td>
-                    <td class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${ conductor.vehiculo_id })" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></td>
+                    `
+
+                //verifica que este activo o no
+                if((fecha.getDate() <= new Date().getDate()) && (fecha.getFullYear() <= new Date().getFullYear()) && (fecha.getMonth() <= new Date().getMonth())){
+                    content += `<td>Activo</td>`;
+                }else{
+                    content += `<td>Inactivo</td>`;
+                }
+                    
+                content +=`<td class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${ conductor.vehiculo_id }, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></td>
                 </tr>
                 `;
             });
@@ -59,7 +66,8 @@ function cargar_conductores(id) {
     })
 }
 
-function eliminar_conductor(id, vehiculo_id) {
+function eliminar_conductor(id, vehiculo_id, btn) {
+    $(btn).parent('td').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
     $.ajax({
         url: '/vehiculos/eliminar_conductor',
         type: 'POST',

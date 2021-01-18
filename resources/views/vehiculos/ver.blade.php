@@ -147,8 +147,8 @@
                                                     <tr>
                                                         <th class="text-center table-bg-dark">No</th>
                                                         <th class="text-center table-bg-dark">Nombre(s) y Apellido(s)</th>
-                                                        <th class="text-center table-bg-dark">Fecha Inicial</th>
-                                                        <th class="text-center table-bg-dark">Fecha Final</th>
+                                                        {{-- <th class="text-center table-bg-dark">Fecha Inicial</th>
+                                                        <th class="text-center table-bg-dark">Fecha Final</th> --}}
                                                         <th class="text-center table-bg-dark">Estado</th>
                                                         <th class="text-center table-bg-dark">Acciones</th>
                                                     </tr>

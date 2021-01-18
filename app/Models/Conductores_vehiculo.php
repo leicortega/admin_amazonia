@@ -9,7 +9,7 @@ class Conductores_vehiculo extends Model
     protected $table = 'conductores_vehiculo';
 
     protected $fillable = [
-        'id', 'personal_id', 'vehiculo_id'
+        'id', 'personal_id', 'vehiculo_id', 'fecha_inicial', 'fecha_final'
     ];
     
     public function personal() {

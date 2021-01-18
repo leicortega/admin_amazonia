@@ -15,6 +15,8 @@ class CreateConductoresVehiculoTable extends Migration
     {
         Schema::create('conductores_vehiculo', function (Blueprint $table) {
             $table->id();
+            $table->date('fecha_inicial');
+            $table->date('fecha_final');
 
             $table->foreignId('personal_id')
                 ->constrained('personal')

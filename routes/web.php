@@ -77,6 +77,7 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/vehiculos/update', 'VehiculoController@update');
     Route::get('/vehiculos/ver/{id}', 'VehiculoController@ver')->name('ver-vehiculo');
     Route::post('/vehiculos/agg_conductor', 'VehiculoController@agg_conductor');
+    Route::post('/vehiculos/ver_conductor_historial', 'VehiculoController@ver_conductor_historial');
     Route::post('/vehiculos/cargar_conductores', 'VehiculoController@cargar_conductores');
     Route::post('/vehiculos/eliminar_conductor', 'VehiculoController@eliminar_conductor');
     Route::post('/vehiculos/agg_targeta_propiedad', 'VehiculoController@agg_targeta_propiedad');

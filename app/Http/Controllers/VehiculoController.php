@@ -86,14 +86,25 @@ class VehiculoController extends Controller
         Conductores_vehiculo::create([
             'personal_id' => $request['conductor'],
             'vehiculo_id' => $request['vehiculo_id'],
+            'fecha_inicial' => $request['fecha_inicial'],
+            'fecha_final' => $request['fecha_final']
         ])->save();
 
         return $request['vehiculo_id'];
     }
 
     public function cargar_conductores(Request $request) {
-        return Conductores_vehiculo::where('vehiculo_id', $request['id'])->with('personal')->get();
+        $conductores = Conductores_vehiculo::with('personal')
+            ->whereRaw('id IN (select MAX(id) FROM conductores_vehiculo where vehiculo_id = "' . $request->id. '" GROUP BY personal_id)')
+            ->orderBy('created_at','desc')
+            ->get();
+        return $conductores;
     }
+
+    public function ver_conductor_historial(Request $request) {
+       return Conductores_vehiculo::with('personal')->where('personal_id', "$request->id")->orderBy('id', 'desc')->get();
+    }
+    
 
     public function eliminar_conductor(Request $request) {
         Conductores_vehiculo::find($request['id'])->delete();

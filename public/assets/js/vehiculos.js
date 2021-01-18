@@ -6,6 +6,11 @@ $(document).ready(function () {
             data: $('#form_agg_conductor').serialize(),
             success: function (data) {
                 cargar_conductores(data)
+                $('#alerta_success').removeClass('d-none');
+                $('#alerta_success').html('Se ha Creado el Conductor Correctamente');
+                window.setTimeout(function() {
+                    $('#alerta_success').addClass('d-none');
+                }, 3000);
             }
         })
 
@@ -42,26 +47,35 @@ function cargar_conductores(id) {
         success: function (data) {
             content = '';
             data.forEach( function (conductor, indice) {
-                fecha = new Date(conductor.created_at)
+                fecha = new Date(conductor.fecha_final);
 
                 content += `
                 <tr>
                     <td scope="row">${ indice+1 }</td>
                     <td>${ conductor.personal.nombres } ${ conductor.personal.primer_apellido } ${ conductor.personal.segundo_apellido ?? '' }</td>
-                    `
+                    `;
 
                 //verifica que este activo o no
-                if((fecha.getDate() <= new Date().getDate()) && (fecha.getFullYear() <= new Date().getFullYear()) && (fecha.getMonth() <= new Date().getMonth())){
+                if((fecha.getDate() >= new Date().getDate()) && (fecha.getFullYear() >= new Date().getFullYear()) && (fecha.getMonth() >= new Date().getMonth())){
                     content += `<td>Activo</td>`;
                 }else{
                     content += `<td>Inactivo</td>`;
                 }
                     
-                content +=`<td class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${ conductor.vehiculo_id }, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></td>
-                </tr>
-                `;
+                content +=`<td class="text-center"><button type="button" onclick="ver_historial_conductor(${ conductor.personal_id })" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_ver_historial_conductor"><i class="fa fa-eye"></i></button></td></tr> `;
             });
-            $('#content_table_conductores').html(content)
+            
+           if(content!=''){
+            $('#content_table_conductores').html(content);
+            }else{
+                $('#content_table_conductores').html(`
+                <tr>
+                    <td colspan="8" class="text-center">
+                        <p>No Existen Conductores</p>
+                    </td>
+                </tr>`);
+            }
+
         }
     })
 }
@@ -73,10 +87,55 @@ function eliminar_conductor(id, vehiculo_id, btn) {
         type: 'POST',
         data: {id:id, vehiculo_id:vehiculo_id},
         success: function (data) {
-            cargar_conductores(data)
+            ver_historial_conductor(data);
         }
     })
 }
+
+function ver_historial_conductor(id) {
+    $.ajax({
+        url: '/vehiculos/ver_conductor_historial',
+        type: 'POST',
+        data: {id:id},
+        success: function (data) {
+            var content = '';
+            contado=0;
+            data.forEach( function (conductor, indice) {
+                $('#modal_ver_historial_conductor_title').html('Historial del conductor ' + conductor.personal.nombres + ' '+ conductor.personal.primer_apellido)
+                fecha = new Date(conductor.fecha_final);
+                contado++;
+                estado='inactivo';
+                if((fecha.getDate() >= new Date().getDate()) && (fecha.getFullYear() >= new Date().getFullYear()) && (fecha.getMonth() >= new Date().getMonth())){
+                    estado='activo';
+                }
+                content += `<tr>
+                <th class="text-center">${contado}</th>
+                <th class="text-center">${formatoFecha(conductor.fecha_inicial)}</th>
+                <th class="text-center">${formatoFecha(conductor.fecha_final)}</th>
+                <th class="text-center">${restaFechas(conductor.fecha_inicial, conductor.fecha_final)} dias</th>
+                <th class="text-center">${estado}</th>
+                <th class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${conductor.vehiculo_id}, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></th>
+            </tr>`;
+            });
+            
+            $('#table_ver_historial_vehiculo').html(content);
+            
+        }
+    })
+}
+
+function formatoFecha(texto){
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+  }
+
+function restaFechas(fechaa,fechab){
+    let fecha1 = new Date(fechaa);
+    let fecha2 = new Date(fechab);
+    
+    let resta = fecha2.getTime() - fecha1.getTime();
+    return Math.round(resta/ (1000*60*60*24));
+  }
+
 
 function agg_documento_legal(tipo_documento, id_table) {
     $('#agg_doc_legal').modal('show')

@@ -136,10 +136,10 @@
                                                         </select>
                                                     
                                                         <label class="sr-only" for="fecha_inicial">Fecha Inicial</label>
-                                                        <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha" id="fecha" placeholder="yyyy-mm-dd" required/>
+                                                        <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_inicial" id="fecha" placeholder="fecha_inicial" required/>
                                                     
                                                         <label class="sr-only" for="fecha_inicial">Fecha Final</label>
-                                                        <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha" id="fecha" placeholder="yyyy-mm-dd" required/>
+                                                        <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_final" id="fecha" placeholder="fecha final" required/>
 
                                                     <input type="hidden" value="{{ $vehiculo->id }}" name="vehiculo_id">
 
@@ -148,6 +148,12 @@
 
                                                 {{-- <button class="btn btn-info waves-effect waves-light mb-2"><i class="fas fa-plus"></i></button> --}}
                                             </div>
+
+                                            <div class="alert alert-primary d-none" id="alerta_success" role="alert">
+                                              </div>
+
+                                              <div class="alert alert-danger d-none" id="alerta_dager" role="alert">
+                                              </div>
 
                                             <table class="table table-bordered">
                                                 <thead class="thead-inverse">
@@ -1327,6 +1333,41 @@
                     </div>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- MODAL VER HITORIAL CONDUCTOR --}}
+<div class="modal fade bs-example-modal-xl" id="modal_ver_historial_conductor" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal_ver_historial_conductor_title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal_ver_historial_conductor_content">
+                <table class="table table-bordered">
+                    <thead class="thead-inverse">
+                        <tr>
+                            <th class="text-center table-bg-dark"><b>No</b></th>
+                            <th class="text-center table-bg-dark"><b>Fecha Inicial</b></th>
+                            <th class="text-center table-bg-dark"><b>Fecha Final</b></th>
+                            <th class="text-center table-bg-dark"><b>Dias de Vigencia</b></th>
+                            <th class="text-center table-bg-dark"><b>Estado</b></th>
+                            <th class="text-center table-bg-dark"><b>Acciones</b></th>
+                        </tr>
+                        </thead>
+                        <tbody id="table_ver_historial_vehiculo">
+                            <tr>
+                                <td colspan="8" class="text-center">
+                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                </td>
+                            </tr>
+                        </tbody>
+                </table>
             </div>
         </div>
     </div>

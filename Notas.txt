@@ -120,8 +120,8 @@ Prioridad: Vehiculos
 
 Trabajando en:
 -Dejar fechas con formato dd/mm/yyyy
--Agregar filtro por tipo de tercero en el modulo de terceros
--Agregar historial de conductor activo del vehiculo
+-Agregar filtro por tipo de tercero en el modulo de terceros   =================================YA
+-Agregar historial de conductor activo del vehiculo ========================YA
 -Revisar el error en el modulo de solicitud de dinero ============================================== YA
 
 

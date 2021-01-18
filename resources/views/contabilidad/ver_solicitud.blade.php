@@ -2,7 +2,7 @@
 
 @section('jsMain')
     <script src="{{ asset('assets/js/peticiones.js') }}"></script>
-    <script src="{{ asset('assets/js/solicitud_dinero.js') }}"></script> 
+    <script src="{{ asset('assets/js/solicitud_dinero.js') }}"></script>
 @endsection
 
 @extends('layouts.app')
@@ -35,7 +35,7 @@
 
                                 <a href="{{ route('solicitud_dinero') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
 
-                                
+
                                 {{-- @if ($mantenimiento->facturas->count() > 0 && $mantenimiento->estado == 'Aprobado')
                                     <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_firma">Cerrar</button>
                                 @else
@@ -96,14 +96,14 @@
 
                                                 <td class="align-middle">{{$concepto->valor_entregado}}</td>
 
-                                                <td class="align-middle">{{$concepto->valor_soportado}}  &nbsp;&nbsp; 
+                                                <td class="align-middle">{{$concepto->valor_soportado}}  &nbsp;&nbsp;
                                                     @if ($concepto->valor_soportado != 0)
                                                         <button onclick="see_soportes({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_soporte" data-placement="top" title="Ver Soportes">
                                                         <i class="mdi mdi-eye"></i>
                                                         </button>
                                                     @endif
                                                     @php
-                                                        $estado = $estados->where('conceptos_id',$concepto->id)->orderBy('created_at', 'desc')->first()->estado;
+                                                        $estado = $estados->where('conceptos_id', $concepto->id)->orderBy('created_at', 'desc')->first()['estado'];
                                                     @endphp
                                                     @if($concepto->saldo != 0 && $estado != 'Solicitado' && $estado != 'Cancelado' && $estado != 'Negado')
                                                         <button onclick="add_id_t({{$concepto->saldo}}','{{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-placement="top" data-target="#agregar_soporte" title="Agregar Soporte">
@@ -130,7 +130,7 @@
                                         </tr>
                                         @endforeach
 
-                                            
+
                                     </tbody>
                                 </table>
 
@@ -200,18 +200,18 @@
                 </button>
             </div>
             <div class="modal-body">
-                                <table class="table table-bordered">
-                                    <thead>
-                                            <tr class="text-center table-bg-dark">
-                                                <th class="align-middle"><b>Fecha Soporte</b></th>
-                                                <th class="align-middle"><b>Archivo</b></th>
-                                                <th class="align-middle"><b>Valor</b></th>
-                                            </tr>
-                                    </thead>
-                                    <tbody class="table_soportes">
+                <table class="table table-bordered">
+                    <thead>
+                            <tr class="text-center table-bg-dark">
+                                <th class="align-middle"><b>Fecha Soporte</b></th>
+                                <th class="align-middle"><b>Archivo</b></th>
+                                <th class="align-middle"><b>Valor</b></th>
+                            </tr>
+                    </thead>
+                    <tbody class="table_soportes">
 
-                                    </tbody>
-                                </table>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -291,7 +291,7 @@
                             </tr>
                     </thead>
                     <tbody class="table_estados">
-                        
+
                     </tbody>
                 </table>
             </div>

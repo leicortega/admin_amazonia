@@ -112,14 +112,14 @@ hacer editar y eliminar de Proveedores ============================== YA
 -Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar)
 -Revisar el error en el modulo de solicitud de dinero ===================
 -Poer filtro de seguridad en correos y cotizaciones para evitar el spam
--Crear modulo de planifiacion (actividades realizadas por dia delpersonal)
+-Crear modulo de planifiacion (actividades realizadas por dia del personal)
 -Agregar vencimiento en documentacion (Para los docuementos que lo requieran)
 -Dejar enlace a Ob para el modulo juridico
 
 Prioridad: Vehiculos
 
 Trabajando en:
--Dejar fechas con formato dd/mm/yyyy
+-Dejar fechas con formato dd/mm/yyyy =========================== YA
 -Agregar filtro por tipo de tercero en el modulo de terceros   =================================YA
 -Agregar historial de conductor activo del vehiculo ========================YA
 -Revisar el error en el modulo de solicitud de dinero ============================================== YA

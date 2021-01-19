@@ -24,7 +24,7 @@
                 $('.table_soportes').empty();
                 respuesta.forEach(soporte => {
                     var dateTime = new Date(soporte.created_at);
-                    var fecha =  dateTime.getFullYear() + "/" + (dateTime.getMonth()+1) + "/" + dateTime.getDate() ;
+                    var fecha =  dateTime.getDate() + "/" + (dateTime.getMonth()+1) + "/" +  dateTime.getFullYear() ;
                     var html = '<tr><td class="align-middle">'+fecha+'</td><td><a target="_blank" href="/storage/'+soporte.archivo+ '"><img class="img-fluid" src="/storage/'+soporte.archivo+ '"></a></td><td class="align-middle">'+soporte.valor_soporte+'</td></tr>';
                     $('.table_soportes').append(html);
                 });
@@ -60,7 +60,7 @@
                 $('.table_estados').empty();
                 respuesta.forEach(estado => {
                     var dateTime = new Date(estado.created_at);
-                    var fecha =  dateTime.getFullYear() + "/" + (dateTime.getMonth()+1) + "/" + dateTime.getDate() ;
+                    var fecha = dateTime.getDate()  + "/" + (dateTime.getMonth()+1) + "/" +  dateTime.getFullYear();
                     var html = '<tr class="text-center table-bg-dark"><td class="align-middle">'+estado['estado']+'</td><td class="align-middle">'+estado.name+'</td><td class="align-middle">'+fecha+'</td><td class="align-middle">'+estado.descripcion+'</td></tr>'
                     $('.table_estados').append(html);
                 });

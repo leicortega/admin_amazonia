@@ -84,7 +84,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>{{ $inspeccion->fecha_inicio }}</td>
+                                                    <td>{{ Carbon\Carbon::parse($inspeccion->fecha_inicio)->format('d-m-Y H:m:s') }}</td>
                                                     <td>{{ $inspeccion->kilometraje_inicio }}</td>
                                                     <td>{{ $inspeccion->observaciones_inicio }}</td>
                                                 </tr>
@@ -101,7 +101,7 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>{{ $inspeccion->fecha_final ?? 'N/A' }}</td>
+                                                    <td>{{ ($inspeccion->fecha_final == '') ? 'N/A' : Carbon\Carbon::parse($inspeccion->fecha_final)->format('d-m-Y H:m:s') }}</td>
                                                     <td>{{ $inspeccion->kilometraje_final ?? 'N/A' }}</td>
                                                     <td>{{ $inspeccion->observaciones_final ?? 'N/A' }}</td>
                                                 </tr>

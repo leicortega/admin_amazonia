@@ -79,7 +79,6 @@ class SolicituddineroController extends Controller
                 ->where('solicitudes_dinero.id',$id)
                 ->select('solicitudes_dinero.*', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido',  'users.name')->first();
 
-
         return view('contabilidad.ver_solicitud', ['solicitud' => $solicitud, 'conceptos' => $conceptos->get(), 'estados' => $estados]);
     }
 

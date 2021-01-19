@@ -92,7 +92,7 @@
                                         <tr>
                                             <th class="text-center"><b>Solicitante</b></th>
                                             <th class="text-center"><b>Beneficiario</b></th>
-                                            <th class="text-center"><b>Fecha y hora</b></th>
+                                            <th class="text-center"><b>Fecha</b></th>
                                             <th class="text-center"><b>Tipo</b></th>
                                             <th class="text-center"><b>Descripción</b></th>
                                             <th class="text-center"><b>Acciones</b></th>
@@ -103,7 +103,7 @@
                                             <tr>
                                                 <th>{{ $solicitud->name }}</th>
                                                 <th>{{ $solicitud->nombres}} {{$solicitud->primer_apellido}}</th>
-                                                <th>{{ $solicitud->fecha_solicitud }}</th>
+                                                <th>{{ Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y') }}</th>
                                                 <th>{{ $solicitud->tipo_solicitud }}</th>
                                                 <th>{{ $solicitud->descripcion }}</th>
                                                 <td class="text-center">

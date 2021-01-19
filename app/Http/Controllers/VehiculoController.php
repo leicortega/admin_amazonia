@@ -102,13 +102,13 @@ class VehiculoController extends Controller
     }
 
     public function ver_conductor_historial(Request $request) {
-       return Conductores_vehiculo::with('personal')->where('personal_id', "$request->id")->orderBy('id', 'desc')->get();
+       return Conductores_vehiculo::with('personal')->where('personal_id', "$request->id")->where('vehiculo_id', "$request->vehiculo_id")->orderBy('id', 'desc')->get();
     }
     
 
     public function eliminar_conductor(Request $request) {
         Conductores_vehiculo::find($request['id'])->delete();
-        return $request['vehiculo_id'];
+        return $request;
     }
 
     public function agg_targeta_propiedad(Request $request) {

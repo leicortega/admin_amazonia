@@ -94,7 +94,7 @@
                                             <tr>
                                                 <th>{{ $solicitado->vehiculo->placa }}</th>
                                                 <th>{{ $solicitado->personal->nombres }} {{ $solicitado->personal->primer_apellido }}</th>
-                                                <th>{{ $solicitado->fecha }}</th>
+                                                <th>{{ Carbon\Carbon::parse($solicitado->fecha)->format('d-m-Y H:m:s') }}</th>
                                                 <th>{{ $solicitado->estado }}</th>
                                                 <th>{{ $solicitado->descripcion_solicitud }}</th>
                                                 <td class="text-center">

@@ -50,7 +50,7 @@
                                         @foreach ($tareas as $tarea)
                                             <tr>
                                                 <th>{{ $tarea->asignado_id->name }}</th>
-                                                <td>{{ $tarea->fecha }}</td>
+                                                <td>{{ Carbon\Carbon::parse($tarea->fecha)->format('d-m-Y') }}</td>
                                                 <td>{{ $tarea->estado }}</td>
                                                 <td>{{ $tarea->fecha_limite }}</td>
                                                 <td class="text-center">

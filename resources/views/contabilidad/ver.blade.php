@@ -80,7 +80,7 @@
                                             <tbody>
                                                 @foreach ($registros as $registro)
                                                     <tr>
-                                                        <td>{{ $registro->fecha }}</td>
+                                                        <td>{{ Carbon\Carbon::parse($registro->fecha)->format('d-m-Y') }}</td>
                                                         <td>{{ $registro->concepto }}</td>
                                                         <td>{{ $registro->tipo }}</td>
                                                         <td>{{ $registro->estado }}</td>

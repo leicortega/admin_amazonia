@@ -94,7 +94,7 @@
                                                 <th scope="row">
                                                     <a href="#">{{ $correo->id }}</a>
                                                 </th>
-                                                <td>{{ $correo->fecha }}</td>
+                                                <td>{{ Carbon\Carbon::parse($correo->fecha)->format('d-m-Y') }}</td>
                                                 <td>{{ $correo->nombre .' '. $correo->apellido }}</td>
                                                 <td>{{ $correo->email }}</td>
                                                 <td>{{ Str::limit($correo->asunto, 20) }}</td>

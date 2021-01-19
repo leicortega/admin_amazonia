@@ -41,7 +41,7 @@
                                                     <a href="/vehiculos/inspecciones/ver/{{ $item->inspeccion->id }}">
                                                         <div class="timestamp">
                                                             <span class="author">{{ App\User::find($item->inspeccion->users_id)->name }}</span>
-                                                            <span class="date">{{ $item->inspeccion->fecha_inicio }}<span>
+                                                            <span class="date">{{ date("d/m/Y H:m:s", strtotime($item->inspeccion->fecha_inicio)) }}<span>
                                                         </div>
                                                         <div class="status">
                                                             <h4> Inspección </h4>
@@ -74,7 +74,7 @@
                                                     <a href="/vehiculos/print/mantenimiento/{{ $item->mantenimiento->id }}" target="_blank">
                                                         <div class="timestamp">
                                                             <span class="author">{{ $item->mantenimiento->persona_cierre ?? 'Aun no hay cierre' }}</span>
-                                                            <span class="date">{{ $item->mantenimiento->fecha_cierre ?? 'Mantenimiento sin cierre' }}<span>
+                                                            <span class="date">{{ ($item->mantenimiento->fecha_cierre != '') ? date("d/m/Y H:m:s", strtotime($item->mantenimiento->fecha_cierre)) : 'Mantenimiento sin cierre' }}<span>
                                                         </div>
                                                         <div class="status">
                                                             <h4> Cierre </h4>

@@ -53,10 +53,10 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <td>{{ $tarea->fecha }}</td>
+                                                    <td>{{  Carbon\Carbon::parse($tarea->fecha)->format('d-m-Y') }}</td>
                                                     <td>{{ $tarea->asignado_id->name }}</td>
                                                     <td>{{ $tarea->estado }}</td>
-                                                    <td>{{ $tarea->fecha_limite }}</td>
+                                                    <td>{{ Carbon\Carbon::parse($tarea->fecha_limite)->format('d-m-Y') }}</td>
                                                 </tr>
                                             </tbody>
                                             <thead class="table-bg-dark">
@@ -99,7 +99,7 @@
                                             <tbody>
                                                 @foreach ($tarea->detalle_tareas as $detalle)
                                                     <tr>
-                                                        <td>{{ $detalle->fecha }}</td>
+                                                        <td>{{  Carbon\Carbon::parse($detalle->fecha)->format('d-m-Y H:m:s') }}</td>
                                                         <td>{{ $detalle->user->name }}</td>
                                                         <td>{{ $detalle->estado }}</td>
                                                         <td>{{ $detalle->observaciones }}</td>

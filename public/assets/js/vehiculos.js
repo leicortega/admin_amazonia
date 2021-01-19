@@ -48,7 +48,6 @@ function cargar_conductores(id) {
             content = '';
             data.forEach( function (conductor, indice) {
                 fecha = new Date(conductor.fecha_final);
-
                 content += `
                 <tr>
                     <td scope="row">${ indice+1 }</td>
@@ -62,7 +61,7 @@ function cargar_conductores(id) {
                     content += `<td>Inactivo</td>`;
                 }
                     
-                content +=`<td class="text-center"><button type="button" onclick="ver_historial_conductor(${ conductor.personal_id })" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_ver_historial_conductor"><i class="fa fa-eye"></i></button></td></tr> `;
+                content +=`<td class="text-center"><button type="button" onclick="ver_historial_conductor(${ conductor.personal_id}, ${conductor.vehiculo_id})" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_ver_historial_conductor"><i class="fa fa-eye"></i></button></td></tr> `;
             });
             
            if(content!=''){
@@ -87,16 +86,16 @@ function eliminar_conductor(id, vehiculo_id, btn) {
         type: 'POST',
         data: {id:id, vehiculo_id:vehiculo_id},
         success: function (data) {
-            ver_historial_conductor(data);
+            ver_historial_conductor(data.id, data.vehiculo_id );
         }
     })
 }
 
-function ver_historial_conductor(id) {
+function ver_historial_conductor(id, vehiculo_id) {
     $.ajax({
         url: '/vehiculos/ver_conductor_historial',
         type: 'POST',
-        data: {id:id},
+        data: {id:id, vehiculo_id:vehiculo_id},
         success: function (data) {
             var content = '';
             contado=0;
@@ -124,9 +123,7 @@ function ver_historial_conductor(id) {
     })
 }
 
-function formatoFecha(texto){
-    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
-  }
+
 
 function restaFechas(fechaa,fechab){
     let fecha1 = new Date(fechaa);
@@ -134,6 +131,14 @@ function restaFechas(fechaa,fechab){
     
     let resta = fecha2.getTime() - fecha1.getTime();
     return Math.round(resta/ (1000*60*60*24));
+  }
+
+  function formatoFecha(texto){
+      if(texto == '' || texto == null){
+        return null;
+      }
+      return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+    
   }
 
 
@@ -165,10 +170,10 @@ function documentos_legales(tipo, vehiculo_id, id_table) {
                 content += `
                 <tr>
                     <td scope="row">${ documento.consecutivo }</td>
-                    <td>${ documento.fecha_expedicion }</td>
-                    <td>${ documento.fecha_fin_vigencia ?? 'No aplica' }</td>
-                    <td>${ documento.fecha_inicio_vigencia ?? 'No aplica' }</td>
-                    <td>${ (documento.fecha_inicio_vigencia) ? documento.fecha_fin_vigencia - documento.fecha_inicio_vigencia : 'No aplica' }</td>
+                    <td>${ formatoFecha(documento.fecha_expedicion) }</td>
+                    <td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'No aplica' }</td>
+                    <td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'No aplica' }</td>
+                    <td>${ (formatoFecha(documento.fecha_inicio_vigencia)) ? restaFechas(documento.fecha_fin_vigencia, documento.fecha_inicio_vigencia)  : 'No aplica' }</td>
                     <td width="250px">${ documento.entidad_expide }</td>
                     <td>${ documento.estado }</td>
                     <td width="180px" class="text-center">

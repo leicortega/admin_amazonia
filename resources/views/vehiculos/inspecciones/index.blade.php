@@ -106,7 +106,7 @@
                                             <tr>
                                                 <th>{{ $inspeccion->vehiculo->placa }}</th>
                                                 <th>{{ $inspeccion->users->name }}</th>
-                                                <th>{{ $inspeccion->fecha_inicio }}</th>
+                                                <th>{{ date("d/m/Y H:m:s", strtotime($inspeccion->fecha_inicio)) }}</th>
                                                 <th>{{ $inspeccion->fecha_final ? 'Cerrada' : 'Iniciada' }}</th>
                                                 <td class="text-center">
                                                     <a href="/vehiculos/inspecciones/ver/{{ $inspeccion->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Inspeccion">

@@ -94,7 +94,7 @@
                                                 <th scope="row">
                                                     <a href="#">{{ $cotizacion->id }}</a>
                                                 </th>
-                                                <td>{{ $cotizacion->fecha }}</td>
+                                                <td>{{  Carbon\Carbon::parse($cotizacion->fecha)->format('d-m-Y H:m:s')}}</td>
                                                 <td>{{ $cotizacion->nombre }}</td>
                                                 <td>{{ $cotizacion->correo }}</td>
                                                 <td>{{ $cotizacion->ciudad_origen.' - '.$cotizacion->ciudad_destino }}</td>

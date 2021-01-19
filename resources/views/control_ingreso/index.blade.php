@@ -130,7 +130,7 @@
                                                 </th>
                                                 <td>{{ $item->name }}</td>
                                                 <td>{{ $item->tipo }}</td>
-                                                <td>{{ isset($item->ingresos[0]['fecha']) ? $item->ingresos[0]['fecha'] : '' }}</td>
+                                                <td>{{ isset($item->ingresos[0]['fecha']) ? Carbon\Carbon::parse($item->ingresos[0]['fecha'])->format('d-m-Y') : '' }}</td>
                                                 <td>{{ isset($item->ingresos[0]['fecha']) ? $item->ingresos[0]['temperatura'] : '' }}</td>
                                                 <td class="text-center">
                                                     <button type="button" class="btn btn-outline-info btn-sm" <?php echo $hoy <= $ultimoIngreso ? 'disabled' : '' ?> onclick="registrarIngreso({{ $item->id }}, '{{ $item->name }}')" data-toggle="tooltip" data-placement="top" title="Registrar ingreso">

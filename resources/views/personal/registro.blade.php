@@ -103,7 +103,7 @@
                                                 <th scope="row">
                                                     <a href="#">{{ $item->identificacion }}</a>
                                                 </th>
-                                                <td>{{ $item->fecha_ingreso }}</td>
+                                                <td>{{ Carbon\Carbon::parse($item->fecha_ingreso)->format('d-m-Y') }}</td>
                                                 <td>{{ $item->nombres .' '. $item->primer_apellido }}</td>
                                                 <td>{{ $item->correo }}</td>
                                                 <td>{{ $item->telefonos }}</td>

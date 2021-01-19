@@ -49,7 +49,7 @@
                                         @foreach ($posts as $post)
                                             <tr>
                                                 <th>{{ $post->users->name }}</th>
-                                                <td>{{ $post->fecha }}</td>
+                                                <td>{{ Carbon\Carbon::parse($post->fecha)->format('d-m-Y') }}</td>
                                                 <td>{{ $post->titulo }}</td>
                                                 <td class="text-center">
                                                     <a href="/blog/post/ver/{{ $post->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Post">

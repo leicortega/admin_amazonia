@@ -203,6 +203,14 @@ function tipo_contrato_select(tipo) {
     }
 }
 
+function formatoFecha(texto){
+    if(texto == '' || texto == null){
+      return null;
+    }
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+  
+}
+
 function cargar_contratos(id) {
     $.ajax({
         url: '/personal/cargar_contratos',
@@ -216,8 +224,8 @@ function cargar_contratos(id) {
                         <td scope="row">${ indice + 1 }</td>
                         <td>${ contrato.tipo_contrato }</td>
                         <td>${ contrato.estado }</td>
-                        <td>${ contrato.fecha_inicio }</td>
-                        <td>${ contrato.fecha_fin ?? 'N/A' }</td>
+                        <td>${ formatoFecha(contrato.fecha_inicio) }</td>
+                        <td>${ (contrato.fecha_fin == '') ? 'N/A' : formatoFecha(contrato.fecha_fin) }</td>
                         <td class="text-center">
                             <button type="button" title="Agregar otro si" onclick="modal_agg_otro_si(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-success waves-effect waves-light"><i class="fa fa-save"></i></button>
                             <a href="/personal/contrato/print/${ contrato.id }" target="_blank"><button type="button" title="Imprimir contrato" onclick="contrato_pdf(${ contrato.id }, ${ contrato.vehiculo_id })" class="btn btn-dark waves-effect waves-light"><i class="fa fa-print"></i></button></a>
@@ -330,9 +338,9 @@ function cargar_documentos(tipo, id_table, personal_id) {
                 content += `
                 <tr>
                     <td scope="row">${ indice+1 }</td>
-                    <td>${ documento.fecha_expedicion }</td>
-                    <td>${ documento.fecha_inicio_vigencia }</td>
-                    <td>${ documento.fecha_fin_vigencia }</td>
+                    <td>${ formatoFecha(documento.fecha_expedicion) }</td>
+                    <td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'N/A' }</td>
+                    <td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'N/A' }</td>
                     <td>NA</td>
                     <td>${ documento.observaciones }</td>
                     <td>Activo</td>

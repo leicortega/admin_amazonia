@@ -454,7 +454,7 @@ function historialIngresos(id, name) {
             data.historial.forEach(ingreso => {
                 content += `
                     <tr>
-                        <td>${ingreso.fecha}</td>
+                        <td>${formatoFecha(ingreso.fecha)}</td>
                         <td>${ingreso.temperatura}</td>
                         <td>${ingreso.pregunta_one}</td>
                         <td>${ingreso.pregunta_three}</td>
@@ -491,6 +491,14 @@ function verNotificacion(id) {
             }
         }
     });
+}
+
+function formatoFecha(texto){
+    if(texto == '' || texto == null){
+      return null;
+    }
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+  
 }
 
 function createTercero(id, nombre, correo, telefono) {

@@ -50,7 +50,7 @@
                                     <thead>
                                         <tr class="text-center table-bg-dark">
                                             <th> <b>Tipo Solicitud</b></th>
-                                            <th> <b>Fecha Y Hora</b></th>
+                                            <th> <b>Fecha</b></th>
                                             <th> <b>Solicitante</b></th>
                                             <th> <b>Beneficiario</b></th>
                                         </tr>
@@ -58,7 +58,7 @@
                                     <tbody>
                                         <tr>
                                             <td>{{$solicitud->tipo_solicitud}}</td>
-                                            <td>{{$solicitud->fecha_solicitud}}</td>
+                                            <td>{{ Carbon\Carbon::parse($solicitud->fecha_solicitud)->format('d-m-Y')}}</td>
                                             <td>{{$solicitud->name}}</td>
                                             <td>{{$solicitud->nombres}} {{$solicitud->primer_apellido}} {{$solicitud->segundo_apellido}}</td>
                                         </tr>
@@ -89,6 +89,7 @@
                                     </thead>
                                     <tbody>
 
+
                                         @foreach($conceptos as $concepto)
                                             <tr class="text-center table-bg-dark">
 
@@ -106,7 +107,7 @@
                                                         $estado = $estados->where('conceptos_id', $concepto->id)->orderBy('created_at', 'desc')->first()['estado'];
                                                     @endphp
                                                     @if($concepto->saldo != 0 && $estado != 'Solicitado' && $estado != 'Cancelado' && $estado != 'Negado')
-                                                        <button onclick="add_id_t({{$concepto->saldo}}','{{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-placement="top" data-target="#agregar_soporte" title="Agregar Soporte">
+                                                        <button onclick="add_id_t({{$concepto->saldo}},{{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-placement="top" data-target="#agregar_soporte" title="Agregar Soporte">
                                                         <i class="mdi mdi-plus"></i>
                                                         </button>
                                                     @endif

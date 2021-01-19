@@ -11,6 +11,7 @@ $(document).ready(function () {
                 window.setTimeout(function() {
                     $('#alerta_success').addClass('d-none');
                 }, 3000);
+                $("#form_agg_conductor")[0].reset();
             }
         })
 
@@ -79,14 +80,15 @@ function cargar_conductores(id) {
     })
 }
 
-function eliminar_conductor(id, vehiculo_id, btn) {
+function eliminar_conductor(id, personal_id, vehiculo_id, btn) {
     $(btn).parent('td').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
     $.ajax({
         url: '/vehiculos/eliminar_conductor',
         type: 'POST',
-        data: {id:id, vehiculo_id:vehiculo_id},
+        data: {id:id, personal_id:personal_id, vehiculo_id:vehiculo_id},
         success: function (data) {
-            ver_historial_conductor(data.id, data.vehiculo_id );
+            console.log(data);
+            ver_historial_conductor(data.personal_id, data.vehiculo_id);
         }
     })
 }
@@ -113,7 +115,7 @@ function ver_historial_conductor(id, vehiculo_id) {
                 <th class="text-center">${formatoFecha(conductor.fecha_final)}</th>
                 <th class="text-center">${restaFechas(conductor.fecha_inicial, conductor.fecha_final)} dias</th>
                 <th class="text-center">${estado}</th>
-                <th class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${conductor.vehiculo_id}, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></th>
+                <th class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${conductor.personal_id}, ${conductor.vehiculo_id}, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></th>
             </tr>`;
             });
             

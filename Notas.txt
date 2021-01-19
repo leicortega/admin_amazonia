@@ -125,15 +125,14 @@ Trabajando en:
 -Revisar el error en el modulo de solicitud de dinero ========================================== YA
 -Listar los proveedores alregistrar facturas en los mantenimientos ============================= YA
 
--Poner obsercvacion y fecha de estado inactivo de vehiculos
+-Poner obsercvacion y fecha de estado inactivo de vehiculos 
 -Crear modulo de parametrizacion de los documentos de los vehiculos en administrar sistema (si tienen vigencia o no)
 -Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar)
 -Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso)
 
 
 
-revisar error en eliminar del historial conductor
-limpiar los campos en el mismo historial
+
 
 necesitamos pedir campo de tipo fecha al inactivar  al editar vehiculo
 moatrar ese inactivo fecha tal y pr tal motivo en la tabla vehiculos en editar

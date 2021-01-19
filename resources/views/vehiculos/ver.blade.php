@@ -107,6 +107,16 @@
                                             <td class="table-bg-dark"><b>Carroceria</b></td>
                                             <td>{{ \App\Models\Sistema\Tipo_Carroceria::find($vehiculo->tipo_carroceria_id)->nombre }}</td>
                                         </tr>
+                                        @if ($vehiculo->estado == 'Inactivo')
+                                            <tr>
+                                                <td class="table-bg-dark" colspan=""><b>Estado</b></td>
+                                                <td>{{$vehiculo->estado}}</td>
+                                                <td class="table-bg-dark" colspan=""><b>Fecha de estado</b></td>
+                                                <td>{{ Carbon\Carbon::parse($vehiculo->fecha_estado)->format('d-m-Y')}}</td>
+                                                <td class="table-bg-dark" colspan=""><b>Observaciones</b></td>
+                                                <td colspan="3">{{$vehiculo->observacion_estado}}</td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -1314,12 +1324,28 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="estado" class="form-control" id="estado" required>
+                                    <select name="estado" class="form-control" id="estado" required onchange="estado_nuevo(this)">
                                         <option value=""></option>
                                         <option value="Activo" {{ ($vehiculo->estado == 'Activo') ? 'selected' : '' }}>Activo</option>
-                                        <option value="inactivo" {{ ($vehiculo->estado == 'inactivo') ? 'selected' : '' }}>inactivo</option>
+                                        <option value="inactivo" {{ ($vehiculo->estado == 'Inactivo') ? 'selected' : '' }}>Inactivo</option>
                                     </select>
                                     <label for="estado">Estado</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row d-none" id="estado_inactivo">
+                            <div class="col-sm-3 mt-4">
+                                <div class="form-group form-group-custom mb-4 mt-1">
+                                    <input class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_estado" id="fecha_estado" required/>
+                                    <label for="fecha">Fecha</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-9">
+                                <div class="form-group mb-4">
+                                    <label for="descripcion">Observaciones </label>
+                                    <textarea type="text" class="form-control" id="observacion_estado" name="observacion_estado" required rows="5"></textarea>
                                 </div>
                             </div>
                         </div>

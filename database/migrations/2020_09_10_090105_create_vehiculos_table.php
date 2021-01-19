@@ -26,6 +26,8 @@ class CreateVehiculosTable extends Migration
             $table->integer('tarjeta_operacion');
             $table->string('color');
             $table->enum('estado', ['Activo', 'Inactivo']);
+            $table->date('fecha_estado')->nullable();
+            $table->text('observacion_estado')->nullable();
             $table->string('empresa_convenio')->nullable();
 
             $table->foreignId('tipo_vehiculo_id')

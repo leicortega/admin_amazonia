@@ -18,6 +18,7 @@ $(document).ready(function () {
         return false;
     })
 
+
     $('#agg_targeta_propiedad').submit(function () {
         var form = document.getElementById('agg_targeta_propiedad');
         var formData = new FormData(form);
@@ -39,6 +40,18 @@ $(document).ready(function () {
     })
 
 })
+
+function estado_nuevo(seleccion){
+    if($(seleccion).val()=='inactivo'){
+        $('#estado_inactivo').removeClass('d-none');
+        $('#observacion_estado').prop('required');
+        $('#fecha_estado').prop('required');
+    }else{
+        $('#estado_inactivo').addClass('d-none');
+        $('#observacion_estado').removeAttr('required');
+        $('#fecha_estado').removeAttr('required');
+    }
+}
 
 function cargar_conductores(id) {
     $.ajax({

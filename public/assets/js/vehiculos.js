@@ -18,6 +18,25 @@ $(document).ready(function () {
         return false;
     })
 
+    $('#form_exportar_documentos').submit(function () {
+        $('#btn_submit_exportar_documentos').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
+
+        $.ajax({
+            url: '/vehiculos/exportar_documentos',
+            type: 'POST',
+            data: $('#form_exportar_documentos').serialize(),
+            success: function (data) {
+                console.log(data);
+                $('#btn_submit_exportar_documentos').html('Enviar').attr('disabled', false);
+                $('#form_exportar_documentos')[0].reset();
+                $('#modal_exportar').modal('hide');
+                window.open('/storage/docs/vehiculos/documentacion.zip', '_blank');
+            }
+        });
+
+        return false;
+    });
+
 
     $('#agg_targeta_propiedad').submit(function () {
         var form = document.getElementById('agg_targeta_propiedad');
@@ -616,4 +635,36 @@ function select_tipo_vinculacion(tipo) {
         $('#div_item2').removeClass('col-sm-3').addClass('col-sm-4');
         $('#div_item3').removeClass('col-sm-3').addClass('col-sm-4');
     }
+}
+
+function exportar_documentos() {
+    $('#exporta_documentos_id').append('<span class="ml-2 spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
+    id=$('#vehiculo_id_conductor').val();
+    $.ajax({
+        url: '/vehiculos/cargar_documentos_all',
+        type: 'POST',
+        data: {id:id},
+        success: function (data) {
+            let content = '';
+            data.forEach(item => {
+                if(item.documento_file != null && item.documento_file != ''){
+                    content += `
+                    <div class="custom-control custom-checkbox mb-2">
+                        <input type="checkbox" class="custom-control-input" id="customCheck${item.id}" name="documentos[]" value="${item.id}">
+                        <label class="custom-control-label" for="customCheck${item.id}">${item.consecutivo} - ${item.name}</label>
+                    </div>
+                `;
+                }
+            });
+
+            $('#exporta_documentos_id').html('Esxportar Documentos').attr('disabled', false);
+
+            if(content != null && content != ''){
+                $('#content_exportar_documentos').html(content);
+            }else{
+                $('#content_exportar_documentos').html(`<span class="text-center">No hay Documentos<span>`);
+            }
+            $('#modal_exportar').modal('show');
+        }
+    });
 }

@@ -151,7 +151,7 @@
                                                         <label class="sr-only" for="fecha_inicial">Fecha Final</label>
                                                         <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_final" id="fecha" placeholder="fecha final" required/>
 
-                                                    <input type="hidden" value="{{ $vehiculo->id }}" name="vehiculo_id">
+                                                    <input type="hidden" value="{{ $vehiculo->id }}" name="vehiculo_id" id="vehiculo_id_conductor">
 
                                                     <button type="submit" class="btn btn-primary mb-2 mt-sm-0">Enviar</button>
                                                 </form>
@@ -1220,4 +1220,43 @@
         </div>
     </div>
 </div>
+
+{{-- MODAL EXPORTAR --}}
+<div class="modal fade bs-example-modal-xl" id="modal_exportar" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0">Exportar Documentación</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/informacion/documentacion/exportar_documentos" id="form_exportar_documentos" method="POST">
+                    @csrf
+
+                    <div class="container p-3">
+
+                        <div class="col-sm-12">
+                            <div class="mt-4 mt-sm-0">
+                                <h5 class="font-size-14 mb-3">Seleccionar documentos a exportar</h5>
+
+                                <div id="content_exportar_documentos"></div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_submit_exportar_documentos" type="submit">Enviar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 @endsection

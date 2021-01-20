@@ -306,6 +306,7 @@
 
                 @if ( Request::is('control_ingreso/*') )
 
+
                     <li class="menu-title">Control de Ingreso</li>
 
                     <li>
@@ -333,6 +334,11 @@
                     @role('admin') <li><a href="/vehiculos/inspecciones"  class="waves-effect">Inspecciones</a></li> @endrole
                     @role('admin') <li><a href="/vehiculos/graficas"  class="waves-effect">Graficas Tanqueos</a></li> @endrole
                     @role('admin') <li><a href="/vehiculos/mantenimientos"  class="waves-effect">Mantenimientos</a></li> @endrole
+                    @role('admin') 
+                    @if (Request::is('vehiculos/ver/*'))
+                    <li><a href="javascript:exportar_documentos()" id="exporta_documentos_id"  class="waves-effect">Exportar Documentos</a></li> 
+                    @endif
+                     @endrole
 
                 @endif
 

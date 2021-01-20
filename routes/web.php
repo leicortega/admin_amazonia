@@ -81,6 +81,8 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/vehiculos/cargar_conductores', 'VehiculoController@cargar_conductores');
     Route::post('/vehiculos/eliminar_conductor', 'VehiculoController@eliminar_conductor');
     Route::post('/vehiculos/agg_targeta_propiedad', 'VehiculoController@agg_targeta_propiedad');
+    Route::post('/vehiculos/cargar_documentos_all', 'VehiculoController@cargar_documentos_all');
+    Route::post('/vehiculos/exportar_documentos', 'VehiculoController@exportar_documentos');
     Route::post('/vehiculos/cargar_tarjeta_propiedad', 'VehiculoController@cargar_tarjeta_propiedad');
     Route::post('/vehiculos/eliminar_documento_legal', 'VehiculoController@eliminar_documento_legal');
     Route::post('/vehiculos/get_documento_legal', 'VehiculoController@get_documento_legal');

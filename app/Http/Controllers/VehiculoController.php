@@ -16,6 +16,7 @@ use App\Models\Hallazgos_inspeccion;
 use App\Models\Cargos_personal;
 use App\Models\Personal;
 use App\Models\Vehiculo;
+use ZipArchive;
 
 class VehiculoController extends Controller
 {
@@ -253,6 +254,34 @@ class VehiculoController extends Controller
         $vehiculos = $vehiculos->paginate(10);
 
         return view('vehiculos.index', ['propietarios' => $propietarios, 'vehiculos' => $vehiculos]);
+    }
+
+    public function cargar_documentos_all(Request $request){
+        return Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')
+        ->where('vehiculo_id', $request->id)
+        ->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia')->get();
+    }
+
+    public function exportar_documentos(Request $request){
+        $zip = new ZipArchive();
+
+
+        if(!$zip->open(public_path('storage/docs/vehiculos/documentacion.zip'), ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE){
+            return 'error';
+        }
+
+
+        foreach ($request['documentos'] as $row) {
+            $documentos =  Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id') ->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia');
+            $documento = $documentos->find($row)->documento_file;
+            $documento_nombre = $documentos->find($row)->consecutivo . " " . $documentos->find($row)->name;
+            $documento_extencion = pathinfo($documento, PATHINFO_EXTENSION);
+            $zip->addFile('storage/'.$documento, $documento_nombre.'.'.$documento_extencion);
+        }
+
+        $zip->close();
+
+        return true;
     }
 
 }

@@ -158,6 +158,9 @@
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="admin/sistema/inspecciones">Administrar Inspecciones</a></li>
                             </ul>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="admin/sistema/admin_documentos_vehiculos">Administrar Doc. Vehiculos</a></li>
+                            </ul>
                         </li>
 
                         <li>
@@ -229,6 +232,13 @@
                         <a href="/admin/sistema/inspecciones" class="waves-effect">
                             <div class="d-inline-block icons-sm"></div>
                             <span>Administrar Inspecciones</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/admin/sistema/admin_documentos_vehiculos" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span>Administrar Doc. Vehiculos</span>
                         </a>
                     </li>
 

@@ -16,7 +16,6 @@ class CreateDocumentosLegalesVehiculosTable extends Migration
         Schema::create('documentos_legales_vehiculos', function (Blueprint $table) {
             $table->id();
 
-            $table->string('tipo', 120);
             $table->string('consecutivo', 120);
             $table->date('fecha_expedicion');
             $table->date('fecha_inicio_vigencia')->nullable();
@@ -28,6 +27,10 @@ class CreateDocumentosLegalesVehiculosTable extends Migration
 
             $table->foreignId('vehiculo_id')
                 ->constrained('vehiculos')
+                ->onDelete('cascade');
+
+            $table->foreignId('tipo_id')
+                ->constrained('admin_documentos_vehiculo')
                 ->onDelete('cascade');
 
             $table->timestamps();

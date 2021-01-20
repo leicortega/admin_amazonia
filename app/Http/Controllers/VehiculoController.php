@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin_documentos_categoria_vehiculo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
@@ -77,9 +78,12 @@ class VehiculoController extends Controller
             $query->where('cargos.nombre', 'Conductor');
         })->get();
 
-        $alerta_documentos = Documentos_legales_vehiculo::where('vehiculo_id', $request['id'])->whereNotNull('fecha_fin_vigencia')->where('ultimo', 1)->orderBy('fecha_fin_vigencia', 'desc')->get();
+        $categorias = Admin_documentos_categoria_vehiculo::all();
 
-        return view('vehiculos.ver', ['vehiculo' => Vehiculo::find($request['id']), 'conductores' => $conductores, 'propietarios' => $propietarios, 'alerta_documentos' => $alerta_documentos]);
+        $alerta_documentos = Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')->where('vehiculo_id', $request['id'])->whereNotNull('fecha_fin_vigencia')->where('ultimo', 1)->orderBy('fecha_fin_vigencia', 'desc')->get();
+
+
+        return view('vehiculos.ver', ['vehiculo' => Vehiculo::find($request['id']), 'conductores' => $conductores, 'propietarios' => $propietarios, 'alerta_documentos' => $alerta_documentos, 'categorias' => $categorias]);
     }
 
     public function agg_conductor(Request $request) {
@@ -112,8 +116,9 @@ class VehiculoController extends Controller
     }
 
     public function agg_targeta_propiedad(Request $request) {
-        if ($request['id']) {
+        if ($request['id'] != null) {
             $date = Carbon::now('America/Bogota');
+
 
             $documento = Documentos_legales_vehiculo::find($request['id']);
 
@@ -140,14 +145,16 @@ class VehiculoController extends Controller
                 ]);
             }
 
-            return ['tipo' => $documento->tipo, 'vehiculo_id' => $request['vehiculo_id'], 'id_table' => $request['id_table']];
+            return ['tipo' => $documento->tipo_id, 'vehiculo_id' => $request['vehiculo_id'], 'id_table' => $request['id_table']];
         } else {
             $date = Carbon::now('America/Bogota');
 
-            Documentos_legales_vehiculo::where('tipo', $request['tipo'])->where('vehiculo_id', $request['vehiculo_id'])->update(['ultimo' => 0]);
 
+            Documentos_legales_vehiculo::where('tipo_id', $request['tipo_id'])->where('vehiculo_id', $request['vehiculo_id'])->update(['ultimo' => 0]);
+
+            
             $documento = Documentos_legales_vehiculo::create([
-                'tipo' => $request['tipo'],
+                'tipo_id' => $request['tipo_id'],
                 'consecutivo' => $request['consecutivo'],
                 'fecha_expedicion' => $request['fecha_expedicion'],
                 'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia'],
@@ -157,6 +164,12 @@ class VehiculoController extends Controller
                 'ultimo' => 1,
                 'vehiculo_id' => $request['vehiculo_id'],
             ]);
+
+            $vigencia=0;
+
+            if($request['fecha_inicio_vigencia'] != null){
+                $vigencia=1;
+            }
 
             if ($request->file('documento_file')) {
                 $extension_file_documento = pathinfo($request->file('documento_file')->getClientOriginalName(), PATHINFO_EXTENSION);
@@ -170,7 +183,7 @@ class VehiculoController extends Controller
             }
 
             if ( $documento->save() ) {
-                return ['tipo' => $request['tipo'], 'vehiculo_id' => $request['vehiculo_id'], 'id_table' => $request['id_table']];
+                return ['tipo' => $request['tipo_id'], 'vehiculo_id' => $request['vehiculo_id'], 'id_table' => $request['id_table'], 'vigencia' => $vigencia];
             }
 
             return 0;
@@ -178,7 +191,9 @@ class VehiculoController extends Controller
     }
 
     public function cargar_tarjeta_propiedad(Request $request) {
-        return Documentos_legales_vehiculo::where('vehiculo_id', $request['vehiculo_id'])->where('tipo', $request['tipo'])->get();
+        return Documentos_legales_vehiculo::where('vehiculo_id', $request['vehiculo_id'])->where('tipo_id', $request['tipo'])
+        ->join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')
+        ->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia')->get();
     }
 
     public function eliminar_documento_legal(Request $request) {
@@ -187,7 +202,7 @@ class VehiculoController extends Controller
     }
 
     public function get_documento_legal(Request $request) {
-        return Documentos_legales_vehiculo::find($request['id']);
+        return Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia')->find($request['id']);
     }
 
     public function trazabilidad_inspecciones(Request $request, $id) {

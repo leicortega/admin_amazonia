@@ -31,7 +31,7 @@
                                     <ul>
                                         @foreach ($alerta_documentos as $alerta)
                                             @if (\Carbon\Carbon::now('America/Bogota')->format('Y-m-d') > $alerta['fecha_fin_vigencia'])
-                                                <li>{{ $alerta['tipo'] }} - {{ date("d/m/Y", strtotime($alerta['fecha_fin_vigencia'])) }}</li>
+                                                <li>{{ $alerta['name'] }} - {{ date("d/m/Y", strtotime($alerta['fecha_fin_vigencia'])) }}</li>
                                             @endif
                                         @endforeach
                                     </ul>
@@ -42,7 +42,7 @@
                                     <ul>
                                         @foreach ($alerta_documentos as $alerta)
                                             @if (\Carbon\Carbon::parse($alerta['fecha_fin_vigencia'])->diffInDays(\Carbon\Carbon::now('America/Bogota')) < 30 && \Carbon\Carbon::now('America/Bogota')->format('Y-m-d') < $alerta['fecha_fin_vigencia'])
-                                                <li>{{ $alerta['tipo'] }} - {{ date("d/m/Y", strtotime($alerta['fecha_fin_vigencia'])) }}</li>
+                                                <li>{{ $alerta['name'] }} - {{ date("d/m/Y", strtotime($alerta['fecha_fin_vigencia'])) }}</li>
                                             @endif
                                         @endforeach
                                     </ul>
@@ -188,93 +188,88 @@
                                     </div>
                                 </div>
                                 {{-- TAB DOCUMENTOS LEGALES --}}
+                                @foreach ($categorias as $categoria)
+                                @php
+                                   $id= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->id;
+                                   $vigencia= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->vigencia;
+                                   $name= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->name;
+                                   if($vigencia == null || $vigencia == ''){
+                                       $vigencia=1;
+                                   }
+                                @endphp
                                 <div class="card mb-0">
-                                    <a class="text-dark collapsed" onclick="documentos_legales('Tarjeta de Propiedad', {{ $vehiculo->id }}, 'content_table_documentos_legales')" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        <div class="card-header bg-dark" id="headingTwo">
-                                            <h5 class="m-0 font-size-14 text-white">DOCUMENTOS LEGALES</h5>
+                                    <a class="text-dark collapsed" onclick='documentos_legales("{{$id}}", "{{ $vehiculo->id }}", "content_table_{{str_replace(" ", "", preg_replace("([^A-Za-z0-9 ])", "", $name))}}", "{{$vigencia}}")' data-toggle="collapse" data-parent="#accordion" href="#collapse{{str_replace(' ', '', $categoria->categoria)}}" aria-expanded="false" aria-controls="collapse{{str_replace(' ', '', $categoria->categoria)}}">
+                                        <div class="card-header bg-dark" id="heading{{str_replace(' ', '', $categoria->categoria)}}">
+                                            <h5 class="m-0 font-size-14 text-white">{{$categoria->categoria}}</h5>
                                         </div>
                                     </a>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion" style="">
+                                    <div id="collapse{{str_replace(' ', '', $categoria->categoria)}}" class="collapse" aria-labelledby="heading{{str_replace(' ', '', $categoria->categoria)}}" data-parent="#accordion" style="">
                                         <div class="card-body">
 
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                                @php
+                                                $a=0;
+                                                @endphp
+                                                @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
+                                                @php
+                                                $a++;
+                                                $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
+                                                @endphp
                                                 <li class="nav-item">
-                                                    <a class="nav-link active" onclick="documentos_legales('Tarjeta de Propiedad', {{ $vehiculo->id }}, 'content_table_documentos_legales')" data-toggle="tab" href="#Tarjeta_Propiedad" role="tab" aria-selected="true">
-                                                       <span class="d-none d-md-inline-block">Tarjeta de Propiedad</span>
+                                                    <a class="nav-link {{$a==1 ? 'active' : ''}}" onclick="documentos_legales('{{$documento->id}}', {{ $vehiculo->id }}, 'content_table_{{$name_id}}', '{{$documento->vigencia ?? 1}}')" data-toggle="tab" href="#{{$name_id}}" role="tab" aria-selected="{{$a==1 ? 'true' : ''}}">
+                                                       <span class="d-none d-md-inline-block">{{$documento->name}}</span>
                                                     </a>
                                                 </li>
-                                                <li class="nav-item">
+                                                @endforeach
+
+                                                {{-- <li class="nav-item">
                                                     <a class="nav-link" onclick="documentos_legales('Tarjeta Operación', {{ $vehiculo->id }}, 'content_table_tarjeta_operacion')" data-toggle="tab" href="#Tarjeta_Operacion" role="tab" aria-selected="false">
                                                        <span class="d-none d-md-inline-block">Tarjeta Operación</span>
                                                     </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('SOAT', {{ $vehiculo->id }}, 'content_table_soat')" data-toggle="tab" href="#SOAT" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">SOAT</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('Técnico Mecánica', {{ $vehiculo->id }}, 'content_table_tecnico_mecanica')" data-toggle="tab" href="#Tecnico_Mecanica" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">Técnico Mecánica</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('Seguro Todo Riesgo', {{ $vehiculo->id }}, 'content_table_seguro')" data-toggle="tab" href="#Seguro" role="tab" aria-selected="true">
-                                                       <span class="d-none d-md-inline-block">Seguro Todo Riesgo</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('Certificado GPS', {{ $vehiculo->id }}, 'content_table_gps')" data-toggle="tab" href="#Certificado_GPS" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">Certificado GPS</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('RUNT', {{ $vehiculo->id }}, 'content_table_runt')" data-toggle="tab" href="#RUNT" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">RUNT</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('Póliza contractual', {{ $vehiculo->id }}, 'content_table_contractual')" data-toggle="tab" href="#Poliza_contractual" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">Póliza contractual</span>
-                                                    </a>
-                                                </li>
-                                                <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('Póliza extracontractual', {{ $vehiculo->id }}, 'content_table_extracontractual')" data-toggle="tab" href="#Poliza_extracontractual" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">Póliza extracontractual</span>
-                                                    </a>
-                                                </li>
+                                                </li> --}}
                                             </ul>
 
                                             <!-- Tab panes -->
                                             <div class="tab-content p-3">
-                                                <div class="tab-pane active" id="Tarjeta_Propiedad" role="tabpanel">
+                                                @php
+                                                $a=0;
+                                                @endphp
+                                                @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
+                                                @php
+                                                $a++;
+                                                $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
+                                                @endphp
+                                                <div class="tab-pane {{$a==1 ? 'active' : ''}}" id="{{$name_id}}" role="tabpanel">
 
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta de Propiedad', 'content_table_documentos_legales')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('{{$documento->name}}', 'content_table_{{$name_id}}', '{{$documento->vigencia}}', '{{$documento->id}}')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
                                                             <tr>
                                                                 <th class="text-center table-bg-dark">No</th>
                                                                 <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                                @if ($documento->vigencia)
                                                                 <th class="text-center table-bg-dark">Fecha Inicio</th>
                                                                 <th class="text-center table-bg-dark">Fecha Final</th>
                                                                 <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                                @endif
                                                                 <th class="text-center table-bg-dark">Entidad Expide</th>
                                                                 <th class="text-center table-bg-dark">Estado</th>
                                                                 <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
                                                             </tr>
                                                             </thead>
-                                                            <tbody id="content_table_documentos_legales">
+                                                            <tbody id="content_table_{{$name_id}}">
                                                                 <tr>
-                                                                    <td colspan="8" class="text-center">
+                                                                    <td colspan="{{$documento->vigencia==1 ? '7' : '4'}}" class="text-center">
                                                                         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                                     </td>
                                                                 </tr>
                                                             </tbody>
                                                     </table>
                                                 </div>
-                                                <div class="tab-pane" id="Tarjeta_Operacion" role="tabpanel">
+                                                @endforeach
+                                                {{-- <div class="tab-pane" id="Tarjeta_Operacion" role="tabpanel">
 
                                                     <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta Operación', 'content_table_tarjeta_operacion')"><i class="fas fa-plus"></i></button>
 
@@ -300,189 +295,16 @@
                                                             </tbody>
                                                     </table>
 
-                                                </div>
-                                                <div class="tab-pane" id="SOAT" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('SOAT', 'content_table_soat')"><i class="fas fa-plus"></i></button>
+                                                </div> --}}
 
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_soat">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane" id="Tecnico_Mecanica" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Técnico Mecánica', 'content_table_tecnico_mecanica')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_tecnico_mecanica">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane" id="Seguro" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Seguro Todo Riesgo', 'content_table_seguro')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_seguro">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane" id="Certificado_GPS" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Certificado GPS', 'content_table_gps')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_gps">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane" id="RUNT" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('RUNT', 'content_table_runt')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_runt">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane" id="Poliza_contractual" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Póliza contractual', 'content_table_contractual')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_contractual">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
-                                                <div class="tab-pane" id="Poliza_extracontractual" role="tabpanel">
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Póliza extracontractual', 'content_table_extracontractual')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_extracontractual">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-                                                </div>
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
+                                @endforeach
                                 {{-- TAB VINCULACION --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Certificado de desvinculación', {{ $vehiculo->id }}, 'content_table_certificado_desvinculacion')" data-parent="#accordion" href="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
                                         <div class="card-header bg-dark" id="headingThree">
                                         <h5 class="m-0 font-size-14 text-white">VINCULACION</h5>
@@ -712,9 +534,9 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- TAB COMPRAVENTA DE VEHICULO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Compraventa', {{ $vehiculo->id }}, 'content_table_compraventa')" data-parent="#accordion" href="#collapseFour" aria-expanded="true" aria-controls="collapseFour">
                                         <div class="card-header bg-dark" id="headingFour">
                                         <h5 class="m-0 font-size-14 text-white">COMPRAVENTA DE VEHICULO</h5>
@@ -762,9 +584,9 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- TAB CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Convenios colaboración empresarial (SIG-F-73)', {{ $vehiculo->id }}, 'content_table_convenios_colaboracion')" data-parent="#accordion" href="#collapseFive" aria-expanded="true" aria-controls="collapseFive">
                                         <div class="card-header bg-dark" id="headingFive">
                                         <h5 class="m-0 font-size-14 text-white">CONVENIOS Y CONTRATOS DE PRESTACION DE SERVICIOS</h5>
@@ -843,9 +665,9 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- TAB INSPECCIONES MENSUALES --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima inspección mensual (SIG-F-89)', {{ $vehiculo->id }}, 'content_table_ultima_inspeccion')" data-parent="#accordion" href="#collapseSix" aria-expanded="true" aria-controls="collapseSix">
                                         <div class="card-header bg-dark" id="headingSix">
                                         <h5 class="m-0 font-size-14 text-white">INSPECCIONES MENSUALES</h5>
@@ -893,9 +715,9 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- TAB ACTAS DE ENTREGA Y RECIBIDO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima acta entrega y/o recibido (SIG-F-47)', {{ $vehiculo->id }}, 'content_table_ultima_acta_entrega')" data-parent="#accordion" href="#collapseSeven" aria-expanded="true" aria-controls="collapseSeven">
                                         <div class="card-header bg-dark" id="headingSeven">
                                         <h5 class="m-0 font-size-14 text-white">ACTAS DE ENTREGA Y RECIBIDO</h5>
@@ -943,9 +765,9 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- TAB BIMESTRAL --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultima bimestarl CDA', {{ $vehiculo->id }}, 'content_table_ultima_bimestral')" data-parent="#accordion" href="#collapseEight" aria-expanded="true" aria-controls="collapseEight">
                                         <div class="card-header bg-dark" id="headingEight">
                                         <h5 class="m-0 font-size-14 text-white">BIMESTRAL</h5>
@@ -993,9 +815,9 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                                 {{-- TAB SOPORTE DE MANTENIMIENTOS --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a class="text-dark" data-toggle="collapse" onclick="documentos_legales('Ultimo soporte de mantenimiento', {{ $vehiculo->id }}, 'content_table_ultimo_mantenimiento')" data-parent="#accordion" href="#collapseNine" aria-expanded="true" aria-controls="collapseNine">
                                         <div class="card-header bg-dark" id="headingNine">
                                         <h5 class="m-0 font-size-14 text-white">SOPORTE DE MANTENIMIENTOS</h5>
@@ -1043,7 +865,7 @@
                                         </div>
 
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
 
                         </div>
@@ -1088,7 +910,7 @@
                             </div>
                         </div>
 
-                        <div class="row">
+                        <div class="row" id="fechas_vigencias">
                             <div class="col-sm-6" id="fecha_inicio_vigencia_div">
                                 <label for="fecha_inicio_vigencia">Fecha inicio de vigencia</label>
                                 <div class="form-group form-group-custom mb-4">
@@ -1123,9 +945,9 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="id" id="id">
+                        <input type="hidden" name="id" id="id" value='0'>
                         <input type="hidden" name="id_table" id="id_table">
-                        <input type="hidden" name="tipo" id="tipo">
+                        <input type="hidden" name="tipo_id" id="tipo_id">
                         <input type="hidden" name="vehiculo_id" value="{{ $vehiculo->id }}">
 
                     </div>

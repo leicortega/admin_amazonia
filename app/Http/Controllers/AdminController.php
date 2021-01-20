@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormCreateUserRequest;
+use App\Models\Admin_documentos_categoria_vehiculo;
+use App\Models\Admin_documentos_vehiculo;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
@@ -187,6 +189,34 @@ class AdminController extends Controller
         return redirect()->route('cargos')->with(['create' => 0]);
     }
 
+    public function agg_categoria_documentos_vehiculo(Request $request){
+        $create = Admin_documentos_categoria_vehiculo::create([
+            'categoria' => "$request->nombre"
+        ]);
+
+        return redirect()->route('admin_documentos_vehiculos')->with(['create' => 1]);
+
+    }
+
+    public function agg_documentos_vehiculo(Request $request){
+        Admin_documentos_vehiculo::create([
+            'name' => $request->nombre,
+            'vigencia' => $request->vigencia,
+            'categoria_id' => $request->categoria
+        ]);
+
+        return redirect()->route('admin_documentos_vehiculos')->with(['create' => 2]);
+    }
+
+    public function edit_documentos_vehiculo(Request $request){
+        Admin_documentos_vehiculo::find($request->id)->update([
+            'name' => $request->nombre,
+            'vigencia' => $request->vigencia
+        ]);
+
+        return redirect()->route('admin_documentos_vehiculos')->with(['edit' => 1]);
+    }
+
 
 
 
@@ -218,6 +248,25 @@ class AdminController extends Controller
 
     public function municipios(Request $request) {
         return Departamento::where('nombre', $request['dpt'])->with('municipios')->first();
+    }
+
+    public function admin_documentos_vehiculos(){
+        
+        $categorias = Admin_documentos_categoria_vehiculo::all();
+        $clasificacion = Tipo_Vehiculo::all();
+        $vinculacion = Tipo_Vinculacion::all();
+        $carroceria = Tipo_Carroceria::all();
+        $marca = Marca::all();
+        $linea = Linea::all();
+
+        return view('admin.documentos_vehiculos', [
+            'clasificacion' => $clasificacion,
+            'vinculacion' => $vinculacion,
+            'carroceria' => $carroceria,
+            'marca' => $marca,
+            'linea' => $linea,
+            'categorias' => $categorias,
+        ]);
     }
 
 }

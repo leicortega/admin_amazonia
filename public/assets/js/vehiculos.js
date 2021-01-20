@@ -32,7 +32,8 @@ $(document).ready(function () {
             success: function (data) {
                 $('#agg_targeta_propiedad')[0].reset();
                 $('#agg_doc_legal').modal('hide');
-                documentos_legales(data.tipo, data.vehiculo_id, data.id_table);
+                console.log(data);
+                documentos_legales(data.tipo, data.vehiculo_id, data.id_table, data.vigencia);
             }
         })
 
@@ -157,12 +158,17 @@ function restaFechas(fechaa,fechab){
   }
 
 
-function agg_documento_legal(tipo_documento, id_table) {
+function agg_documento_legal(tipo_documento, id_table, vigencia, tipo_id) {
     $('#agg_doc_legal').modal('show')
     $('#agg_doc_legal_title').text('Agregar '+tipo_documento)
     $('#consecutivo_title').text('Consecutivo '+tipo_documento)
-    $('#tipo').val(tipo_documento)
+    $('#tipo_id').val(tipo_id)
     $('#id_table').val(id_table)
+    if(vigencia == '0'){
+        $('#fechas_vigencias').addClass('d-none');
+    }else{
+        $('#fechas_vigencias').removeClass('d-none');
+    }
 
     $('#consecutivo').val('');
     $('#fecha_expedicion').val('');
@@ -174,7 +180,7 @@ function agg_documento_legal(tipo_documento, id_table) {
     $('#entidad_expide').html(call_method_select_entidad(tipo_documento))
 }
 
-function documentos_legales(tipo, vehiculo_id, id_table) {
+function documentos_legales(tipo, vehiculo_id, id_table, vigencia) {
     $.ajax({
         url: '/vehiculos/cargar_tarjeta_propiedad',
         type: 'POST',
@@ -185,39 +191,53 @@ function documentos_legales(tipo, vehiculo_id, id_table) {
                 content += `
                 <tr>
                     <td scope="row">${ documento.consecutivo }</td>
-                    <td>${ formatoFecha(documento.fecha_expedicion) }</td>
-                    <td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'No aplica' }</td>
-                    <td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'No aplica' }</td>
-                    <td>${ (formatoFecha(documento.fecha_inicio_vigencia)) ? restaFechas(documento.fecha_fin_vigencia, documento.fecha_inicio_vigencia)  : 'No aplica' }</td>
-                    <td width="250px">${ documento.entidad_expide }</td>
+                    <td>${ formatoFecha(documento.fecha_expedicion) }</td>`
+                
+                    if(documento.vigencia != '0'){
+                        content += `<td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'No aplica' }</td>
+                        <td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'No aplica' }</td>
+                        <td>${ (formatoFecha(documento.fecha_inicio_vigencia)) ? restaFechas(documento.fecha_fin_vigencia, documento.fecha_inicio_vigencia)  : 'No aplica' }</td>`
+                    }
+
+                content += `<td width="250px">${ documento.entidad_expide }</td>
                     <td>${ documento.estado }</td>
                     <td width="180px" class="text-center">
-                        <button type="button" onclick="editar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo }')" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_documento_legal('${ documento.documento_file }', '${ documento.tipo }')" ${ (documento.documento_file) ? '' : 'disabled' } class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="editar_documento_legal(${ documento.id }, '${ id_table }')" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_documento_legal('${ documento.documento_file }', '${ documento.name }')" ${ (documento.documento_file) ? '' : 'disabled' } class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <a href="/storage/${ documento.documento_file }" download class="${ (documento.documento_file) ? '' : 'disabled' } btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></a>
-                        <button type="button" onclick="eliminar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo }', '${ id_table }')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="eliminar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo_id }', '${ id_table }', ${ vigencia })" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
             });
 
-            $('#'+id_table).html(content);
+            if(content != ''){
+                $('#'+id_table).html(content);
+            }else{
+                if(vigencia != '0'){
+                    $('#'+id_table).html(`<tr><td class="text-center" colspan="7">No hay documentos<td></tr>`);
+                }else{
+                    $('#'+id_table).html(`<tr><td class="text-center" colspan="4">No hay documentos<td></tr>`);
+                }
+                
+            }
+
         }
     })
 }
 
-function eliminar_documento_legal(id, vehiculo_id, tipo, id_table) {
+function eliminar_documento_legal(id, vehiculo_id, tipo, id_table, vigencia) {
     $.ajax({
         url: '/vehiculos/eliminar_documento_legal',
         type: 'POST',
         data: {id:id, vehiculo_id:vehiculo_id, tipo:tipo},
         success: function (data) {
-            documentos_legales(data.tipo, data.vehiculo_id, id_table);
+            documentos_legales(data.tipo, data.vehiculo_id, id_table, vigencia);
         }
     });
 }
 
-function editar_documento_legal(id) {
+function editar_documento_legal(id, id_tale) {
     $.ajax({
         url: '/vehiculos/get_documento_legal',
         type: 'POST',
@@ -229,9 +249,18 @@ function editar_documento_legal(id) {
             $('#fecha_fin_vigencia').val(data.fecha_fin_vigencia);
             $('#id').val(data.id);
             $('#estado').val(data.estado);
-            $('#entidad_expide').html(call_method_select_entidad(data.tipo, entidad = data.entidad_expide));
-            $('#agg_doc_legal_title').text('Editar Tarjeta de Propiedad');
+            $('#entidad_expide').html(call_method_select_entidad(data.name, entidad = data.entidad_expide));
+            $('#agg_doc_legal_title').text('Editar ' + data.name);
+            $('#consecutivo_title').text('Editar ' + data.name);
             $('#agg_doc_legal').modal('show');
+
+            $('#tipo_id').val(data.tipo_id)
+            $('#id_table').val(id_tale)
+            if(data.vigencia == '0'){
+                $('#fechas_vigencias').addClass('d-none');
+            }else{
+                $('#fechas_vigencias').removeClass('d-none');
+            }
         }
     })
 }
@@ -244,9 +273,7 @@ function ver_documento_legal(documento_file, tipo) {
 
 function call_method_select_entidad(tipo_documento, entidad = '') {
     switch (tipo_documento) {
-        case 'Tarjeta de Propiedad':
-            $('#fecha_inicio_vigencia_div').addClass('d-none')
-            $('#fecha_fin_vigencia_div').addClass('d-none')
+        case 'Tarjeta De Propiedad':
             return `
                 <option value=""></option>
                 <option value="UND MCPAL TTOyTTE PALERMO" ${ (entidad == "UND MCPAL TTOyTTE PALERMO") ? 'selected' : '' }>UND MCPAL TTOyTTE PALERMO</option>
@@ -265,8 +292,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Tarjeta Operación':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="SEGUROS GENERALES SURAMERICANA S. A" ${ (entidad == "SEGUROS GENERALES SURAMERICANA S. A") ? 'selected' : '' }>SEGUROS GENERALES SURAMERICANA S. A.</option>
@@ -286,8 +311,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'SOAT':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -308,8 +331,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Técnico Mecánica':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="CDA DE NEIVA S.A.S" ${ (entidad == 'CDA DE NEIVA S.A.S') ? 'selected' : '' }>CDA DE NEIVA S.A.S</option>
@@ -332,8 +353,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Seguro Todo Riesgo':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="SEGUROS GENERALES SURAMERICANA S. A." ${ (entidad == 'SEGUROS GENERALES SURAMERICANA S. A.') ? 'selected' : '' }>SEGUROS GENERALES SURAMERICANA S. A.</option>
@@ -352,8 +371,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Certificado GPS':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="ROCA GPS S.A.S" ${ (entidad == 'ROCA GPS S.A.S') ? 'selected' : '' }>ROCA GPS S.A.S</option>
@@ -362,8 +379,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'RUNT':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="SECRETARIA DE TRANSITO DE CUNDINAMARCA/COTA" ${ (entidad == 'SECRETARIA DE TRANSITO DE CUNDINAMARCA/COTA') ? 'selected' : '' }>SECRETARIA DE TRANSITO DE CUNDINAMARCA/COTA</option>
@@ -384,8 +399,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Póliza contractual':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="COMPAÑIA MUNDIAL DE SEGUROS S.A." ${ (entidad == 'COMPAÑIA MUNDIAL DE SEGUROS S.A.') ? 'selected' : '' }>COMPAÑIA MUNDIAL DE SEGUROS S.A.</option>
@@ -404,8 +417,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Póliza extracontractual':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="SEGUROS GENERALES SURAMERICANA S. A." ${ (entidad == 'SEGUROS GENERALES SURAMERICANA S. A.') ? 'selected' : '' }>SEGUROS GENERALES SURAMERICANA S. A.</option>
@@ -424,8 +435,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Certificado de desvinculación':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -434,8 +443,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Solicitud de cambio de empresa en la tarjeta de operación':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -444,8 +451,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Solicitud y/o certificado de disponibilidad':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="INSP TTOyTTE BARRANCABERMEJA" ${ (entidad == 'INSP TTOyTTE BARRANCABERMEJA') ? 'selected' : '' }>INSP TTOyTTE BARRANCABERMEJA</option>
@@ -464,8 +469,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Certificado de seción de derechos (SIG-CA-F-21)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -474,8 +477,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Carta de aceptación (SIG-CA-F-21)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -484,8 +485,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Contrato de vinculación (SIG-CA-F-75)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -494,8 +493,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Pagare-carta de instrucciones (SIG-F-80)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -504,8 +501,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Compraventa':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -530,8 +525,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Convenios colaboración empresarial (SIG-F-73)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="GRUPO EMPRESARIAL MONTAÑA S.A.S" ${ (entidad == 'GRUPO EMPRESARIAL MONTAÑA S.A.S') ? 'selected' : '' }>GRUPO EMPRESARIAL MONTAÑA S.A.S</option>
@@ -552,8 +545,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Contrarto civil de prestación de servicios de transporte (SIG-F-49)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="TECNOSUR LOCALIZACIÓN Y RASTREO" ${ (entidad == 'TECNOSUR LOCALIZACIÓN Y RASTREO') ? 'selected' : '' }>TECNOSUR LOCALIZACIÓN Y RASTREO </option>
@@ -564,8 +555,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Ultima inspección mensual (SIG-F-89)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -574,8 +563,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Ultima acta entrega y/o recibido (SIG-F-47)':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>
@@ -584,8 +571,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Ultima bimestarl CDA':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S." ${ (entidad == 'CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.') ? 'selected' : '' }>CENTRO DE DIAGNOSTICO AUTOMOTOR MAXITEC S.A.S.</option>
@@ -608,8 +593,6 @@ function call_method_select_entidad(tipo_documento, entidad = '') {
             break;
 
         case 'Ultimo soporte de mantenimiento':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none')
-            $('#fecha_fin_vigencia_div').removeClass('d-none')
             return `
                 <option value=""></option>
                 <option value="AMAZONIA CONSULTORIA & LOGISTICA SAS" ${ (entidad == 'AMAZONIA CONSULTORIA & LOGISTICA SAS') ? 'selected' : '' }>AMAZONIA CONSULTORIA & LOGISTICA SAS</option>

@@ -593,6 +593,19 @@ function datos_vehiculos(tipo) {
     $('#datos_vehiculo_tipo').val(tipo);
 }
 
+function dato_categoria_documento(id, titulo){
+    $('#modal-create-documentos-vehiculo-title').text('Agregar ' + titulo);
+    $('#categoria_pase').val(id);
+}
+
+
+function editar_documentos_vehiculo(id, titulo, validad){
+    $('#modal-edit-documentos-vehiculo-title').text('Editar ' + titulo);
+    $('#id_pase').val(id);
+    $('#id_nombre_documento').val(titulo);
+    $("#vigencia_edit option[value="+ validad +"]").attr("selected",true);
+}
+
 function datos_inspecciones(tipo) {
     $('#modal-create-datos-inspecciones').modal('show')
     $('#modal-create-datos-inspecciones-title').text('Agregar '+tipo)

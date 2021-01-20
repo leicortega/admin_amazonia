@@ -72,6 +72,7 @@ Route::group(['middleware' => ['permission:control ingreso|universal']], functio
 // Rutas para Vehiculos
 Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::get('/vehiculos', 'VehiculoController@index')->name('vehiculos');
+    Route::get('/vehiculos/agregar', 'VehiculoController@agregar_vehiculo')->name('agregar_vehiculo');
     Route::get('/vehiculos/filtro', 'VehiculoController@filtrar')->name('vehiculos_filtro');
     Route::post('/vehiculos/create', 'VehiculoController@create');
     Route::post('/vehiculos/update', 'VehiculoController@update');

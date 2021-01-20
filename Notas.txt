@@ -134,11 +134,4 @@ Trabajando en:
 
 
 
-exportar documentos de vehiculos parecido al de documentos. todos los subidos
-
-aqgregar vehiculo se hace en un nuevo pagina pedir solo documentos legales para pedir documentos legales tambien para eso Parametrizar
-esos documentos si tiene o no fecha en modulo de administracion
-
-
-
 

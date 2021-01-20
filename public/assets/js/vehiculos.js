@@ -199,6 +199,10 @@ function agg_documento_legal(tipo_documento, id_table, vigencia, tipo_id) {
     $('#entidad_expide').html(call_method_select_entidad(tipo_documento))
 }
 
+function agregar_entidad_expide(id,tipo_documento){
+    $('#entidad_expide'+id).html(call_method_select_entidad(tipo_documento))
+}
+
 function documentos_legales(tipo, vehiculo_id, id_table, vigencia) {
     $.ajax({
         url: '/vehiculos/cargar_tarjeta_propiedad',
@@ -288,6 +292,10 @@ function ver_documento_legal(documento_file, tipo) {
     $('#modal_ver_documento_title').text(tipo)
     $('#modal_ver_documento_content').html(`<iframe src="/storage/${ documento_file }" width="100%" height="810px" frameborder="0"></iframe>`)
     $('#modal_ver_documento').modal('show')
+}
+
+function cargarbtn(btn){
+    $(btn).parent('td').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
 }
 
 function call_method_select_entidad(tipo_documento, entidad = '') {

@@ -75,10 +75,10 @@ class VehiculoController extends Controller
         ]);
 
         $documentos = Admin_documentos_vehiculo::where('categoria_id', 1)
-        ->join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
-        ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
-        
-        
+            ->join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
+            ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
+
+
         foreach ($documentos as $documento) {
             $date = Carbon::now('America/Bogota');
             if($request["consecutivo" . str_replace(' ', '', $documento->name)] != '' && $request["consecutivo" . str_replace(' ', '', $documento->name)] != null){
@@ -98,9 +98,9 @@ class VehiculoController extends Controller
                     $ruta_file_documento = 'docs/vehiculos/documentos/';
                     $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
                     Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file' . str_replace(' ', '', $documento->name))));
-    
+
                     $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
-    
+
                     $document['documento_file'] = $nombre_completo_file_documento;
                     $document->save();
                 }
@@ -163,7 +163,7 @@ class VehiculoController extends Controller
     public function ver_conductor_historial(Request $request) {
        return Conductores_vehiculo::with('personal')->where('personal_id', "$request->id")->where('vehiculo_id', "$request->vehiculo_id")->orderBy('id', 'desc')->get();
     }
-    
+
 
     public function eliminar_conductor(Request $request) {
         Conductores_vehiculo::find($request['id'])->delete();
@@ -207,7 +207,7 @@ class VehiculoController extends Controller
 
             Documentos_legales_vehiculo::where('tipo_id', $request['tipo_id'])->where('vehiculo_id', $request['vehiculo_id'])->update(['ultimo' => 0]);
 
-            
+
             $documento = Documentos_legales_vehiculo::create([
                 'tipo_id' => $request['tipo_id'],
                 'consecutivo' => $request['consecutivo'],

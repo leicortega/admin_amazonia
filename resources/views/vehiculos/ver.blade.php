@@ -136,7 +136,7 @@
                                                 <form class="form-inline mr-3" id="form_agg_conductor" method="POST" action="">
                                                     @csrf
 
-                                                    
+
                                                         <label class="sr-only" for="conductor">Seleccione Conductor</label>
                                                         <select name="conductor" id="conductor" class="form-control mb-2 mt-sm-0 mr-sm-3" required>
                                                             <option value="">Seleccione el Conductor</option>
@@ -144,10 +144,10 @@
                                                                 <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
                                                             @endforeach
                                                         </select>
-                                                    
+
                                                         <label class="sr-only" for="fecha_inicial">Fecha Inicial</label>
                                                         <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_inicial" id="fecha" placeholder="fecha_inicial" required/>
-                                                    
+
                                                         <label class="sr-only" for="fecha_inicial">Fecha Final</label>
                                                         <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_final" id="fecha" placeholder="fecha final" required/>
 
@@ -189,119 +189,119 @@
                                 </div>
                                 {{-- TAB DOCUMENTOS LEGALES --}}
                                 @foreach ($categorias as $categoria)
-                                @php
-                                   $id= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->id;
-                                   $vigencia= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->vigencia;
-                                   $name= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->name;
-                                   if($vigencia == null || $vigencia == ''){
-                                       $vigencia=1;
-                                   }
-                                @endphp
-                                <div class="card mb-0">
-                                    <a class="text-dark collapsed" onclick='documentos_legales("{{$id}}", "{{ $vehiculo->id }}", "content_table_{{str_replace(" ", "", preg_replace("([^A-Za-z0-9 ])", "", $name))}}", "{{$vigencia}}")' data-toggle="collapse" data-parent="#accordion" href="#collapse{{str_replace(' ', '', $categoria->categoria)}}" aria-expanded="false" aria-controls="collapse{{str_replace(' ', '', $categoria->categoria)}}">
-                                        <div class="card-header bg-dark" id="heading{{str_replace(' ', '', $categoria->categoria)}}">
-                                            <h5 class="m-0 font-size-14 text-white">{{$categoria->categoria}}</h5>
-                                        </div>
-                                    </a>
-                                    <div id="collapse{{str_replace(' ', '', $categoria->categoria)}}" class="collapse" aria-labelledby="heading{{str_replace(' ', '', $categoria->categoria)}}" data-parent="#accordion" style="">
-                                        <div class="card-body">
+                                    @php
+                                        $id = App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()['id'];
+                                        $vigencia = App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()['vigencia'];
+                                        $name = App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()['name'];
+                                        if($vigencia == null || $vigencia == ''){
+                                            $vigencia=1;
+                                        }
+                                    @endphp
+                                    <div class="card mb-0">
+                                        <a class="text-dark collapsed" onclick='documentos_legales("{{$id}}", "{{ $vehiculo->id }}", "content_table_{{str_replace(" ", "", preg_replace("([^A-Za-z0-9 ])", "", $name))}}", "{{$vigencia}}")' data-toggle="collapse" data-parent="#accordion" href="#collapse{{str_replace(' ', '', $categoria->categoria)}}" aria-expanded="false" aria-controls="collapse{{str_replace(' ', '', $categoria->categoria)}}">
+                                            <div class="card-header bg-dark" id="heading{{str_replace(' ', '', $categoria->categoria)}}">
+                                                <h5 class="m-0 font-size-14 text-white">{{$categoria->categoria}}</h5>
+                                            </div>
+                                        </a>
+                                        <div id="collapse{{str_replace(' ', '', $categoria->categoria)}}" class="collapse" aria-labelledby="heading{{str_replace(' ', '', $categoria->categoria)}}" data-parent="#accordion" style="">
+                                            <div class="card-body">
 
-                                            <!-- Nav tabs -->
-                                            <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
-                                                @php
-                                                $a=0;
-                                                @endphp
-                                                @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
-                                                @php
-                                                $a++;
-                                                $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
-                                                @endphp
-                                                <li class="nav-item">
-                                                    <a class="nav-link {{$a==1 ? 'active' : ''}}" onclick="documentos_legales('{{$documento->id}}', {{ $vehiculo->id }}, 'content_table_{{$name_id}}', '{{$documento->vigencia ?? 1}}')" data-toggle="tab" href="#{{$name_id}}" role="tab" aria-selected="{{$a==1 ? 'true' : ''}}">
-                                                       <span class="d-none d-md-inline-block">{{$documento->name}}</span>
-                                                    </a>
-                                                </li>
-                                                @endforeach
+                                                <!-- Nav tabs -->
+                                                <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                                    @php
+                                                        $a=0;
+                                                    @endphp
+                                                    @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
+                                                        @php
+                                                            $a++;
+                                                            $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
+                                                        @endphp
+                                                        <li class="nav-item">
+                                                            <a class="nav-link {{$a==1 ? 'active' : ''}}" onclick="documentos_legales('{{$documento->id}}', {{ $vehiculo->id }}, 'content_table_{{$name_id}}', '{{$documento->vigencia ?? 1}}')" data-toggle="tab" href="#{{$name_id}}" role="tab" aria-selected="{{$a==1 ? 'true' : ''}}">
+                                                            <span class="d-none d-md-inline-block">{{$documento->name}}</span>
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
 
-                                                {{-- <li class="nav-item">
-                                                    <a class="nav-link" onclick="documentos_legales('Tarjeta Operación', {{ $vehiculo->id }}, 'content_table_tarjeta_operacion')" data-toggle="tab" href="#Tarjeta_Operacion" role="tab" aria-selected="false">
-                                                       <span class="d-none d-md-inline-block">Tarjeta Operación</span>
-                                                    </a>
-                                                </li> --}}
-                                            </ul>
+                                                    {{-- <li class="nav-item">
+                                                        <a class="nav-link" onclick="documentos_legales('Tarjeta Operación', {{ $vehiculo->id }}, 'content_table_tarjeta_operacion')" data-toggle="tab" href="#Tarjeta_Operacion" role="tab" aria-selected="false">
+                                                        <span class="d-none d-md-inline-block">Tarjeta Operación</span>
+                                                        </a>
+                                                    </li> --}}
+                                                </ul>
 
-                                            <!-- Tab panes -->
-                                            <div class="tab-content p-3">
-                                                @php
-                                                $a=0;
-                                                @endphp
-                                                @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
-                                                @php
-                                                $a++;
-                                                $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
-                                                @endphp
-                                                <div class="tab-pane {{$a==1 ? 'active' : ''}}" id="{{$name_id}}" role="tabpanel">
+                                                <!-- Tab panes -->
+                                                <div class="tab-content p-3">
+                                                    @php
+                                                        $a=0;
+                                                    @endphp
+                                                    @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
+                                                        @php
+                                                            $a++;
+                                                            $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
+                                                        @endphp
+                                                        <div class="tab-pane {{$a==1 ? 'active' : ''}}" id="{{$name_id}}" role="tabpanel">
 
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('{{$documento->name}}', 'content_table_{{$name_id}}', '{{$documento->vigencia}}', '{{$documento->id}}')"><i class="fas fa-plus"></i></button>
+                                                            <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('{{$documento->name}}', 'content_table_{{$name_id}}', '{{$documento->vigencia}}', '{{$documento->id}}')"><i class="fas fa-plus"></i></button>
 
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                @if ($documento->vigencia)
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                @endif
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_{{$name_id}}">
+                                                            <table class="table table-bordered">
+                                                                <thead class="thead-inverse">
+                                                                    <tr>
+                                                                        <th class="text-center table-bg-dark">No</th>
+                                                                        <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                                        @if ($documento->vigencia)
+                                                                        <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                                        <th class="text-center table-bg-dark">Fecha Final</th>
+                                                                        <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                                        @endif
+                                                                        <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                                        <th class="text-center table-bg-dark">Estado</th>
+                                                                        <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                                    </tr>
+                                                                    </thead>
+                                                                    <tbody id="content_table_{{$name_id}}">
+                                                                        <tr>
+                                                                            <td colspan="{{$documento->vigencia==1 ? '7' : '4'}}" class="text-center">
+                                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                            </table>
+                                                        </div>
+                                                    @endforeach
+                                                    {{-- <div class="tab-pane" id="Tarjeta_Operacion" role="tabpanel">
+
+                                                        <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta Operación', 'content_table_tarjeta_operacion')"><i class="fas fa-plus"></i></button>
+
+                                                        <table class="table table-bordered">
+                                                            <thead class="thead-inverse">
                                                                 <tr>
-                                                                    <td colspan="{{$documento->vigencia==1 ? '7' : '4'}}" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
+                                                                    <th class="text-center table-bg-dark">No</th>
+                                                                    <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                                    <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                                    <th class="text-center table-bg-dark">Fecha Final</th>
+                                                                    <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                                    <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                                    <th class="text-center table-bg-dark">Estado</th>
+                                                                    <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
                                                                 </tr>
-                                                            </tbody>
-                                                    </table>
+                                                                </thead>
+                                                                <tbody id="content_table_tarjeta_operacion">
+                                                                    <tr>
+                                                                        <td colspan="8" class="text-center">
+                                                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                        </table>
+
+                                                    </div> --}}
+
                                                 </div>
-                                                @endforeach
-                                                {{-- <div class="tab-pane" id="Tarjeta_Operacion" role="tabpanel">
-
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('Tarjeta Operación', 'content_table_tarjeta_operacion')"><i class="fas fa-plus"></i></button>
-
-                                                    <table class="table table-bordered">
-                                                        <thead class="thead-inverse">
-                                                            <tr>
-                                                                <th class="text-center table-bg-dark">No</th>
-                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
-                                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                                <th class="text-center table-bg-dark">Fecha Final</th>
-                                                                <th class="text-center table-bg-dark">Dias de Vigencia</th>
-                                                                <th class="text-center table-bg-dark">Entidad Expide</th>
-                                                                <th class="text-center table-bg-dark">Estado</th>
-                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody id="content_table_tarjeta_operacion">
-                                                                <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                    </table>
-
-                                                </div> --}}
 
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
                                 @endforeach
                                 {{-- TAB VINCULACION --}}
                                 {{-- <div class="card mb-0">

@@ -17,6 +17,7 @@ use App\Models\Hallazgos_inspeccion;
 use App\Models\Cargos_personal;
 use App\Models\Personal;
 use App\Models\Vehiculo;
+use App\Models\Tercero;
 use ZipArchive;
 
 class VehiculoController extends Controller
@@ -54,6 +55,7 @@ class VehiculoController extends Controller
 
     public function create(Request $request) {
 
+
         $vehiculo = Vehiculo::create([
             'placa' => $request['placa'],
             'tipo_vehiculo_id' => $request['tipo_vehiculo_id'],
@@ -74,7 +76,7 @@ class VehiculoController extends Controller
             'estado' => $request['estado']
         ]);
 
-        $documentos = Admin_documentos_vehiculo::where('categoria_id', 1)
+        $documentos = Admin_documentos_vehiculo::where('categoria_id', $request['awsasawsw'])
         ->join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
         ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
         
@@ -86,7 +88,7 @@ class VehiculoController extends Controller
                     'tipo_id' => $request["id_" . str_replace(' ', '', $documento->name)],
                     'consecutivo' => $request['consecutivo' . str_replace(' ', '', $documento->name)],
                     'fecha_expedicion' => $request['fecha_expedicion' . str_replace(' ', '', $documento->name)],
-                    'fecha_inicio_vegencia' => $request['fecha_inicio_vigencia' . str_replace(' ', '', $documento->name)],
+                    'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia' . str_replace(' ', '', $documento->name)],
                     'fecha_fin_vigencia' => $request['fecha_fin_vigencia' . str_replace(' ', '', $documento->name)],
                     'entidad_expide' => $request['entidad_expide' . str_replace(' ', '', $documento->name)],
                     'estado' => 'activo',
@@ -257,7 +259,7 @@ class VehiculoController extends Controller
     }
 
     public function get_documento_legal(Request $request) {
-        return Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia')->find($request['id']);
+        return Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia', 'admin_documentos_vehiculo.tipo_tercero')->find($request['id']);
     }
 
     public function trazabilidad_inspecciones(Request $request, $id) {
@@ -348,6 +350,10 @@ class VehiculoController extends Controller
             ->join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
             ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
         return view('vehiculos.agregar',['propietarios' => $propietarios, 'documentos' => $documentos]);
+    }
+
+    public function carga_entidades(Request $request){
+        return Tercero::where('tipo_tercero', $request->entidad)->get();
     }
 
 }

@@ -202,7 +202,8 @@ class AdminController extends Controller
         Admin_documentos_vehiculo::create([
             'name' => $request->nombre,
             'vigencia' => $request->vigencia,
-            'categoria_id' => $request->categoria
+            'categoria_id' => $request->categoria,
+            'tipo_tercero' => $request->tipo_tercero
         ]);
 
         return redirect()->route('admin_documentos_vehiculos')->with(['create' => 2]);
@@ -211,7 +212,8 @@ class AdminController extends Controller
     public function edit_documentos_vehiculo(Request $request){
         Admin_documentos_vehiculo::find($request->id)->update([
             'name' => $request->nombre,
-            'vigencia' => $request->vigencia
+            'vigencia' => $request->vigencia,
+            'tipo_tercero' => $request->tipo_tercero
         ]);
 
         return redirect()->route('admin_documentos_vehiculos')->with(['edit' => 1]);

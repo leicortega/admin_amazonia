@@ -599,11 +599,12 @@ function dato_categoria_documento(id, titulo){
 }
 
 
-function editar_documentos_vehiculo(id, titulo, validad){
+function editar_documentos_vehiculo(id, titulo, validad, tercero){
     $('#modal-edit-documentos-vehiculo-title').text('Editar ' + titulo);
     $('#id_pase').val(id);
     $('#id_nombre_documento').val(titulo);
     $("#vigencia_edit option[value="+ validad +"]").attr("selected",true);
+    $("#tipo_tereceto_edit option[value="+ tercero +"]").attr("selected",true);
 }
 
 function datos_inspecciones(tipo) {

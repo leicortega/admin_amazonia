@@ -242,7 +242,7 @@
                                                 @endphp
                                                 <div class="tab-pane {{$a==1 ? 'active' : ''}}" id="{{$name_id}}" role="tabpanel">
 
-                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('{{$documento->name}}', 'content_table_{{$name_id}}', '{{$documento->vigencia}}', '{{$documento->id}}')"><i class="fas fa-plus"></i></button>
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="agg_documento_legal('{{$documento->name}}', 'content_table_{{$name_id}}', '{{$documento->vigencia}}', '{{$documento->id}}', '{{$documento->tipo_tercero}}')"><i class="fas fa-plus"></i></button>
 
                                                     <table class="table table-bordered">
                                                         <thead class="thead-inverse">
@@ -890,7 +890,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/agg_targeta_propiedad" id="agg_targeta_propiedad" method="POST" enctype="multipart/form-data">
+                <form action="" id="agg_targeta_propiedad" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="container p-3">

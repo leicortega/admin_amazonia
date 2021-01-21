@@ -75,7 +75,7 @@
                                             <tr>
                                                 <td scope="row">{{ $documento->name }}</td>
                                                 <td scope="row">{{ $documento->vigencia ? 'Si' : 'No' }}</td>
-                                                <td><button type="button" onclick='editar_documentos_vehiculo({{ $documento->id }}, "{{$documento->name}}",  "{{$documento->vigencia}}")' class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-documentos-vehiculo"><i class="fas fa-edit"></i></button></td>
+                                                <td><button type="button" onclick='editar_documentos_vehiculo({{ $documento->id }}, "{{$documento->name}}",  "{{$documento->vigencia}}", "{{$documento->tipo_tercero}}")' class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-documentos-vehiculo"><i class="fas fa-edit"></i></button></td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -157,6 +157,25 @@
                         </div>
                     </div>
 
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Tipo De Tercero</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="tipo_tereceto" name="tipo_tercero" required>
+                                <option value="">Seleccione</option>
+                                <option value="Cliente">Cliente</option>
+                                <option value="Convenio">Convenio</option>
+                                <option value="Colegio o Institución Educativa">Colegio o Institución Educativa</option>
+                                <option value="Aseguradora">Aseguradora</option>
+                                <option value="Ente Territorial">Ente Territorial</option>
+                                <option value="CDA (Centro de Diagnóstico Automotor)">CDA (Centro de Diagnóstico Automotor)</option>
+                                <option value="Documentación Interna">Documentación Interna</option>
+                                <option value="Proveedores">Proveedores</option>
+                                <option value="Rastreo Satelital GPS">Rastreo Satelital GPS</option>
+                                <option value="SEGUIMIENTO">SEGUIMIENTO</option>
+                            </select>
+                        </div>
+                    </div>
+
                     <input type="hidden" id="categoria_pase" name="categoria" value="" />
                 
                     <div class="mt-4 text-center">
@@ -196,6 +215,25 @@
                                 <option value="">Seleccione</option>
                                 <option value="1" >Si</option>
                                 <option value="0" >No</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Tipo De Tercero</label>
+                        <div class="col-sm-10">
+                            <select class="form-control" id="tipo_tereceto_edit" name="tipo_tercero" required>
+                                <option value="">Seleccione</option>
+                                <option value="Cliente">Cliente</option>
+                                <option value="Convenio">Convenio</option>
+                                <option value="Colegio o Institución Educativa">Colegio o Institución Educativa</option>
+                                <option value="Aseguradora">Aseguradora</option>
+                                <option value="Ente Territorial">Ente Territorial</option>
+                                <option value="CDA (Centro de Diagnóstico Automotor)">CDA (Centro de Diagnóstico Automotor)</option>
+                                <option value="Documentación Interna">Documentación Interna</option>
+                                <option value="Proveedores">Proveedores</option>
+                                <option value="Rastreo Satelital GPS">Rastreo Satelital GPS</option>
+                                <option value="SEGUIMIENTO">SEGUIMIENTO</option>
                             </select>
                         </div>
                     </div>

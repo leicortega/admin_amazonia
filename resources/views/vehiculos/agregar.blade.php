@@ -41,7 +41,7 @@
 
                                 <h5 class="modal-title mt-0" id="modal-title-correo">Agregar Vehiculo</h5>
 
-                                <form action="/vehiculos/create" method="POST" enctype="multipart/form-data">
+                                <form action="/vehiculos/create" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn-submit-form-vehiculo')">
                                     @csrf
                 
                                     <div class="container p-3">
@@ -206,10 +206,11 @@
                                         </div>
 
                                         <div class="row">
-                                            <label><b>{{$documentos[0]->categoria}}</b></label>
+                                            <h6 class="col-sm-12"><b>{{$documentos[0]->categoria}}</b></h6>
+                                            <input type="hidden" value="{{$documentos[0]->categoria_id}}" name="tipos_doc">
                                             <div class="border p-2">
                                                 @foreach($documentos as $documento)
-                                                    <button onclick="agregar_entidad_expide('{{str_replace(' ', '', $documento->name)}}', '{{$documento->name}}')" type="button" class="btn border ml-2 mt-2 btn-lg waves-effect waves-light" id="btn-submit-correo" data-toggle="modal" data-target="#{{str_replace(' ', '',  $documento->name)}}">{{$documento->name}}</button>
+                                                    <button type="button" class="btn border ml-2 mt-2 btn-lg waves-effect waves-light" id="btn{{str_replace(' ', '',  $documento->name)}}" data-toggle="modal" data-target="#{{str_replace(' ', '',  $documento->name)}}">{{$documento->name}}  </button>
                                                 @endforeach
                                             </div>
                                         </div>
@@ -234,7 +235,7 @@
                                                                 <div class="col-sm-6">
                                                                     <label for="consecutivo" id="consecutivo_title">Consecutivo de {{$documento->name}}</label>
                                                                     <div class="form-group form-group-custom mb-4">
-                                                                        <input type="text" class="form-control" id="consecutivo" name="consecutivo{{str_replace(' ', '', $documento->name)}}">
+                                                                        <input type="text" class="form-control" id="consecutivo{{str_replace(' ', '', $documento->name)}}" name="consecutivo{{str_replace(' ', '', $documento->name)}}">
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-sm-6">
@@ -268,6 +269,9 @@
                                                                     <div class="form-group form-group-custom mb-4">
                                                                         <select name="entidad_expide{{str_replace(' ', '', $documento->name)}}" class="form-control" id="entidad_expide{{str_replace(' ', '', $documento->name)}}">
                                                                             <option value=""></option>
+                                                                            @foreach (\App\Models\Tercero::where('tipo_tercero', $documento->tipo_tercero)->get() as $item)
+                                                                                <option value="{{$item->nombre}}">{{$item->nombre}}</option>
+                                                                            @endforeach
                                                                         </select>
                                                                     </div>
                                                                 </div>
@@ -288,7 +292,7 @@
                                                         </div>
 
                                                         <div class="mt-3 text-center">
-                                                            <button class="btn btn-primary btn-lg waves-effect waves-light" class="close" data-dismiss="modal" aria-label="Close">Agregar {{$documento->name}}</button>
+                                                            <button onclick="addcheck('{{str_replace(' ', '', $documento->name)}}')" class="btn btn-primary btn-lg waves-effect waves-light" class="close" data-dismiss="modal" aria-label="Close">Agregar {{$documento->name}}</button>
                                                         </div>
 
                                                 </div>
@@ -298,7 +302,7 @@
                                     @endforeach
                 
                                     <div class="mt-3 text-center">
-                                        <button class="btn btn-primary btn-lg waves-effect waves-light" onclick="cargarbtn(this)" id="btn-submit-correo" type="submit">Enviar</button>
+                                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-form-vehiculo" type="submit" >Enviar</button>
                                     </div>
                 
                                 </form>

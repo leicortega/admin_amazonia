@@ -103,7 +103,7 @@
         </tr>
 
         <tr>
-            <td style="color: #000000;padding: 3px;border: 1px solid #000;text-align: left;height:80px;" colspan="6"><p style="margin-top: -40px;"><b>Observacions: </b>{{ $inspeccion->observaciones_inicio }} <b>al cierre</b> {{ $inspeccion->observaciones_final }}</p></td>
+            <td style="color: #000000;padding: 3px;border: 1px solid #000;text-align: left;height:80px;" colspan="6"><p><b>Observacions: </b>{{ $inspeccion->observaciones_inicio }} <b>al cierre</b> {{ $inspeccion->observaciones_final }}</p></td>
         </tr>
 
         <tr>

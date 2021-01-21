@@ -186,6 +186,8 @@ class InspeccionesController extends Controller
             $query->with('admin_inspecciones');
         }))->with('adjuntos')->find($request->id);
 
+
+        return view('vehiculos.inspecciones.pdf', compact('inspeccion'));
         return PDF::loadView('vehiculos.inspecciones.pdf', compact('inspeccion'))->setPaper('A4')->stream('inspeccion.pdf');
     }
 

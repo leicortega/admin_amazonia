@@ -43,9 +43,9 @@
 
                                 <form action="/vehiculos/create" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn-submit-form-vehiculo')">
                                     @csrf
-                
+
                                     <div class="container p-3">
-                
+
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
@@ -71,7 +71,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                
+
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
@@ -97,7 +97,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                
+
                                         <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
@@ -120,7 +120,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                
+
                                         <div class="row">
                                             <div class="col-sm-4" id="div_item1">
                                                 <div class="form-group form-group-custom mb-4">
@@ -146,14 +146,14 @@
                                                     <label for="tipo_vinculacion_id">Tipo Vinculacion</label>
                                                 </div>
                                             </div>
-                
+
                                             <div class="col-sm-3 d-none" id="div_empresa_convenio">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="text" class="form-control" id="empresa_convenio" name="empresa_convenio" >
                                                     <label for="empresa_convenio">Empresa Convenio</label>
                                                 </div>
                                             </div>
-                
+
                                             <div class="col-sm-4" id="div_item3">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="number" class="form-control" id="tarjeta_operacion" name="tarjeta_operacion" required="">
@@ -161,7 +161,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                
+
                                         <div class="row">
                                             <div class="col-sm-3">
                                                 <div class="form-group form-group-custom mb-4">
@@ -217,51 +217,51 @@
                                     </div>
 
                                     @foreach($documentos as $documento)
-                                    <div class="modal fade bs-example-modal-xl" id="{{str_replace(' ', '',  $documento->name)}}" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
-                                        <div class="modal-dialog modal-lg">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h5 class="modal-title mt-0" id="agg_doc_legal_title">Agregar {{$documento->name}}</h5>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
+                                        <div class="modal fade bs-example-modal-xl" id="{{str_replace(' ', '',  $documento->name)}}" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title mt-0" id="agg_doc_legal_title">Agregar {{$documento->name}}</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
 
 
-                                                        <div class="container p-3">
+                                                            <div class="container p-3">
 
-                                                            <div class="row">
-                                                                <div class="col-sm-6">
-                                                                    <label for="consecutivo" id="consecutivo_title">Consecutivo de {{$documento->name}}</label>
-                                                                    <div class="form-group form-group-custom mb-4">
-                                                                        <input type="text" class="form-control" id="consecutivo{{str_replace(' ', '', $documento->name)}}" name="consecutivo{{str_replace(' ', '', $documento->name)}}">
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-sm-6">
-                                                                    <label for="fecha_expedicion">Fecha expedición</label>
-                                                                    <div class="form-group form-group-custom mb-4">
-                                                                        <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" id="fecha_expedicion" name="fecha_expedicion{{str_replace(' ', '', $documento->name)}}">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            @if ($documento->vigencia != 0)
-                                                                <div class="row" id="fechas_vigencias">
-                                                                    <div class="col-sm-6" id="fecha_inicio_vigencia_div">
-                                                                        <label for="fecha_inicio_vigencia">Fecha inicio de vigencia</label>
+                                                                <div class="row">
+                                                                    <div class="col-sm-6">
+                                                                        <label for="consecutivo" id="consecutivo_title">Consecutivo de {{$documento->name}}</label>
                                                                         <div class="form-group form-group-custom mb-4">
-                                                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" name="fecha_inicio_vigencia{{str_replace(' ', '', $documento->name)}}"  id="fecha_inicio_vigencia">
+                                                                            <input type="text" class="form-control" id="consecutivo" name="consecutivo{{str_replace(' ', '', $documento->name)}}">
                                                                         </div>
                                                                     </div>
-                                                                    <div class="col-sm-6" id="fecha_fin_vigencia_div">
-                                                                        <label for="fecha_fin_vigencia">Fecha fin de vigencia</label>
+                                                                    <div class="col-sm-6">
+                                                                        <label for="fecha_expedicion">Fecha expedición</label>
                                                                         <div class="form-group form-group-custom mb-4">
-                                                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" name="fecha_fin_vigencia{{str_replace(' ', '', $documento->name)}}"  id="fecha_fin_vigencia">
+                                                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" id="fecha_expedicion" name="fecha_expedicion{{str_replace(' ', '', $documento->name)}}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            @endif
+
+                                                                @if ($documento->vigencia != 0)
+                                                                    <div class="row" id="fechas_vigencias">
+                                                                        <div class="col-sm-6" id="fecha_inicio_vigencia_div">
+                                                                            <label for="fecha_inicio_vigencia">Fecha inicio de vigencia</label>
+                                                                            <div class="form-group form-group-custom mb-4">
+                                                                                <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" name="fecha_inicio_vigencia{{str_replace(' ', '', $documento->name)}}"  id="fecha_inicio_vigencia">
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-sm-6" id="fecha_fin_vigencia_div">
+                                                                            <label for="fecha_fin_vigencia">Fecha fin de vigencia</label>
+                                                                            <div class="form-group form-group-custom mb-4">
+                                                                                <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" name="fecha_fin_vigencia{{str_replace(' ', '', $documento->name)}}"  id="fecha_fin_vigencia">
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
 
                                                             <div class="row">
                                                                 <div class="col-sm-12">
@@ -277,34 +277,34 @@
                                                                 </div>
                                                             </div>
 
-                                                            <div class="row">
-                                                                <div class="col-sm-12">
-                                                                    <label for="documento_file">Agregar Adjunto</label>
-                                                                    <div class="form-group form-group-custom mb-4">
-                                                                        <input type="file" class="form-control" name="documento_file{{str_replace(' ', '', $documento->name)}}" id="documento_file">
+                                                                <div class="row">
+                                                                    <div class="col-sm-12">
+                                                                        <label for="documento_file">Agregar Adjunto</label>
+                                                                        <div class="form-group form-group-custom mb-4">
+                                                                            <input type="file" class="form-control" name="documento_file{{str_replace(' ', '', $documento->name)}}" id="documento_file">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
+
+                                                                <input type="hidden" name="id_{{str_replace(' ', '', $documento->name)}}" id="id" value='{{$documento->id}}'>
+
+                                                            <div class="mt-3 text-center">
+                                                                <button onclick="addcheck('{{str_replace(' ', '', $documento->name)}}')" class="btn btn-primary btn-lg waves-effect waves-light" class="close" data-dismiss="modal" aria-label="Close">Agregar {{$documento->name}}</button>
                                                             </div>
-                                                            
-                                                            <input type="hidden" name="id_{{str_replace(' ', '', $documento->name)}}" id="id" value='{{$documento->id}}'>
-                                                            
 
                                                         </div>
 
-                                                        <div class="mt-3 text-center">
-                                                            <button onclick="addcheck('{{str_replace(' ', '', $documento->name)}}')" class="btn btn-primary btn-lg waves-effect waves-light" class="close" data-dismiss="modal" aria-label="Close">Agregar {{$documento->name}}</button>
-                                                        </div>
 
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
                                     @endforeach
-                
+
                                     <div class="mt-3 text-center">
                                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-form-vehiculo" type="submit" >Enviar</button>
                                     </div>
-                
+
                                 </form>
                             </div>
 
@@ -318,7 +318,7 @@
     </div> <!-- container-fluid -->
 </div>
 
-            
+
 
 
 

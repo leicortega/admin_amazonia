@@ -101,22 +101,18 @@ hacer editar y eliminar de Proveedores ============================== YA
 -Poner enlace para la plataforma de GPS
 -Eliminar descripcion del trayecto en cotizaciones
 -Boton para enviar cotizacion al correo del cliente
--Dejar fechas con formato dd/mm/yyyy =============== YA
--Cambiar mes a español en el contrato
--Agregar filtro por tipo de tercero en el modulo de terceros ============== YA
--Poner obsercvacion y fecha de estado inactivo de vehiculos =====================
--Agregar historial de conductor activo del vehiculo ================= YA
 -Agregar conductor en el vehiculo (pestaña conductores) al momento de generar un trayecto
 -Agregar administracion documental (vigencia) modulo administrador
 -Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso) ==============
--Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar) ======================
--Revisar el error en el modulo de solicitud de dinero =================== YA
 -Poner filtro de seguridad en correos y cotizaciones para evitar el spam
 -Crear modulo de planifiacion (actividades realizadas por dia del personal)
 -Agregar vencimiento en documentacion (Para los docuementos que lo requieran)
+-Crear modulo de parametrizacion de los documentos de los vehiculos en administrar sistema (si tienen vigencia o no) ===========
 -Dejar enlace a Ob para el modulo juridico
 
 Prioridad: Vehiculos
+
+
 
 Trabajando en:
 -Dejar fechas con formato dd/mm/yyyy =========================================================== YA
@@ -125,16 +121,18 @@ Trabajando en:
 -Revisar el error en el modulo de solicitud de dinero ========================================== YA
 -Listar los proveedores alregistrar facturas en los mantenimientos ============================= YA
 
--Poner obsercvacion y fecha de estado inactivo de vehiculos 
--Crear modulo de parametrizacion de los documentos de los vehiculos en administrar sistema (si tienen vigencia o no)
--Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar)
--Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso)
+-Poner obsercvacion y fecha de estado inactivo de vehiculos ==================================== YA
+-Crear modulo de parametrizacion de los documentos de los vehiculos en administrar sistema (si tienen vigencia o no) =========== CORRECCION
+-Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar) ============== YA
+-Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso) ===== CORRECCION
 
 
 
-
-
-
-
-
-
+TAREAS REALIZADAS
+-Dejar fechas con formato dd/mm/yyyy =============== YA
+-Cambiar mes a español en el contrato
+-Agregar filtro por tipo de tercero en el modulo de terceros ============== YA
+-Poner obsercvacion y fecha de estado inactivo de vehiculos ===================== YA
+-Agregar historial de conductor activo del vehiculo ================= YA
+-Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar) ====================== YA
+-Revisar el error en el modulo de solicitud de dinero =================== YA

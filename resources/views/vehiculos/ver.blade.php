@@ -136,7 +136,7 @@
                                                 <form class="form-inline mr-3" id="form_agg_conductor" method="POST" action="">
                                                     @csrf
 
-                                                    
+
                                                         <label class="sr-only" for="conductor">Seleccione Conductor</label>
                                                         <select name="conductor" id="conductor" class="form-control mb-2 mt-sm-0 mr-sm-3" required>
                                                             <option value="">Seleccione el Conductor</option>
@@ -144,10 +144,10 @@
                                                                 <option value="{{ $conductor->personal->id }}">{{ $conductor->personal->nombres }} {{ $conductor->personal->primer_apellido }}</option>
                                                             @endforeach
                                                         </select>
-                                                    
+
                                                         <label class="sr-only" for="fecha_inicial">Fecha Inicial</label>
                                                         <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_inicial" id="fecha" placeholder="fecha_inicial" required/>
-                                                    
+
                                                         <label class="sr-only" for="fecha_inicial">Fecha Final</label>
                                                         <input class="form-control datepicker-here mb-2 mt-sm-0 mr-sm-3" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_final" id="fecha" placeholder="fecha final" required/>
 
@@ -288,20 +288,32 @@
                                                             </thead>
                                                             <tbody id="content_table_tarjeta_operacion">
                                                                 <tr>
-                                                                    <td colspan="8" class="text-center">
-                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                                    </td>
+                                                                    <th class="text-center table-bg-dark">No</th>
+                                                                    <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                                    <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                                    <th class="text-center table-bg-dark">Fecha Final</th>
+                                                                    <th class="text-center table-bg-dark">Dias de Vigencia</th>
+                                                                    <th class="text-center table-bg-dark">Entidad Expide</th>
+                                                                    <th class="text-center table-bg-dark">Estado</th>
+                                                                    <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
                                                                 </tr>
-                                                            </tbody>
-                                                    </table>
+                                                                </thead>
+                                                                <tbody id="content_table_tarjeta_operacion">
+                                                                    <tr>
+                                                                        <td colspan="8" class="text-center">
+                                                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                        </table>
 
-                                                </div> --}}
+                                                    </div> --}}
+
+                                                </div>
 
                                             </div>
-
                                         </div>
                                     </div>
-                                </div>
                                 @endforeach
                                 {{-- TAB VINCULACION --}}
                                 {{-- <div class="card mb-0">

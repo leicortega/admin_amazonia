@@ -20,8 +20,8 @@ class CreateAdminDocumentosVehiculoTable extends Migration
             $table->string('tipo_tercero');
 
             $table->foreignId('categoria_id')
-            ->constrained('admin_documentos_vehiculo_categoria')
-            ->onDelete('cascade');
+                ->constrained('admin_documentos_vehiculo_categoria')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });

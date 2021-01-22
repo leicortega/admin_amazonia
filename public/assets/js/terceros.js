@@ -6,11 +6,16 @@ $.ajaxSetup({
 
 $(document).ready(function () {
     $('#form_agg_contacto').submit(function () {
+        btn = this;
+        $(btn).find('button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        $(btn).find('button').attr('disabled', 'true');
         $.ajax({
             url: '/terceros/agg_contacto',
             type: 'POST',
             data: $('#form_agg_contacto').serialize(),
             success: function (data) {
+                $(btn).find('button').html('Enviar');
+                $(btn).find('button').removeAttr('disabled');
                 $('#agg_contacto').modal('hide');
                 $('#form_agg_contacto')[0].reset();
                 cargar_contactos(data);
@@ -21,6 +26,9 @@ $(document).ready(function () {
     });
 
     $('#agg_documento').submit(function () {
+        btn = this;
+        $(btn).find('button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        $(btn).find('button').attr('disabled', 'true');
         var form = document.getElementById('agg_documento');
         var formData = new FormData(form);
         $.ajax({
@@ -31,6 +39,8 @@ $(document).ready(function () {
             contentType: false,
 	        processData: false,
             success: function (data) {
+                $(btn).find('button').html('Enviar');
+                $(btn).find('button').removeAttr('disabled');
                 $('#agg_documento')[0].reset();
                 $('#agg_documento_modal').modal('hide');
                 cargar_documentos(data.terceros_id);
@@ -55,12 +65,16 @@ $(document).ready(function () {
             $('#cantidad').val() == '') {
             $('#alert_crear_cotizacion').removeClass('d-none');
         } else {
+            $('#btn_submit_cotizacion').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+            $('#btn_submit_cotizacion').attr('disabled', 'true');
             $('#alert_crear_cotizacion').addClass('d-none');
             $.ajax({
                 url: '/terceros/crear_cotizacion',
                 type: 'POST',
                 data: $('#form_crear_cotizacion').serialize(),
                 success: function (data) {
+                    $('#btn_submit_cotizacion').html('Enviar');
+                    $('#btn_submit_cotizacion').removeAttr('disabled');
                     window.open('/terceros/print_cotizacion/'+data.id, '_blank');
                     $('#form_crear_cotizacion')[0].reset();
                     $('#modal_crear_cotizacion').modal('hide');
@@ -105,6 +119,8 @@ $(document).ready(function () {
     });
 
     $('#form_generar_contrato').submit(function () {
+        $('#btn_generar_contrato').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        $('#btn_generar_contrato').attr('disabled', 'true');
         $.ajax({
             url: '/terceros/generar_contrato',
             type: 'POST',
@@ -114,6 +130,8 @@ $(document).ready(function () {
                 $('#form_generar_contrato')[0].reset();
                 cargar_contratos(data.tercero);
                 window.open('/terceros/print_contrato/'+data.trayecto, '_blank');
+                $('#btn_generar_contrato').html('Enviar');
+                $('#btn_generar_contrato').removeAttr('disabled');
             }
         });
 
@@ -121,6 +139,8 @@ $(document).ready(function () {
     });
 
     $('#form_actualizar_contrato').submit(function () {
+        $('#btn_actualizar_contrato').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        $('#btn_actualizar_contrato').attr('disabled', 'true');
         $.ajax({
             url: '/terceros/actualizar_contrato',
             type: 'POST',
@@ -130,6 +150,8 @@ $(document).ready(function () {
                 $('#form_actualizar_contrato')[0].reset();
                 cargar_contratos(data.tercero);
                 window.open('/terceros/print_contrato/contrato/'+data.contrato, '_blank');
+                $('#btn_actualizar_contrato').html('Enviar');
+                $('#btn_actualizar_contrato').removeAttr('disabled');
             }
         });
 
@@ -137,6 +159,8 @@ $(document).ready(function () {
     });
 
     $('#form_agregar_trayecto').submit(function () {
+        $('#btn_agg_trayecto').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        $('#btn_agg_trayecto').attr('disabled', 'true');
         $.ajax({
             url: '/terceros/agregar_trayecto',
             type: 'POST',
@@ -146,6 +170,8 @@ $(document).ready(function () {
                 $('#form_agregar_trayecto')[0].reset();
                 ver_trayectos(data.contrato);
                 window.open('/terceros/print_contrato/'+data.trayecto, '_blank');
+                $('#btn_agg_trayecto').html('Enviar');
+                $('#btn_agg_trayecto').removeAttr('disabled');
             }
         });
 
@@ -154,6 +180,10 @@ $(document).ready(function () {
 
     cargarDepartamentos();
 });
+
+function limpiarFormulario(form){
+    $('#'+form)[0].reset();
+}
 
 function cargar_contactos(id) {
     $.ajax({
@@ -169,7 +199,7 @@ function cargar_contactos(id) {
                         <td>${ contacto.nombre }</td>
                         <td>${ contacto.telefono }</td>
                         <td>${ contacto.direccion }</td>
-                        <td class="text-center"><button type="button" onclick="eliminar_contacto(${ contacto.id })" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></td>
+                        <td class="text-center"><button type="button" onclick="eliminar_contacto(${ contacto.id }, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></td>
                     </tr>
                 `;
             });
@@ -192,10 +222,10 @@ function cargar_documentos(terceros_id) {
                     <td>${ documento.tipo }</td>
                     <td>${ documento.descripcion }</td>
                     <td class="text-center">
-                        <button type="button" onclick="editar_documento(${ documento.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_documento('${ documento.adjunto_file }', '${ documento.tipo }')" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
-                        <a href="/storage/${ documento.adjunto_file }" download class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></a>
-                        <button type="button" onclick="eliminar_documento(${ documento.id }, ${ documento.terceros_id })" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="editar_documento(${ documento.id }, this)" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_documento('${ documento.adjunto_file }', '${ documento.tipo }', this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <a href="/storage/${ documento.adjunto_file }" onclick="cargar_btn_link(this)" download class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></a>
+                        <button type="button" onclick="eliminar_documento(${ documento.id }, ${ documento.terceros_id }, this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -207,24 +237,36 @@ function cargar_documentos(terceros_id) {
     });
 }
 
-function eliminar_documento(id, terceros_id) {
+function eliminar_documento(id, terceros_id,btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/delete_documento',
         type: 'POST',
         data: { id:id, terceros_id:terceros_id },
         success: function (data) {
+            $(btn).html('<i class="fa fa-trash"></i>');
+            $(btn).removeAttr('disabled');
             cargar_documentos(data);
         }
     });
 }
 
-function ver_documento(adjunto, tipo) {
+function ver_documento(adjunto, tipo, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+    setTimeout(function(){
+        $(btn).html('<i class="fa fa-eye"></i>');
+        $(btn).removeAttr('disabled');
+    }, 3000);
     $('#modal_ver_documento_title').text(tipo)
     $('#modal_ver_documento_content').html(`<iframe src="/storage/${ adjunto }" width="100%" height="810px" frameborder="0"></iframe>`)
     $('#modal_ver_documento').modal('show');
 }
 
-function editar_documento(id) {
+function editar_documento(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/editar_documento',
         type: 'POST',
@@ -239,6 +281,9 @@ function editar_documento(id) {
 
             $('#agg_documento_modal').modal('show');
             $('#agg_documento_title').text('Editar ' + data.tipo);
+            
+            $(btn).html('<i class="fa fa-edit"></i>');
+            $(btn).removeAttr('disabled');
         }
     });
 }
@@ -259,10 +304,10 @@ function cargar_cotizaciones(terceros_id) {
                     <td>${ cotizacion.tipo_vehiculo }</td>
                     <td>${ cotizacion.ciudad_origen } - ${ cotizacion.ciudad_destino }</td>
                     <td class="text-center">
-                        <a href="javascript:generar_contrato(${ cotizacion.id })" class="btn btn-sm btn-primary waves-effect waves-light" title="Generar Contrato"><i class="fa fa-check"></i></a>
-                        <button type="button" onclick="editar_cotizacion(${ cotizacion.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_cotizacion(${ cotizacion.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
-                        <button type="button" onclick="eliminar_cotizacion(${ cotizacion.id }, 'Cotizacion')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <a href="javascript:generar_contrato(${ cotizacion.id })"  onclick="cargar_btn_link_var(this, 'fa-check')" class="btn btn-sm btn-primary waves-effect waves-light" title="Generar Contrato"><i class="fa fa-check"></i></a>
+                        <button type="button" onclick="editar_cotizacion(${ cotizacion.id }, this)" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_cotizacion(${ cotizacion.id }, this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="eliminar_cotizacion(${ cotizacion.id }, 'Cotizacion', this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -290,10 +335,10 @@ function cargar_contratos(terceros_id) {
                     <td>${ cotizacion.tipo_contrato }</td>
                     <td>${ cotizacion.objeto_contrato }</td>
                     <td class="text-center">
-                        <button type="button" onclick="editar_contrato(${ cotizacion.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_contrato(${ cotizacion.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
-                        <button type="button" onclick="ver_trayectos(${ cotizacion.id })" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-plus"></i></button>
-                        <button type="button" onclick="eliminar_contrato(${ cotizacion.id }, 'Contrato')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="editar_contrato(${ cotizacion.id }, this)" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_contrato(${ cotizacion.id }, this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="ver_trayectos(${ cotizacion.id }, this)" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-plus"></i></button>
+                        <button type="button" onclick="eliminar_contrato(${ cotizacion.id }, 'Contrato', this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -305,7 +350,9 @@ function cargar_contratos(terceros_id) {
     });
 }
 
-function ver_trayectos(id) {
+function ver_trayectos(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/ver_trayectos',
         type: 'POST',
@@ -336,9 +383,9 @@ function ver_trayectos(id) {
                     <td>${ trayecto.tipo_servicio }</td>
                     <td>${ trayecto.tipo_vehiculo }</td>
                     <td class="text-center">
-                        <button type="button" onclick="editar_trayecto(${ trayecto.id })" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_trayecto(${ trayecto.id })" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
-                        <button type="button" onclick="eliminar_trayecto(${ trayecto.id }, ${ id })" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="editar_trayecto(${ trayecto.id }, this)" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_trayecto(${ trayecto.id }, this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="eliminar_trayecto(${ trayecto.id }, ${ id }, this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -349,6 +396,9 @@ function ver_trayectos(id) {
 
             $('#content_ver_trayectos').html(content);
             $('#modal-ver-trayectos').modal('show');
+
+            $(btn).html('<i class="fa fa-plus"></i>');
+            $(btn).removeAttr('disabled');
 
         }
     });
@@ -504,19 +554,23 @@ function generar_contrato(id) {
     $('#cotizacion_id_contrato').val(id);
 }
 
-function ver_cotizacion(id) {
+function ver_cotizacion(id, btn) {
+    cargar_btn_link_var(btn, 'fa-eye');
     window.open('/terceros/print_cotizacion/' + id, '_blank');
 }
 
-function ver_contrato(id) {
+function ver_contrato(id, btn) {
+    cargar_btn_link_var(btn, 'fa-eye');
     window.open('/terceros/print_contrato/contrato/' + id, '_blank');
 }
 
-function ver_trayecto(id) {
+function ver_trayecto(id, btn) {
+    cargar_btn_link_var(btn, 'fa-eye');
     window.open('/terceros/print_contrato/' + id, '_blank');
 }
 
-function eliminar_cotizacion(id, title) {
+function eliminar_cotizacion(id, title, btn) {
+    cargar_btn_link_var(btn, 'fa-trash');
     $('#modal_eliminar_cotizacion').modal('show');
     $('#cotizacion_id').val(id);
     $('#modal_eliminar_cotizacion_tilte').text('Eliminar ' + title);
@@ -525,7 +579,8 @@ function eliminar_cotizacion(id, title) {
     `);
 }
 
-function eliminar_contrato(id, title) {
+function eliminar_contrato(id, title, btn) {
+    cargar_btn_link_var(btn, 'fa-trash');
     $('#modal_eliminar_contrato').modal('show');
     $('#contrato_id_delete').val(id);
     $('#modal_eliminar_contrato_tilte').text('Eliminar ' + title);
@@ -534,7 +589,9 @@ function eliminar_contrato(id, title) {
     `);
 }
 
-function editar_cotizacion(id) {
+function editar_cotizacion(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/editar_cotizacion',
         type: 'POST',
@@ -567,11 +624,15 @@ function editar_cotizacion(id) {
             $('#cotizacion_parte_dos').val(data.cotizacion_parte_dos);
 
             $('#cotizacion_creada').val(data.id);
+            $(btn).html('<i class="fa fa-edit"></i>');
+            $(btn).removeAttr('disabled');
         }
     });
 }
 
-function editar_contrato(id) {
+function editar_contrato(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/editar_contrato',
         type: 'POST',
@@ -589,6 +650,9 @@ function editar_contrato(id) {
             $('#contrato_parte_dos_update').val(data.contrato.contrato_parte_dos);
 
             $('#contrato_id').val(data.contrato.id);
+
+            $(btn).html('<i class="fa fa-edit"></i>');
+            $(btn).removeAttr('disabled');
         }
     });
 }
@@ -617,7 +681,9 @@ function cargar_responsable_contrato(responsable) {
     }
 }
 
-function eliminar_contacto(id) {
+function eliminar_contacto(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/eliminar_contacto',
         type: 'POST',
@@ -650,20 +716,27 @@ function editar_tercero(id) {
     });
 }
 
-function eliminar_trayecto(id, contrato) {
+function eliminar_trayecto(id, contrato, btn) {
     if (window.confirm("¿Seguro desea eliminar el trayecto?")) {
+        $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+        $(btn).attr('disabled', 'true');
         $.ajax({
             url: '/terceros/eliminar_trayecto',
             type: 'post',
             data: {id:id, contrato:contrato},
             success: function (data) {
                 ver_trayectos(data);
+                $(btn).html('<i class="fa fa-trash"></i>');
+                $(btn).removeAttr('disabled');
             }
         });
+
     }
 }
 
-function editar_trayecto(id) {
+function editar_trayecto(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
     $.ajax({
         url: '/terceros/editar_trayecto',
         type: 'POST',
@@ -699,10 +772,34 @@ function editar_trayecto(id) {
 
             $('#contratos_id').val(data.contratos.id);
             $('#trayecto_creado').val(data.id);
+            $(btn).html('<i class="fa fa-edit"></i>');
+            $(btn).removeAttr('disabled');
         }
     });
 }
 
+function cargar_btn_form(btn){
+    $(btn).find('button').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).find('button').attr('disabled', 'true');
+}
+
+function cargar_btn_link(btn){
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+    setTimeout(function(){
+        $(btn).html('<i class="fa fa-download"></i>');
+        $(btn).removeAttr('disabled');
+    }, 5000);
+}
+
+function cargar_btn_link_var(btn, icon){
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+    setTimeout(function(){
+        $(btn).html('<i class="fa '+icon+'"></i>');
+        $(btn).removeAttr('disabled');
+    }, 3000);
+}
 
 
 

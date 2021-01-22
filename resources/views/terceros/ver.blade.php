@@ -81,7 +81,7 @@
                                         </tr>
                                         <tr>
                                             <td colspan="2" style="min-width: 411px !important;">
-                                                <form class="form-inline justify-content-center" method="POST" action="/terceros/agg_perfil_tercero">
+                                                <form onsubmit="cargar_btn_form(this)" class="form-inline justify-content-center" method="POST" action="/terceros/agg_perfil_tercero">
                                                     @csrf
 
                                                     <select name="nombre" class="form-control mr-2" required>
@@ -110,7 +110,7 @@
                                                         <div class="input-group col-6 mb-2">
                                                             <input type="text" class="form-control" name="tipo_tercero" value="{{ $item->nombre }}" readonly>
                                                             <div class="input-group-prepend">
-                                                                <a href="/terceros/delete_perfil_tercero/{{ $item->id }}"><button class="btn btn-danger">X</button></a>
+                                                                <a href="/terceros/delete_perfil_tercero/{{ $item->id }}" onclick="cargar_btn_form(this)"><button class="btn btn-danger">X</button></a>
                                                             </div>
                                                         </div>
                                                     @endforeach
@@ -203,7 +203,7 @@
 
                                     <div id="collapseCotizaciones" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                                         <div class="card-body">
-                                            <button class="btn btn-info waves-effect waves-light mb-2 float-right" data-toggle="modal" data-target="#modal_crear_cotizacion"><i class="fas fa-plus"></i></button>
+                                            <button onclick="limpiarFormulario('form_crear_cotizacion')" class="btn btn-info waves-effect waves-light mb-2 float-right" data-toggle="modal" data-target="#modal_crear_cotizacion"><i class="fas fa-plus"></i></button>
 
                                             <table class="table table-bordered">
                                                 <thead class="thead-inverse">
@@ -906,7 +906,7 @@ ________________________________________________
                     <input type="hidden" name="tercero_id_contrato" id="tercero_id_contrato" value="{{ $tercero[0]->id }}" />
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button id="btn_generar_contrato" class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
                     </div>
                 </form>
 
@@ -1007,7 +1007,7 @@ ________________________________________________
                     <input type="hidden" name="tercero_id_return" value="{{ $tercero[0]->identificacion }}" />
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_actualizar_contrato" type="submit">Enviar</button>
                     </div>
                 </form>
 
@@ -1086,7 +1086,7 @@ ________________________________________________
             </div>
             <div class="modal-body">
 
-                <form action="/terceros/update" id="form-create-tercero" method="POST">
+                <form action="/terceros/update" id="form-create-tercero" onsubmit="cargar_btn_form(this)" method="POST">
                     @csrf
 
                     <div class="container">
@@ -1523,7 +1523,7 @@ ________________________________________________
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_agg_trayecto" type="submit">Enviar</button>
                     </div>
 
                 </form>

@@ -38,13 +38,15 @@
                                     </div>
                                 @endif
 
+                                <a href="{{ route('index') }}"><button onclick="cargar_btn_single(this)" type="button" class="mr-2 btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+
                                 {{-- botones de filtro --}}
 
                                 <button type="button" class="btn btn-primary btn-lg float-left mb-2" onclick="cargarDepartamentos()" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
                                 </button>
 
                                 @if(request()->routeIs('terceros_filtro'))
-                                    <a href="{{route('terceros')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                    <a href="{{route('terceros')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1" onclick="cargar_btn_single(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
@@ -143,7 +145,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/terceros/create" id="form-create-tercero" method="POST">
+                <form action="/terceros/create" id="form-create-tercero" method="POST" onsubmit="cargar_btn_form(this)">
                     @csrf
 
                     <div class="container">
@@ -269,7 +271,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('terceros_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('terceros_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargar_btn_form(this)">
                     @csrf
                     <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
@@ -303,7 +305,7 @@
 
                                 <div class="col-sm-3">
                                     <label class="col-sm-12 col-form-label">Tipo Tercero</label>
-                                    <select name="tipo_tercero" class="form-control" required>
+                                    <select name="tipo_tercero" class="form-control">
                                         <option value="">Seleccione tipo</option>
                                         <option value="Cliente">Cliente</option>
                                         <option value="Convenio">Convenio</option>

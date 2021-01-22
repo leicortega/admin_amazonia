@@ -783,6 +783,11 @@ function cargar_btn_form(btn){
     $(btn).find('button').attr('disabled', 'true');
 }
 
+function cargar_btn_single(btn){
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+}
+
 function cargar_btn_link(btn){
     $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
     $(btn).attr('disabled', 'true');

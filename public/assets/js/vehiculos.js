@@ -381,3 +381,13 @@ function exportar_documentos() {
         }
     });
 }
+
+function cargar_btn_form(btn, find){
+    $(btn).find(find).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).find(find).attr('disabled', 'true');
+}
+
+function cargar_btn_single(btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+}

@@ -37,7 +37,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+                                <a href="{{ route('index') }}"><button onclick="cargar_btn_single(this)" type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
 
                                 {{-- botones de filtro --}}
 
@@ -47,14 +47,14 @@
 
 
                                 @if(request()->routeIs('vehiculos_filtro'))
-                                    <a href="{{route('vehiculos')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                    <a href="{{route('vehiculos')}}" onclick="cargar_btn_single(this)" class="btn btn-primary btn-lg mb-2 float-left ml-1">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
 
                                 {{-- end botones de fitro --}}
 
-                                @role('admin')<a href="{{route('agregar_vehiculo')}}"> <button type="button" class="btn btn-primary btn-lg float-right mb-2">Agregar +</button></a> @endrole
+                                @role('admin')<a href="{{route('agregar_vehiculo')}}"> <button onclick="cargar_btn_single(this)" type="button" class="btn btn-primary btn-lg float-right mb-2">Agregar +</button></a> @endrole
 
                                 <table class="table table-centered table-hover table-bordered mb-0">
                                     <thead>
@@ -155,7 +155,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('vehiculos_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('vehiculos_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargar_btn_form(this, 'button')">
                     @csrf
                     <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">

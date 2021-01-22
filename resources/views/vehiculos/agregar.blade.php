@@ -37,11 +37,11 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('vehiculos') }}"><button type="button" class="btn btn-dark btn-lg mb-2 ">Atras</button></a>
+                                <a href="{{ route('vehiculos') }}"><button onclick="cargar_btn_single(this)" type="button" class="btn btn-dark btn-lg mb-2 ">Atras</button></a>
 
                                 <h5 class="modal-title mt-0" id="modal-title-correo">Agregar Vehiculo</h5>
 
-                                <form action="/vehiculos/create" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn-submit-form-vehiculo')">
+                                <form action="/vehiculos/create" method="POST" onsubmit="cargar_btn_form(this, '#btn-submit-form-vehiculo')" enctype="multipart/form-data" onsubmit="cargarbtn('#btn-submit-form-vehiculo')">
                                     @csrf
 
                                     <div class="container p-3">

@@ -67,49 +67,52 @@
             <td style="color: #fff; border: 1px solid #000;font-weight: bold;">Valor total</td>
         </tr>
 
+        @foreach ($cotiza as $cotizaciones)
+        
         <tr>
-            <td>{{ $cotizacion['fecha_ida'] }}</td>
-            <td>{{ $cotizacion['fecha_regreso'] }}</td>
+            <td>{{ $cotizaciones['fecha_ida'] }}</td>
+            <td>{{ $cotizaciones['fecha_regreso'] }}</td>
             <td style="text-align: justify; padding:5px;">
-                Recorrido 1: {{ $cotizacion['ciudad_origen'] }} {{ $cotizacion['descripcion'] }} {{ $cotizacion['ciudad_destino'] }}
+                Recorrido 1: {{ $cotizaciones['ciudad_origen'] }} {{ $cotizaciones['descripcion'] }} {{ $cotizaciones['ciudad_destino'] }}
                 @if ($cotizacion['recorrido'] == "Ida y vuelta")
-                    con retorno a {{ $cotizacion['ciudad_origen'] }} por el mismo corredor vial,
+                    con retorno a {{ $cotizaciones['ciudad_origen'] }} por el mismo corredor vial,
                 @endif
 
-                @if ($cotizacion['conductor'] == "Si" && $cotizacion['combustible'] == "Si" && $cotizacion['peajes'] == "Si")
+                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "Si")
                     incluye conductor, combustible y peajes,
                 @endif
-                @if ($cotizacion['conductor'] == "Si" && $cotizacion['combustible'] == "Si" && $cotizacion['peajes'] == "No")
+                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "No")
                     incluye conductor y combustible,
                 @endif
-                @if ($cotizacion['conductor'] == "Si" && $cotizacion['combustible'] == "No" && $cotizacion['peajes'] == "Si")
+                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "No" && $cotizaciones['peajes'] == "Si")
                     incluye conductor y peajes,
                 @endif
-                @if ($cotizacion['conductor'] == "No" && $cotizacion['combustible'] == "Si" && $cotizacion['peajes'] == "Si")
+                @if ($cotizaciones['conductor'] == "No" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "Si")
                     incluye combustible y peajes,
                 @endif
 
-                @if ($cotizacion['conductor'] == "Si" && $cotizacion['combustible'] == "No" && $cotizacion['peajes'] == "No")
+                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "No" && $cotizaciones['peajes'] == "No")
                     incluye conductor,
                 @endif
-                @if ($cotizacion['conductor'] == "No" && $cotizacion['combustible'] == "Si" && $cotizacion['peajes'] == "No")
+                @if ($cotizaciones['conductor'] == "No" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "No")
                     incluye combustible,
                 @endif
-                @if ($cotizacion['conductor'] == "No" && $cotizacion['combustible'] == "No" && $cotizacion['peajes'] == "Si")
+                @if ($cotizaciones['conductor'] == "No" && $cotizaciones['combustible'] == "No" && $cotizaciones['peajes'] == "Si")
                     incluye peajes,
                 @endif
 
-                el tipo de servicio es {{ $cotizacion['tipo_servicio'] }} el cual se prestara en un(a) {{ $cotizacion['tipo_vehiculo'] }} y el cobro se calcula por {{ $cotizacion['cotizacion_por'] }}. {{ $cotizacion['observaciones'] }}
+                el tipo de servicio es {{ $cotizaciones['tipo_servicio'] }} el cual se prestara en un(a) {{ $cotizaciones['tipo_vehiculo'] }} y el cobro se calcula por {{ $cotizaciones['cotizacion_por'] }}. {{ $cotizaciones['observaciones'] }}
 
                 <br><br>
 
-                Recorrido 2: @if ($cotizacion['trayecto_dos']) {{$cotizacion['trayecto_dos']}} @else N/A @endif
+                Recorrido 2: @if ($cotizaciones['trayecto_dos']) {{$cotizaciones['trayecto_dos']}} @else N/A @endif
 
             </td>
-            <td>${{ number_format($cotizacion['valor_unitario']) }}</td>
-            <td>{{ $cotizacion['cantidad'] }}</td>
-            <td>${{ number_format($cotizacion['total']) }}</td>
+            <td>${{ number_format($cotizaciones['valor_unitario']) }}</td>
+            <td>{{ $cotizaciones['cantidad'] }}</td>
+            <td>${{ number_format($cotizaciones['total']) }}</td>
         </tr>
+        @endforeach
 
     </table>
 

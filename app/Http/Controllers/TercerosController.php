@@ -19,6 +19,7 @@ use App\Models\Cotizaciones;
 use App\Models\Cotizaciones_trayectos;
 use App\Models\Personal;
 use App\Models\Vehiculo;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Carbon\Carbon;
 use PDF;
 
@@ -317,9 +318,10 @@ class TercerosController extends Controller
     }
 
     public function print_cotizacion(Request $request) {
-        $cotizacion = Cotizacion::find($request['id']);
+        $cotizacion = Cotizaciones::find($request['id']);
+        $cotizaciones = Cotizaciones_trayectos::where('cotizacion_id', $request['id'])->get();
 
-        return PDF::loadView('cotizaciones.pdf', compact('cotizacion'))->setPaper('A4')->stream();
+        return PDF::loadView('cotizaciones.pdf', ['cotizacion' => $cotizacion, 'cotiza' => $cotizaciones])->setPaper('A4')->stream();
     }
 
     public function eliminar_cotizacion(Request $request) {
@@ -649,6 +651,7 @@ class TercerosController extends Controller
             'contrato_numero' => $contrato_numero
         ];
 
+
         return PDF::loadView('cotizaciones.contrato', compact('data'))->setPaper('A4')->stream('cotizacion.pdf');
     }
 
@@ -660,6 +663,8 @@ class TercerosController extends Controller
             'contrato' => $contrato,
             'tercero' => $tercero,
         ];
+
+        return view('terceros.contrato_pdf', compact('data'));
 
         return PDF::loadView('terceros.contrato_pdf', compact('data'))->setPaper('A4')->stream('contrato.pdf');
     }

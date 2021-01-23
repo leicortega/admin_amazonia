@@ -195,11 +195,16 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/editar_contrato', 'TercerosController@editar_contrato');
     Route::post('/terceros/cargar_contratos', 'TercerosController@cargar_contratos');
     Route::post('/terceros/generar_contrato', 'TercerosController@generar_contrato');
+    Route::post('/terceros/generar_vehiculos_contratos', 'TercerosController@generar_vehiculos_contratos');
     Route::post('/terceros/get_tercero', 'TercerosController@get_tercero');
     Route::post('/terceros/ver_trayectos', 'TercerosController@ver_trayectos');
+    Route::post('/terceros/ver_trayectos_cotizacion', 'TercerosController@ver_trayectos_cotizacion');
     Route::post('/terceros/agregar_trayecto', 'TercerosController@agregar_trayecto');
+    Route::post('/terceros/agregar_trayecto_cotizacion', 'TercerosController@agregar_trayecto_cotizacion');
     Route::post('/terceros/eliminar_trayecto', 'TercerosController@eliminar_trayecto');
+    Route::post('/terceros/eliminar_trayecto_cotizacion', 'TercerosController@eliminar_trayecto_cotizacion');
     Route::post('/terceros/editar_trayecto', 'TercerosController@editar_trayecto');
+    Route::post('/terceros/editar_trayecto_cotizacion', 'TercerosController@editar_trayecto_cotizacion');
     Route::post('/terceros/actualizar_contrato', 'TercerosController@actualizar_contrato');
 });
 

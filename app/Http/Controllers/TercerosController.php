@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cargos_personal;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
@@ -14,6 +15,8 @@ use App\Models\Documentos_tercero;
 use App\Models\Trayectos_contrato;
 use App\Models\Contrato;
 use App\Models\Cotizacion;
+use App\Models\Cotizaciones;
+use App\Models\Cotizaciones_trayectos;
 use App\Models\Personal;
 use App\Models\Vehiculo;
 use Carbon\Carbon;
@@ -201,38 +204,43 @@ class TercerosController extends Controller
     }
 
     public function cargar_cotizaciones(Request $request) {
-        return Cotizacion::where('tercero_id', $request['terceros_id'])->get();
+        return Cotizaciones::where('tercero_id', $request['terceros_id'])->get();
     }
 
     public function crear_cotizacion(Request $request) {
         $date = Carbon::now('America/Bogota');
 
         if ($request['cotizacion_creada']) {
-            $cotizacion = Cotizacion::find($request['cotizacion_creada']);
+            $cotizacion = Cotizaciones::find($request['cotizacion_creada']);
 
             $cotizacion->update([
-                'departamento_origen' => $request['departamento_origen'],
-                'ciudad_origen' => $request['ciudad_origen'],
-                'departamento_destino' => $request['departamento_destino'],
-                'ciudad_destino' => $request['ciudad_destino'],
-                'fecha_ida' => $request['fecha_ida'],
-                'fecha_regreso' => $request['fecha_regreso'],
-                'tipo_servicio' => $request['tipo_servicio'],
-                'tipo_vehiculo' => $request['tipo_vehiculo'],
-                'recorrido' => $request['recorrido'],
-                'descripcion' => $request['descripcion'],
-                'observaciones' => $request['observaciones'],
-                'combustible' => $request['combustible'],
-                'conductor' => $request['conductor'],
-                'peajes' => $request['peajes'],
-                'cotizacion_por' => $request['cotizacion_por'],
-                'valor_unitario' => $request['valor_unitario'],
-                'cantidad' => $request['cantidad'],
-                'total' => ($request['valor_unitario'] * $request['cantidad']),
-                'trayecto_dos' => $request['trayecto_dos'],
                 'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
                 'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
             ]);
+
+            // $cotizacion->update([
+            //     'departamento_origen' => $request['departamento_origen'],
+            //     'ciudad_origen' => $request['ciudad_origen'],
+            //     'departamento_destino' => $request['departamento_destino'],
+            //     'ciudad_destino' => $request['ciudad_destino'],
+            //     'fecha_ida' => $request['fecha_ida'],
+            //     'fecha_regreso' => $request['fecha_regreso'],
+            //     'tipo_servicio' => $request['tipo_servicio'],
+            //     'tipo_vehiculo' => $request['tipo_vehiculo'],
+            //     'recorrido' => $request['recorrido'],
+            //     'descripcion' => $request['descripcion'],
+            //     'observaciones' => $request['observaciones'],
+            //     'combustible' => $request['combustible'],
+            //     'conductor' => $request['conductor'],
+            //     'peajes' => $request['peajes'],
+            //     'cotizacion_por' => $request['cotizacion_por'],
+            //     'valor_unitario' => $request['valor_unitario'],
+            //     'cantidad' => $request['cantidad'],
+            //     'total' => ($request['valor_unitario'] * $request['cantidad']),
+            //     'trayecto_dos' => $request['trayecto_dos'],
+            //     'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
+            //     'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
+            // ]);
 
             return $cotizacion;
         } else {
@@ -240,12 +248,46 @@ class TercerosController extends Controller
 
             $num = 'COT'.$date->format('Y').$date->format('m').$date->format('d').$date->format('H').$date->format('i').'-'.$date->format('s');
 
-            $cotizacion = Cotizacion::create([
-                'num_cotizacion' => $num,
+            // $cotizacion = Cotizacion::create([
+            //     'num_cotizacion' => $num,
+            //     'fecha' => $date->format('Y-m-d H:m:s'),
+            //     'nombre' => $tercero->nombre,
+            //     'correo' => $tercero->correo,
+            //     'telefono' => $tercero->telefono,
+            //     'departamento_origen' => $request['departamento_origen'],
+            //     'ciudad_origen' => $request['ciudad_origen'],
+            //     'departamento_destino' => $request['departamento_destino'],
+            //     'ciudad_destino' => $request['ciudad_destino'],
+            //     'fecha_ida' => $request['fecha_ida'],
+            //     'fecha_regreso' => $request['fecha_regreso'],
+            //     'tipo_servicio' => $request['tipo_servicio'],
+            //     'tipo_vehiculo' => $request['tipo_vehiculo'],
+            //     'recorrido' => $request['recorrido'],
+            //     'descripcion' => $request['descripcion'],
+            //     'observaciones' => $request['observaciones'],
+            //     'combustible' => $request['combustible'],
+            //     'conductor' => $request['conductor'],
+            //     'peajes' => $request['peajes'],
+            //     'cotizacion_por' => $request['cotizacion_por'],
+            //     'valor_unitario' => $request['valor_unitario'],
+            //     'cantidad' => $request['cantidad'],
+            //     'total' => ($request['valor_unitario'] * $request['cantidad']),
+            //     'trayecto_dos' => $request['trayecto_dos'],
+            //     'responsable_id' => auth()->user()->id,
+            //     'tercero_id' => $tercero->identificacion,
+            //     'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
+            //     'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
+            // ]);
+
+            $cotizacion = Cotizaciones::create([
+                'num_cotizacion' => $request['numero_cotizacion'],
                 'fecha' => $date->format('Y-m-d H:m:s'),
-                'nombre' => $tercero->nombre,
-                'correo' => $tercero->correo,
-                'telefono' => $tercero->telefono,
+                'tercero_id' => $tercero->id,
+                'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
+                'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
+            ]);
+
+            $cotizacion_trayecto = Cotizaciones_trayectos::create([
                 'departamento_origen' => $request['departamento_origen'],
                 'ciudad_origen' => $request['ciudad_origen'],
                 'departamento_destino' => $request['departamento_destino'],
@@ -266,9 +308,7 @@ class TercerosController extends Controller
                 'total' => ($request['valor_unitario'] * $request['cantidad']),
                 'trayecto_dos' => $request['trayecto_dos'],
                 'responsable_id' => auth()->user()->id,
-                'tercero_id' => $tercero->identificacion,
-                'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
-                'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
+                'cotizacion_id' => $cotizacion->id
             ]);
 
             return $cotizacion;
@@ -283,7 +323,9 @@ class TercerosController extends Controller
     }
 
     public function eliminar_cotizacion(Request $request) {
-        Cotizacion::find($request['cotizacion_id'])->delete();
+
+        Cotizaciones::find($request['cotizacion_id'])->delete();
+        Cotizaciones_trayectos::where('cotizacion_id', $request['cotizacion_id'])->delete();
 
         return $request['tercero_id'];
     }
@@ -316,7 +358,8 @@ class TercerosController extends Controller
             ]);
         }
 
-        $cotizacion = Cotizacion::find($request['cotizacion_id_contrato']);
+        $cotizacion = Cotizaciones::find($request['cotizacion_id_contrato'])->join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')->get();
+        $trayecto_cotizacion = Cotizaciones_trayectos::where('cotizacion_id', $request['cotizacion_id_contrato']);
 
         $contrato = Contrato::create([
             'fecha' => $date->format('Y-m-d'),
@@ -325,40 +368,53 @@ class TercerosController extends Controller
             'objeto_contrato' => $request['objeto_contrato'],
             'contrato_parte_uno' => $request['contrato_parte_uno'],
             'contrato_parte_dos' => $request['contrato_parte_dos'],
-            'tercero_id' => $cotizacion['tercero_id'],
+            'tercero_id' => $cotizacion[0]['identificacion'],
             'cotizacion_id' => $request['cotizacion_id_contrato'],
         ]);
 
-        $trayecto = Trayectos_contrato::create([
-            'fecha' => $cotizacion['fecha'],
-            'nombre' => $cotizacion['nombre'],
-            'correo' => $cotizacion['correo'],
-            'telefono' => $cotizacion['telefono'],
-            'departamento_origen' => $cotizacion['departamento_origen'],
-            'ciudad_origen' => $cotizacion['ciudad_origen'],
-            'departamento_destino' => $cotizacion['departamento_destino'],
-            'ciudad_destino' => $cotizacion['ciudad_destino'],
-            'fecha_ida' => $cotizacion['fecha_ida'],
-            'fecha_regreso' => $cotizacion['fecha_regreso'],
-            'tipo_servicio' => $cotizacion['tipo_servicio'],
-            'tipo_vehiculo' => $cotizacion['tipo_vehiculo'],
-            'recorrido' => $cotizacion['recorrido'],
-            'descripcion' => $cotizacion['descripcion'],
-            'observaciones' => $cotizacion['observaciones'],
-            'combustible' => $cotizacion['combustible'],
-            'conductor' => $cotizacion['conductor'],
-            'peajes' => $cotizacion['peajes'],
-            'cotizacion_por' => $cotizacion['cotizacion_por'],
-            'valor_unitario' => $cotizacion['valor_unitario'],
-            'cantidad' => $cotizacion['cantidad'],
-            'total' => $cotizacion['total'],
-            'trayecto_dos' => $cotizacion['trayecto_dos'],
-            'vehiculo_id' => $request['vehiculo_id'],
-            'conductor_uno_id' => $request['conductor_uno_id'],
-            'conductor_dos_id' => $request['conductor_dos_id'],
-            'conductor_tres_id' => $request['conductor_tres_id'],
-            'contratos_id' => $contrato->id
-        ]);
+            $a=0;
+            $tercero = Tercero::find($cotizacion[0]['tercero_id']);
+            foreach ($request['id_cotizacion_trayecto'] as $cotizacionn) {
+                Cotizaciones_trayectos::find($cotizacionn)->update([
+                    'vehiculo_id' => $request['vehiculo_id'][$a],
+                    'conductor_uno_id' => $request['conductor_uno_id'][$a],
+                    'conductor_dos_id' => $request['conductor_dos_id'][$a],
+                    'conductor_tres_id' => $request['conductor_tres_id'][$a],
+                ]);
+                $cot=Cotizaciones_trayectos::find($cotizacionn);
+                $trayecto = Trayectos_contrato::create([
+                    'fecha' => $cotizacion[0]['fecha'],
+                    'nombre' => $tercero['nombre'],
+                    'correo' => $tercero['correo'],
+                    'telefono' => $tercero['telefono'],
+                    'departamento_origen' => $cot['departamento_origen'],
+                    'ciudad_origen' => $cot['ciudad_origen'],
+                    'departamento_destino' => $cot['departamento_destino'],
+                    'ciudad_destino' => $cot['ciudad_destino'],
+                    'fecha_ida' => $cot['fecha_ida'],
+                    'fecha_regreso' => $cot['fecha_regreso'],
+                    'tipo_servicio' => $cot['tipo_servicio'],
+                    'tipo_vehiculo' => $cot['tipo_vehiculo'],
+                    'recorrido' => $cot['recorrido'],
+                    'descripcion' => $cot['descripcion'],
+                    'observaciones' => $cot['observaciones'],
+                    'combustible' => $cot['combustible'],
+                    'conductor' => $cot['conductor'],
+                    'peajes' => $cot['peajes'],
+                    'cotizacion_por' => $cot['cotizacion_por'],
+                    'valor_unitario' => $cot['valor_unitario'],
+                    'cantidad' => $cot['cantidad'],
+                    'total' => $cot['total'],
+                    'trayecto_dos' => $cot['trayecto_dos'],
+                    'vehiculo_id' => $cot['vehiculo_id'],
+                    'conductor_uno_id' => $cot['conductor_uno_id'],
+                    'conductor_dos_id' => $cot['conductor_dos_id'],
+                    'conductor_tres_id' => $cot['conductor_tres_id'],
+                    'contratos_id' => $contrato->id
+                ]);
+                $a++;
+            }
+
 
         if ($contrato->save() && $trayecto->save()) {
             return ['tercero' => $request['tercero_id_return'], 'trayecto' => $trayecto['id']];
@@ -366,6 +422,16 @@ class TercerosController extends Controller
             return ['error' => true];
         }
 
+    }
+
+    public function generar_vehiculos_contratos(Request $request){
+        $personal = Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
+            $query->where('cargos.nombre', 'Conductor');
+             })->get();
+        
+             $cotizaciones = Cotizaciones_trayectos::where('cotizacion_id', $request->id)->get();
+
+        return ['vehiculos' => Vehiculo::all(), 'personal' => $personal, 'cotizaciones' => $cotizaciones];
     }
 
     public function actualizar_contrato(Request $request) {
@@ -471,6 +537,65 @@ class TercerosController extends Controller
 
     }
 
+    public function agregar_trayecto_cotizacion(Request $request) {
+
+        if ($request['trayecto_creado']) {
+            $trayecto = Cotizaciones_trayectos::find($request['trayecto_creado']);
+
+            $trayecto->update([
+                'departamento_origen' => $request['departamento_origen'],
+                'ciudad_origen' => $request['ciudad_origen'],
+                'departamento_destino' => $request['departamento_destino'],
+                'ciudad_destino' => $request['ciudad_destino'],
+                'fecha_ida' => $request['fecha_ida'],
+                'fecha_regreso' => $request['fecha_regreso'],
+                'tipo_servicio' => $request['tipo_servicio'],
+                'tipo_vehiculo' => $request['tipo_vehiculo'],
+                'recorrido' => $request['recorrido_trayecto_cotizacion'],
+                'descripcion' => $request['descripcion'],
+                'observaciones' => $request['observaciones'],
+                'combustible' => $request['combustible_trayecto_cotizacion'],
+                'conductor' => $request['conductor_trayecto_cotizacion'],
+                'peajes' => $request['peajes_trayecto_cotizacion'],
+                'cotizacion_por' => $request['cotizacion_por_trayecto_cotizacion'],
+                'valor_unitario' => $request['valor_unitario'],
+                'cantidad' => $request['cantidad'],
+                'total' => $request['total'],
+                'trayecto_dos' => $request['trayecto_dos'],
+            ]);
+        } else {
+            $trayecto = Cotizaciones_trayectos::create([
+                'departamento_origen' => $request['departamento_origen'],
+                'ciudad_origen' => $request['ciudad_origen'],
+                'departamento_destino' => $request['departamento_destino'],
+                'ciudad_destino' => $request['ciudad_destino'],
+                'fecha_ida' => $request['fecha_ida'],
+                'fecha_regreso' => $request['fecha_regreso'],
+                'tipo_servicio' => $request['tipo_servicio'],
+                'tipo_vehiculo' => $request['tipo_vehiculo'],
+                'recorrido' => $request['recorrido_trayecto_cotizacion'],
+                'descripcion' => $request['descripcion'],
+                'observaciones' => $request['observaciones'],
+                'combustible' => $request['combustible_trayecto_cotizacion'],
+                'conductor' => $request['conductor_trayecto_cotizacion'],
+                'peajes' => $request['peajes_trayecto_cotizacion'],
+                'cotizacion_por' => $request['cotizacion_por_trayecto_cotizacion'],
+                'valor_unitario' => $request['valor_unitario'],
+                'cantidad' => $request['cantidad'],
+                'total' => $request['total'],
+                'trayecto_dos' => $request['trayecto_dos'],
+                'cotizacion_id' => $request['cotizacion_id']
+            ]);
+        }
+
+        if ($trayecto->save()) {
+            return ['cotizacion_id' => $trayecto->cotizacion_id, 'trayecto' => $trayecto->id];
+        } else {
+            return ['error' => true];
+        }
+
+    }
+
     public function print_contrato(Request $request) {
         $trayecto = Trayectos_contrato::with('contratos')->find($request['id']);
 
@@ -540,7 +665,7 @@ class TercerosController extends Controller
     }
 
     public function editar_cotizacion(Request $request) {
-        return Cotizacion::find($request['id']);
+        return Cotizaciones_trayectos::where('cotizacion_id', $request->id)->join('cotizaciones', 'cotizaciones.id', '=', 'cotizaciones_trayectos.cotizacion_id')->get();
     }
 
     public function editar_contrato(Request $request) {
@@ -570,13 +695,28 @@ class TercerosController extends Controller
         return Trayectos_contrato::where('contratos_id', $request['id'])->get();
     }
 
+    public function ver_trayectos_cotizacion(Request $request) {
+        return Cotizaciones_trayectos::where('cotizacion_id', $request['id'])->get();
+    }
+
     public function eliminar_trayecto(Request $request) {
         Trayectos_contrato::find($request['id'])->delete();
 
         return $request['contrato'];
     }
 
+    public function eliminar_trayecto_cotizacion(Request $request) {
+        Cotizaciones_trayectos::find($request['id'])->delete();
+
+        return $request['cotizacion'];
+    }
+
     public function editar_trayecto(Request $request) {
         return Trayectos_contrato::with('contratos')->find($request['id']);
     }
+
+    public function editar_trayecto_cotizacion(Request $request) {
+        return Cotizaciones_trayectos::find($request['id']);
+    }
+
 }

@@ -141,11 +141,31 @@ TAREAS REALIZADAS
 ==================================================================================
 ===================================== 23/01/2021 =================================
 ==================================================================================
--Quitar recorrido dos y descripcion del trayecto (deja los campus nullable)
--Poder editar la descripcion de la cotizacion y agregar campo de valor total cuando hay mas de un trayecto en la cotizacion
--En consecutivo cambiar y poner numero y en la tabla traer ese uno (documentos vehiculos) debe ser de tipo string
--agregar firma del propietario en el contrato
--Agregar tipo de vehiculo (especial o carga)
--Agrear campo de numero de carpeta fisica (string)
--Agregar campo firma en persona (campo file) para ponerlo en el contrato (esto para propietarios)
+-Quitar recorrido dos y descripcion del trayecto (deja los campus nullable) =========
+-Poder editar la descripcion de la cotizacion y agregar campo de valor total cuando hay mas de un trayecto en la cotizacion ===========
+-En consecutivo cambiar y poner numero y en la tabla traer ese uno (documentos vehiculos) debe ser de tipo string ==============
+-agregar firma del propietario en el contrato (REVISAR CON NATHALIE)
+-Agregar tipo de vehiculo (especial o carga) ====================
+-Agrear campo de numero de carpeta fisica (string) ==============
+-Agregar campo firma en persona (campo file) para ponerlo en el contrato ===============
 -Que en el modulo de calendario me muestre los documentos vencidos y por vencer
+
+
+Trabajando en:
+// TERCEROS/COTIZACIONES
+-Quitar recorrido dos y descripcion del trayecto (deja los campus nullable) TRAYECTOS
+-Poder editar la descripcion de la cotizacion y agregar campo de valor total cuando hay mas de un trayecto en la cotizacion
+-agregar firma del propietario en el contrato (REVISAR CON NATHALIE)
+
+
+// VEHICULOS/DOCUMENTOS
+-En consecutivo cambiar y poner numero y en la tabla traer ese uno (documentos vehiculos) debe ser de tipo string
+-Agregar tipo de vehiculo (especial o carga)
+-Agrear campo de numero de carpeta fisica (string) N. Carpeta Fisica
+
+// PERSONAL
+-Agregar campo firma en persona (campo file NULL) para ponerlo en el contrato
+
+
+// GENERAL
+-Crear archivo de excel con 3 hojas (1: listado de documentos vehiculos, 2: bloques de procesos, 3: campos requeridos por tipo de tercero)

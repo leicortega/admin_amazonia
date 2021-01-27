@@ -33,10 +33,10 @@ class CreateCotizacionesTrayectosTable extends Migration
             $table->bigInteger('valor_unitario');
             $table->integer('cantidad');
             $table->bigInteger('total');
-            $table->longText('trayecto_dos');
+            $table->longText('trayecto_dos')->nullable();
             $table->enum('aceptado', [0,1])->nullable();
             $table->bigInteger('responsable_id')->nullable();
-            
+
             $table->foreignId('cotizacion_id')
             ->constrained('cotizaciones')
             ->onDelete('cascade');
@@ -56,7 +56,7 @@ class CreateCotizacionesTrayectosTable extends Migration
             $table->foreignId('conductor_tres_id')->nullable()
             ->constrained('personal')
             ->onDelete('cascade');
-            
+
             $table->timestamps();
         });
     }

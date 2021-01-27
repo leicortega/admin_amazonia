@@ -51,7 +51,6 @@ $(document).ready(function () {
     });
 
     $('#form_crear_cotizacion').submit(function () {
-
         if($('#cotizacion_creada').val() == ''){
             if ($('#fecha_ida').val() == '' ||
                 $('#fecha_regreso').val() == '' ||
@@ -104,7 +103,7 @@ $(document).ready(function () {
                 }
             });
         }
- 
+
 
         return false;
     });
@@ -219,7 +218,7 @@ $(document).ready(function () {
                 $('#btn_agg_trayecto_cotizacion').removeAttr('disabled');
             }
         });
-    
+
         return false;
     });
 
@@ -261,11 +260,11 @@ function limpiarFormulario(form, fecha, nombre, tipo_identificacion, identificac
     E-Telefono(s):  `+ telefono ?? 'N/A ';
 
     $('#cotizacion_parte_uno').val(cotizacion_uno + `
-    
+
     COTIZACIÓN No. ${ cotiza }
-    
+
     Agradecemos su interés y preferencia, de acuerdo a su solicitud me permito remitir propuesta comercial, tenga en cuenta que los precios aquí expuestos son de uso exclusivo para el servicio al cual cotizo.
-    
+
     Descripción del servicio:`);
 
     $('#numero_cotizacion').val(cotiza);
@@ -389,7 +388,7 @@ function editar_documento(id, btn) {
 
             $('#agg_documento_modal').modal('show');
             $('#agg_documento_title').text('Editar ' + data.tipo);
-            
+
             $(btn).html('<i class="fa fa-edit"></i>');
             $(btn).removeAttr('disabled');
         }
@@ -545,7 +544,7 @@ function ver_trayectos_cotizacion(id, btn) {
                     <td>${ trayecto.tipo_vehiculo }</td>
                     <td class="text-center">
                         <button type="button" onclick="editar_trayecto_cotizacion(${ trayecto.id }, this)" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_trayecto(${ trayecto.id }, this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <button type="button" onclick="ver_trayecto_cotizacion(${ id }, this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <button type="button" onclick="eliminar_trayecto_cotizacion(${ trayecto.id }, ${ id }, this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
@@ -585,7 +584,7 @@ function agregar_trayecto(id) {
 }
 
 function agregar_trayecto_cotizacion(id) {
-    $('#form_agregar_trayecto_cotizacion')[0].reset();
+    // $('#form_agregar_trayecto_cotizacion')[0].reset();
     $('#modal_agregar_trayecto_cotizacion').modal('show');
     $('#cotizacion_id_trayecto').val(id);
     $('#trayecto_creado_cotizacion').val(null);
@@ -781,18 +780,18 @@ function generar_contrato(id) {
                 content += `<div class="form-group row">
 
                 <h5 class="col-12">VEHICULO ${ a }</h5>
-            
+
                 <div class="col-sm-12 d-flex">
-            
+
                     <div class="col-sm-6">
                         <label class="col-sm-12 col-form-label">Vehiculo</label>
                         <select name="vehiculo_id[]" id="vehiculo_id" class="form-control" required>
                             <option value="">Seleccione vehiculo</option>`
-                            
+
                             data.vehiculos.forEach(vehiculo => {
                                 content += `<option value="${vehiculo.id}"> ${ vehiculo.placa } -  ${ vehiculo.numero_interno }</option>`;
                             });
-                            
+
                        content +=  `</select>
                     </div>
                     <div class="col-sm-6">
@@ -803,12 +802,12 @@ function generar_contrato(id) {
                                 data.personal.forEach(persona => {
                                     content += `<option value="${persona.id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
                                 });
-                    
+
                     content += ` </select>
                     </div>
-            
+
                 </div>
-            
+
                 <div class="col-sm-12 d-flex">
                     <div class="col-sm-6">
                         <label class="col-sm-12 col-form-label">Conductor dos</label>
@@ -834,11 +833,11 @@ function generar_contrato(id) {
             });
 
             $('#vehiculos_generar_contratos').html(content);
-            
+
         }
     })
 
-  
+
 }
 
 
@@ -854,7 +853,12 @@ function ver_contrato(id, btn) {
 
 function ver_trayecto(id, btn) {
     cargar_btn_link_var(btn, 'fa-eye');
-    window.open('/terceros/print_contrato/' + id, '_blank');
+    window.open('/terceros/print_cotizacion/' + id, '_blank');
+}
+
+function ver_trayecto_cotizacion(id, btn) {
+    cargar_btn_link_var(btn, 'fa-eye');
+    window.open('/terceros/print_cotizacion/' + id, '_blank');
 }
 
 function eliminar_cotizacion(id, title, btn) {
@@ -933,41 +937,41 @@ function editar_cotizacion_principal(id, btn){
                 $('#cotizacion_parte_uno').val(cotizacion.cotizacion_parte_uno);
                 $('#cotizacion_parte_dos').val(cotizacion.cotizacion_parte_dos);
                 fecha=`<tr><td>${ cotizacion.fecha_ida }</td><td>${ cotizacion.fecha_regreso }</td>`;
-        
+
             let descripcion = '<td>Recorrido 1: ' + cotizacion.ciudad_origen + ' ' + cotizacion.descripcion + ' ' + cotizacion.ciudad_destino;
-        
+
             cotizacion.recorrido == 'Ida y vuelta' ? descripcion += 'con retorno a '+ cotizacion.ciudad_origen +' por el mismo corredor vial,' : '';
-        
+
             if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'Si') {
                 descripcion += ' incluye conductor, combustible y peajes,';
             }
-        
+
             if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'No') {
                 descripcion += ' incluye conductor y combustible,';
             }
-        
+
             if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'No' && cotizacion.peajes == 'Si') {
                 descripcion += ' incluye conductor y peajes,';
             }
-        
+
             if (cotizacion.conductor == 'No' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'Si') {
                 descripcion += ' incluye combustible y peajes,';
             }
-        
+
             if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'No' && cotizacion.peajes == 'No') {
                 descripcion += ' incluye conductor,';
             }
-        
+
             if (cotizacion.conductor == 'No' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'No') {
                 descripcion += ' incluye combustible,';
             }
-        
+
             if (cotizacion.conductor == 'No' && cotizacion.combustible == 'No' && cotizacion.peajes == 'Si') {
                 descripcion += ' incluye peajes,';
             }
-        
+
             descripcion += 'el tipo de servicio es ' + cotizacion.tipo_servicio + ' el cual se prestara en un(a) ' + cotizacion.tipo_vehiculo + ' y el cobro se calcula por ' + cotizacion.cotizacion_por + '. ' + cotizacion.observaciones + '<br><br>';
-        
+
             descripcion += (cotizacion.trayecto_dos ? 'Recorrido 2: ' +  cotizacion.trayecto_dos : 'Recorrido 2: N/A');
 
             descripcion += '</td>'
@@ -980,10 +984,10 @@ function editar_cotizacion_principal(id, btn){
 
 
             $('#cotizacion_creada').val(cotizacion.id);
-        
+
             $('#form_part_one').addClass('d-none');
             $('#form_part_two').removeClass('d-none');
-        
+
             $('#btn_next_cotizacion').addClass('d-none');
             $('#btn_submit_cotizacion').removeClass('d-none');
             });

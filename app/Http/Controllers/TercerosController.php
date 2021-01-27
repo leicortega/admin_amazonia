@@ -374,48 +374,49 @@ class TercerosController extends Controller
             'cotizacion_id' => $request['cotizacion_id_contrato'],
         ]);
 
-            $a=0;
-            $tercero = Tercero::find($cotizacion[0]['tercero_id']);
-            foreach ($request['id_cotizacion_trayecto'] as $cotizacionn) {
-                Cotizaciones_trayectos::find($cotizacionn)->update([
-                    'vehiculo_id' => $request['vehiculo_id'][$a],
-                    'conductor_uno_id' => $request['conductor_uno_id'][$a],
-                    'conductor_dos_id' => $request['conductor_dos_id'][$a],
-                    'conductor_tres_id' => $request['conductor_tres_id'][$a],
-                ]);
-                $cot=Cotizaciones_trayectos::find($cotizacionn);
-                $trayecto = Trayectos_contrato::create([
-                    'fecha' => $cotizacion[0]['fecha'],
-                    'nombre' => $tercero['nombre'],
-                    'correo' => $tercero['correo'],
-                    'telefono' => $tercero['telefono'],
-                    'departamento_origen' => $cot['departamento_origen'],
-                    'ciudad_origen' => $cot['ciudad_origen'],
-                    'departamento_destino' => $cot['departamento_destino'],
-                    'ciudad_destino' => $cot['ciudad_destino'],
-                    'fecha_ida' => $cot['fecha_ida'],
-                    'fecha_regreso' => $cot['fecha_regreso'],
-                    'tipo_servicio' => $cot['tipo_servicio'],
-                    'tipo_vehiculo' => $cot['tipo_vehiculo'],
-                    'recorrido' => $cot['recorrido'],
-                    'descripcion' => $cot['descripcion'],
-                    'observaciones' => $cot['observaciones'],
-                    'combustible' => $cot['combustible'],
-                    'conductor' => $cot['conductor'],
-                    'peajes' => $cot['peajes'],
-                    'cotizacion_por' => $cot['cotizacion_por'],
-                    'valor_unitario' => $cot['valor_unitario'],
-                    'cantidad' => $cot['cantidad'],
-                    'total' => $cot['total'],
-                    'trayecto_dos' => $cot['trayecto_dos'],
-                    'vehiculo_id' => $cot['vehiculo_id'],
-                    'conductor_uno_id' => $cot['conductor_uno_id'],
-                    'conductor_dos_id' => $cot['conductor_dos_id'],
-                    'conductor_tres_id' => $cot['conductor_tres_id'],
-                    'contratos_id' => $contrato->id
-                ]);
-                $a++;
-            }
+        $a=0;
+        $tercero = Tercero::find($cotizacion[0]['tercero_id']);
+        foreach ($request['id_cotizacion_trayecto'] as $cotizacionn) {
+            Cotizaciones_trayectos::find($cotizacionn)->update([
+                'vehiculo_id' => $request['vehiculo_id'][$a],
+                'conductor_uno_id' => $request['conductor_uno_id'][$a],
+                'conductor_dos_id' => $request['conductor_dos_id'][$a],
+                'conductor_tres_id' => $request['conductor_tres_id'][$a],
+            ]);
+
+            $cot = Cotizaciones_trayectos::find($cotizacionn);
+            $trayecto = Trayectos_contrato::create([
+                'fecha' => $cotizacion[0]['fecha'],
+                'nombre' => $tercero['nombre'],
+                'correo' => $tercero['correo'],
+                'telefono' => $tercero['telefono'],
+                'departamento_origen' => $cot['departamento_origen'],
+                'ciudad_origen' => $cot['ciudad_origen'],
+                'departamento_destino' => $cot['departamento_destino'],
+                'ciudad_destino' => $cot['ciudad_destino'],
+                'fecha_ida' => $cot['fecha_ida'],
+                'fecha_regreso' => $cot['fecha_regreso'],
+                'tipo_servicio' => $cot['tipo_servicio'],
+                'tipo_vehiculo' => $cot['tipo_vehiculo'],
+                'recorrido' => $cot['recorrido'],
+                'descripcion' => $cot['descripcion'],
+                'observaciones' => $cot['observaciones'],
+                'combustible' => $cot['combustible'],
+                'conductor' => $cot['conductor'],
+                'peajes' => $cot['peajes'],
+                'cotizacion_por' => $cot['cotizacion_por'],
+                'valor_unitario' => $cot['valor_unitario'],
+                'cantidad' => $cot['cantidad'],
+                'total' => $cot['total'],
+                'trayecto_dos' => $cot['trayecto_dos'],
+                'vehiculo_id' => $cot['vehiculo_id'],
+                'conductor_uno_id' => $cot['conductor_uno_id'],
+                'conductor_dos_id' => $cot['conductor_dos_id'],
+                'conductor_tres_id' => $cot['conductor_tres_id'],
+                'contratos_id' => $contrato->id
+            ]);
+            $a++;
+        }
 
 
         if ($contrato->save() && $trayecto->save()) {
@@ -430,7 +431,7 @@ class TercerosController extends Controller
         $personal = Cargos_personal::with('personal')->with('cargos')->whereHas('cargos', function($query) {
             $query->where('cargos.nombre', 'Conductor');
              })->get();
-        
+
              $cotizaciones = Cotizaciones_trayectos::where('cotizacion_id', $request->id)->get();
 
         return ['vehiculos' => Vehiculo::all(), 'personal' => $personal, 'cotizaciones' => $cotizaciones];

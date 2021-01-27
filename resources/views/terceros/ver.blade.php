@@ -728,7 +728,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/terceros/generar_contrato" id="form_ger_contrato" method="POST">
+                <form action="/terceros/generar_contrato" id="form_generar_contrato" method="POST">
                     @csrf
 
                     <div class="container">

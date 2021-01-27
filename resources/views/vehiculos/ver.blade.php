@@ -190,9 +190,9 @@
                                 {{-- TAB DOCUMENTOS LEGALES --}}
                                 @foreach ($categorias as $categoria)
                                 @php
-                                   $id= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->id;
-                                   $vigencia= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->vigencia;
-                                   $name= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()->name;
+                                   $id= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()['id'];
+                                   $vigencia= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()['vigencia'];
+                                   $name= App\Models\Admin_documentos_vehiculo::where("categoria_id", $categoria->id)->first()['name'];
                                    if($vigencia == null || $vigencia == ''){
                                        $vigencia=1;
                                    }

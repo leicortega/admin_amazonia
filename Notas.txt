@@ -126,8 +126,6 @@ Trabajando en:
 -Exportar documentos de vehiculo (seleccionar que documentos se quieren exportar) ============== YA
 -Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso) ===== CORRECCION
 
-
-
 TAREAS REALIZADAS
 -Dejar fechas con formato dd/mm/yyyy =============== YA
 -Cambiar mes a español en el contrato

@@ -88,6 +88,7 @@ function showPersonal(id) {
             $('#tipo_vinculacion_update').val(data.tipo_vinculacion)
             $('#correo_update').val(data.correo)
             $('#telefonos_update').val(data.telefonos)
+            $('#banner_captura_update').val(data.firma.replace(/^.*[\\\/]/, ''));
 
             $('#personal_id').val(data.id)
 
@@ -382,6 +383,23 @@ function editar_documento(id, id_table) {
         }
     });
 }
+
+$(document).on('change','.btn-file :file',function(){
+  var input = $(this);
+  var numFiles = input.get(0).files ? input.get(0).files.length : 1;
+  var label = input.val().replace(/\\/g,'/').replace(/.*\//,'');
+  if(label == ""){
+      label='Firma';
+  }
+  input.trigger('fileselect',[numFiles,label]);
+});
+$(document).ready(function(){
+  $('.btn-file :file').on('fileselect',function(event,numFiles,label){
+    var input = $(this).parents('.input-group').find(':text');
+    var log = numFiles > 1 ? numFiles + ' files selected' : label;
+    if(input.length){ input.val(log); }else{ if (log) alert(log); }
+  });
+});
 
 function ver_documento(adjunto, tipo) {
     $('#modal_ver_documento_title').text(tipo)

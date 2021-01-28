@@ -66,14 +66,19 @@
             <td style="color: #fff; border: 1px solid #000;font-weight: bold;">Cant.</td>
             <td style="color: #fff; border: 1px solid #000;font-weight: bold;">Valor total</td>
         </tr>
-
+        @php
+            $cot=0;
+            $a=0;
+        @endphp
         @foreach ($cotiza as $cotizaciones)
-        
+        @php
+            $a++;
+        @endphp
         <tr>
             <td>{{ $cotizaciones['fecha_ida'] }}</td>
             <td>{{ $cotizaciones['fecha_regreso'] }}</td>
             <td style="text-align: justify; padding:5px;">
-                Recorrido 1: {{ $cotizaciones['ciudad_origen'] }} {{ $cotizaciones['descripcion'] }} {{ $cotizaciones['ciudad_destino'] }}
+                Recorrido 1: {{ $cotizaciones['ciudad_origen'] }} - {{ $cotizaciones['ciudad_destino'] }}
                 @if ($cotizacion['recorrido'] == "Ida y vuelta")
                     con retorno a {{ $cotizaciones['ciudad_origen'] }} por el mismo corredor vial,
                 @endif
@@ -103,16 +108,27 @@
 
                 el tipo de servicio es {{ $cotizaciones['tipo_servicio'] }} el cual se prestara en un(a) {{ $cotizaciones['tipo_vehiculo'] }} y el cobro se calcula por {{ $cotizaciones['cotizacion_por'] }}. {{ $cotizaciones['observaciones'] }}
 
-                <br><br>
-
-                Recorrido 2: @if ($cotizaciones['trayecto_dos']) {{$cotizaciones['trayecto_dos']}} @else N/A @endif
+                <br>
 
             </td>
             <td>${{ number_format($cotizaciones['valor_unitario']) }}</td>
             <td>{{ $cotizaciones['cantidad'] }}</td>
             <td>${{ number_format($cotizaciones['total']) }}</td>
+            @php
+                $cot+=$cotizaciones['total'];
+            @endphp
         </tr>
         @endforeach
+
+            @if ($a>1)
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><b>Valor Total</b></td>
+                    <td>{{$cot}}</td>
+            @endif
+
 
     </table>
 

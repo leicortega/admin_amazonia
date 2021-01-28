@@ -79,9 +79,9 @@
                                             <td class="table-bg-dark"><b>Licencia de Transito</b></td>
                                             <td>{{ $vehiculo->licencia_transito }}</td>
                                             <td class="table-bg-dark"><b>Tipo Vehiculo</b></td>
-                                            <td>{{ \App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->nombre }}</td>
-                                            <td class="table-bg-dark"><b>No Pasajeros</b></td>
-                                            <td>{{ $vehiculo->capacidad }}</td>
+                                            <td>{{$vehiculo->tipo_vehiculo }}</td>
+                                            <td class="table-bg-dark"><b>Categoria</b></td>
+                                            <td>{{ \App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->nombre ?? 'N/A'}}</td>
                                         </tr>
                                         <tr>
                                             <td class="table-bg-dark"><b>Propietario</b></td>
@@ -106,6 +106,12 @@
                                             <td>{{ \App\Models\Sistema\Linea::find($vehiculo->linea_id)->nombre }}</td>
                                             <td class="table-bg-dark"><b>Carroceria</b></td>
                                             <td>{{ \App\Models\Sistema\Tipo_Carroceria::find($vehiculo->tipo_carroceria_id)->nombre }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-bg-dark"><b>No Pasajeros</b></td>
+                                            <td >{{ $vehiculo->capacidad }}</td>
+                                            <td class="table-bg-dark"><b>Nº de carpeta física</b></td>
+                                            <td>{{ $vehiculo->num_carpeta_fisica }}</td>
                                         </tr>
                                         @if ($vehiculo->estado == 'Inactivo')
                                             <tr>
@@ -1009,24 +1015,35 @@
                     <div class="container p-3">
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="{{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'col-sm-3' : 'col-sm-4' }}" id="cambiar_sm-1">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="placa" name="placa" value="{{ $vehiculo->placa }}" required="">
                                     <label for="placa">Placa</label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="{{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'col-sm-3' : 'col-sm-4' }}" id="cambiar_sm-2">
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id" required>
+                                    <select onchange="editar_tipo_vehiculo(this.value)" name="tipo_vehiculo" class="form-control" id="tipo_vehiculo" required>
+                                        <option value=""></option>
+                                        <option value="Especial" {{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'selected' : '' }}>Especial</option>
+                                        <option value="Carga" {{ ($vehiculo->tipo_vehiculo == 'Carga') ? 'selected' : '' }}>Carga</option>
+                                    </select>
+                                    <label for="tipo_vehiculo_id">Tipo Vehiculo</label>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3 {{ ($vehiculo->tipo_vehiculo != 'Especial') ? 'd-none' : '' }}">
+                                <div class="form-group form-group-custom mb-4">
+                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id">
                                         <option value=""></option>
                                         @foreach (\App\Models\Sistema\Tipo_Vehiculo::all() as $tipo_vehiculo)
                                             <option value="{{ $tipo_vehiculo->id }}" {{ ($vehiculo->tipo_vehiculo_id == $tipo_vehiculo->id) ? 'selected' : '' }}>{{ $tipo_vehiculo->nombre }}</option>
                                         @endforeach
                                     </select>
-                                    <label for="tipo_vehiculo_id">Tipo Vehiculo</label>
+                                    <label for="tipo_vehiculo_id">Categoria</label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="{{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'col-sm-3' : 'col-sm-4' }}" id="cambiar_sm-3">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="number" class="form-control" value="{{ $vehiculo->licencia_transito }}" id="licencia_transito" name="licencia_transito" required="">
                                     <label for="licencia_transito">Licencia de Transito</label>
@@ -1126,7 +1143,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group form-group-custom mb-4">
                                     <div class="form-group form-group-custom mb-4">
                                         <input type="text" class="form-control" value="{{ $vehiculo->color }}" id="color" name="color" required="">
@@ -1134,7 +1151,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="linea_id" class="form-control" id="linea_id" required>
                                         <option value=""></option>
@@ -1145,7 +1162,7 @@
                                     <label for="linea_id">Linea</label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="tipo_carroceria_id" class="form-control" id="tipo_carroceria_id" required>
                                         <option value=""></option>
@@ -1156,7 +1173,19 @@
                                     <label for="tipo_carroceria_id">Tipo de carroceria</label>
                                 </div>
                             </div>
-                            <div class="col-sm-3">
+
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div class="form-group form-group-custom mb-4">
+                                    <div class="form-group form-group-custom mb-4">
+                                        <input type="text" class="form-control" id="num_carpeta_fisica" name="num_carpeta_fisica" required value="{{$vehiculo->num_carpeta_fisica}}">
+                                        <label for="num_carpeta_fisica">Nº de carpeta fisica</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="estado" class="form-control" id="estado" required onchange="estado_nuevo(this)">
                                         <option value=""></option>
@@ -1171,7 +1200,7 @@
                         <div class="row d-none" id="estado_inactivo">
                             <div class="col-sm-3 mt-4">
                                 <div class="form-group form-group-custom mb-4 mt-1">
-                                    <input class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_estado" id="fecha_estado" required/>
+                                    <input class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" type="text" name="fecha_estado" id="fecha_estado"/>
                                     <label for="fecha">Fecha</label>
                                 </div>
                             </div>
@@ -1179,7 +1208,7 @@
                             <div class="col-sm-9">
                                 <div class="form-group mb-4">
                                     <label for="descripcion">Observaciones </label>
-                                    <textarea type="text" class="form-control" id="observacion_estado" name="observacion_estado" required rows="5"></textarea>
+                                    <textarea type="text" class="form-control" id="observacion_estado" name="observacion_estado" rows="5"></textarea>
                                 </div>
                             </div>
                         </div>

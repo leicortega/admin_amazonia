@@ -24,7 +24,8 @@ class CreateCotizacionesTrayectosTable extends Migration
             $table->string('tipo_servicio');
             $table->string('tipo_vehiculo');
             $table->enum('recorrido', ['Solo ida', 'Ida y vuelta']);
-            $table->longText('descripcion');
+            $table->longText('descripcion')->nullable();
+            $table->longText('descripcion_table')->nullable();
             $table->longText('observaciones');
             $table->enum('combustible', ['Si', 'No']);
             $table->enum('conductor', ['Si', 'No']);

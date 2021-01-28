@@ -60,7 +60,6 @@ $(document).ready(function () {
                 $('#ciudad_origen').val() == '' ||
                 $('#departamento_destino').val() == '' ||
                 $('#ciudad_destino').val() == '' ||
-                $('#descripcion').val() == '' ||
                 $('#cotizacion_por').val() == '' ||
                 $('#valor_unitario').val() == '' ||
                 $('#cantidad').val() == '') {
@@ -93,6 +92,7 @@ $(document).ready(function () {
                 type: 'POST',
                 data: $('#form_crear_cotizacion').serialize(),
                 success: function (data) {
+                    console.log(data);
                     $('#btn_submit_cotizacion').html('Enviar');
                     $('#btn_submit_cotizacion').removeAttr('disabled');
                     window.open('/terceros/print_cotizacion/'+data.id, '_blank');
@@ -148,10 +148,10 @@ $(document).ready(function () {
             type: 'POST',
             data: $('#form_generar_contrato').serialize(),
             success: function (data) {
-                console.log(data);
                 $('#modal-crear-contrato').modal('hide');
                 $('#form_generar_contrato')[0].reset();
                 cargar_contratos(data.tercero);
+                $('#collapseContratos').collapse('show');
                 window.open('/terceros/print_contrato/'+data.trayecto, '_blank');
                 $('#btn_generar_contrato').html('Enviar');
                 $('#btn_generar_contrato').removeAttr('disabled');
@@ -242,32 +242,32 @@ function limpiarFormulario(form, fecha, nombre, tipo_identificacion, identificac
     cotizacion_uno = `Neiva, ${ fecha }
 
 
-    Señores:
-    ${ nombre }`;
+Señores:
+${ nombre }`;
 
 
 
-    cotizacion_uno += `
-    `+ (tipo_identificacion == 'Cedula de Ciudadania' ? 'CC. ' + identificacion : 'NIT. ' + identificacion) ;
+cotizacion_uno += `
+`+ (tipo_identificacion == 'Cedula de Ciudadania' ? 'CC. ' + identificacion : 'NIT. ' + identificacion) ;
 
-    cotizacion_uno += `
-    Dirección:  `+ direccion ?? 'N/A ';
+cotizacion_uno += `
+Dirección:  `+ direccion ?? 'N/A ';
 
-    cotizacion_uno += `
-    E-mail:  `+ correo ?? 'N/A ';
+cotizacion_uno += `
+E-mail:  `+ correo ?? 'N/A ';
 
-    cotizacion_uno += `
-    E-Telefono(s):  `+ telefono ?? 'N/A ';
+cotizacion_uno += `
+E-Telefono(s):  `+ telefono ?? 'N/A ';
 
-    $('#cotizacion_parte_uno').val(cotizacion_uno + `
+$('#cotizacion_parte_uno').val(cotizacion_uno + `
 
-    COTIZACIÓN No. ${ cotiza }
+COTIZACIÓN No. ${ cotiza }
 
-    Agradecemos su interés y preferencia, de acuerdo a su solicitud me permito remitir propuesta comercial, tenga en cuenta que los precios aquí expuestos son de uso exclusivo para el servicio al cual cotizo.
+Agradecemos su interés y preferencia, de acuerdo a su solicitud me permito remitir propuesta comercial, tenga en cuenta que los precios aquí expuestos son de uso exclusivo para el servicio al cual cotizo.
 
-    Descripción del servicio:`);
+Descripción del servicio:`);
 
-    $('#numero_cotizacion').val(cotiza);
+$('#numero_cotizacion').val(cotiza);
 
 $('#cotizacion_parte_dos').val(`El servicio se presta según lo pactado, si es CON DISPONIBILIDAD (para hacer varios recorridos) o SIN DISPONIBILIDAD (recoger y dejar en un punto acordado). Inf. En el formato de cotización se especifica. En caso tal que cambie lo pactado, tiene un valor diferente.
 
@@ -704,9 +704,9 @@ function submit_cotizacion() {
     $('#fecha_ida_preview').html($('#fecha_ida').val());
     $('#fecha_regreso_preview').html($('#fecha_regreso').val());
 
-    let descripcion = 'Recorrido 1: ' + $('#ciudad_origen').val() + ' ' + $('#descripcion').val() + ' ' + $('#ciudad_destino').val();
+    let descripcion = 'Recorrido 1: ' + $('#ciudad_origen').val() + ' - ' + $('#ciudad_destino').val();
 
-    $('input:radio[name=recorrido]:checked').val() == 'Ida y vuelta' ? descripcion += 'con retorno a '+ $('#ciudad_origen').val() +' por el mismo corredor vial,' : '';
+    $('input:radio[name=recorrido]:checked').val() == 'Ida y vuelta' ? descripcion += ' con retorno a '+ $('#ciudad_origen').val() +' por el mismo corredor vial,' : '';
 
     if ($('input:radio[name=conductor]:checked').val() == 'Si' && $('input:radio[name=combustible]:checked').val() == 'Si' && $('input:radio[name=peajes]:checked').val() == 'Si') {
         descripcion += ' incluye conductor, combustible y peajes,';
@@ -736,11 +736,10 @@ function submit_cotizacion() {
         descripcion += ' incluye peajes,';
     }
 
-    descripcion += 'el tipo de servicio es ' + $('#tipo_servicio').val() + ' el cual se prestara en un(a) ' + $('#tipo_vehiculo').val() + ' y el cobro se calcula por ' + $('input:radio[name=cotizacion_por]:checked').val() + '. ' + $('#observaciones').val() + '<br><br>';
+    descripcion += 'el tipo de servicio es ' + $('#tipo_servicio').val() + ' el cual se prestara en un(a) ' + $('#tipo_vehiculo').val() + ' y el cobro se calcula por ' + $('input:radio[name=cotizacion_por]:checked').val() + '. ' + $('#observaciones').val();
 
-    descripcion += ($('#trayecto_dos').val()) ? 'Recorrido 2: ' + $('#trayecto_dos').val() : 'Recorrido 2: N/A';
 
-    $('#descripcion_preview').html(descripcion);
+    $('#descripcion_preview').html('<textarea name="descripcion_table" id="descripcion_table" rows="5" class="form-control" required>'+descripcion+'</textarea>');
 
     $('#valor_unitario_preview').html('$' + $('#valor_unitario').val());
     $('#cantidad_preview').html($('#cantidad').val());
@@ -800,7 +799,7 @@ function generar_contrato(id) {
                             <option value="">Seleccione vehiculo</option>`;
 
                                 data.personal.forEach(persona => {
-                                    content += `<option value="${persona.id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
+                                    content += `<option value="${persona.personal_id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
                                 });
 
                     content += ` </select>
@@ -814,7 +813,7 @@ function generar_contrato(id) {
                         <select name="conductor_dos_id[]" id="conductor_dos_id" class="form-control">
                             <option value="">Seleccione vehiculo</option>`;
                             data.personal.forEach(persona => {
-                                content += `<option value="${persona.id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
+                                content += `<option value="${persona.personal_id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
                             });
                        content += ` </select>
                     </div>
@@ -823,13 +822,15 @@ function generar_contrato(id) {
                         <select name="conductor_tres_id[]" id="conductor_tres_id" class="form-control">
                             <option value="">Seleccione vehiculo</option>`;
                             data.personal.forEach(persona => {
-                                content += `<option value="${persona.id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
+                                content += `<option value="${persona.personal_id}"> ${ persona.personal.nombres }  ${ persona.personal.primer_apellido }</option>`;
                             });
                         content += `</select>
                         <input type='hidden' name="id_cotizacion_trayecto[]" value="${ cotizacion.id }">
                     </div>
                 </div>
             </div>`;
+
+            console.log(data.personal);
             });
 
             $('#vehiculos_generar_contratos').html(content);
@@ -901,7 +902,6 @@ function editar_cotizacion(id, btn) {
             $('#departamento_destino option[value="'+ data.departamento_destino + '"]').attr("selected", true);
             $('#ciudad_origen option[value="'+ data.ciudad_origen + '"]').attr("selected", true);
             $('#ciudad_destino option[value="'+ data.ciudad_destino + '"]').attr("selected", true);
-            $('#descripcion').val(data.descripcion);
             $('#observaciones').val(data.observaciones);
             $('input[name=combustible][value="'+data.combustible+'"]').attr('checked', true);
             $('input[name=conductor][value="'+data.conductor+'"]').attr('checked', true);
@@ -911,7 +911,6 @@ function editar_cotizacion(id, btn) {
             $('#valor_unitario').val(data.valor_unitario);
             $('#cantidad').val(data.cantidad);
             $('#total').val(data.total);
-            $('#trayecto_dos').val(data.trayecto_dos);
             $('#cotizacion_parte_uno').val(data.cotizacion_parte_uno);
             $('#cotizacion_parte_dos').val(data.cotizacion_parte_dos);
 
@@ -932,55 +931,23 @@ function editar_cotizacion_principal(id, btn){
         type: 'POST',
         data: { id:id },
         success: function (data) {
+            ind=0;
             $('#modal_crear_cotizacion').modal('show');
             data.forEach(function (cotizacion, indice){
+                ind=indice;
                 $('#cotizacion_parte_uno').val(cotizacion.cotizacion_parte_uno);
                 $('#cotizacion_parte_dos').val(cotizacion.cotizacion_parte_dos);
                 fecha=`<tr><td>${ cotizacion.fecha_ida }</td><td>${ cotizacion.fecha_regreso }</td>`;
 
-            let descripcion = '<td>Recorrido 1: ' + cotizacion.ciudad_origen + ' ' + cotizacion.descripcion + ' ' + cotizacion.ciudad_destino;
-
-            cotizacion.recorrido == 'Ida y vuelta' ? descripcion += 'con retorno a '+ cotizacion.ciudad_origen +' por el mismo corredor vial,' : '';
-
-            if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'Si') {
-                descripcion += ' incluye conductor, combustible y peajes,';
-            }
-
-            if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'No') {
-                descripcion += ' incluye conductor y combustible,';
-            }
-
-            if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'No' && cotizacion.peajes == 'Si') {
-                descripcion += ' incluye conductor y peajes,';
-            }
-
-            if (cotizacion.conductor == 'No' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'Si') {
-                descripcion += ' incluye combustible y peajes,';
-            }
-
-            if (cotizacion.conductor == 'Si' && cotizacion.combustible == 'No' && cotizacion.peajes == 'No') {
-                descripcion += ' incluye conductor,';
-            }
-
-            if (cotizacion.conductor == 'No' && cotizacion.combustible == 'Si' && cotizacion.peajes == 'No') {
-                descripcion += ' incluye combustible,';
-            }
-
-            if (cotizacion.conductor == 'No' && cotizacion.combustible == 'No' && cotizacion.peajes == 'Si') {
-                descripcion += ' incluye peajes,';
-            }
-
-            descripcion += 'el tipo de servicio es ' + cotizacion.tipo_servicio + ' el cual se prestara en un(a) ' + cotizacion.tipo_vehiculo + ' y el cobro se calcula por ' + cotizacion.cotizacion_por + '. ' + cotizacion.observaciones + '<br><br>';
-
-            descripcion += (cotizacion.trayecto_dos ? 'Recorrido 2: ' +  cotizacion.trayecto_dos : 'Recorrido 2: N/A');
-
-            descripcion += '</td>'
+            let descripcion ='<td><textarea name="descripcion_table[]" id="descripcion_table" rows="5" class="form-control" required>' + cotizacion.descripcion_table;
+            descripcion += `</textarea></td><input type="hidden" name="coti_id[]" value="${cotizacion.coti_id}">`;
 
             if(indice>=1){
                 $('#table_cotizaciones_id').append(fecha + descripcion + `<td>${ cotizacion.valor_unitario }</td><td>${ cotizacion.cantidad }</td><td>${ cotizacion.total }</td></tr>`);
             }else{
                 $('#table_cotizaciones_id').html(fecha + descripcion + `<td>${ cotizacion.valor_unitario }</td><td>${ cotizacion.cantidad }</td><td>${ cotizacion.total }</td></tr>`);
             }
+
 
 
             $('#cotizacion_creada').val(cotizacion.id);
@@ -1139,7 +1106,6 @@ function editar_trayecto(id, btn) {
             $('#departamento_destino_trayecto option[value="'+ data.departamento_destino + '"]').attr("selected", true);
             $('#ciudad_origen_trayecto option[value="'+ data.ciudad_origen + '"]').attr("selected", true);
             $('#ciudad_destino_trayecto option[value="'+ data.ciudad_destino + '"]').attr("selected", true);
-            $('#descripcion_trayecto').val(data.descripcion);
             $('#observaciones_trayecto').val(data.observaciones);
             $('input[name=combustible_trayecto][value="'+data.combustible+'"]').attr('checked', true);
             $('input[name=conductor_trayecto][value="'+data.conductor+'"]').attr('checked', true);
@@ -1149,7 +1115,6 @@ function editar_trayecto(id, btn) {
             $('#valor_unitario_trayecto').val(data.valor_unitario);
             $('#cantidad_trayecto').val(data.cantidad);
             $('#total_trayecto').val(data.total);
-            $('#trayecto_dos_trayecto').val(data.trayecto_dos);
             $('#vehiculo_id_trayecto option[value="'+ data.vehiculo_id + '"]').attr("selected", true);
             $('#conductor_uno_id_trayecto option[value="'+ data.conductor_uno_id + '"]').attr("selected", true);
             $('#conductor_dos_id_trayecto option[value="'+ data.conductor_dos_id + '"]').attr("selected", true);
@@ -1159,6 +1124,7 @@ function editar_trayecto(id, btn) {
             $('#trayecto_creado').val(data.id);
             $(btn).html('<i class="fa fa-edit"></i>');
             $(btn).removeAttr('disabled');
+            console.log(data.conductor_uno_id);
         }
     });
 }
@@ -1183,7 +1149,6 @@ function editar_trayecto_cotizacion(id, btn) {
             $('#departamento_destino_trayecto_cotizacion option[value="'+ data.departamento_destino + '"]').attr("selected", true);
             $('#ciudad_origen_trayecto_cotizacion option[value="'+ data.ciudad_origen + '"]').attr("selected", true);
             $('#ciudad_destino_trayecto_cotizacion option[value="'+ data.ciudad_destino + '"]').attr("selected", true);
-            $('#descripcion_trayecto_cotizacion').val(data.descripcion);
             $('#observaciones_trayecto_cotizacion').val(data.observaciones);
             $('input[name=combustible_trayecto_cotizacion][value="'+data.combustible+'"]').attr('checked', true);
             $('input[name=conductor_trayecto_cotizacion][value="'+data.conductor+'"]').attr('checked', true);
@@ -1193,7 +1158,6 @@ function editar_trayecto_cotizacion(id, btn) {
             $('#valor_unitario_trayecto_cotizacion').val(data.valor_unitario);
             $('#cantidad_trayecto_cotizacion').val(data.cantidad);
             $('#total_trayecto_cotizacion').val(data.total);
-            $('#trayecto_dos_trayecto_cotizacion').val(data.trayecto_dos);
             $('#vehiculo_id_trayecto_cotizacion option[value="'+ data.vehiculo_id + '"]').attr("selected", true);
             $('#conductor_uno_id_trayecto_cotizacion option[value="'+ data.conductor_uno_id + '"]').attr("selected", true);
             $('#conductor_dos_id_trayecto_cotizacion option[value="'+ data.conductor_dos_id + '"]').attr("selected", true);

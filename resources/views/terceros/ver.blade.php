@@ -531,17 +531,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-12 d-flex">
-                                    <div class="form-group row col-sm-12">
-                                        <h5 class="col-form-label col-sm-12">Descripción del Trayecto<hr class="m-0"></h5>
-
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" type="text" name="descripcion" id="descripcion" placeholder="Describa los municipios intermedios entre el origen y el destino." ></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="form-group row">
                                 <div class="col-sm-12 d-flex">
@@ -654,17 +643,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-12 d-flex">
-                                    <div class="form-group row col-sm-12">
-                                        <h5 class="col-form-label col-sm-12">Trayecto 2<hr class="m-0"></h5>
-
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" type="number" name="trayecto_dos" id="trayecto_dos"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <input type="hidden" name="terceros_id" id="terceros_id" value="{{ $tercero[0]->id }}">
                             <input type="hidden" name="cotizacion_creada" id="cotizacion_creada" />
@@ -1025,7 +1003,7 @@
                                     <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Escriba el nombre" required="">
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Tipo Cliente</label>
+                                    <label class="col-sm-12 col-form-label">Tipo Tercero</label>
                                     <select name="tipo_tercero" id="tipo_tercero" class="form-control" required>
                                         <option value="">Seleccione tipo</option>
                                         <option value="Cliente">Cliente</option>
@@ -1239,18 +1217,6 @@
                             <div class="form-group row">
                                 <div class="col-sm-12 d-flex">
                                     <div class="form-group row col-sm-12">
-                                        <h5 class="col-form-label col-sm-12">Descripción del Trayecto<hr class="m-0"></h5>
-
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" type="text" name="descripcion" id="descripcion_trayecto" placeholder="Describa los municipios intermedios entre el origen y el destino." ></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-sm-12 d-flex">
-                                    <div class="form-group row col-sm-12">
                                         <h5 class="col-form-label col-sm-12">Observaciones del Trayecto<hr class="m-0"></h5>
 
                                         <div class="col-sm-12">
@@ -1359,17 +1325,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-12 d-flex">
-                                    <div class="form-group row col-sm-12">
-                                        <h5 class="col-form-label col-sm-12">Trayecto 2<hr class="m-0"></h5>
-
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" type="number" name="trayecto_dos" id="trayecto_dos_trayecto"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="form-group row">
 
@@ -1445,6 +1400,7 @@
 
 {{-- MODAL AGREGAR TRAYECTO COTIZACIONES --}}
 <div class="modal fade bs-example-modal-xl" id="modal_agregar_trayecto_cotizacion" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -1547,18 +1503,6 @@
                                             <select name="ciudad_destino" id="ciudad_destino_trayecto_cotizacion" class="ciudad_destino form-control" >
                                                 <option value="">Seleccione el municipio</option>
                                             </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <div class="col-sm-12 d-flex">
-                                    <div class="form-group row col-sm-12">
-                                        <h5 class="col-form-label col-sm-12">Descripción del Trayecto<hr class="m-0"></h5>
-
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" type="text" name="descripcion" id="descripcion_trayecto_cotizacion" placeholder="Describa los municipios intermedios entre el origen y el destino." ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1675,17 +1619,6 @@
                                 </div>
                             </div>
 
-                            <div class="form-group row">
-                                <div class="col-sm-12 d-flex">
-                                    <div class="form-group row col-sm-12">
-                                        <h5 class="col-form-label col-sm-12">Trayecto 2<hr class="m-0"></h5>
-
-                                        <div class="col-sm-12">
-                                            <textarea class="form-control" type="number" name="trayecto_dos" id="trayecto_dos_trayecto_cotizacion"></textarea>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <input type="hidden" name="cotizacion_id" id="cotizacion_id_trayecto" />
                             <input type="hidden" name="trayecto_creado" id="trayecto_creado_cotizacion" />

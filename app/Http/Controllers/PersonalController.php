@@ -56,8 +56,27 @@ class PersonalController extends Controller
     }
 
     public function create(Request $request) {
+                $date = Carbon::now('America/Bogota');
+        if($request->firma != null && $request->firma != ''){
 
-        if( Personal::create($request->all())->save() ) {
+            $extension_file_documento = pathinfo($request->file('firma')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $ruta_file_documento = 'docs/personal/documentos/firmas/';
+            $nombre_file_documento = 'firma_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('firma')));
+            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+            $request->firma = $nombre_completo_file_documento;
+            
+        }else{
+            $request->firma='';
+        }
+        
+        
+        $personal = Personal::create($request->all());
+
+        $personal->firma=$request->firma;
+
+        
+        if($personal->save()) {
             return redirect()->route('personal')->with(['creado' => 1]);
         }
 
@@ -106,6 +125,21 @@ class PersonalController extends Controller
     public function update(Request $request) {
         $personal = Personal::find($request['id']);
 
+        $date = Carbon::now('America/Bogota');
+
+        if($request->firma != null && $request->firma != ''){
+
+            $extension_file_documento = pathinfo($request->file('firma')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $ruta_file_documento = 'docs/personal/documentos/firmas/';
+            $nombre_file_documento = 'firma_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('firma')));
+            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+            $request->firma = $nombre_completo_file_documento;
+            Storage::disk('public')->delete($personal->firma);
+        }else{
+            $request->firma='';
+        }
+
         $personal->update([
             'tipo_identificacion' => $request['tipo_identificacion'],
             'identificacion' => $request['identificacion'],
@@ -115,6 +149,7 @@ class PersonalController extends Controller
             'fecha_ingreso' => $request['fecha_ingreso'],
             'direccion' => $request['direccion'],
             'sexo' => $request['sexo'],
+            'firma' => $request->firma,
             'estado' => $request['estado'],
             'rh' => $request['rh'],
             'tipo_vinculacion' => $request['tipo_vinculacion'],
@@ -230,13 +265,13 @@ class PersonalController extends Controller
 
     public function print_certificado(Request $request) {
         $contrato = Contratos_personal::with('personal')->find($request['id']);
-
+        
         return PDF::loadView('personal.certificado', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
     }
 
     public function print_contrato(Request $request) {
         $contrato = Contratos_personal::with('personal')->find($request['id']);
-
+        
         return PDF::loadView('personal.contrato', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
 
         dd($contrato);

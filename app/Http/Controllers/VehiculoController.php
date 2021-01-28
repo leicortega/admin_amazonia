@@ -59,11 +59,13 @@ class VehiculoController extends Controller
         $vehiculo = Vehiculo::create([
             'placa' => $request['placa'],
             'tipo_vehiculo_id' => $request['tipo_vehiculo_id'],
+            'tipo_vehiculo' => $request['tipo_vehiculo'],
             'licencia_transito' => $request['licencia_transito'],
             'marca_id' => $request['marca_id'],
             'modelo' => $request['modelo'],
             'capacidad' => $request['capacidad'],
             'numero_motor' => $request['numero_motor'],
+            'num_carpeta_fisica' => $request['num_carpeta_fisica'],
             'chasis' => $request['chasis'],
             'numero_interno' => $request['numero_interno'],
             'personal_id' => $request['personal_id'],

@@ -173,7 +173,7 @@
                                     <input class="form-control" type="text" name="nombre" id="nombre" placeholder="Escriba el nombre" required="">
                                 </div>
                                 <div class="col-sm-3">
-                                    <label class="col-sm-12 col-form-label">Tipo Cliente</label>
+                                    <label class="col-sm-12 col-form-label">Tipo Tercero</label>
                                     <select name="tipo_tercero" class="form-control" required>
                                         <option value="">Seleccione tipo</option>
                                         <option value="Cliente">Cliente</option>

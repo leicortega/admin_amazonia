@@ -127,8 +127,21 @@
                                             <td>{{ $personal->tipo_vinculacion }}</td>
                                         </tr>
                                         <tr>
-                                            <td colspan="2" class="table-bg-dark"><b>Direccion</b></td>
-                                            <td colspan="2">{{ $personal->direccion }}</td>
+                                            <td  class="table-bg-dark"><b>Direccion</b></td>
+                                            <td >{{ $personal->direccion }}</td>
+                                            <td class="table-bg-dark"><b>Firma</b></td>
+                                            <td >
+                                                @if ($personal->firma != "" && $personal->firma != "")
+                                                    <button class="btn btn-primary" data-toggle="modal" data-target="#verFirma" target="_blank">
+                                                        Ver
+                                                    </button>
+                                                    <a href="{{ asset('storage/'.$personal->firma) }}" download class="btn btn-secondary" target="_blank">
+                                                        Descargar
+                                                    </a>
+                                                @else
+                                                    N/A
+                                                @endif
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1296,6 +1309,26 @@
     </div>
 </div>
 
+
+
+
+{{-- Ver firma --}}
+<div class="modal fade bs-example-modal-xl" id="verFirma" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="agg_documento_title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <iframe src="{{route('index')}}/storage/{{$personal->firma}}" style="width:100% ;height:500px;" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
 {{-- MODAL VER DOCUMENTO --}}
 <div class="modal fade bs-example-modal-xl" id="modal_ver_documento" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -1325,7 +1358,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/personal/update" method="POST">
+                <form action="/personal/update" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="container p-3">
@@ -1422,7 +1455,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label for="tipo_vinculacion">Tipo Vinculacion</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="tipo_vinculacion" class="form-control" id="tipo_vinculacion" required>
@@ -1432,16 +1465,32 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label for="correo">Correo</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="correo" name="correo" value="{{ $personal->correo }}" required="">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label for="telefonos">Telefonos</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="telefonos" name="telefonos" value="{{ $personal->telefonos }}" required="">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-3">
+                                <label for="" class="ml-1">Firma</label>
+                                <div class="container">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                <span class="btn btn-primary btn-file">
+                                                    <i class="fas fa-cloud-upload-alt"></i> <input class="d-none" name="firma" type="file" id="banner">
+                                                </span>
+                                            </label>
+                                            <input class="form-control" id="banner_captura" readonly="readonly" name="banner_captura" type="text" value="{{basename($personal->firma)}}">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

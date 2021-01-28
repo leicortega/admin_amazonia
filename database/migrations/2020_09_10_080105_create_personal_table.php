@@ -29,6 +29,7 @@ class CreatePersonalTable extends Migration
             $table->string('tipo_vinculacion');
             $table->string('telefonos')->nullable();
             $table->string('correo')->nullable();
+            $table->string('firma')->nullable();
 
             $table->timestamps();
         });

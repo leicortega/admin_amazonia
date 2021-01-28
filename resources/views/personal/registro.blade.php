@@ -146,7 +146,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/personal/create" method="POST">
+                <form action="/personal/create" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="container p-3">
@@ -243,7 +243,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group form-group-custom mb-4">
                                     <div class="form-group form-group-custom mb-4">
                                         <select name="tipo_vinculacion" class="form-control" id="tipo_vinculacion" required>
@@ -255,20 +255,33 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="correo" name="correo" required="">
                                     <label for="correo">Correo</label>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="telefonos" name="telefonos" required="">
                                     <label for="telefonos">Telefonos</label>
                                 </div>
                             </div>
+                            <div class="col-sm-3">
+                                <div class="container">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                <span class="btn btn-primary btn-file">
+                                                    <i class="fas fa-cloud-upload-alt"></i> <input class="d-none" name="firma" type="file" id="banner">
+                                                </span>
+                                            </label>
+                                            <input class="form-control" id="banner_captura" readonly="readonly" name="banner_captura" type="text" value="Firma">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-
                     </div>
 
                     <div class="mt-3 text-center">
@@ -293,7 +306,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/personal/create" method="POST">
+                <form action="/personal/create" method="POST" enctype="multipart/form-data">
                     @csrf
 
                     <div class="container p-3">
@@ -390,7 +403,7 @@
                         </div>
 
                         <div class="row">
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label for="tipo_vinculacion_update">Tipo Vinculacion</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="tipo_vinculacion_update" class="form-control" id="tipo_vinculacion_update" disabled required>
@@ -400,16 +413,31 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label for="correo_update">Correo</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="correo_update" name="correo_update" readonly required="">
                                 </div>
                             </div>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <label for="telefonos_update">Telefonos</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="telefonos_update" name="telefonos_update" readonly required="">
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <label for="" class="ml-1">Firma</label>
+                                <div class="container">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                <span class="btn btn-primary btn-file">
+                                                    <i class="fas fa-cloud-upload-alt"></i> <input class="d-none" name="firma" type="file" id="banner" disabled>
+                                                </span>
+                                            </label>
+                                            <input class="form-control" id="banner_captura_update" readonly="readonly" name="banner_captura" type="text" >
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

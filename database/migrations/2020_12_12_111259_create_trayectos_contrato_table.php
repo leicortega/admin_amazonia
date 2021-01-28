@@ -30,6 +30,7 @@ class CreateTrayectosContratoTable extends Migration
             $table->string('tipo_vehiculo');
             $table->enum('recorrido', ['Solo ida', 'Ida y vuelta']);
             $table->longText('descripcion')->nullable();
+            $table->longText('descripcion_table')->nullable();
             $table->longText('observaciones')->nullable();
             $table->enum('combustible', ['Si', 'No'])->nullable();
             $table->enum('conductor', ['Si', 'No'])->nullable();

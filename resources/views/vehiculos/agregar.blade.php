@@ -47,32 +47,44 @@
                                     <div class="container p-3">
 
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6" id="cambiar_sm-1">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="text" class="form-control" id="placa" name="placa" required="">
                                                     <label for="placa">Placa</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-6" id="cambiar_sm-2">
                                                 <div class="form-group form-group-custom mb-4">
-                                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id" required>
+                                                    <select onchange="cambiar_tipo_vehiculo(this.value)" name="tipo_vehiculo" class="form-control" id="tipo_vehiculo" required>
+                                                        <option value=""></option>
+                                                        <option value="Especial">Especial</option>
+                                                        <option value="Carga">Carga</option>
+                                                    </select>
+                                                    <label for="tipo_vehiculo_id">Tipo Vehiculo</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-4 ">
+                                                <div class="form-group form-group-custom mb-4 d-none">
+                                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id">
                                                         <option value=""></option>
                                                         @foreach (\App\Models\Sistema\Tipo_Vehiculo::all() as $tipo_vehiculo)
                                                             <option value="{{ $tipo_vehiculo->id }}">{{ $tipo_vehiculo->nombre }}</option>
                                                         @endforeach
                                                     </select>
-                                                    <label for="tipo_vehiculo_id">Tipo Vehiculo</label>
+                                                    <label for="tipo_vehiculo_id">Categoria</label>
                                                 </div>
                                             </div>
+                                        </div>
+
+                                        <div class="row">
+
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="number" class="form-control" id="licencia_transito" name="licencia_transito" required="">
                                                     <label for="licencia_transito">Licencia de Transito</label>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select name="marca_id" class="form-control" id="marca_id" required>
@@ -90,15 +102,16 @@
                                                     <label for="modelo">Modelo</label>
                                                 </div>
                                             </div>
+                                            
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="number" class="form-control" id="capacidad" name="capacidad" required="">
                                                     <label for="capacidad">Capacidad</label>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <div class="form-group form-group-custom mb-4">
@@ -113,15 +126,16 @@
                                                     <label for="chasis">Chasis</label>
                                                 </div>
                                             </div>
+
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="number" class="form-control" id="numero_interno" name="numero_interno" required="">
                                                     <label for="numero_interno">Numero Interno</label>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
                                             <div class="col-sm-4" id="div_item1">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <div class="form-group form-group-custom mb-4">
@@ -154,16 +168,16 @@
                                                 </div>
                                             </div>
 
+                                        </div>
+
+                                        <div class="row">
                                             <div class="col-sm-4" id="div_item3">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="number" class="form-control" id="tarjeta_operacion" name="tarjeta_operacion" required="">
                                                     <label for="tarjeta_operacion">Tarjeta Operación</label>
                                                 </div>
                                             </div>
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <div class="form-group form-group-custom mb-4">
                                                         <input type="text" class="form-control" id="color" name="color" required="">
@@ -171,7 +185,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select name="linea_id" class="form-control" id="linea_id" required>
                                                         <option value=""></option>
@@ -182,7 +196,10 @@
                                                     <label for="linea_id">Linea</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                        </div>
+
+                                        <div class="row">
+                                            <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select name="tipo_carroceria_id" class="form-control" id="tipo_carroceria_id" required>
                                                         <option value=""></option>
@@ -193,7 +210,15 @@
                                                     <label for="tipo_carroceria_id">Tipo de carroceria</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-3">
+                                            <div class="col-sm-4">
+                                                <div class="form-group form-group-custom mb-4">
+                                                    <div class="form-group form-group-custom mb-4">
+                                                        <input type="text" class="form-control" id="num_carpeta_fisica" name="num_carpeta_fisica" required>
+                                                        <label for="num_carpeta_fisica">Nº de carpeta fisica</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select name="estado" class="form-control" id="estado" required>
                                                         <option value=""></option>
@@ -204,6 +229,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        
 
                                         <div class="row">
                                             <h6 class="col-sm-12"><b>{{$documentos[0]->categoria}}</b></h6>

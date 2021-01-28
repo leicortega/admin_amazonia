@@ -391,3 +391,49 @@ function cargar_btn_single(btn) {
     $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
     $(btn).attr('disabled', 'true');
 }
+
+
+function cambiar_tipo_vehiculo(valor){
+    if(valor=='Especial'){
+        $('#cambiar_sm-1').removeClass('col-sm-6');
+        $('#cambiar_sm-1').addClass('col-sm-4');
+        $('#cambiar_sm-2').removeClass('col-sm-6');
+        $('#cambiar_sm-2').addClass('col-sm-4');
+        $('#tipo_vehiculo_id').attr('required', 'true');
+        $('#tipo_vehiculo_id').parent('div').removeClass('d-none');
+    }else{
+        $('#cambiar_sm-1').addClass('col-sm-6');
+        $('#cambiar_sm-1').removeClass('col-sm-4');
+        $('#cambiar_sm-2').addClass('col-sm-6');
+        $('#cambiar_sm-2').removeClass('col-sm-4');
+        $('#tipo_vehiculo_id').parent('div').addClass('d-none');
+        $('#tipo_vehiculo_id').removeAttr('required');
+        $('#tipo_vehiculo_id option[value=""]').attr('selected', true);
+    }
+
+}
+
+
+function editar_tipo_vehiculo(valor){
+    if(valor=='Especial'){
+        $('#cambiar_sm-1').removeClass('col-sm-4');
+        $('#cambiar_sm-1').addClass('col-sm-3');
+        $('#cambiar_sm-2').removeClass('col-sm-4');
+        $('#cambiar_sm-2').addClass('col-sm-3');
+        $('#cambiar_sm-3').removeClass('col-sm-4');
+        $('#cambiar_sm-3').addClass('col-sm-3');
+        $('#tipo_vehiculo_id').attr('required', 'true');
+        $('#tipo_vehiculo_id').parent('div').parent('div').removeClass('d-none');
+    }else{
+        $('#cambiar_sm-1').addClass('col-sm-4');
+        $('#cambiar_sm-1').removeClass('col-sm-3');
+        $('#cambiar_sm-2').addClass('col-sm-4');
+        $('#cambiar_sm-2').removeClass('col-sm-3');
+        $('#cambiar_sm-3').removeClass('col-sm-3');
+        $('#cambiar_sm-3').addClass('col-sm-4');
+        $('#tipo_vehiculo_id').removeAttr('required');
+        $('#tipo_vehiculo_id').parent('div').parent('div').addClass('d-none');
+        $('#tipo_vehiculo_id option[value=""]').attr('selected', true);
+    }
+
+}

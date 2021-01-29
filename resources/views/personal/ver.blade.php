@@ -26,9 +26,9 @@
                                     </div>
                                 @endif
 
-                                <a href="/personal/datos-personal"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="/personal/datos-personal"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
                                 <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#editar_personal_modal">Editar</button>
-                                <button type="button" class="btn btn-primary btn-lg mb-2 mr-2 float-right" onclick="generar_clave({{ $personal->identificacion }})">Clave</button>
+                                <button type="button" class="btn btn-primary btn-lg mb-2 mr-2 float-right" onclick="generar_clave({{ $personal->identificacion }}, this)">Clave</button>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-primary">
@@ -67,7 +67,7 @@
                                             <td class="table-bg-dark"><b>Nombre</b></td>
                                             <td>{{ $personal->nombres }} {{ $personal->primer_apellido }} {{ $personal->segundo_apellido ?? '' }}</td>
                                             <td colspan="2" rowspan="5">
-                                                <form action="/personal/agg_cargo_personal" method="POST">
+                                                <form action="/personal/agg_cargo_personal" method="POST" onsubmit="cargarbtn('#agregar_cargo_ve')">
                                                     @csrf
 
                                                     <div class="form-row align-items-center">
@@ -85,7 +85,7 @@
                                                         <input type="hidden" value="{{ $personal->id }}" name="personal_id" id="personal_id">
                                                         <input type="hidden" value="1" name="view_ver" id="view_ver">
                                                         <div class="col-auto mt-3 mr-sm-2">
-                                                            <button type="submit" class="btn btn-primary"> Agregar cargo</button>
+                                                            <button type="submit" class="btn btn-primary" id="agregar_cargo_ve"> Agregar cargo</button>
                                                         </div>
                                                     </div>
                                                 </form>
@@ -101,7 +101,7 @@
                                                     @foreach ($personal->cargos_personal as $cargo)
                                                         <tr>
                                                             <th scope="row">{{ $cargo->cargos['nombre'] }}</th>
-                                                            <td><a href="/personal/delete_cargo_personal/{{ $cargo->id }}"><button type="button" class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button></a></td>
+                                                            <td><a href="/personal/delete_cargo_personal/{{ $cargo->id }}"><button type="button" class="btn btn-danger btn-sm" onclick="cargarbtn(this)"><i class="fa fa-trash"></i></button></a></td>
                                                         </tr>
                                                     @endforeach
                                                     </tbody>
@@ -1520,7 +1520,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/personal/crear_clave" id="form_clave" method="POST">
+                <form action="/personal/crear_clave" id="form_clave" method="POST" onsubmit="cargarbtn('#submit_modal_clave')">
                     @csrf
 
                     <div class="form-group row">

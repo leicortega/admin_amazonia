@@ -22,6 +22,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/admin/users/update', 'AdminController@updateUser')->name('user-update');
     Route::get('/admin/sistema/vehiculos', 'AdminController@admin_vehiculos')->name('datos-vehiculos');
     Route::get('/admin/sistema/admin_documentos_vehiculos', 'AdminController@admin_documentos_vehiculos')->name('admin_documentos_vehiculos');
+    Route::get('/admin/sistema/eliminar_documento_vehiculo/{id}', 'AdminController@eliminar_doc_vehiculo')->name('delete_documentos_vehiculo');
     Route::post('/admin/sistema/agg_documentos_vehiculo', 'AdminController@agg_documentos_vehiculo')->name('agg_documentos_vehiculo');
     Route::post('/admin/sistema/edit_documentos_vehiculo', 'AdminController@edit_documentos_vehiculo')->name('edit_documentos_vehiculo');
     Route::post('/admin/sistema/agg_categoria_documentos_vehiculo', 'AdminController@agg_categoria_documentos_vehiculo')->name('agg_categoria_documentos_vehiculo');

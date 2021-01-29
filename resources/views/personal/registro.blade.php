@@ -38,7 +38,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left" onclick="cargarbtn(this)">Atras</button></a>
                                 
                                 {{-- botones de filtro --}}
                                 <button type="button" class="btn btn-primary btn-lg float-left ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
@@ -46,7 +46,7 @@
 
 
                                 @if(request()->routeIs('personal_filtro'))
-                                    <a href="{{route('personal')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                    <a href="{{route('personal')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1" onclick="cargarbtn(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
@@ -65,26 +65,6 @@
                                         <!--Parte de busqueda de datos-->
                                         <tr>
                                             <th colspan="12" class="text-center">
-                                                {{-- <form action="/dashboard/programacion-viaje/get-ciudades" method="get" class="d-inline-block w-50">
-                                                    @csrf
-
-                                                    <div class="row col-12 text-center">
-                                                        <div class="styled-select col-5">
-                                                            <select class="form-control required" id="ciudad_origen" name="ciudad_origen" required onchange="ciudadDestino(this.value)">
-                                                                <option value="">Ciudad Origen</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="styled-select col-5">
-                                                            <select class="form-control required" id="ciudad_destino" name="ciudad_destino" required>
-                                                                <option value="">Ciudad Destino</option>
-                                                            </select>
-                                                        </div>
-                                                        <div class="col-2">
-                                                            <button type="submit" class="btn btn-primary">Buscar</button>
-
-                                                        </div>
-                                                    </div>
-                                                </form> --}}
                                             </th>
                                         </tr>
                                         <!--Fin parte de busqueda de datos-->
@@ -108,10 +88,10 @@
                                                 <td>{{ $item->correo }}</td>
                                                 <td>{{ $item->telefonos }}</td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showPersonal({{ $item->id }})" data-toggle="tooltip" data-placement="top" title="Editar Persona">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showPersonal({{ $item->id }}, this)" data-toggle="tooltip" data-placement="top" title="Editar Persona">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </button>
-                                                    <a href="/personal/ver/{{ $item->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Persona">
+                                                    <a href="/personal/ver/{{ $item->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Persona" onclick="cargarbtn(this)">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>
@@ -146,7 +126,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/personal/create" method="POST" enctype="multipart/form-data">
+                <form action="/personal/create" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#agregar_personal_btn')">
                     @csrf
 
                     <div class="container p-3">
@@ -285,7 +265,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_personal_btn" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -306,7 +286,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/personal/create" method="POST" enctype="multipart/form-data">
+                <form action="/personal/create" method="POST" enctype="multipart/form-data" >
                     @csrf
 
                     <div class="container p-3">
@@ -472,7 +452,7 @@
                             </div>
                             <input type="hidden" value="" name="personal_id" id="personal_id">
                             <div class="col-auto mt-3 mr-sm-2">
-                                <button type="submit" class="btn btn-primary"> Agregar cargo</button>
+                                <button type="submit" class="btn btn-primary" id="cargar_personal_mostrat"> Agregar cargo</button>
                             </div>
                         </div>
                     </form>
@@ -502,7 +482,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('personal_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('personal_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargarbtn('#agregar_filtro_btn')">
                     @csrf
                     <div class="container">
                         <div class="form-group row">                            
@@ -551,7 +531,7 @@
 
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_filtro_btn" type="submit">Aplicar Filtros</button>
                     </div>
 
                 </form>

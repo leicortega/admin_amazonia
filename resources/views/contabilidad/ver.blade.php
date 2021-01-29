@@ -33,7 +33,7 @@
                                 <div class="container-fluid">
                                     <div class="row p-0">
                                         <div class="col-sm-6 mb-3">
-                                            <a href="/contabilidad"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                            <a href="/contabilidad"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
                                         </div>
                                         <div class="col-sm-6 mt-3 text-right">
                                             {{-- <h4>Asignada por: {{ $tarea->supervisor_id->name }}</h4> --}}
@@ -121,7 +121,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/contabilidad/create" method="POST" enctype="multipart/form-data">
+                <form action="/contabilidad/create" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#agregar_registro_contable')">
                     @csrf
 
                     <div class="container p-3">
@@ -172,7 +172,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_registro_contable" type="submit">Enviar</button>
                     </div>
 
                 </form>

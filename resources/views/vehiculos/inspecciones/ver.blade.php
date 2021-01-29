@@ -4,6 +4,7 @@
     <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/js/inspecciones.js') }}"></script>
 @endsection
 
 @section('jsMain') <script>
@@ -48,7 +49,7 @@
                                         {{ session('mensaje') }}
                                     </div>
                                 @endif
-                                <a href="{{ route('inspecciones') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ route('inspecciones') }}"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
 
                                 
 
@@ -60,14 +61,14 @@
                                             <h4>Reporto: {{ $inspeccion->users->name }}</h4>
                                         </div>
                                         <div class="col-sm-8 mb-3 text-right">
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#plantilla_certificado_inspeccion">Plantilla Certificado</button>
-                                            <button class="btn btn-primary" data-toggle="modal" data-target="#certificado_inspeccion">Certificado</button>
+                                            <button class="btn btn-primary" data-toggle="modal" onclick="cargarbtnmodal(this, '#plantilla_certificado_inspeccion', 'Plantilla Certificado')">Plantilla Certificado</button>
+                                            <button class="btn btn-primary" data-toggle="modal" onclick="cargarbtnmodal(this, '#certificado_inspeccion', 'Certificado')">Certificado</button>
                                             @if ($inspeccion->kilometraje_final == NULL)
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#cerrar_inspeccion">Cerrar</button>
+                                                <button class="btn btn-primary" data-toggle="modal"  onclick="cargarbtnmodal(this, '#cerrar_inspeccion', 'Cerrar')">Cerrar</button>
                                             @endif
-                                            <a href="/vehiculos/inspecciones/pdf/{{ $inspeccion->id }}" target="_blank" class="btn btn-primary" >PDF</a>
+                                            <a href="/vehiculos/inspecciones/pdf/{{ $inspeccion->id }}" target="_blank" class="btn btn-primary" onclick="cargarbtnmodal(this, '#shsj', 'PDF')">PDF</a>
                                             @if ($inspeccion->kilometraje_final == NULL)
-                                                <button class="btn btn-primary" data-toggle="modal" data-target="#agg_adjunto">Agregar Adjunto</button>
+                                                <button class="btn btn-primary" data-toggle="modal" onclick="cargarbtnmodal(this, '#agg_adjunto', 'Agregar Adjunto')">Agregar Adjunto</button>
                                             @endif
                                         </div>
 
@@ -178,7 +179,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/inspecciones/agregar_adjunto" method="POST" enctype="multipart/form-data">
+                <form action="/vehiculos/inspecciones/agregar_adjunto" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn_envia_adutn')">
                     @csrf
 
                     <div class="container p-3">
@@ -223,7 +224,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light"  id="btn_envia_adutn" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -244,7 +245,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/inspecciones/cerrar" method="POST">
+                <form action="/vehiculos/inspecciones/cerrar" method="POST" onsubmit="cargarbtn('#cerrarinspecbtn')">
                     @csrf
 
                     <div class="container p-3">
@@ -270,7 +271,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="cerrarinspecbtn" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -291,7 +292,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/inspecciones/certificado" method="POST">
+                <form action="/vehiculos/inspecciones/certificado" method="POST" onsubmit="cargarbtn('#btn_submit_cert_isp')">
                     @csrf
 
                     <div class="row">
@@ -363,7 +364,7 @@
                     <input type="hidden" name="inspeccion_id" value="{{ $inspeccion->id }}"/>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_submit_cert_isp" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -384,7 +385,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/inspecciones/certificado" method="POST">
+                <form action="/vehiculos/inspecciones/certificado" method="POST" onsubmit="cargarbtn('#btn_certificado_inps')">
                     @csrf
 
                     <div class="row">
@@ -404,7 +405,7 @@
                     <input type="hidden" name="inspeccion_id" value="{{ $inspeccion->id }}"/>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_certificado_inps" type="submit">Enviar</button>
                     </div>
 
                 </form>

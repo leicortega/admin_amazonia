@@ -4,7 +4,8 @@ $.ajaxSetup({
     }
 });
 
-function showUser(id) {
+function showUser(id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', 'true');
     $.ajax({
         url: '/admin/users/show/'+id,
         type: 'get',
@@ -14,7 +15,7 @@ function showUser(id) {
 
             var content = `
 
-                <form action="/admin/users/update" method="POST" >
+                <form action="/admin/users/update" method="POST" onsubmit="cargarbtn('#actual_btn_sumie')">
 
                     <input type="hidden" name="_token" value="${$('meta[name="csrf-token"]').attr('content')}">
                     <input type="hidden" name="id" value="${data.user.id}">
@@ -96,10 +97,12 @@ function showUser(id) {
                     </div>
 
                     <div class="mt-3">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Actualizar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="actual_btn_sumie" type="submit">Actualizar</button>
                     </div>
 
                 </form>`;
+
+                $(btn).html('<i class="mdi mdi-pencil"></i>').removeAttr('disabled');
 
             $('#modal-blade-body').html(content);
 

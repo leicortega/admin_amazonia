@@ -118,7 +118,7 @@
                                                 <td>{{ $vehiculo->nombre_tipo_vehiculo }}</td>
                                                 <td>{{ $vehiculo->nombre_marca }}</td>
                                                 <td class="text-center">
-                                                    <a href="/vehiculos/ver/{{ $vehiculo->id_vehiculo }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Vehiculo">
+                                                    <a href="/vehiculos/ver/{{ $vehiculo->id_vehiculo }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" id="btn_eye" data-placement="top" title="Ver Vehiculo" onclick="cargarbtn('#btn_eye')">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>

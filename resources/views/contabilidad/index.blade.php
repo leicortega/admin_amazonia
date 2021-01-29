@@ -30,7 +30,7 @@
                                     </div>
                                 @endif
                                 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
 
                                 {{-- botones de filtro --}}
                                 <button type="button" class="btn btn-primary btn-lg ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
@@ -38,7 +38,7 @@
 
 
                                 @if(request()->routeIs('contabilidad_filtro'))
-                                    <a href="{{route('contabilidad')}}" class="btn btn-primary btn-lg mb-2 ml-2">
+                                    <a href="{{route('contabilidad')}}" class="btn btn-primary btn-lg mb-2 ml-2" onclick="cargarbtn(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
@@ -74,7 +74,7 @@
                                                 <td>{{ number_format($registro->valor_cobrar) }}</td> --}}
                                                 <td class="text-center">
                                                     <a href="/contabilidad/ver/{{ $vehiculo->id }}">
-                                                        <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver registros">
+                                                        <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver registros" onclick="cargarbtn(this)">
                                                             <i class="mdi mdi-eye"></i>
                                                         </button>
                                                     </a>
@@ -110,7 +110,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/contabilidad/create" method="POST" enctype="multipart/form-data">
+                <form action="/contabilidad/create" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#agregar_registro_contablebtn')">
                     @csrf
 
                     <div class="container p-3">
@@ -157,7 +157,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_registro_contablebtn" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -195,7 +195,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('contabilidad_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('contabilidad_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargarbtn('#agregar_filtro_btn')">
                     @csrf
                     <div class="container">
                         <div class="form-group row">                            
@@ -253,7 +253,7 @@
 
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_filtro_btn" type="submit">Aplicar Filtros</button>
                     </div>
 
                 </form>

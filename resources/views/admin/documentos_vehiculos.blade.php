@@ -2,6 +2,10 @@
 
 @extends('layouts.app')
 
+@section('jsMain')
+    <script src="{{ asset('assets/js/admin.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="page-content-wrapper">
     <div class="container-fluid">
@@ -17,6 +21,12 @@
                                 Documento creado correctamente
                             </div>
                         @endif
+
+                        @if (session()->has('delete') && session('delete') == 1)
+                        <div class="alert alert-primary" role="alert">
+                            Documento Eliminado correctamente
+                        </div>
+                    @endif
 
                         @if (session()->has('edit') && session('edit') == 1)
                         <div class="alert alert-primary" role="alert">
@@ -75,7 +85,9 @@
                                             <tr>
                                                 <td scope="row">{{ $documento->name }}</td>
                                                 <td scope="row">{{ $documento->vigencia ? 'Si' : 'No' }}</td>
-                                                <td><button type="button" onclick='editar_documentos_vehiculo({{ $documento->id }}, "{{$documento->name}}",  "{{$documento->vigencia}}", "{{$documento->tipo_tercero}}")' class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-documentos-vehiculo"><i class="fas fa-edit"></i></button></td>
+                                                <td><button type="button" onclick='editar_documentos_vehiculo({{ $documento->id }}, "{{$documento->name}}",  "{{$documento->vigencia}}", "{{$documento->tipo_tercero}}")' class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-documentos-vehiculo"><i class="fas fa-edit"></i></button>
+                                                    <button type="button" onclick='eliminar_documentos_vehiculo({{ $documento->id }}, this)' class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                                </td>
                                             </tr>
                                         @endforeach
                                     </tbody>
@@ -106,7 +118,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/sistema/agg_categoria_documentos_vehiculo" method="POST">
+                <form action="/admin/sistema/agg_categoria_documentos_vehiculo" method="POST" onsubmit="cargarbtn('#crear_categoria_vehiculo')">
                     @csrf
                 
                     <div class="form-group row">
@@ -117,7 +129,7 @@
                     </div>
                 
                     <div class="mt-4 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Agregar Categoria</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="crear_categoria_vehiculo" type="submit">Agregar Categoria</button>
                     </div> 
                 
                 </form>
@@ -136,7 +148,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/sistema/agg_documentos_vehiculo" method="POST">
+                <form action="/admin/sistema/agg_documentos_vehiculo" method="POST" onsubmit="cargarbtn('#crear_documento_veh')">
                     @csrf
                 
                     <div class="form-group row">
@@ -179,7 +191,7 @@
                     <input type="hidden" id="categoria_pase" name="categoria" value="" />
                 
                     <div class="mt-4 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Agregar Documento</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="crear_documento_veh" type="submit">Agregar Documento</button>
                     </div> 
                 
                 </form>
@@ -198,7 +210,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/sistema/edit_documentos_vehiculo" method="POST">
+                <form action="/admin/sistema/edit_documentos_vehiculo" method="POST" onsubmit="cargarbtn('#editar_documentos_btn')">
                     @csrf
                 
                     <div class="form-group row">
@@ -241,7 +253,7 @@
                     <input type="hidden" id="id_pase" name="id" value="" />
                 
                     <div class="mt-4 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Editar Documento</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="editar_documentos_btn" type="submit">Editar Documento</button>
                     </div> 
                 
                 </form>

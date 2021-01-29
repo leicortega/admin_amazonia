@@ -53,8 +53,11 @@
                                     </div>
 
                                     <div class="mt-3">
-                                        <h5 class="font-size-14">Contenido</h5>
-                                        <textarea id="elm1" name="contenido" class="text-white"></textarea>
+                                        <div class="card-body">
+                                            <h4 class="header-title text-center">Contenido</h4>
+                                            <textarea class="elm1" name="area" class="text-white">
+                                            </textarea>
+                                        </div>
                                     </div>
 
                                     <div class="mt-3">

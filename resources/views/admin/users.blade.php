@@ -2,6 +2,10 @@
 
 @extends('layouts.app')
 
+@section('jsMain')
+    <script src="{{ asset('assets/js/admin.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="page-content-wrapper">
     <div class="container-fluid">
@@ -40,11 +44,11 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
 
                                 {{-- botones de filtro --}}
                                 @if(request()->routeIs('users_filtro'))
-                                    <a href="{{route('users')}}" class="btn btn-primary btn-lg mb-2 float-right ml-1">
+                                    <a href="{{route('users')}}" class="btn btn-primary btn-lg mb-2 float-right ml-1" onclick="cargarbtn(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
@@ -109,7 +113,7 @@
                                                 <td>{{ $user->estado }}</td>
                                                 <td>{{ $user->roles()->first()->name }}</td>
                                                 <td class="text-center">
-                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showUser({{ $user->id }})" data-toggle="tooltip" data-placement="top" title="Editar Usuario">
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" onclick="showUser({{ $user->id }}, this)" data-toggle="tooltip" data-placement="top" title="Editar Usuario">
                                                         <i class="mdi mdi-pencil"></i>
                                                     </button>
                                                 </td>
@@ -142,7 +146,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/users/create" method="POST">
+                <form action="/admin/users/create" method="POST" onsubmit="cargarbtn('#create_user_btn')">
                     @csrf
 
                     <div class="form-group row">
@@ -222,7 +226,7 @@
                     </div>
 
                     <div class="mt-3">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Crear</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="create_user_btn" type="submit">Crear</button>
                     </div>
 
                 </form>
@@ -243,7 +247,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('users_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('users_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargarbtn('#agregar_filtro_btn')">
                     @csrf
                     <div class="container">
                         <div class="form-group row">                            
@@ -289,7 +293,7 @@
 
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_filtro_btn" type="submit">Aplicar Filtros</button>
                     </div>
 
                 </form>

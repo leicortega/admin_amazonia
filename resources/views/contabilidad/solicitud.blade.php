@@ -43,7 +43,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left" onclick="cargarbtn(this)">Atras</button></a>
 
                                 {{-- botones de filtro --}}
                                 <button type="button" class="btn btn-primary btn-lg float-left ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
@@ -51,31 +51,13 @@
 
 
                                 @if(request()->routeIs('solicitud_filtro'))
-                                    <a href="{{route('solicitud_dinero')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                    <a href="{{route('solicitud_dinero')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1" onclick="cargarbtn(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
                                 {{-- end botones de fitro --}}
 
-                                {{-- <div class="container-fluid">
-                                    <div class="row p-0">
-                                        <div class="col-8">
-                                            @role('admin')
-                                                <div class="form-group mb-4">
-                                                    <label>Seleccione el vehiculo</label>
-                                                    <select class="selectize" onchange="window.location.href=this.value">
-                                                        <option value="">Seleccione</option>
-                                                        @foreach ($vehiculos as $vehiculo)
-                                                            <option value="/vehiculos/{{ $vehiculo->id }}/mantenimientos"><a href="/vehiculos/{{ $vehiculo->id }}/mantenimientos">{{ $vehiculo->placa }}</a></option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                            @endrole
-                                        </div>
 
-                                    </div>
-
-                                </div> --}}
                                 <div class="">
                                             <button type="button" class="btn btn-primary btn-lg float-right mb-2" data-toggle="modal" data-target="#solicitar_dinero_modal">Solicitar <i class="fas fa-hand-holding-usd"></i></button>
                                 </div>
@@ -107,7 +89,7 @@
                                                 <th>{{ $solicitud->tipo_solicitud }}</th>
                                                 <th>{{ $solicitud->descripcion }}</th>
                                                 <td class="text-center">
-                                                    <a href="{{route('solicitud_dinero_ver', $solicitud->id)}}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Solicitud">
+                                                    <a href="{{route('solicitud_dinero_ver', $solicitud->id)}}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Solicitud" onclick="cargarbtn(this)">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>
@@ -140,7 +122,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('solicitud_dinero_create')}}" method="POST">
+                <form action="{{route('solicitud_dinero_create')}}" method="POST" onsubmit="cargarbtn('#solicitar_dinero_btn')">
                     @csrf
 
                     <div class="container p-3">
@@ -200,24 +182,6 @@
                             </div>
                         </div>
 
-                        {{-- <div class="row">
-                            <div class="col-sm-5">
-                                <div class="form-group form-group-custom mb-4">
-                                    <input type="text" class="form-control" placeholder="Defina un concepto" name="concepto"/>
-                                </div>
-                            </div>
-                            <div class="col-sm-5">
-                                <div class="form-group form-group-custom mb-4">
-                                    <input type="number" class="form-control" placeholder="Precio" name="price"/>
-                                </div>
-                            </div>
-                                                            
-                            <div class="col-sm-2">
-                                <div class="form-group form-group-custom mb-4">
-                                    <a href="" class="btn btn-danger btn-lg mb-2 float-left" data-toggle="tooltip" data-placement="top" title="Eliminar concepto"><i class="fas fa-trash"></i></a>
-                                </div>
-                            </div>
-                        </div> --}}
                         <div class="add_concept_campo">
                         </div>
 
@@ -232,7 +196,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="solicitar_dinero_btn" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -254,7 +218,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('solicitud_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('solicitud_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargarbtn('#agregar_filter')">
                     @csrf
                     <div class="container">
                         <div class="form-group row">
@@ -332,7 +296,7 @@
 
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit" id="agregar_filter">Aplicar Filtros</button>
                     </div>
 
                 </form>

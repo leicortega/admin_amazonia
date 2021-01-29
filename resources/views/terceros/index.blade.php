@@ -110,7 +110,7 @@
                                                 <td>{{ $item->correo }}</td>
                                                 <td>{{ $item->telefono }}</td>
                                                 <td class="text-center">
-                                                <a href="/terceros/ver/{{ $item->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Tercero">
+                                                <a href="/terceros/ver/{{ $item->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Tercero" onclick="cargar_btn_single(this)">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>

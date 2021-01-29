@@ -4,6 +4,8 @@
     <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/js/inspecciones.js') }}"></script>
+
 @endsection
 
 @extends('layouts.app')
@@ -34,7 +36,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left" onclick="cargarbtn(this)">Atras</button></a>
 
                                 {{-- botones de filtro --}}
                                 <button type="button" class="btn btn-primary btn-lg float-left ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
@@ -42,45 +44,15 @@
 
 
                                 @if(request()->routeIs('inspecciones_filtro'))
-                                    <a href="{{route('inspecciones')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                    <a href="{{route('inspecciones')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1" onclick="cargarbtn(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
                                 {{-- end botones de fitro --}}
 
                                 
-                                    {{-- <form action="/vehiculos/inspecciones/filter" method="POST">
-                                        @csrf
-
-                                        <div class="row p-0">
-                                            <div class="col-3">
-                                                @role('admin')
-                                                    <div class="form-group mb-4">
-                                                        <label>Seleccione el vehiculo</label>
-                                                        <select class="selectize" onchange="window.location.href=this.value">
-                                                            <option value="">Seleccione</option>
-                                                            @foreach ($vehiculos as $vehiculo)
-                                                                <option value="/vehiculos/{{ $vehiculo->id }}/inspecciones"><a href="/vehiculos/{{ $vehiculo->id }}/inspecciones">{{ $vehiculo->placa }}</a></option>
-                                                            @endforeach
-                                                        </select>
-                                                    </div>
-                                                @endrole
-                                            </div>
-                                            <div class="col-lg-3">
-                                                <div class="form-group mb-4">
-                                                    <label>Rango de fechas</label>
-                                                    <input type="text" class="form-control datepicker-here" name="rango" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" data-range="true" data-multiple-dates-separator=" - ">
-                                                </div>
-                                            </div> 
-                                            <div class="col-lg-2 mt-4">
-                                                <button type="submit" class="btn btn-primary btn-lg mb-2">Buscar</button>
-                                            </div>
-
-                                            
-                                        </div>
-                                    </form> --}}
                                     <div class=" text-right">
-                                                <a href="/vehiculos/inspecciones/agregar" class="btn btn-primary btn-lg float-right mb-2">Agregar +</a>
+                                                <a href="/vehiculos/inspecciones/agregar"><button type="button" class="btn btn-primary btn-lg float-right mb-2" onclick="cargarbtn(this)">Agregar +</button></a>
                                     </div>
                                 
 
@@ -109,7 +81,7 @@
                                                 <th>{{ date("d/m/Y H:m:s", strtotime($inspeccion->fecha_inicio)) }}</th>
                                                 <th>{{ $inspeccion->fecha_final ? 'Cerrada' : 'Iniciada' }}</th>
                                                 <td class="text-center">
-                                                    <a href="/vehiculos/inspecciones/ver/{{ $inspeccion->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Inspeccion">
+                                                    <a href="/vehiculos/inspecciones/ver/{{ $inspeccion->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Inspeccion" onclick="cargarbtn(this)">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>
@@ -218,7 +190,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('inspecciones_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('inspecciones_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargarbtn('#submit_filtro_btn')">
                     @csrf
                     <h5 class="modal-title" id="modal-title-cotizacion">Agregar Filtros</h5>
                     <div class="container">
@@ -291,7 +263,7 @@
 
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit" id="submit_filtro_btn">Aplicar Filtros</button>
                     </div>
 
                 </form>

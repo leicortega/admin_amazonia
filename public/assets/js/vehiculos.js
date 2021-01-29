@@ -1,12 +1,14 @@
 
 $(document).ready(function () {
     $('#form_agg_conductor').submit(function () {
+        $('#btn_crear_conductr').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
         $.ajax({
             url: '/vehiculos/agg_conductor',
             type: 'POST',
             data: $('#form_agg_conductor').serialize(),
             success: function (data) {
                 cargar_conductores(data)
+                $('#btn_crear_conductr').html('Enviar').removeAttr('disabled');
                 $('#alerta_success').removeClass('d-none');
                 $('#alerta_success').html('Se ha Creado el Conductor Correctamente');
                 window.setTimeout(function() {
@@ -40,6 +42,7 @@ $(document).ready(function () {
 
 
     $('#agg_targeta_propiedad').submit(function () {
+        $('#btn_submit_documentos').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
         var form = document.getElementById('agg_targeta_propiedad');
         var formData = new FormData(form);
         $.ajax({
@@ -52,7 +55,7 @@ $(document).ready(function () {
             success: function (data) {
                 $('#agg_targeta_propiedad')[0].reset();
                 $('#agg_doc_legal').modal('hide');
-                console.log(data);
+                $('#btn_submit_documentos').html('Enviar').removeAttr('disabled');
                 documentos_legales(data.tipo, data.vehiculo_id, data.id_table, data.vigencia);
             }
         })
@@ -96,7 +99,7 @@ function cargar_conductores(id) {
                     content += `<td>Inactivo</td>`;
                 }
                     
-                content +=`<td class="text-center"><button type="button" onclick="ver_historial_conductor(${ conductor.personal_id}, ${conductor.vehiculo_id})" class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_ver_historial_conductor"><i class="fa fa-eye"></i></button></td></tr> `;
+                content +=`<td class="text-center"><button type="button" onclick="ver_historial_conductor(${ conductor.personal_id}, ${conductor.vehiculo_id}, this)"  class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_ver_historial_conductor"><i class="fa fa-eye"></i></button></td></tr> `;
             });
             
            if(content!=''){
@@ -115,24 +118,28 @@ function cargar_conductores(id) {
 }
 
 function eliminar_conductor(id, personal_id, vehiculo_id, btn) {
-    $(btn).parent('td').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $.ajax({
         url: '/vehiculos/eliminar_conductor',
         type: 'POST',
         data: {id:id, personal_id:personal_id, vehiculo_id:vehiculo_id},
         success: function (data) {
-            console.log(data);
             ver_historial_conductor(data.personal_id, data.vehiculo_id);
         }
     })
 }
 
-function ver_historial_conductor(id, vehiculo_id) {
+function ver_historial_conductor(id, vehiculo_id, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $.ajax({
         url: '/vehiculos/ver_conductor_historial',
         type: 'POST',
         data: {id:id, vehiculo_id:vehiculo_id},
         success: function (data) {
+            if(data.length == 0){
+                $('#modal_ver_historial_conductor').modal('hide');
+                cargar_conductores(vehiculo_id);
+            }
             var content = '';
             contado=0;
             data.forEach( function (conductor, indice) {
@@ -151,6 +158,8 @@ function ver_historial_conductor(id, vehiculo_id) {
                 <th class="text-center">${estado}</th>
                 <th class="text-center"><button type="button" onclick="eliminar_conductor(${ conductor.id }, ${conductor.personal_id}, ${conductor.vehiculo_id}, this)" class="btn btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button></th>
             </tr>`;
+            $('#modal_ver_historial_conductor').modal('show');
+            $(btn).html('<i class="fa fa-eye"></i>').removeAttr('disabled');
             });
             
             $('#table_ver_historial_vehiculo').html(content);
@@ -235,10 +244,10 @@ function documentos_legales(tipo, vehiculo_id, id_table, vigencia) {
                 content += `<td width="250px">${ documento.entidad_expide }</td>
                     <td>${ documento.estado }</td>
                     <td width="180px" class="text-center">
-                        <button type="button" onclick="editar_documento_legal(${ documento.id }, '${ id_table }')" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                        <button type="button" onclick="ver_documento_legal('${ documento.documento_file }', '${ documento.name }')" ${ (documento.documento_file) ? '' : 'disabled' } class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-eye"></i></button>
-                        <a href="/storage/${ documento.documento_file }" download class="${ (documento.documento_file) ? '' : 'disabled' } btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></a>
-                        <button type="button" onclick="eliminar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo_id }', '${ id_table }', ${ vigencia })" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="editar_documento_legal(${ documento.id }, '${ id_table }', this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="ver_documento_legal('${ documento.documento_file }', '${ documento.name }', this)" ${ (documento.documento_file) ? '' : 'disabled' } class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-eye"></i></button>
+                        <a href="/storage/${ documento.documento_file }" download class="${ (documento.documento_file) ? '' : 'disabled' } btn btn-sm btn-primary waves-effect waves-light" onclick="cargarbtntime(this, 'fa-download')"><i class="fa fa-download"></i></a>
+                        <button type="button" onclick="eliminar_documento_legal(${ documento.id }, ${ documento.vehiculo_id }, '${ documento.tipo_id }', '${ id_table }', ${ vigencia }, this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -259,7 +268,8 @@ function documentos_legales(tipo, vehiculo_id, id_table, vigencia) {
     })
 }
 
-function eliminar_documento_legal(id, vehiculo_id, tipo, id_table, vigencia) {
+function eliminar_documento_legal(id, vehiculo_id, tipo, id_table, vigencia, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $.ajax({
         url: '/vehiculos/eliminar_documento_legal',
         type: 'POST',
@@ -270,7 +280,8 @@ function eliminar_documento_legal(id, vehiculo_id, tipo, id_table, vigencia) {
     });
 }
 
-function editar_documento_legal(id, id_tale) {
+function editar_documento_legal(id, id_tale, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $.ajax({
         url: '/vehiculos/get_documento_legal',
         type: 'POST',
@@ -311,14 +322,17 @@ function editar_documento_legal(id, id_tale) {
             }else{
                 $('#fechas_vigencias').removeClass('d-none');
             }
+            $(btn).html('<i class="fa fa-edit"></i>').removeAttr('disabled');
         }
     })
 }
 
-function ver_documento_legal(documento_file, tipo) {
+function ver_documento_legal(documento_file, tipo, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $('#modal_ver_documento_title').text(tipo)
     $('#modal_ver_documento_content').html(`<iframe src="/storage/${ documento_file }" width="100%" height="810px" frameborder="0"></iframe>`)
     $('#modal_ver_documento').modal('show')
+    $(btn).html('<i class="fa fa-eye"></i>').removeAttr('disabled');
 }
 
 function cargarbtn(btn){
@@ -385,6 +399,13 @@ function exportar_documentos() {
 function cargar_btn_form(btn, find){
     $(btn).find(find).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
     $(btn).find(find).attr('disabled', 'true');
+}
+
+function cargarbtntime(btn, icon){
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    setTimeout(function () {
+        $(btn).html(`<i class="fa ${icon}"></i>`);
+    }, 3000);
 }
 
 function cargar_btn_single(btn) {

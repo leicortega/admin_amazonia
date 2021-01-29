@@ -5,3 +5,9 @@ function ver_anexo(anexo) {
 
     $('#modal_ver_anexo').modal('show');
 }
+
+
+function cargarbtn(btn){
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+}

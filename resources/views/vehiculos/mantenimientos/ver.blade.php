@@ -32,7 +32,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
 
                                 @if ($mantenimiento->estado == 'Aprobado')
                                     <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_factura">Registrar Factura</button>
@@ -208,9 +208,9 @@
                                                     <td>{{ $factura->proveedor }}</td>
                                                     <td>{{ $factura->valor }}</td>
                                                     <td class="text-center">
-                                                        <button type="button" class="btn btn-info"><i class="fa fa-eye" onclick="mostrar_imagen('{{ $factura->factura_imagen }}')"></i></button>
+                                                        <button type="button" class="btn btn-info" onclick="mostrar_imagen('{{ $factura->factura_imagen }}', this)"><i class="fa fa-eye"></i></button>
                                                         @if ($mantenimiento->estado != 'Cerrado')
-                                                            <button type="button" class="btn btn-danger"><i class="far fa-window-close" onclick="eliminar_factura('{{ $factura->id }}')"></i></button>
+                                                            <button type="button" class="btn btn-danger" onclick="eliminar_factura('{{ $factura->id }}', this)"><i class="far fa-window-close"></i></button>
                                                         @endif
                                                     </td>
                                                 </tr>
@@ -263,7 +263,7 @@
                                                             <tbody>
                                                                 <tr>
                                                                     <td class="w-100">{{ $detalle->descripcion }}</td>
-                                                                    <td><button type="button" class="btn btn-info"><i class="fa fa-eye" onclick="mostrar_imagen('{{ $detalle->imagen_soporte }}')"></i></button></td>
+                                                                    <td><button type="button" class="btn btn-info" onclick="mostrar_imagen('{{ $detalle->imagen_soporte }}', this)"><i class="fa fa-eye"></i></button></td>
                                                                 </tr>
                                                             </tbody>
                                                         </table>
@@ -303,7 +303,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/mantenimiento/agregar_actividad" method="POST" enctype="multipart/form-data">
+                <form action="/vehiculos/mantenimiento/agregar_actividad" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn_agregar_actividad')">
                     @csrf
 
                     <div class="container p-3">
@@ -355,7 +355,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_agregar_actividad" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -376,7 +376,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/mantenimiento/agregar_detalle_actividad" method="POST" enctype="multipart/form-data">
+                <form action="/vehiculos/mantenimiento/agregar_detalle_actividad" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn_agrgar_detalle_actividad')">
                     @csrf
 
                     <div class="container p-3">
@@ -402,7 +402,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_agrgar_detalle_actividad" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -440,7 +440,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/mantenimiento/agregar_facruta" method="POST" enctype="multipart/form-data">
+                <form action="/vehiculos/mantenimiento/agregar_facruta" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn_agregar_factuta')">
                     @csrf
 
                     <div class="container p-3">
@@ -479,7 +479,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_agregar_factuta" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -500,7 +500,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/mantenimiento/agregar_firma" method="POST" enctype="multipart/form-data">
+                <form action="/vehiculos/mantenimiento/agregar_firma" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn_agregar_firma')">
                     @csrf
 
                     <div class="container p-3">
@@ -535,7 +535,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_agregar_firma" type="submit">Enviar</button>
                     </div>
 
                 </form>

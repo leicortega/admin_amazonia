@@ -4,6 +4,7 @@
     <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/js/mantenimientos.js') }}"></script>
 @endsection
 
 @extends('layouts.app')
@@ -34,7 +35,7 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+                                <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-2 float-left" onclick="cargarbtn(this)">Atras</button></a>
 
                                 {{-- botones de filtro --}}
                                 <button type="button" class="btn btn-primary btn-lg float-left ml-2 mb-2" data-toggle="modal" data-target="#modal-filtro">Filtrar <i class="fa fa-filter" aria-hidden="true"></i>
@@ -42,7 +43,7 @@
 
 
                                 @if(request()->routeIs('mantenimientos_filtro'))
-                                    <a href="{{route('mantenimientos')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1">
+                                    <a href="{{route('mantenimientos')}}" class="btn btn-primary btn-lg mb-2 float-left ml-1" onclick="cargarbtn(this)">
                                         Limpiar <i class="fa fa-eraser" aria-hidden="true"></i>
                                     </a>
                                 @endif
@@ -98,7 +99,7 @@
                                                 <th>{{ $solicitado->estado }}</th>
                                                 <th>{{ $solicitado->descripcion_solicitud }}</th>
                                                 <td class="text-center">
-                                                    <a href="/vehiculos/ver/mantenimiento/{{ $solicitado->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Solicitud">
+                                                    <a href="/vehiculos/ver/mantenimiento/{{ $solicitado->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Solicitud" onclick="cargarbtn(this)">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button></a>
                                                 </td>
@@ -131,7 +132,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="/vehiculos/solicitar_mantenimiento" method="POST">
+                <form action="/vehiculos/solicitar_mantenimiento" method="POST" onsubmit="cargarbtn('#btn_enviar_crear_mante')">
                     @csrf
 
                     <div class="container p-3">
@@ -184,7 +185,7 @@
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_enviar_crear_mante" type="submit">Enviar</button>
                     </div>
 
                 </form>
@@ -206,7 +207,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('mantenimientos_filtro')}}" id="form-create-tercero" method="GET">
+                <form action="{{route('mantenimientos_filtro')}}" id="form-create-tercero" method="GET" onsubmit="cargarbtn('#aply_filtro_btn')">
                     @csrf
                     <h5 class="modal-title" id="modal-title-cotizacion">Filtros</h5>
                     <div class="container">
@@ -286,7 +287,7 @@
 
 
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="aply_filtro_btn" type="submit">Aplicar Filtros</button>
                     </div>
 
                 </form>

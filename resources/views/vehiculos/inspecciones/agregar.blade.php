@@ -4,6 +4,7 @@
     <script src="{{ asset('assets/libs/tinymce/tinymce.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-editor.init.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/js/inspecciones.js') }}"></script>
 @endsection
 
 @extends('layouts.app')
@@ -34,11 +35,11 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('inspecciones') }}"><button type="button" class="btn btn-dark btn-lg mb-5">Atras</button></a>
+                                <a href="{{ route('inspecciones') }}"><button type="button" class="btn btn-dark btn-lg mb-5" onclick="cargarbtn(this)">Atras</button></a>
 
 
                                 <div class="container-fluid">
-                                    <form action="/vehiculos/inspecciones/agregar" method="post">
+                                    <form action="/vehiculos/inspecciones/agregar" method="post" onsubmit="cargarbtn('#enviar_agregar_ins')">
                                         @csrf
 
                                         <div class="row p-0">
@@ -109,7 +110,7 @@
                                             @endforeach
 
                                             <div class="col-12 text-center">
-                                                <button type="submit" class="btn btn-primary btn-lg mt-5">Enviar</button>
+                                                <button type="submit" class="btn btn-primary btn-lg mt-5" id="enviar_agregar_ins">Enviar</button>
                                             </div>
                                         </div>
                                     </form>

@@ -2,6 +2,10 @@
 
 @extends('layouts.app')
 
+@section('jsMain')
+    <script src="{{ asset('assets/js/admin.js') }}"></script>
+@endsection
+
 @section('content')
 <div class="page-content-wrapper">
     <div class="container-fluid">
@@ -164,7 +168,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/admin/sistema/vehiculos/agg_datos_vehiculo" method="POST">
+                <form action="/admin/sistema/vehiculos/agg_datos_vehiculo" method="POST" onsubmit="cargarbtn('#agregar_dat_vehiculos')">
                     @csrf
                 
                     <div class="form-group row">
@@ -177,7 +181,7 @@
                     <input type="hidden" name="tipo" id="datos_vehiculo_tipo">
                 
                     <div class="mt-4 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Agregar</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_dat_vehiculos" type="submit">Agregar</button>
                     </div> 
                 
                 </form>

@@ -16,6 +16,7 @@
 
 
     function see_soportes(id){
+        $('#btn_ver_soporte_sop').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('required', true);
          $.ajax({
             data: 'id='+id,
             url: '/solicitud-dinero/versoporte',
@@ -27,6 +28,8 @@
                     var fecha =  dateTime.getDate() + "/" + (dateTime.getMonth()+1) + "/" +  dateTime.getFullYear() ;
                     var html = '<tr><td class="align-middle">'+fecha+'</td><td><a target="_blank" href="/storage/'+soporte.archivo+ '"><img class="img-fluid" src="/storage/'+soporte.archivo+ '"></a></td><td class="align-middle">'+soporte.valor_soporte+'</td></tr>';
                     $('.table_soportes').append(html);
+                    $('#btn_ver_soporte_sop').html('<i class="mdi mdi-eye"></i>').removeAttr('required');
+                    $('#ver_soporte').modal('show');
                 });
                 
             }
@@ -52,6 +55,7 @@
     }
 
    function verestado(id){
+    $('#ver_estado_btn').html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('required', true);
          $.ajax({
             data: 'id='+id,
             url: '/solicitud-dinero/verestado',
@@ -64,11 +68,20 @@
                     var html = '<tr class="text-center table-bg-dark"><td class="align-middle">'+estado['estado']+'</td><td class="align-middle">'+estado.name+'</td><td class="align-middle">'+fecha+'</td><td class="align-middle">'+estado.descripcion+'</td></tr>'
                     $('.table_estados').append(html);
                 });
+
+                $('#ver_estado_btn').html('<i class="mdi mdi-eye"></i>').removeAttr('required');
+                $('#ver_estado').modal('show');
                 
             }
          }); 
 
     }
+
+    
+function cargarbtn(btn){
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>');
+    $(btn).attr('disabled', 'true');
+}
 
 
 

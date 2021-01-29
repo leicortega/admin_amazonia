@@ -33,14 +33,8 @@
                                     </div>
                                 @endif
 
-                                <a href="{{ route('solicitud_dinero') }}"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="{{ route('solicitud_dinero') }}"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
 
-
-                                {{-- @if ($mantenimiento->facturas->count() > 0 && $mantenimiento->estado == 'Aprobado')
-                                    <button type="button" class="btn btn-primary mb-2 ml-2 float-right" data-toggle="modal" data-target="#agregar_firma">Cerrar</button>
-                                @else
-                                    <b class="ml-5"> Debe registrar las facturas para cerrar el mantenimiento</b>
-                                @endif --}}
 
                                 <a href="{{route('solicitud_pdf', $solicitud->id)}}" target="_blank" class="btn btn-success mb-2 ml-2 float-right">Reporte PDF</a>
 
@@ -99,7 +93,7 @@
 
                                                 <td class="align-middle">{{$concepto->valor_soportado}}  &nbsp;&nbsp;
                                                     @if ($concepto->valor_soportado != 0)
-                                                        <button onclick="see_soportes({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_soporte" data-placement="top" title="Ver Soportes">
+                                                        <button onclick="see_soportes({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" id="btn_ver_soporte_sop" data-placement="top" title="Ver Soportes">
                                                         <i class="mdi mdi-eye"></i>
                                                         </button>
                                                     @endif
@@ -116,7 +110,7 @@
                                                 <td class="align-middle">{{$concepto->saldo}}</td>
 
                                                 <td class="align-middle">
-                                                    <button onclick="verestado({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" data-target="#ver_estado" data-placement="top" title="Ver Estados">
+                                                    <button onclick="verestado({{$concepto->id}})" type="button" class="btn btn-outline-secondary btn-sm" data-toggle="modal" id="ver_estado_btn" data-placement="top" title="Ver Estados">
                                                         <i class="mdi mdi-eye"></i>
                                                     </button>
                                                     @if ($estado != 'Entregado')
@@ -157,7 +151,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('solicitud_add_soporte')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('solicitud_add_soporte')}}" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#btn_agregar_soporte')">
                     @csrf
 
                     <div class="container p-3">
@@ -181,7 +175,7 @@
                     <input type="hidden" name="id" id="id" class="id_agregar_soporte" value="">
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar Soporte</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn_agregar_soporte" type="submit">Enviar Soporte</button>
                     </div>
 
                 </form>
@@ -231,7 +225,7 @@
             </div>
             <div class="modal-body">
 
-                <form action="{{route('solicitud_add_estado')}}" method="POST" enctype="multipart/form-data">
+                <form action="{{route('solicitud_add_estado')}}" method="POST" enctype="multipart/form-data" onsubmit="cargarbtn('#agregar_estado_btn')">
                     @csrf
 
                     <div class="container p-3">
@@ -261,7 +255,7 @@
                     <input type="hidden" name="id_estado" id="id" class="id_estado" value="">
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-correo" type="submit">Enviar Estado</button>
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_estado_btn" type="submit">Enviar Estado</button>
                     </div>
 
                 </form>

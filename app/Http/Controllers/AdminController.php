@@ -219,6 +219,11 @@ class AdminController extends Controller
         return redirect()->route('admin_documentos_vehiculos')->with(['edit' => 1]);
     }
 
+    function eliminar_doc_vehiculo(Request $request){
+        Admin_documentos_vehiculo::find($request->id)->delete();
+        return redirect()->route('admin_documentos_vehiculos')->with(['delete' => 1]);
+    }
+
 
 
 

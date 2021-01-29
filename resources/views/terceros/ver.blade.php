@@ -27,7 +27,7 @@
                                     </div>
                                 @endif
 
-                                <a href="/terceros"><button type="button" class="btn btn-dark btn-lg mb-2">Atras</button></a>
+                                <a href="/terceros"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargar_btn_single(this)">Atras</button></a>
                                 <button type="button" class="btn btn-primary btn-lg mb-2 float-right" onclick="editar_tercero({{ $tercero[0]->id }})">Editar</button>
 
                                 @if (session()->has('update') && session('update') == 1)

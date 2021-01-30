@@ -29,7 +29,7 @@ class CreateVehiculosTable extends Migration
             $table->date('fecha_estado')->nullable();
             $table->text('observacion_estado')->nullable();
             $table->string('empresa_convenio')->nullable();
-            $table->strng('tipo_vehiculo');
+            $table->string('tipo_vehiculo');
             $table->string('num_carpeta_fisica')->nullable();
 
             $table->foreignId('tipo_vehiculo_id')->nullable()

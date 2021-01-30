@@ -98,10 +98,10 @@ function cargar_conductores(id) {
                 }else{
                     content += `<td>Inactivo</td>`;
                 }
-                    
+
                 content +=`<td class="text-center"><button type="button" onclick="ver_historial_conductor(${ conductor.personal_id}, ${conductor.vehiculo_id}, this)"  class="btn btn-info waves-effect waves-light" data-toggle="modal" data-target="#modal_ver_historial_conductor"><i class="fa fa-eye"></i></button></td></tr> `;
             });
-            
+
            if(content!=''){
             $('#content_table_conductores').html(content);
             }else{
@@ -161,9 +161,9 @@ function ver_historial_conductor(id, vehiculo_id, btn) {
             $('#modal_ver_historial_conductor').modal('show');
             $(btn).html('<i class="fa fa-eye"></i>').removeAttr('disabled');
             });
-            
+
             $('#table_ver_historial_vehiculo').html(content);
-            
+
         }
     })
 }
@@ -173,7 +173,7 @@ function ver_historial_conductor(id, vehiculo_id, btn) {
 function restaFechas(fechaa,fechab){
     let fecha1 = new Date(fechaa);
     let fecha2 = new Date(fechab);
-    
+
     let resta = fecha2.getTime() - fecha1.getTime();
     return Math.round(resta/ (1000*60*60*24));
   }
@@ -183,14 +183,14 @@ function restaFechas(fechaa,fechab){
         return null;
       }
       return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
-    
+
   }
 
 
 function agg_documento_legal(tipo_documento, id_table, vigencia, tipo_id, entidad_expide) {
     $('#agg_doc_legal').modal('show')
     $('#agg_doc_legal_title').text('Agregar '+tipo_documento)
-    $('#consecutivo_title').text('Consecutivo '+tipo_documento)
+    $('#consecutivo_title').text('Numero de '+tipo_documento)
     $('#tipo_id').val(tipo_id)
     $('#id_table').val(id_table)
     if(vigencia == '0'){
@@ -234,7 +234,7 @@ function documentos_legales(tipo, vehiculo_id, id_table, vigencia) {
                 <tr>
                     <td scope="row">${ documento.consecutivo }</td>
                     <td>${ formatoFecha(documento.fecha_expedicion) }</td>`
-                
+
                     if(documento.vigencia != '0'){
                         content += ` <td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'No aplica' }</td>
                         <td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'No aplica' }</td>
@@ -261,7 +261,7 @@ function documentos_legales(tipo, vehiculo_id, id_table, vigencia) {
                 }else{
                     $('#'+id_table).html(`<tr><td class="text-center" colspan="4">No hay documentos<td></tr>`);
                 }
-                
+
             }
 
         }
@@ -345,7 +345,7 @@ function addcheck(btn){
         $('#btn'+btn).append(' <i class="fa fa-check text-primary" aria-hidden="true"></i>');
 
     }
-    
+
 }
 
 

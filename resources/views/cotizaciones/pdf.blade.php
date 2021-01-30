@@ -78,36 +78,7 @@
             <td>{{ $cotizaciones['fecha_ida'] }}</td>
             <td>{{ $cotizaciones['fecha_regreso'] }}</td>
             <td style="text-align: justify; padding:5px;">
-                Recorrido 1: {{ $cotizaciones['ciudad_origen'] }} - {{ $cotizaciones['ciudad_destino'] }}
-                @if ($cotizacion['recorrido'] == "Ida y vuelta")
-                    con retorno a {{ $cotizaciones['ciudad_origen'] }} por el mismo corredor vial,
-                @endif
-
-                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "Si")
-                    incluye conductor, combustible y peajes,
-                @endif
-                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "No")
-                    incluye conductor y combustible,
-                @endif
-                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "No" && $cotizaciones['peajes'] == "Si")
-                    incluye conductor y peajes,
-                @endif
-                @if ($cotizaciones['conductor'] == "No" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "Si")
-                    incluye combustible y peajes,
-                @endif
-
-                @if ($cotizaciones['conductor'] == "Si" && $cotizaciones['combustible'] == "No" && $cotizaciones['peajes'] == "No")
-                    incluye conductor,
-                @endif
-                @if ($cotizaciones['conductor'] == "No" && $cotizaciones['combustible'] == "Si" && $cotizaciones['peajes'] == "No")
-                    incluye combustible,
-                @endif
-                @if ($cotizaciones['conductor'] == "No" && $cotizaciones['combustible'] == "No" && $cotizaciones['peajes'] == "Si")
-                    incluye peajes,
-                @endif
-
-                el tipo de servicio es {{ $cotizaciones['tipo_servicio'] }} el cual se prestara en un(a) {{ $cotizaciones['tipo_vehiculo'] }} y el cobro se calcula por {{ $cotizaciones['cotizacion_por'] }}. {{ $cotizaciones['observaciones'] }}
-
+                {{$cotizaciones['descripcion_table']}}
                 <br>
 
             </td>
@@ -126,7 +97,7 @@
                     <td></td>
                     <td></td>
                     <td><b>Valor Total</b></td>
-                    <td>{{$cot}}</td>
+                    <td>${{number_format($cot)}}</td>
             @endif
 
 

@@ -59,6 +59,8 @@
                                                         <thead class="thead-inverse">
                                                             <tr>
                                                                 <th class="text-center table-bg-dark">Nombre</th>
+                                                                <th class="text-center table-bg-dark">Fecha Inicio Vig.</th>
+                                                                <th class="text-center table-bg-dark">Fecha Fin Vig.</th>
                                                                 <th class="text-center table-bg-dark">Acciones</th>
                                                             </tr>
                                                             </thead>
@@ -166,6 +168,34 @@
                                 <label for="file">Agregar Adjunto</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="file" class="form-control" name="file" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <label class="col-sm-12 col-form-label">Vigencia</label>
+
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="conductor" name="conductor" value="Si" class="custom-control-input" onchange="cambiarviegencia(1)">
+                                <label class="custom-control-label" for="conductor">Si</label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio" id="conductor2" name="conductor" value="No" class="custom-control-input" onchange="cambiarviegencia(0)" checked>
+                                <label class="custom-control-label" for="conductor2">No</label>
+                            </div>
+                        </div>
+
+                        <div class="row mt-4 d-none" id="fechas_vigencias">
+                            <div class="col-sm-6">
+                                <label for="fecha_inicio_vigencia">Fecha inicio de vigencia</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" name="fecha_inicio_vigencia"  id="fecha_inicio_vigencia">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="fecha_fin_vigencia">Fecha fin de vigencia</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" name="fecha_fin_vigencia"  id="fecha_fin_vigencia">
                                 </div>
                             </div>
                         </div>

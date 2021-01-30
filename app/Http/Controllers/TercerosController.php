@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CotizacionMail;
+use App\Mail\RespuestaCorreoMail;
 use App\Models\Cargos_personal;
+use App\Models\Conductores_vehiculo;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
@@ -21,6 +24,7 @@ use App\Models\Personal;
 use App\Models\Vehiculo;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
 use PDF;
 
 class TercerosController extends Controller
@@ -278,6 +282,18 @@ class TercerosController extends Controller
         return PDF::loadView('cotizaciones.pdf', ['cotizacion' => $cotizacion, 'cotiza' => $cotizaciones])->setPaper('A4')->stream();
     }
 
+    public function enviar_cotizacion(Request $request) {
+        $cotizacion = Cotizaciones::join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')
+        ->select('cotizaciones.*', 'terceros.correo', 'terceros.nombre')->find($request['id']);
+        $cotizaciones = Cotizaciones_trayectos::where('cotizacion_id', $request['id'])->get();
+       
+        $pdf = PDF::loadView('cotizaciones.pdf', ['cotizacion' => $cotizacion, 'cotiza' => $cotizaciones])->setPaper('A4')->output();
+
+        $mail = Mail::to($cotizacion->correo)->send(new CotizacionMail($cotizacion, $pdf));
+        
+        return $mail;
+    }
+
     public function eliminar_cotizacion(Request $request) {
 
         Cotizaciones::find($request['cotizacion_id'])->delete();
@@ -338,7 +354,27 @@ class TercerosController extends Controller
                 'conductor_tres_id' => $request['conductor_tres_id'][$a],
             ]);
 
+
+
             $cot = Cotizaciones_trayectos::find($cotizacionn);
+            Conductores_vehiculo::create([
+                'fecha_inicial' => $cot['fecha_ida'],
+                'fecha_final' => $cot['fecha_regreso'],
+                'personal_id' => $request['conductor_uno_id'][$a],
+                'vehiculo_id' => $request['vehiculo_id'][$a]
+            ]);
+            Conductores_vehiculo::create([
+                'fecha_inicial' => $cot['fecha_ida'],
+                'fecha_final' => $cot['fecha_regreso'],
+                'personal_id' => $request['conductor_dos_id'][$a],
+                'vehiculo_id' => $request['vehiculo_id'][$a]
+            ]);
+            Conductores_vehiculo::create([
+                'fecha_inicial' => $cot['fecha_ida'],
+                'fecha_final' => $cot['fecha_regreso'],
+                'personal_id' => $request['conductor_tres_id'][$a],
+                'vehiculo_id' => $request['vehiculo_id'][$a]
+            ]);
             $trayecto = Trayectos_contrato::create([
                 'fecha' => $cotizacion[0]['fecha'],
                 'nombre' => $tercero['nombre'],
@@ -427,6 +463,55 @@ class TercerosController extends Controller
         if ($request['trayecto_creado']) {
             $trayecto = Trayectos_contrato::find($request['trayecto_creado']);
 
+            if($trayecto->vehiculo_id != $request->vehiculo_id){
+                Conductores_vehiculo::create([
+                    'fecha_inicial' => $request['fecha_ida'],
+                    'fecha_final' => $request['fecha_regreso'],
+                    'personal_id' => $request['conductor_uno_id'],
+                    'vehiculo_id' => $request['vehiculo_id']
+                ]);
+                Conductores_vehiculo::create([
+                    'fecha_inicial' => $request['fecha_ida'],
+                    'fecha_final' => $request['fecha_regreso'],
+                    'personal_id' => $request['conductor_dos_id'],
+                    'vehiculo_id' => $request['vehiculo_id']
+                ]);
+                Conductores_vehiculo::create([
+                    'fecha_inicial' => $request['fecha_ida'],
+                    'fecha_final' => $request['fecha_regreso'],
+                    'personal_id' => $request['conductor_tres_id'],
+                    'vehiculo_id' => $request['vehiculo_id']
+                ]);
+            }else{
+                if($trayecto->conductor_uno_id != $request->conductor_uno_id){
+                    Conductores_vehiculo::create([
+                        'fecha_inicial' => $request['fecha_ida'],
+                        'fecha_final' => $request['fecha_regreso'],
+                        'personal_id' => $request['conductor_uno_id'],
+                        'vehiculo_id' => $request['vehiculo_id']
+                    ]);
+                }
+
+                if($trayecto->conductor_dos_id != $request->conductor_dos_id){
+                    Conductores_vehiculo::create([
+                        'fecha_inicial' => $request['fecha_ida'],
+                        'fecha_final' => $request['fecha_regreso'],
+                        'personal_id' => $request['conductor_dos_id'],
+                        'vehiculo_id' => $request['vehiculo_id']
+                    ]);
+                }
+
+                if($trayecto->conductor_tres_id != $request->conductor_tres_id){
+                    Conductores_vehiculo::create([
+                        'fecha_inicial' => $request['fecha_ida'],
+                        'fecha_final' => $request['fecha_regreso'],
+                        'personal_id' => $request['conductor_tres_id'],
+                        'vehiculo_id' => $request['vehiculo_id']
+                    ]);
+                }
+            }
+ 
+
             $trayecto->update([
                 'departamento_origen' => $request['departamento_origen'],
                 'ciudad_origen' => $request['ciudad_origen'],
@@ -451,6 +536,24 @@ class TercerosController extends Controller
                 'conductor_tres_id' => $request['conductor_tres_id'],
             ]);
         } else {
+            Conductores_vehiculo::create([
+                'fecha_inicial' => $request['fecha_ida'],
+                'fecha_final' => $request['fecha_regreso'],
+                'personal_id' => $request['conductor_tres_id'],
+                'vehiculo_id' => $request['vehiculo_id']
+            ]);
+            Conductores_vehiculo::create([
+                'fecha_inicial' => $request['fecha_ida'],
+                'fecha_final' => $request['fecha_regreso'],
+                'personal_id' => $request['conductor_uno_id'],
+                'vehiculo_id' => $request['vehiculo_id']
+            ]);
+            Conductores_vehiculo::create([
+                'fecha_inicial' => $request['fecha_ida'],
+                'fecha_final' => $request['fecha_regreso'],
+                'personal_id' => $request['conductor_dos_id'],
+                'vehiculo_id' => $request['vehiculo_id']
+            ]);
             $trayecto = Trayectos_contrato::create([
                 'fecha' => $cotizacion['fecha'],
                 'nombre' => $cotizacion['nombre'],

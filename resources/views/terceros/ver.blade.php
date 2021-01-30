@@ -36,6 +36,9 @@
                                     </div>
                                 @endif
 
+                                <div class="alert alert-success d-none" id="alert_correo">
+                                </div>
+
                                 @if (session()->has('response') && session('response') == 1)
                                     <div class="alert alert-success">
                                         {{ session('mensaje') }}
@@ -930,6 +933,32 @@
                     <button type="submit" class="btn btn-danger">Eliminar</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+{{-- Modal Enviar Cotizacion --}}
+<div class="modal fade" id="modal_enviar_cotizacion" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+
+
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal_eliminar_cotizacion_tilte">Enviar Cotizacion</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-center">
+                    <div id="modal_eliminar_cotizacion_content">
+                        <h5>¿Seguro desea Enviar la cotización al correo {{$tercero[0]->correo}}?</h5>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-danger" id="enviar_cot_cion">Enviar</button>
+                </div>
+
         </div>
     </div>
 </div>

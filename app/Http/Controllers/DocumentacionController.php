@@ -51,6 +51,8 @@ class DocumentacionController extends Controller
             'nombre' => $nombre,
             'file' => $nombre_completo_file_documento,
             'documentacion_id' => $request['documentacion_id'],
+            'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia'],
+            'fecha_fin_vigencia' => $request['fecha_fin_vigencia'],
         ]);
 
         if ( $documento->save() ) {

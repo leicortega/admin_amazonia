@@ -78,7 +78,9 @@
             <td>{{ $cotizaciones['fecha_ida'] }}</td>
             <td>{{ $cotizaciones['fecha_regreso'] }}</td>
             <td style="text-align: justify; padding:5px;">
-                {{ $cotizaciones['descripcion_table'] }}
+                {{$cotizaciones['descripcion_table']}}
+                <br>
+
             </td>
             <td>${{ number_format($cotizaciones['valor_unitario']) }}</td>
             <td>{{ $cotizaciones['cantidad'] }}</td>
@@ -95,7 +97,7 @@
                     <td></td>
                     <td></td>
                     <td><b>Valor Total</b></td>
-                    <td>{{$cot}}</td>
+                    <td>${{number_format($cot)}}</td>
             @endif
 
 

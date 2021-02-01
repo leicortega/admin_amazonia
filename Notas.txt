@@ -157,8 +157,16 @@ Trabajando en:
 
 ======================================================================================================================================================
 
--Boton para enviar cotizacion al correo del cliente 
+-Boton para enviar cotizacion al correo del cliente
 -Agregar conductor en el vehiculo (pestaña conductores) al momento de generar un trayecto
 -Agregar administracion documental (vigencia) modulo administrador
--Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso) 
+-Subir dcumentos al crear un vehiculo y agregar proceso (solicitar documentos del proceso)
 -Poner filtro de seguridad en correos y cotizaciones para evitar el spam
+
+
+==================================================================================
+===================================== 30/01/2021 =================================
+==================================================================================
+- Cuando se acepte una cotizacion que se envie una notifiacion al correo de calidad
+- Agregar notifiacacion de documentos vencidos y por vencer en modulo de documentacion
+- En compranveta dejar comprador y vendedor, dejar la fecha final abierta y que se cierre cuando se agregue una nueva compraventa

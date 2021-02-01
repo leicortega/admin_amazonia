@@ -18,6 +18,8 @@ class CreateDocumentosDocumentacionTable extends Migration
 
             $table->string('nombre');
             $table->string('file');
+            $table->date('fecha_inicio_vigencia')->nullable();
+            $table->date('fecha_fin_vigencia')->nullable();
 
             $table->foreignId('documentacion_id')
                 ->constrained('documentacion')

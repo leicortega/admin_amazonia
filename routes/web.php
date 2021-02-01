@@ -188,6 +188,7 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/editar_documento', 'TercerosController@editar_documento');
     Route::post('/terceros/crear_cotizacion', 'TercerosController@crear_cotizacion');
     Route::get('/terceros/print_cotizacion/{id}', 'TercerosController@print_cotizacion');
+    Route::post('/terceros/enviar_cotizacion', 'TercerosController@enviar_cotizacion');
     Route::get('/terceros/print_contrato/{id}', 'TercerosController@print_contrato');
     Route::get('/terceros/print_contrato/contrato/{id}', 'TercerosController@print_contrato_contrato');
     Route::post('/terceros/eliminar_cotizacion', 'TercerosController@eliminar_cotizacion');

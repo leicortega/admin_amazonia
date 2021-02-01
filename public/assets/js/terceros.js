@@ -414,6 +414,7 @@ function cargar_cotizaciones(terceros_id) {
                         <button type="button" onclick="ver_cotizacion(${ cotizacion.id }, this)" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <button type="button" onclick="ver_trayectos_cotizacion(${ cotizacion.id }, this)" class="btn btn-sm btn-dark waves-effect waves-light"><i class="fa fa-plus"></i></button>
                         <button type="button" onclick="eliminar_cotizacion(${ cotizacion.id }, 'Cotizacion', this)" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="enviar_cotizacion(${ cotizacion.id }, this)" class="btn btn-sm btn-warning waves-effect waves-light"><i class="fa fa-envelope"></i></button>
                     </td>
                 </tr>
                 `;
@@ -422,6 +423,31 @@ function cargar_cotizaciones(terceros_id) {
             $('#content_table_cotizaciones').html(content);
 
         }
+    });
+}
+
+function enviar_cotizacion(id, btn){
+    $('#modal_enviar_cotizacion').modal('show');
+    $('#enviar_cot_cion').on('click', function () {
+        $('#modal_enviar_cotizacion').modal('hide');
+        $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
+        $.ajax({
+            url: '/terceros/enviar_cotizacion',
+            type: 'POST',
+            data: {id:id},
+            success: function (data) {
+                if(data){
+                    $('#alert_correo').removeClass('alert-danger').addClass('alert-success').removeClass('d-none').html('Correo enviado correctamente');  
+                }else{
+                    $('#alert_correo').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('El Correo no se pudo enviar');
+                }
+                $(btn).html('<i class="fa fa-envelope"></i>').removeAttr('disabled');
+                setTimeout(function () {
+                    $('#alert_correo').addClass('d-none');
+                }, 3000);
+
+            }
+        });
     });
 }
 

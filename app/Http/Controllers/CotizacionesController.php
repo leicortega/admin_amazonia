@@ -6,7 +6,8 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\CotizacionMail;
 use Illuminate\Http\Request;
 use App\Models\Contactos_tercero;
-use App\Models\Cotizacion;
+use App\Models\Cotizaciones;
+use App\Models\Cotizaciones_trayectos;
 use App\Models\Tercero;
 use App\Models\Vehiculo;
 use App\Models\Personal;
@@ -19,19 +20,19 @@ class CotizacionesController extends Controller
     }
 
     public function nuevas() {
-        $cotizaciones = Cotizacion::whereNull('responsable_id')->paginate(10);
+        $cotizaciones = Cotizaciones_trayectos::whereNull('responsable_id')->paginate(10);
 
         return view('cotizaciones.index', ['cotizaciones' => $cotizaciones]);
     }
 
     public function aceptadas() {
-        $cotizaciones = Cotizacion::where('aceptada', "1")->whereNull('contrato_generado')->paginate(10);
+        $cotizaciones = Cotizaciones::where('aceptada', "1")->whereNull('contrato_generado')->join('terceros', 'terceros.id', '=','cotizaciones.tercero_id')->paginate(10);
 
         return view('cotizaciones.index', ['cotizaciones' => $cotizaciones]);
     }
 
     public function respondidas() {
-        $cotizaciones = Cotizacion::whereNotNull('responsable_id')->paginate(10);
+        $cotizaciones = Cotizaciones::whereNotNull('responsable_id')->paginate(10);
 
         return view('cotizaciones.index', ['cotizaciones' => $cotizaciones]);
     }

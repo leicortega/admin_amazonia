@@ -20,7 +20,7 @@ class CreateDocumentosLegalesVehiculosTable extends Migration
             $table->date('fecha_expedicion');
             $table->date('fecha_inicio_vigencia')->nullable();
             $table->date('fecha_fin_vigencia')->nullable();
-            $table->string('entidad_expide', 120);
+            $table->string('entidad_expide', 120)->nullable();
             $table->string('estado', 120);
             $table->enum('ultimo', [1,0])->default(1);
             $table->string('documento_file', 120)->nullable();
@@ -29,8 +29,12 @@ class CreateDocumentosLegalesVehiculosTable extends Migration
                 ->constrained('vehiculos')
                 ->onDelete('cascade');
 
-            $table->foreignId('tipo_id')
+            $table->foreignId('tipo_id')->nullable()
                 ->constrained('admin_documentos_vehiculo')
+                ->onDelete('cascade');
+            
+            $table->foreignId('comprador_id')
+                ->constrained('personal')
                 ->onDelete('cascade');
 
             $table->timestamps();

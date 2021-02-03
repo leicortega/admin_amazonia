@@ -9,6 +9,6 @@ class Tipo_Vehiculo extends Model
     protected $table = 'tipo_vehiculo';
 
     protected $fillable = [
-        'nombre'
+        'nombre', 'categoria_vehiculo'
     ];
 }

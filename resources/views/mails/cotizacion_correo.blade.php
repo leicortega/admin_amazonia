@@ -261,7 +261,12 @@ Cordialmente,
                                   <table width="400" border="0" cellspacing="0" cellpadding="0" align="center" class="em_wrapper" style="max-width:200px;">
                                     <tr>
                                       <td  width="9">&nbsp;</td>
-                                      <td  width="45" bgcolor="#5a8d3e" height="45" align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff;"><a href="https://amazoniacl.com/aceptar/cotizacion/<?php echo $cotizacion['id']; ?>" target="_blank" style="color:#ffffff; text-decoration:none;"> CLIC AQUÍ</a></td>
+                                      <td  width="45" bgcolor="#5a8d3e" height="45" align="center" style="font-family:'Open Sans', Arial, sans-serif; font-size:17px; font-weight:bold; color:#ffffff;">
+                                        
+                                        <a href="https://amazoniacl.com/aceptar/cotizacion/<?php echo $cotizacion['id'] .'/'.$validor ?>" target="_blank" style="color:#ffffff; text-decoration:none;"> CLIC AQUÍ</a>
+                                        
+                                       
+                                      </td>
                                       <td  width="10">&nbsp;</td>
                                     </tr>
                                   </table>

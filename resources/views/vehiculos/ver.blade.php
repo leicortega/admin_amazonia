@@ -103,7 +103,7 @@
                                             <td class="table-bg-dark"><b>Licencia de Transito</b></td>
                                             <td>{{ $vehiculo->licencia_transito }}</td>
                                             <td class="table-bg-dark"><b>Tipo Vehiculo</b></td>
-                                            <td>{{$vehiculo->tipo_vehiculo }}</td>
+                                            <td>{{\App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->categoria_vehiculo ?? 'N/A' }}</td>
                                             <td class="table-bg-dark"><b>Categoria</b></td>
                                             <td>{{ \App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->nombre ?? 'N/A'}}</td>
                                         </tr>
@@ -214,6 +214,58 @@
                                                         </tr>
                                                     </tbody>
                                             </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {{-- TAB COMPRAVENTA --}}
+                                <div class="card mb-0">
+                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseCompraventa" aria-expanded="false" aria-controls="collapseCompraventa" class="text-dark collapsed" onclick="documentos_compraventa()">
+                                        <div class="card-header bg-dark" id="headingOne">
+                                            <h5 class="m-0 font-size-14 text-white">COMPRAVETA DE VEHICULO</h5>
+                                        </div>
+                                    </a>
+
+                                    <div id="collapseCompraventa" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                        <div class="card-body">
+
+                                            <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
+                                                
+                                                <li class="nav-item">
+                                                    <a class="nav-link active" onclick="documentos_compraventa()" data-toggle="tab" href="#panecompraventa" role="tab" aria-selected="true">
+                                                       <span class="d-none d-md-inline-block">Compraventa</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+
+                                            <div class="tab-content p-3">
+                                                <div class="tab-pane active" id="panecompraventa" role="tabpanel">
+
+                                                    <button class="btn btn-info waves-effect waves-light mb-2 float-right" data-toggle="modal" data-target="#agg_doc_compraventa"><i class="fas fa-plus" ></i></button>
+
+                                                    <table class="table table-bordered">
+                                                        <thead class="thead-inverse">
+                                                            <tr>
+                                                                <th class="text-center table-bg-dark">No</th>
+                                                                <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                                <th class="text-center table-bg-dark">Vendedor</th>
+                                                                <th class="text-center table-bg-dark">Compador</th>
+                                                                <th class="text-center table-bg-dark">Estado</th>
+                                                                <th class="text-center table-bg-dark"><i class="fas fa-cog"></i></th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="tabla_compraventas">
+                                                                <tr>
+                                                                    <td colspan="6" class="text-center">
+                                                                        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                    </table>
+                                                </div>
+
+                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -360,7 +412,7 @@
 
                         <div class="row">
                             <div class="col-sm-12">
-                                <label for="entidad_expide">Entidad expide</label>
+                                <label for="entidad_expide" id="entidad_expide_t">Entidad expide</label>
                                 <div class="form-group form-group-custom mb-4">
                                     <select name="entidad_expide" class="form-control" id="entidad_expide">
                                         <option value=""></option>
@@ -387,6 +439,79 @@
 
                     <div class="mt-3 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit" id="btn_submit_documentos">Enviar</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- AGREGAR AGREGAR COMPRAVEMTA --}}
+<div class="modal fade bs-example-modal-xl" id="agg_doc_compraventa" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" >Agregar Compraventa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="" id="agg_compraventa" method="POST" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="container p-3">
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <label for="consecutivo_comp" id="">Consecutivo Compraventa</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control" id="consecutivo_compraventa" name="consecutivo" required>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="fecha_expedicion">Fecha expedición</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" id="fecha_expedicion_compraventa" name="fecha_expedicion" required="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="entidad_expide" id="">Comprador</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <select name="comprador" class="form-control" id="comprador_id_compra" required>
+                                        <option value="">Seleccione</option>
+                                        @php
+                                            $id=App\Models\Sistema\Cargo::where('nombre', 'Propietario')->first()->id;
+                                        @endphp
+                                        @foreach (App\Models\Cargos_personal::join('personal', 'personal.id', '=', 'cargos_personal.personal_id')->where('cargos_id', $id)->get() as $item)
+                                        <option value="{{$item->id}}">{{$item->nombres}} {{$item->primer_apellido}} {{$item->segundo_apellido}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <label for="file_doc">Agregar Adjunto</label>
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="file" class="form-control" name="documento_file" id="file_doc">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                    <input type="hidden" name="id_existe" id="id_existe_compra">
+                    <input type="hidden" name="vehiculo_id" value="{{ $vehiculo->id }}">
+
+                    <div class="mt-3 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit" id="btn_submit_compra">Enviar</button>
                     </div>
 
                 </form>
@@ -430,26 +555,29 @@
                     <div class="container p-3">
 
                         <div class="row">
-                            <div class="{{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'col-sm-3' : 'col-sm-4' }}" id="cambiar_sm-1">
+                            <div class="col-sm-3" id="">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="text" class="form-control" id="placa" name="placa" value="{{ $vehiculo->placa }}" required="">
                                     <label for="placa">Placa</label>
                                 </div>
                             </div>
-                            <div class="{{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'col-sm-3' : 'col-sm-4' }}" id="cambiar_sm-2">
+                            <div class="col-sm-3" id="">
                                 <div class="form-group form-group-custom mb-4">
                                     <select onchange="editar_tipo_vehiculo(this.value)" name="tipo_vehiculo" class="form-control" id="tipo_vehiculo" required>
+                                        @php
+                                            
+                                        @endphp
                                         <option value=""></option>
-                                        <option value="Especial" {{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'selected' : '' }}>Especial</option>
-                                        <option value="Carga" {{ ($vehiculo->tipo_vehiculo == 'Carga') ? 'selected' : '' }}>Carga</option>
+                                        <option value="Especial" {{ (\App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->categoria_vehiculo == 'Especial') ? 'selected' : '' }}>Especial</option>
+                                        <option value="Carga" {{ (\App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->categoria_vehiculo == 'Carga') ? 'selected' : '' }}>Carga</option>
                                     </select>
                                     <label for="tipo_vehiculo_id">Tipo Vehiculo</label>
                                 </div>
                             </div>
 
-                            <div class="col-sm-3 {{ ($vehiculo->tipo_vehiculo != 'Especial') ? 'd-none' : '' }}">
+                            <div class="col-sm-3">
                                 <div class="form-group form-group-custom mb-4">
-                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id">
+                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id" required>
                                         <option value=""></option>
                                         @foreach (\App\Models\Sistema\Tipo_Vehiculo::all() as $tipo_vehiculo)
                                             <option value="{{ $tipo_vehiculo->id }}" {{ ($vehiculo->tipo_vehiculo_id == $tipo_vehiculo->id) ? 'selected' : '' }}>{{ $tipo_vehiculo->nombre }}</option>
@@ -458,7 +586,7 @@
                                     <label for="tipo_vehiculo_id">Categoria</label>
                                 </div>
                             </div>
-                            <div class="{{ ($vehiculo->tipo_vehiculo == 'Especial') ? 'col-sm-3' : 'col-sm-4' }}" id="cambiar_sm-3">
+                            <div class="col-sm-3" id="">
                                 <div class="form-group form-group-custom mb-4">
                                     <input type="number" class="form-control" value="{{ $vehiculo->licencia_transito }}" id="licencia_transito" name="licencia_transito" required="">
                                     <label for="licencia_transito">Licencia de Transito</label>

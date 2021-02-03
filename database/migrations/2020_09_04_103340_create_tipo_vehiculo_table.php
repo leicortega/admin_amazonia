@@ -17,6 +17,8 @@ class CreateTipoVehiculoTable extends Migration
             $table->id();
 
             $table->string('nombre');
+            $table->enum('categoria_vehiculo', ['Especial', 'Carga']);
+            
 
             $table->timestamps();
         });

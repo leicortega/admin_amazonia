@@ -77,6 +77,8 @@
                                         <tr>
                                             <th>Nombre</th>
                                             <th>Vigencia</th>
+                                            <th>Tercero</th>
+                                            <th>Proceso</th>
                                             <th>Opciones</th>
                                         </tr>
                                     </thead>
@@ -85,7 +87,9 @@
                                             <tr>
                                                 <td scope="row">{{ $documento->name }}</td>
                                                 <td scope="row">{{ $documento->vigencia ? 'Si' : 'No' }}</td>
-                                                <td><button type="button" onclick='editar_documentos_vehiculo({{ $documento->id }}, "{{$documento->name}}",  "{{$documento->vigencia}}", "{{$documento->tipo_tercero}}")' class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-documentos-vehiculo"><i class="fas fa-edit"></i></button>
+                                                <td scope="row">{{ $documento->tipo_tercero ? $documento->tipo_tercero : 'N/A' }}</td>
+                                                <td scope="row">{{ $documento->proceso ? $documento->proceso : 'N/A' }}</td>
+                                                <td><button type="button" onclick='editar_documentos_vehiculo({{ $documento->id }}, "{{$documento->name}}",  "{{$documento->vigencia}}", "{{$documento->tipo_tercero}}", "{{$documento->proceso}}")' class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-documentos-vehiculo"><i class="fas fa-edit"></i></button>
                                                     <button type="button" onclick='eliminar_documentos_vehiculo({{ $documento->id }}, this)' class="btn btn-danger"><i class="fas fa-trash"></i></button>
                                                 </td>
                                             </tr>
@@ -172,7 +176,7 @@
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Tipo De Tercero</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="tipo_tereceto" name="tipo_tercero" required>
+                            <select class="form-control" id="tipo_tereceto" name="tipo_tercero" >
                                 <option value="">Seleccione</option>
                                 <option value="Cliente">Cliente</option>
                                 <option value="Convenio">Convenio</option>
@@ -184,6 +188,20 @@
                                 <option value="Proveedores">Proveedores</option>
                                 <option value="Rastreo Satelital GPS">Rastreo Satelital GPS</option>
                                 <option value="SEGUIMIENTO">SEGUIMIENTO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="procesos" class="col-sm-2 col-form-label">Proceso</label>
+                        <div class="col-sm-10">
+                            <select name="proceso" class="form-control" id="procesos">
+                                <option value="">Ninguno</option>
+                                <option value="Vinculacion Inicial">Vinculación Inicial</option>
+                                <option value="Vinculacion Translado">Vinculación Translado</option>
+                                <option value="Tarjeta de operacion">Tarjeta de operación</option>
+                                <option value="Cambio de propietario">Cambio de propietario</option>
+                                <option value="Desvinculacion">Desvinculación</option>
                             </select>
                         </div>
                     </div>
@@ -234,7 +252,7 @@
                     <div class="form-group row">
                         <label for="name" class="col-sm-2 col-form-label">Tipo De Tercero</label>
                         <div class="col-sm-10">
-                            <select class="form-control" id="tipo_tereceto_edit" name="tipo_tercero" required>
+                            <select class="form-control" id="tipo_tereceto_edit" name="tipo_tercero" >
                                 <option value="">Seleccione</option>
                                 <option value="Cliente">Cliente</option>
                                 <option value="Convenio">Convenio</option>
@@ -246,6 +264,20 @@
                                 <option value="Proveedores">Proveedores</option>
                                 <option value="Rastreo Satelital GPS">Rastreo Satelital GPS</option>
                                 <option value="SEGUIMIENTO">SEGUIMIENTO</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        <label for="procesos" class="col-sm-2 col-form-label">Proceso</label>
+                        <div class="col-sm-10">
+                            <select name="proceso" class="form-control" id="procesos_edit">
+                                <option value="">Ninguno</option>
+                                <option value="Vinculacion Inicial">Vinculación Inicial</option>
+                                <option value="Vinculacion Translado">Vinculación Translado</option>
+                                <option value="Tarjeta de operacion">Tarjeta de operación</option>
+                                <option value="Cambio de propietario">Cambio de propietario</option>
+                                <option value="Desvinculacion">Desvinculación</option>
                             </select>
                         </div>
                     </div>

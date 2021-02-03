@@ -289,7 +289,7 @@ class TercerosController extends Controller
        
         $pdf = PDF::loadView('cotizaciones.pdf', ['cotizacion' => $cotizacion, 'cotiza' => $cotizaciones])->setPaper('A4')->output();
 
-        $mail = Mail::to($cotizacion->correo)->send(new CotizacionMail($cotizacion, $pdf));
+        $mail = Mail::to($cotizacion->correo)->send(new CotizacionMail($cotizacion, $pdf, 0));
         
         return $mail;
     }

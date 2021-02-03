@@ -19,8 +19,9 @@ class DocumentacionController extends Controller
 
     public function index(Request $request) {
         $documentacion = Documentacion::all();
+        $alerta_documentos = Documentos_documentacion::join('documentacion', 'documentacion.id', '=', 'documentos_documentacion.documentacion_id')->select('documentos_documentacion.*', 'documentacion.nombre as name')->whereNotNull('fecha_fin_vigencia')->orderBy('fecha_fin_vigencia', 'desc')->get();
 
-        return view('documentacion', ['documentacion' => $documentacion]);
+        return view('documentacion', ['documentacion' => $documentacion, 'alerta_documentos' => $alerta_documentos]);
     }
 
     public function create_modulo(Request $request) {

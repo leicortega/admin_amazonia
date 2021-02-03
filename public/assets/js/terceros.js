@@ -436,6 +436,7 @@ function enviar_cotizacion(id, btn){
             type: 'POST',
             data: {id:id},
             success: function (data) {
+                console.log(data);
                 if(data){
                     $('#alert_correo').removeClass('alert-danger').addClass('alert-success').removeClass('d-none').html('Correo enviado correctamente');  
                 }else{

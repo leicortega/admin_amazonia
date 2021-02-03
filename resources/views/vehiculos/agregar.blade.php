@@ -47,13 +47,13 @@
                                     <div class="container p-3">
 
                                         <div class="row">
-                                            <div class="col-sm-6" id="cambiar_sm-1">
+                                            <div class="col-sm-4" >
                                                 <div class="form-group form-group-custom mb-4">
                                                     <input type="text" class="form-control" id="placa" name="placa" required="">
                                                     <label for="placa">Placa</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-6" id="cambiar_sm-2">
+                                            <div class="col-sm-4">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select onchange="cambiar_tipo_vehiculo(this.value)" name="tipo_vehiculo" class="form-control" id="tipo_vehiculo" required>
                                                         <option value=""></option>
@@ -64,13 +64,10 @@
                                                 </div>
                                             </div>
 
-                                            <div class="col-sm-4 ">
-                                                <div class="form-group form-group-custom mb-4 d-none">
-                                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id">
+                                            <div class="col-sm-4">
+                                                <div class="form-group form-group-custom mb-4">
+                                                    <select name="tipo_vehiculo_id" class="form-control" id="tipo_vehiculo_id" required>
                                                         <option value=""></option>
-                                                        @foreach (\App\Models\Sistema\Tipo_Vehiculo::all() as $tipo_vehiculo)
-                                                            <option value="{{ $tipo_vehiculo->id }}">{{ $tipo_vehiculo->nombre }}</option>
-                                                        @endforeach
                                                     </select>
                                                     <label for="tipo_vehiculo_id">Categoria</label>
                                                 </div>
@@ -199,7 +196,7 @@
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select name="tipo_carroceria_id" class="form-control" id="tipo_carroceria_id" required>
                                                         <option value=""></option>
@@ -210,7 +207,7 @@
                                                     <label for="tipo_carroceria_id">Tipo de carroceria</label>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <div class="form-group form-group-custom mb-4">
                                                         <input type="text" class="form-control" id="num_carpeta_fisica" name="num_carpeta_fisica" required>
@@ -218,7 +215,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-sm-4">
+                                            <div class="col-sm-3">
                                                 <div class="form-group form-group-custom mb-4">
                                                     <select name="estado" class="form-control" id="estado" required>
                                                         <option value=""></option>
@@ -226,6 +223,20 @@
                                                         <option value="inactivo">inactivo</option>
                                                     </select>
                                                     <label for="estado">Estado</label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-sm-3">
+                                                <div class="form-group form-group-custom mb-4">
+                                                    <select name="proceso" class="form-control" id="procesos" onchange="cambio_procesos(this.value)">
+                                                        <option value="">Selecciona</option>
+                                                        <option value="Vinculacion Inicial">Vinculación Inicial</option>
+                                                        <option value="Vinculacion Translado">Vinculación Translado</option>
+                                                        <option value="Tarjeta de operacion">Tarjeta de operación</option>
+                                                        <option value="Cambio de propietario">Cambio de propietario</option>
+                                                        <option value="Desvinculacion">Desvinculación</option>
+                                                    </select>
+                                                    <label for="procesos">Procesos</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -236,19 +247,22 @@
                                             <input type="hidden" value="{{$documentos[0]->categoria_id}}" name="tipos_doc">
                                             <div class="border p-2">
                                                 @foreach($documentos as $documento)
-                                                    <button type="button" class="btn border ml-2 mt-2 btn-lg waves-effect waves-light" id="btn{{str_replace(' ', '',  $documento->name)}}" data-toggle="modal" data-target="#{{str_replace(' ', '',  $documento->name)}}">{{$documento->name}}  </button>
+                                                    <button type="button" onclick="required_form('#{{str_replace(' ', '',  $documento->name)}}')" class="btn border ml-2 mt-2 btn-lg waves-effect waves-light" id="btn{{str_replace(' ', '',  $documento->name)}}" data-toggle="modal" data-target="#{{str_replace(' ', '',  $documento->name)}}">{{$documento->name}}  </button>
                                                 @endforeach
                                             </div>
+                                        </div>
+                                        <div id="agregar_botones_procesos">
+
                                         </div>
                                     </div>
 
                                     @foreach($documentos as $documento)
-                                        <div class="modal fade bs-example-modal-xl" id="{{str_replace(' ', '',  $documento->name)}}" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+                                        <div class="modal fade bs-example-modal-xl" id="{{str_replace(' ', '',  $documento->name)}}" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true" data-backdrop="static" data-keyboard="false">
                                             <div class="modal-dialog modal-lg">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
                                                         <h5 class="modal-title mt-0" id="agg_doc_legal_title">Agregar {{$documento->name}}</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close" onclick="removecheck('{{str_replace(' ', '',  $documento->name)}}', '{{$documento->name}}')">
                                                             <span aria-hidden="true">&times;</span>
                                                         </button>
                                                     </div>
@@ -267,7 +281,7 @@
                                                                     <div class="col-sm-6">
                                                                         <label for="fecha_expedicion">Fecha expedición</label>
                                                                         <div class="form-group form-group-custom mb-4">
-                                                                            <input type="text" class="form-control datepicker-here" autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" id="fecha_expedicion" name="fecha_expedicion{{str_replace(' ', '', $documento->name)}}">
+                                                                            <input type="text" class="form-control " autocomplete="off" data-language="es" data-date-format="yyyy-mm-dd" id="fecha_expedicion" name="fecha_expedicion{{str_replace(' ', '', $documento->name)}}">
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -293,7 +307,7 @@
                                                                 <div class="col-sm-12">
                                                                     <label for="entidad_expide">Entidad expide</label>
                                                                     <div class="form-group form-group-custom mb-4">
-                                                                        <select name="entidad_expide{{str_replace(' ', '', $documento->name)}}" class="form-control" id="entidad_expide{{str_replace(' ', '', $documento->name)}}">
+                                                                        <select name="entidad_expide{{str_replace(' ', '', $documento->name)}}" class="form-control entidad_expide" id="entidad_expide{{str_replace(' ', '', $documento->name)}}">
                                                                             <option value=""></option>
                                                                             @foreach (\App\Models\Tercero::where('tipo_tercero', $documento->tipo_tercero)->get() as $item)
                                                                                 <option value="{{$item->nombre}}">{{$item->nombre}}</option>
@@ -314,8 +328,13 @@
 
                                                                 <input type="hidden" name="id_{{str_replace(' ', '', $documento->name)}}" id="id" value='{{$documento->id}}'>
 
+                                                                <div class="alert alert-danger mb-3 d-none" id="alert_camp" role="alert">
+                                                                    <h5 class="text-danger"><b>Faltan Los Siguientes Campos</b></h5>
+                                                                    <p id="capos_faltante"></p>
+                                                                </div>
+
                                                             <div class="mt-3 text-center">
-                                                                <button onclick="addcheck('{{str_replace(' ', '', $documento->name)}}')" class="btn btn-primary btn-lg waves-effect waves-light" class="close" data-dismiss="modal" aria-label="Close">Agregar {{$documento->name}}</button>
+                                                                <button onclick="addcheck('{{str_replace(' ', '',  $documento->name)}}', '{{$documento->name}}')" class="btn btn-primary btn-lg waves-effect waves-light"  id="btn_agregar_doc">Agregar {{$documento->name}}</button>
                                                             </div>
 
                                                         </div>
@@ -326,6 +345,10 @@
                                             </div>
                                         </div>
                                     @endforeach
+
+                                    <div id="agregar_modales_procesos">
+
+                                    </div>
 
                                     <div class="mt-3 text-center">
                                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="btn-submit-form-vehiculo" type="submit" >Enviar</button>

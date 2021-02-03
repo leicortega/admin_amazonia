@@ -17,7 +17,8 @@ class CreateAdminDocumentosVehiculoTable extends Migration
             $table->id();
             $table->string('name');
             $table->enum('vigencia', [1, 0]);
-            $table->string('tipo_tercero');
+            $table->string('tipo_tercero')->nullable();
+            $table->string('proceso')->nullable();
 
             $table->foreignId('categoria_id')
                 ->constrained('admin_documentos_vehiculo_categoria')

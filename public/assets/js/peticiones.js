@@ -590,10 +590,15 @@ function cargarMunicipios(dpt) {
     })
 }
 
-function datos_vehiculos(tipo) {
+function datos_vehiculos(tipo, rama) {
     $('#modal-create-datos-vehiculo').modal('show')
-    $('#modal-create-datos-vehiculo-title').text('Agregar '+tipo);
+    if(rama){
+        $('#modal-create-datos-vehiculo-title').text('Agregar '+tipo+' '+rama);
+    }else{
+        $('#modal-create-datos-vehiculo-title').text('Agregar '+tipo);
+    }
     $('#datos_vehiculo_tipo').val(tipo);
+    $('#datos_vehiculo_rama').val(rama);
 }
 
 function dato_categoria_documento(id, titulo){
@@ -602,12 +607,17 @@ function dato_categoria_documento(id, titulo){
 }
 
 
-function editar_documentos_vehiculo(id, titulo, validad, tercero){
+function editar_documentos_vehiculo(id, titulo, validad, tercero, proceso){
+    console.log(proceso)
     $('#modal-edit-documentos-vehiculo-title').text('Editar ' + titulo);
     $('#id_pase').val(id);
     $('#id_nombre_documento').val(titulo);
-    $("#vigencia_edit option[value="+ validad +"]").attr("selected",true);
-    $("#tipo_tereceto_edit option[value="+ tercero +"]").attr("selected",true);
+    $("#vigencia_edit option").removeAttr("selected");
+    $("#tipo_tereceto_edit option").removeAttr("selected");
+    $("#procesos_edit option").removeAttr("selected");
+    $("#vigencia_edit option[value='"+ validad +"']").attr("selected",true);
+    $("#tipo_tereceto_edit option[value='"+ tercero +"']").attr("selected",true);
+    $("#procesos_edit option[value='"+ proceso +"']").attr("selected",true);
 }
 
 function datos_inspecciones(tipo) {

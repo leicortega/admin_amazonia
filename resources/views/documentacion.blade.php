@@ -15,6 +15,7 @@
                 </div>
             @endif
 
+
             <div class="alert alert-success d-none" id="delete_modulo_alert">
                 Modulo Eliminado Correctamente
             </div>
@@ -28,6 +29,53 @@
                             </div>
                         </div>
                     </div>
+
+                    @php
+                    $alert=0;
+                @endphp
+    
+                @foreach ($alerta_documentos as $alerta)
+                    @if (\Carbon\Carbon::now('America/Bogota')->format('Y-m-d') > $alerta['fecha_fin_vigencia'])
+                        @php
+                            $alert++;
+                        @endphp
+                    @endif
+                @endforeach
+                @if ($alert != 0)
+                    <div class="alert alert-danger mb-3" role="alert">
+                        <h5 class="text-danger"><b>Documentos Vencidos</b></h5>
+                        <ul>
+                            @foreach ($alerta_documentos as $alerta)
+                                @if (\Carbon\Carbon::now('America/Bogota')->format('Y-m-d') > $alerta['fecha_fin_vigencia'])
+                                    <li>{{ $alerta['nombre'] .' - '. $alerta['name']}} - {{ date("d/m/Y", strtotime($alerta['fecha_fin_vigencia'])) }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                @php
+                    $vencer=0;
+                @endphp
+    
+                @foreach ($alerta_documentos as $alerta)
+                    @if (\Carbon\Carbon::parse($alerta['fecha_fin_vigencia'])->diffInDays(\Carbon\Carbon::now('America/Bogota')) < 30 && \Carbon\Carbon::now('America/Bogota')->format('Y-m-d') < $alerta['fecha_fin_vigencia'])
+                        @php
+                            $vencer++;
+                        @endphp
+                    @endif
+                @endforeach
+                @if ($vencer != 0)
+                    <div class="alert alert-warning mb-3" role="alert">
+                        <h5 class="text-warning"><b>Documentos Por Vencer</b></h5>
+                        <ul>
+                            @foreach ($alerta_documentos as $alerta)
+                                @if (\Carbon\Carbon::parse($alerta['fecha_fin_vigencia'])->diffInDays(\Carbon\Carbon::now('America/Bogota')) < 30 && \Carbon\Carbon::now('America/Bogota')->format('Y-m-d') < $alerta['fecha_fin_vigencia'])
+                                    <li>{{ $alerta['nombre'] .' - '. $alerta['name'] }} - {{ date("d/m/Y", strtotime($alerta['fecha_fin_vigencia'])) }}</li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
                     @foreach ($documentacion as $key => $row)
                         <div class="timeline-item {{ $key % 2 == 0 ? 'timeline-left' : '' }} {{ $key > 0 ? 'just-top' : '' }}">

@@ -82,8 +82,8 @@ class VehiculoController extends Controller
         $documentos = Admin_documentos_vehiculo::
         join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
         ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
-        
-        
+
+
         foreach ($documentos as $documento) {
             $date = Carbon::now('America/Bogota');
             if(isset($request["consecutivo" . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))])){
@@ -104,9 +104,9 @@ class VehiculoController extends Controller
                         $ruta_file_documento = 'docs/vehiculos/documentos/';
                         $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
                         Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name)))));
-    
+
                         $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
-    
+
                         $document['documento_file'] = $nombre_completo_file_documento;
                         $document->save();
                     }
@@ -214,7 +214,7 @@ class VehiculoController extends Controller
 
             Documentos_legales_vehiculo::where('tipo_id', $request['tipo_id'])->where('vehiculo_id', $request['vehiculo_id'])->update(['ultimo' => 0]);
 
-            
+
 
             $documento = Documentos_legales_vehiculo::create([
                 'tipo_id' => $request['tipo_id'],
@@ -398,7 +398,7 @@ class VehiculoController extends Controller
                 'fecha_expedicion' => $request->fecha_expedicion,
                 'comprador_id' => $request->comprador,
             ]);
-            
+
             if ($request->file('documento_file')) {
                 $extension_file_documento = pathinfo($request->file('documento_file')->getClientOriginalName(), PATHINFO_EXTENSION);
                 $ruta_file_documento = 'docs/vehiculos/documentos/';
@@ -412,38 +412,37 @@ class VehiculoController extends Controller
                 $documento->update([
                     'documento_file' => $nombre_completo_file_documento
                 ]);
-                
+
             }
 
-        }else{
+        } else {
+            Documentos_legales_vehiculo::whereNotNull('comprador_id')->update(['ultimo' => 0]);
+            $date = Carbon::now('America/Bogota');
+            $documento = Documentos_legales_vehiculo::create([
+                'consecutivo' => $request->consecutivo,
+                'fecha_expedicion' => $request->fecha_expedicion,
+                'comprador_id' => $request->comprador,
+                'estado' => 'Activo',
+                'ultimo' => 1,
+                'vehiculo_id' => $request->vehiculo_id
+            ]);
+            if ($request->file('documento_file')) {
+                $extension_file_documento = pathinfo($request->file('documento_file')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/vehiculos/documentos/';
+                $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file')));
 
-                Documentos_legales_vehiculo::whereNotNull('comprador_id')->update(['ultimo' => 0]);
-                $date = Carbon::now('America/Bogota');
-                $documento = Documentos_legales_vehiculo::create([
-                    'consecutivo' => $request->consecutivo,
-                    'fecha_expedicion' => $request->fecha_expedicion,
-                    'comprador_id' => $request->comprador,
-                    'estado' => 'Activo',
-                    'ultimo' => 1,
-                    'vehiculo_id' => $request->vehiculo_id
-                ]);
-                if ($request->file('documento_file')) {
-                    $extension_file_documento = pathinfo($request->file('documento_file')->getClientOriginalName(), PATHINFO_EXTENSION);
-                    $ruta_file_documento = 'docs/vehiculos/documentos/';
-                    $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
-                    Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file')));
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
 
-                    $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
-
-                    $documento['documento_file'] = $nombre_completo_file_documento;
-                    $documento->save();
-                }
-
-                Vehiculo::find($request->vehiculo_id)->update([
-                    'personal_id' => $request->comprador
-                ]);
+                $documento['documento_file'] = $nombre_completo_file_documento;
+                $documento->save();
             }
+
+            Vehiculo::find($request->vehiculo_id)->update([
+                'personal_id' => $request->comprador
+            ]);
         }
-        
+    }
+
 
 }

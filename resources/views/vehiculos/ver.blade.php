@@ -230,7 +230,7 @@
                                         <div class="card-body">
 
                                             <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
-                                                
+
                                                 <li class="nav-item">
                                                     <a class="nav-link active" onclick="documentos_compraventa()" data-toggle="tab" href="#panecompraventa" role="tab" aria-selected="true">
                                                        <span class="d-none d-md-inline-block">Compraventa</span>
@@ -291,12 +291,14 @@
                                             <!-- Nav tabs -->
                                             <ul class="nav nav-tabs nav-justified nav-tabs-custom" role="tablist">
                                                 @php
-                                                $a=0;
+                                                    $a=0;
                                                 @endphp
+
                                                 @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
+
                                                 @php
-                                                $a++;
-                                                $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
+                                                    $a++;
+                                                    $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
                                                 @endphp
                                                 <li class="nav-item">
                                                     <a class="nav-link {{$a==1 ? 'active' : ''}}" onclick="documentos_legales('{{$documento->id}}', {{ $vehiculo->id }}, 'content_table_{{$name_id}}', '{{$documento->vigencia ?? 1}}')" data-toggle="tab" href="#{{$name_id}}" role="tab" aria-selected="{{$a==1 ? 'true' : ''}}">
@@ -309,12 +311,14 @@
                                             <!-- Tab panes -->
                                             <div class="tab-content p-3">
                                                 @php
-                                                $a=0;
+                                                    $a=0;
                                                 @endphp
+
                                                 @foreach(App\Models\Admin_documentos_vehiculo::where('categoria_id', $categoria->id)->get() as $documento)
+
                                                 @php
-                                                $a++;
-                                                $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
+                                                    $a++;
+                                                    $name_id=str_replace(' ', '', preg_replace('([^A-Za-z0-9 ])', '', $documento->name));
                                                 @endphp
                                                 <div class="tab-pane {{$a==1 ? 'active' : ''}}" id="{{$name_id}}" role="tabpanel">
 
@@ -506,7 +510,7 @@
                         </div>
 
                     </div>
-                    
+
                     <input type="hidden" name="id_existe" id="id_existe_compra">
                     <input type="hidden" name="vehiculo_id" value="{{ $vehiculo->id }}">
 
@@ -565,7 +569,7 @@
                                 <div class="form-group form-group-custom mb-4">
                                     <select onchange="editar_tipo_vehiculo(this.value)" name="tipo_vehiculo" class="form-control" id="tipo_vehiculo" required>
                                         @php
-                                            
+
                                         @endphp
                                         <option value=""></option>
                                         <option value="Especial" {{ (\App\Models\Sistema\Tipo_Vehiculo::find($vehiculo->tipo_vehiculo_id)->categoria_vehiculo == 'Especial') ? 'selected' : '' }}>Especial</option>

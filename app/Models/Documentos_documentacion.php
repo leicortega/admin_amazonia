@@ -9,7 +9,7 @@ class Documentos_documentacion extends Model
     protected $table = 'documentos_documentacion';
 
     protected $fillable = [
-        'nombre', 'file', 'documentacion_id'
+        'nombre', 'file', 'documentacion_id', 'fecha_inicio_vigencia', 'fecha_fin_vigencia'
     ];
 
     public function documentacion() {

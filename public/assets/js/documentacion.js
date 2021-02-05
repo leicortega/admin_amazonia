@@ -19,6 +19,9 @@ $(document).ready(function () {
             success: function (data) {
                 $('#btn_submit_agregar_documento').html('Enviar').attr('disabled', false);
                 $('#form_agregar_documento')[0].reset();
+                $('#fechas_vigencias').addClass('d-none');
+                $('#fecha_inicio_vigencia').removeAttr('required').val('');
+                $('#fecha_fin_vigencia').removeAttr('required').val('');
                 $('#modal_agregar_documento').modal('hide');
                 $('#collapse_'+data).collapse('show');
                 cargar_documentos(data);
@@ -58,6 +61,19 @@ function eliminar_modulo(id) {
                 window.location.reload();
             }
         });
+    }
+}
+
+
+function cambiarviegencia(act){
+    if(act){
+        $('#fechas_vigencias').removeClass('d-none');
+        $('#fecha_inicio_vigencia').attr('required', true);
+        $('#fecha_fin_vigencia').attr('required', true);
+    }else{
+        $('#fechas_vigencias').addClass('d-none');
+        $('#fecha_inicio_vigencia').removeAttr('required').val('');
+        $('#fecha_fin_vigencia').removeAttr('required').val('');
     }
 }
 
@@ -136,6 +152,9 @@ function cargar_documentos(id) {
                 content += `
                     <tr>
                         <td class="text-left">${item.nombre}</td>
+                        <td class="text-left">${formatoFecha(item.fecha_inicio_vigencia) ?? 'N/A'}</td>
+                        <td class="text-left">${formatoFecha(item.fecha_fin_vigencia) ?? 'N/A'}</td>
+
                         <td>
                             <a href="/storage/${item.file}" target="_blank" class="btn btn-primary"><i class="fa fa-eye"></i></a>
                             <button class="btn btn-danger" onclick="eliminar_documento(${item.id}, ${id})"><i class="fa fa-trash"></i></button>
@@ -147,6 +166,14 @@ function cargar_documentos(id) {
             $('#content_table_documentos_'+id).html(content);
         }
     });
+}
+
+function formatoFecha(texto){
+    if(texto == '' || texto == null){
+      return null;
+    }
+    return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
+  
 }
 
 function eliminar_documento(id, id_modulo) {

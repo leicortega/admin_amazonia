@@ -19,6 +19,8 @@ class CreateCotizacionesTable extends Migration
             $table->date('fecha');
             $table->longText('cotizacion_parte_uno');
             $table->longText('cotizacion_parte_dos');
+            $table->enum('aceptada', [0,1]);
+            $table->enum('contrato_generado', [0,1])->nullable();
 
             $table->foreignId('tercero_id')
             ->constrained('terceros')

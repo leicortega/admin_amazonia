@@ -16,6 +16,7 @@ use App\Models\Conductores_vehiculo;
 use App\Models\Hallazgos_inspeccion;
 use App\Models\Cargos_personal;
 use App\Models\Personal;
+use App\Models\Sistema\Tipo_Vehiculo;
 use App\Models\Vehiculo;
 use App\Models\Tercero;
 use ZipArchive;
@@ -78,35 +79,37 @@ class VehiculoController extends Controller
             'estado' => $request['estado']
         ]);
 
-        $documentos = Admin_documentos_vehiculo::where('categoria_id', $request['tipos_doc'])
-        ->join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
+        $documentos = Admin_documentos_vehiculo::
+        join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
         ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
-        
-        
+
+
         foreach ($documentos as $documento) {
             $date = Carbon::now('America/Bogota');
-            if($request["consecutivo" . str_replace(' ', '', $documento->name)] != '' && $request["consecutivo" . str_replace(' ', '', $documento->name)] != null){
-                $document = Documentos_legales_vehiculo::create([
-                    'tipo_id' => $request["id_" . str_replace(' ', '', $documento->name)],
-                    'consecutivo' => $request['consecutivo' . str_replace(' ', '', $documento->name)],
-                    'fecha_expedicion' => $request['fecha_expedicion' . str_replace(' ', '', $documento->name)],
-                    'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia' . str_replace(' ', '', $documento->name)],
-                    'fecha_fin_vigencia' => $request['fecha_fin_vigencia' . str_replace(' ', '', $documento->name)],
-                    'entidad_expide' => $request['entidad_expide' . str_replace(' ', '', $documento->name)],
-                    'estado' => 'activo',
-                    'ultimo' => '1',
-                    'vehiculo_id' => $vehiculo['id'],
-                ]);
-                if ($request->file('documento_file' . str_replace(' ', '', $documento->name))) {
-                    $extension_file_documento = pathinfo($request->file('documento_file' . str_replace(' ', '', $documento->name))->getClientOriginalName(), PATHINFO_EXTENSION);
-                    $ruta_file_documento = 'docs/vehiculos/documentos/';
-                    $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
-                    Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file' . str_replace(' ', '', $documento->name))));
+            if(isset($request["consecutivo" . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))])){
+                if($request["consecutivo" . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))] != '' && $request["consecutivo" . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))] != null){
+                    $document = Documentos_legales_vehiculo::create([
+                        'tipo_id' => $request["id_" . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))],
+                        'consecutivo' => $request['consecutivo' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))],
+                        'fecha_expedicion' => $request['fecha_expedicion' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))],
+                        'fecha_inicio_vigencia' => $request['fecha_inicio_vigencia' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))],
+                        'fecha_fin_vigencia' => $request['fecha_fin_vigencia' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))],
+                        'entidad_expide' => $request['entidad_expide' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name))],
+                        'estado' => 'activo',
+                        'ultimo' => '1',
+                        'vehiculo_id' => $vehiculo['id'],
+                    ]);
+                    if ($request->file('documento_file' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name)))) {
+                        $extension_file_documento = pathinfo($request->file('documento_file' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name)))->getClientOriginalName(), PATHINFO_EXTENSION);
+                        $ruta_file_documento = 'docs/vehiculos/documentos/';
+                        $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                        Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file' . preg_replace('/\(|\)/','',str_replace(' ', '', $documento->name)))));
 
-                    $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+                        $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
 
-                    $document['documento_file'] = $nombre_completo_file_documento;
-                    $document->save();
+                        $document['documento_file'] = $nombre_completo_file_documento;
+                        $document->save();
+                    }
                 }
             }
 
@@ -212,6 +215,7 @@ class VehiculoController extends Controller
             Documentos_legales_vehiculo::where('tipo_id', $request['tipo_id'])->where('vehiculo_id', $request['vehiculo_id'])->update(['ultimo' => 0]);
 
 
+
             $documento = Documentos_legales_vehiculo::create([
                 'tipo_id' => $request['tipo_id'],
                 'consecutivo' => $request['consecutivo'],
@@ -261,7 +265,12 @@ class VehiculoController extends Controller
     }
 
     public function get_documento_legal(Request $request) {
-        return Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia', 'admin_documentos_vehiculo.tipo_tercero')->find($request['id']);
+        if(Documentos_legales_vehiculo::find($request['id'])->tipo_id != null){
+            return Documentos_legales_vehiculo::join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', '=', 'documentos_legales_vehiculos.tipo_id')->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'admin_documentos_vehiculo.vigencia', 'admin_documentos_vehiculo.tipo_tercero')->find($request['id']);
+        }else{
+            return  Documentos_legales_vehiculo::find($request['id']);
+        }
+
     }
 
     public function trazabilidad_inspecciones(Request $request, $id) {
@@ -348,14 +357,92 @@ class VehiculoController extends Controller
         ->select('personal.id', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')
         ->where('cargos.nombre', 'Propietario')
         ->get();
-        $documentos = Admin_documentos_vehiculo::where('categoria_id', 1)
-            ->join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
-            ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->get();
+        $documentos = Admin_documentos_vehiculo::
+            join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
+            ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->where('categoria', 'documentos legales')->where('proceso', null)->get();
         return view('vehiculos.agregar',['propietarios' => $propietarios, 'documentos' => $documentos]);
     }
 
     public function carga_entidades(Request $request){
         return Tercero::where('tipo_tercero', $request->entidad)->get();
     }
+
+    public function get_vehiculo_categoria(Request $request){
+        return Tipo_Vehiculo::where('categoria_vehiculo', $request['categoria_vehiculo'])->get();
+    }
+
+    public function cagar_compraventas(){
+        return Documentos_legales_vehiculo::whereNotNull('comprador_id')->join('personal', 'personal.id', '=', 'documentos_legales_vehiculos.comprador_id')->select('documentos_legales_vehiculos.*', 'personal.nombres', 'personal.primer_apellido', 'personal.segundo_apellido')->orderBy('fecha_expedicion', 'desc')->get();
+    }
+
+    public function cargar_procesos(Request $request){
+        return Admin_documentos_vehiculo::join('admin_documentos_vehiculo_categoria', 'admin_documentos_vehiculo_categoria.id', '=', 'admin_documentos_vehiculo.categoria_id')
+        ->select('admin_documentos_vehiculo.*', 'admin_documentos_vehiculo_categoria.categoria')->where('proceso', $request->proceso)->get();
+    }
+
+    public function cargar_terceros(Request $request){
+        return Tercero::where('tipo_tercero', $request->tipo_tercero)->get();
+    }
+
+    public function agg_compraventa(Request $request){
+        if($request['id_existe'] != '' && $request['id_existe'] != null){
+            $date = Carbon::now('America/Bogota');
+            $documento = Documentos_legales_vehiculo::find($request['id_existe']);
+            if($documento->ultimo == 1){
+                Vehiculo::find($request->vehiculo_id)->update([
+                    'personal_id' => $request->comprador
+                ]);
+            }
+            $documento->update([
+                'consecutivo' => $request->consecutivo,
+                'fecha_expedicion' => $request->fecha_expedicion,
+                'comprador_id' => $request->comprador,
+            ]);
+
+            if ($request->file('documento_file')) {
+                $extension_file_documento = pathinfo($request->file('documento_file')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/vehiculos/documentos/';
+                $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+                if($documento->documento_file){
+                    Storage::disk('public')->delete($documento->file);
+                }
+                $documento->update([
+                    'documento_file' => $nombre_completo_file_documento
+                ]);
+
+            }
+
+        } else {
+            Documentos_legales_vehiculo::whereNotNull('comprador_id')->update(['ultimo' => 0]);
+            $date = Carbon::now('America/Bogota');
+            $documento = Documentos_legales_vehiculo::create([
+                'consecutivo' => $request->consecutivo,
+                'fecha_expedicion' => $request->fecha_expedicion,
+                'comprador_id' => $request->comprador,
+                'estado' => 'Activo',
+                'ultimo' => 1,
+                'vehiculo_id' => $request->vehiculo_id
+            ]);
+            if ($request->file('documento_file')) {
+                $extension_file_documento = pathinfo($request->file('documento_file')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/vehiculos/documentos/';
+                $nombre_file_documento = 'documento_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('documento_file')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+
+                $documento['documento_file'] = $nombre_completo_file_documento;
+                $documento->save();
+            }
+
+            Vehiculo::find($request->vehiculo_id)->update([
+                'personal_id' => $request->comprador
+            ]);
+        }
+    }
+
 
 }

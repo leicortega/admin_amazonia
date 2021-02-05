@@ -126,14 +126,16 @@ class AdminController extends Controller
     }
 
     public function admin_vehiculos() {
-        $clasificacion = Tipo_Vehiculo::all();
+        $clasificacion_carga = Tipo_Vehiculo::where('categoria_vehiculo', 'Carga')->get();
+        $clasificacion_especial = Tipo_Vehiculo::where('categoria_vehiculo', 'Especial')->get();
         $vinculacion = Tipo_Vinculacion::all();
         $carroceria = Tipo_Carroceria::all();
         $marca = Marca::all();
         $linea = Linea::all();
 
         return view('admin.vehiculos', [
-            'clasificacion' => $clasificacion,
+            'clasificacion_carga' => $clasificacion_carga,
+            'clasificacion_especial' => $clasificacion_especial,
             'vinculacion' => $vinculacion,
             'carroceria' => $carroceria,
             'marca' => $marca,
@@ -145,7 +147,7 @@ class AdminController extends Controller
 
         switch ($request['tipo']) {
             case 'Clasificacion':
-                Tipo_Vehiculo::create(['nombre' => $request['nombre']])->save();
+                Tipo_Vehiculo::create(['nombre' => $request['nombre'], 'categoria_vehiculo' => $request['rama']])->save();
 
                 return redirect()->route('datos-vehiculos')->with(['create' => 1]);
                 break;
@@ -203,7 +205,8 @@ class AdminController extends Controller
             'name' => $request->nombre,
             'vigencia' => $request->vigencia,
             'categoria_id' => $request->categoria,
-            'tipo_tercero' => $request->tipo_tercero
+            'tipo_tercero' => $request->tipo_tercero,
+            'proceso' => $request->proceso,
         ]);
 
         return redirect()->route('admin_documentos_vehiculos')->with(['create' => 2]);
@@ -213,7 +216,8 @@ class AdminController extends Controller
         Admin_documentos_vehiculo::find($request->id)->update([
             'name' => $request->nombre,
             'vigencia' => $request->vigencia,
-            'tipo_tercero' => $request->tipo_tercero
+            'tipo_tercero' => $request->tipo_tercero,
+            'proceso' => $request->proceso,
         ]);
 
         return redirect()->route('admin_documentos_vehiculos')->with(['edit' => 1]);

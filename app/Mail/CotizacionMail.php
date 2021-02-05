@@ -13,16 +13,18 @@ class CotizacionMail extends Mailable
 
     public $cotizacion;
     public $pdf;
+    public $validor;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($cotizacion, $pdf)
+    public function __construct($cotizacion, $pdf, $validor)
     {
         $this->cotizacion = $cotizacion;
         $this->pdf = $pdf;
+        $this->validor=$validor;
     }
 
     /**

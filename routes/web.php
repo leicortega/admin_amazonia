@@ -89,6 +89,11 @@ Route::group(['middleware' => ['permission:vehiculos|universal']], function () {
     Route::post('/vehiculos/cargar_tarjeta_propiedad', 'VehiculoController@cargar_tarjeta_propiedad');
     Route::post('/vehiculos/eliminar_documento_legal', 'VehiculoController@eliminar_documento_legal');
     Route::post('/vehiculos/get_documento_legal', 'VehiculoController@get_documento_legal');
+    Route::post('/vehiculos/get_vehiculo_categoria', 'VehiculoController@get_vehiculo_categoria');
+    Route::post('/vehiculos/cargar_procesos', 'VehiculoController@cargar_procesos');
+    Route::post('/vehiculos/cargar_terceros', 'VehiculoController@cargar_terceros');
+    Route::post('/vehiculos/agg_compraventa', 'VehiculoController@agg_compraventa');
+    Route::get('/vehiculos/cagar_compraventas', 'VehiculoController@cagar_compraventas');
     Route::get('/vehiculos/trazabilidad_inspecciones/{id}', 'VehiculoController@trazabilidad_inspecciones');
 
     // RUTAS MANTENIMIENTOS

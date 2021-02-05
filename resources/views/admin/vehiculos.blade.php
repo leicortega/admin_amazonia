@@ -53,23 +53,58 @@
                         <!-- Tab panes -->
                         <div class="tab-content p-3">
                             <div class="tab-pane active" id="Clasificacion" role="tabpanel">
-                                <button type="button" onclick="datos_vehiculos('Clasificacion')" class="btn btn-primary my-3 btn-lg">Agregar +</button>
-                                <table class="table table-bordered">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Opciones</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($clasificacion as $clasificacion_item)
-                                            <tr>
-                                                <td scope="row">{{ $clasificacion_item->nombre }}</td>
-                                                <td><button type="button" onclick="editar_datos_vehiculo({{ $clasificacion_item->id }}, 'Clasificacion')" class="btn btn-primary"><i class="fas fa-edit"></i></button></td>
-                                            </tr>
-                                        @endforeach
-                                    </tbody>
-                                </table>
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" data-toggle="tab" href="#Especial" role="tab">
+                                            <span class="d-none d-md-inline-block">Especial</span> 
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" data-toggle="tab" href="#Carga" role="tab">
+                                            <span class="d-none d-md-inline-block">Carga</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content">
+                                    <div class="tab-pane active" id="Especial" role="tabpanel">
+                                        <button type="button" onclick="datos_vehiculos('Clasificacion', 'Especial')" class="btn btn-primary my-3 btn-lg">Agregar +</button>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($clasificacion_especial as $clasificacion_item)
+                                                    <tr>
+                                                        <td scope="row">{{ $clasificacion_item->nombre }}</td>
+                                                        <td><button type="button" onclick="editar_datos_vehiculo({{ $clasificacion_item->id }}, 'Clasificacion')" class="btn btn-primary"><i class="fas fa-edit"></i></button></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane" id="Carga" role="tabpanel">
+                                        <button type="button" onclick="datos_vehiculos('Clasificacion', 'Carga')" class="btn btn-primary my-3 btn-lg">Agregar +</button>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Opciones</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($clasificacion_carga as $clasificacion_item)
+                                                    <tr>
+                                                        <td scope="row">{{ $clasificacion_item->nombre }}</td>
+                                                        <td><button type="button" onclick="editar_datos_vehiculo({{ $clasificacion_item->id }}, 'Clasificacion')" class="btn btn-primary"><i class="fas fa-edit"></i></button></td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                             </div>
                             <div class="tab-pane" id="Marca" role="tabpanel">
                                 <button type="button" onclick="datos_vehiculos('Marca')" class="btn btn-primary my-3 btn-lg">Agregar +</button>
@@ -179,6 +214,7 @@
                     </div>
 
                     <input type="hidden" name="tipo" id="datos_vehiculo_tipo">
+                    <input type="hidden" name="rama" id="datos_vehiculo_rama">
                 
                     <div class="mt-4 text-center">
                         <button class="btn btn-primary btn-lg waves-effect waves-light" id="agregar_dat_vehiculos" type="submit">Agregar</button>

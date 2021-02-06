@@ -40,9 +40,10 @@
                                         </tr>
                                         <tr>
                                             <th scope="col">Responsable</th>
+                                            <th scope="col">Tarea</th>
                                             <th scope="col">Fecha</th>
-                                            <th scope="col">Estado</th>
                                             <th scope="col">Fecha limite</th>
+                                            <th scope="col">Estado</th>
                                             <th scope="col">Acciones</th>
                                         </tr>
                                     </thead>
@@ -50,9 +51,10 @@
                                         @foreach ($tareas as $tarea)
                                             <tr>
                                                 <th>{{ $tarea->asignado_id->name }}</th>
+                                                <td>{{ $tarea->name_tarea }}</td>
                                                 <td>{{ Carbon\Carbon::parse($tarea->fecha)->format('d-m-Y') }}</td>
-                                                <td>{{ $tarea->estado }}</td>
                                                 <td>{{ $tarea->fecha_limite }}</td>
+                                                <td>{{ $tarea->estado }}</td>
                                                 <td class="text-center">
                                                     <a href="/tareas/ver/{{ $tarea->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Tarea">
                                                         <i class="mdi mdi-eye"></i>
@@ -78,7 +80,7 @@
 </div>
 
 {{-- Modal Asignar Tarea --}}
-<div class="modal fade bs-example-modal-lg" id="modal_agregar_tarea" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+<div class="modal fade " id="modal_agregar_tarea" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -106,6 +108,13 @@
                                     <label for="asignado">Asignar tarea a</label>
                                 </div>
                             </div>
+
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-custom mb-4">
+                                    <input type="text" class="form-control" name="name_tarea" id="name_tarea" required>
+                                    <label for="name_tarea">Nombre Para La Tarea</label>
+                                </div>
+                            </div>
                             <div class="col-sm-12 mb-4">
                                 <label for="tarea">Descripcion</label>
                                 <textarea name="tarea" id="tarea" rows="10" class="form-control" required placeholder="Escriba la descripcion de la tarea"></textarea>
@@ -121,10 +130,17 @@
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group form-group-custom mb-4">
+                                    <input type="time" class="form-control" id="time_fecha_final" name="time_fecha_final">
+                                    <label>Hora final</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <div class="form-group form-group-custom mb-4">
                                     <input type="file" class="form-control" id="adjunto" name="adjunto">
                                     <label for="adjunto">Adjunto (opcional)</label>
                                 </div>
                             </div>
+
                         </div>
 
                     </div>

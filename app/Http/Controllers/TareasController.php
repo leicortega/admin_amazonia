@@ -44,6 +44,9 @@ class TareasController extends Controller
     }
 
     public function agregar(Request $request) {
+
+        $nombre_completo_file_documento='';
+
         if ($request->file('adjunto')) {
             $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
             $ruta_file_documento = 'docs/tareas/adjuntos/';
@@ -52,29 +55,76 @@ class TareasController extends Controller
 
             $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
         }
+        $fecha='';
 
-        $tarea = Tarea::create([
-            'fecha' => $this->date->format('Y-m-d'),
-            'tarea' => $request['tarea'],
-            'fecha_limite' => $request['fecha_limite'],
-            'estado' => 'Asignada',
-            'adjunto' => $nombre_completo_file_documento ?? null,
-            'supervisor' => auth()->user()->id,
-            'asignado' => $request['asignado'],
-        ]);
+            if(isset($request['fecha'])){
+                $fecha=$request['fecha'] . ' ' . ($request['time_fecha'] ?? '00:00') . ':00';
+            }else{
+                $fecha= Carbon::now()->format('Y-m-d H:m:s');
+            }
+            
+            if(isset($request['id_editar']) && $request['id_editar'] != null){
 
-        $data = [
-            'titulo' => 'NUEVA TAREA ASIGNADA',
-            'link' => 'https://admin.amazoniacl.com/tareas/ver/'.$tarea->id
-        ];
+                $tarea = Tarea::find($request['id_editar']);
 
-        Mail::to(User::find($request['asignado'])->email)->send(new NotificationMail($data));
+                $tarea->update([
+                    'fecha' => $fecha,
+                    'name_tarea' => $request['name_tarea'],
+                    'tarea' => $request['tarea'],
+                    'fecha_limite' => $request['fecha_limite'] . ' ' . ($request['time_fecha_final'] ?? '00:00')  . ':00',
+                    'supervisor' => auth()->user()->id,
+                    'asignado' => $request['asignado'] ?? auth()->user()->id,
+                ]);
 
-        if ($tarea->save()) {
-            return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea asignada correctamente']);
-        }
+                if($nombre_completo_file_documento){
+                    Storage::disk('public')->delete($tarea->adjunto);
+                    $tarea->update([
+                        'adjunto' => $nombre_completo_file_documento
+                    ]);
+                }
 
-        return redirect()->back()->with(['create' => 0, 'mensaje' => 'Ocurrio un error, intente de nuevo']);
+                $data = [
+                    'titulo' => 'TAREA ACTUALIZADA',
+                    'link' => 'https://admin.amazoniacl.com/tareas/ver/'.$tarea->id
+                ];
+        
+                Mail::to(User::find($request['asignado'])->email ?? auth()->user()->email)->send(new NotificationMail($data));
+
+                if ($tarea->save()) {
+                    return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea Actualizada correctamente']);
+                }
+        
+                return redirect()->back()->with(['create' => 0, 'mensaje' => 'Ocurrio un error, intente de nuevo']);
+
+            }else{
+                
+                $tarea = Tarea::create([
+                    'fecha' => $fecha,
+                    'name_tarea' => $request['name_tarea'],
+                    'tarea' => $request['tarea'],
+                    'fecha_limite' => $request['fecha_limite'] . ' ' . ($request['time_fecha_final'] ?? '00:00')  . ':00',
+                    'estado' => 'Asignada',
+                    'adjunto' => $nombre_completo_file_documento ?? null,
+                    'supervisor' => auth()->user()->id,
+                    'asignado' => $request['asignado'] ?? auth()->user()->id,
+                ]);
+
+                $data = [
+                    'titulo' => 'NUEVA TAREA ASIGNADA',
+                    'link' => 'https://admin.amazoniacl.com/tareas/ver/'.$tarea->id
+                ];
+        
+                Mail::to(User::find($request['asignado'])->email ?? auth()->user()->email)->send(new NotificationMail($data));
+
+                if ($tarea->save()) {
+                    return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea asignada correctamente']);
+                }
+        
+                return redirect()->back()->with(['create' => 0, 'mensaje' => 'Ocurrio un error, intente de nuevo']);
+            }
+        
+        
+        
 
     }
 
@@ -120,5 +170,43 @@ class TareasController extends Controller
 
         return redirect()->back()->with(['create' => 0, 'mensaje' => 'Ocurrio un error, intente de nuevo']);
 
+    }
+
+    public function calendario(){
+        return view('tareas.Calendario.index');
+    }
+
+    public function cargar_calendario(Request $request){
+        
+        switch ($request['list']) {
+            case 0:
+                return Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                break;
+            
+            case 1:
+                return  Tarea::where([['supervisor', auth()->user()->id], ['asignado', auth()->user()->id]])->get();
+                break;
+
+            case 2:
+                return Tarea::where([['supervisor', auth()->user()->id], ['asignado', '<>',auth()->user()->id]])->get();
+                break;
+
+            case 3:
+                return Tarea::where([['asignado', auth()->user()->id], ['supervisor', '<>',auth()->user()->id]])->get();
+                break;
+        }
+
+    }
+
+    public function eliminate_tarea(Request $request){
+        $tarea=Tarea::find($request['id']);
+        Storage::disk('public')->delete($tarea->adjunto);
+        $tarea->delete();
+            return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea Eliminada correctamente']);
+
+    }
+
+    public function vercalendario_tarea(Request $request){
+        return Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
     }
 }

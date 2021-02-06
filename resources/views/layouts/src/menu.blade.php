@@ -124,10 +124,17 @@
 
                     @canany(['tareas', 'universal'])
                         <li>
-                            <a href="tareas" class="waves-effect">
-                                <div class="d-inline-block icons-sm mr-1"><i class="uim fas fa-business-time mx-1"></i></div>
+                            <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
                                 <span>Tareas</span>
                             </a>
+
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="tareas">Tareas</a></li>
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="/calendario">Planificador</a></li>
+                            </ul>
                         </li>
                     @endcanany
 
@@ -394,14 +401,30 @@
 
                 @endif
 
-                @if ( Request::is('tareas') || Request::is('tareas/*') )
+                @if ( Request::is('tareas') || Request::is('tareas/*') || Request::is('calendario') || Request::is('calendario/*') )
 
                     <li class="menu-title">Tareas</li>
 
-                    <li><a href="/tareas"  class="waves-effect">Pendientes</a></li>
-                    <li><a href="/tareas/asignadas"  class="waves-effect">Asignadas</a></li>
-                    <li><a href="/tareas/completadas"  class="waves-effect">Completadas</a></li>
+                    <li>
+                        <a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <div class="d-inline-block icons-sm mr-1"><i class="uim uim-window-grid"></i></div>
+                            <span>Tareas</span>
+                        </a>
 
+                        <ul class="sub-menu {{( Request::is('tareas') || Request::is('tareas/*') ) ? 'mm-show' : ''}}" aria-expanded="{{( Request::is('tareas') || Request::is('tareas/*') ) ? 'true' : 'false'}}">
+                            <li><a href="/tareas"  class="waves-effect">Pendientes</a></li>
+                        </ul>
+                        <ul class="sub-menu {{( Request::is('tareas') || Request::is('tareas/*') ) ? 'mm-show' : ''}}" aria-expanded="{{( Request::is('tareas') || Request::is('tareas/*') ) ? 'true' : 'false'}}">
+                            <li><a href="/tareas/asignadas"  class="waves-effect">Asignadas</a></li>
+                        </ul>
+                        <ul class="sub-menu {{( Request::is('tareas') || Request::is('tareas/*') ) ? 'mm-show' : ''}}" aria-expanded="{{( Request::is('tareas') || Request::is('tareas/*') ) ? 'true' : 'false'}}">
+                            <li><a href="/tareas/completadas"  class="waves-effect">Completadas</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="menu-title mt-3">Calendario</li>
+                    <li><a href="/calendario"  class="waves-effect">Calendario</a></li>
+                    
                 @endif
 
                 @if ( Request::is('hseq') || Request::is('hseq/*') )

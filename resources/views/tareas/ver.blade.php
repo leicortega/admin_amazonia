@@ -42,7 +42,7 @@
                                         <table class="table table-bordered">
                                             <thead class="table-bg-dark">
                                                 <tr>
-                                                    <th colspan="4" class="text-center"><b>DATOS DE TAREA</b></th>
+                                                    <th colspan="4" class="text-center"><b>DATOS DE TAREA ({{$tarea->name_tarea}})</b></th>
                                                 </tr>
                                                 <tr>
                                                     <th>Fecha asignada</th>

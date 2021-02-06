@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tarea extends Model
 {
     protected $fillable = [
-        'fecha', 'tarea', 'fecha_limite', 'estado', 'adjunto', 'supervisor', 'asignado'
+        'fecha', 'tarea', 'fecha_limite', 'estado', 'adjunto', 'supervisor', 'asignado', 'name_tarea'
     ];
 
     public function detalle_tareas() {

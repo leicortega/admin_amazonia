@@ -16,9 +16,10 @@ class CreateTareasTable extends Migration
         Schema::create('tareas', function (Blueprint $table) {
             $table->id();
 
-            $table->date('fecha');
+            $table->timestamp('fecha');
+            $table->string('name_tarea');
             $table->longText('tarea');
-            $table->date('fecha_limite');
+            $table->timestamp('fecha_limite');
             $table->string('estado');
             $table->string('adjunto')->nullable();
 

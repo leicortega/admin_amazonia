@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Correspondencia;
 use App\Mail\CotizacionMail;
 use App\Mail\RespuestaCorreoMail;
 use App\Models\Cargos_personal;
@@ -768,6 +769,15 @@ class TercerosController extends Controller
 
     public function editar_trayecto_cotizacion(Request $request) {
         return Cotizaciones_trayectos::find($request['id']);
+    }
+
+    public function correspondencia(){
+        return view('terceros.correspondencia');
+    }
+
+    public function correspondencia_create(Request $request){
+        $correspondencia = Correspondencia::create($request->except('adjunto'));
+        return $correspondencia;
     }
 
 }

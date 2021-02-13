@@ -28,7 +28,7 @@
                             </a>
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="/terceros">Datos Terceros</a></li>
-                                <li><a href="/terceros/correspondencia">Correspondencia</a></li>
+                                {{-- <li><a href="/terceros/correspondencia">Correspondencia</a></li> --}}
                             </ul>
                         </li>
                     @endcanany
@@ -397,7 +397,7 @@
                     <li class="menu-title">Terceros</li>
 
                     <li><a href="/terceros"  class="waves-effect">Datos Terceros</a></li>
-                    <li><a href="/terceros/correspondencia"  class="waves-effect">Correspondencia</a></li>
+                    {{-- <li><a href="/terceros/correspondencia"  class="waves-effect">Correspondencia</a></li> --}}
 
                 @endif
 

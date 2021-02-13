@@ -26,19 +26,19 @@
                                     </div>
                                 @endif
 
-                                @if (session()->has('tercero') && session('tercero') == 1)
+                                @if (session()->has('correspondencia') && session('correspondencia') == 1)
                                     <div class="alert alert-success">
-                                        Tercero agregado correctamente.
+                                        Correspondencia editada correctamente.
                                     </div>
                                 @endif
 
-                                @if (session()->has('tercero') && session('tercero') == 0)
+                                @if (session()->has('correspondencia') && session('correspondencia') == 0)
                                     <div class="alert alert-error">
                                         Ocurrio un error, vuelva a intentarlo.
                                     </div>
                                 @endif
 
-                                <a href="/terceros/ver/{{}}"><button onclick="cargar_btn_single(this)" type="button" class="mr-2 btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
+                                <a href="/terceros/ver/"><button onclick="cargar_btn_single(this)" type="button" class="mr-2 btn btn-dark btn-lg mb-2 float-left">Atras</button></a>
 
                                 {{-- botones de filtro --}}
 
@@ -60,8 +60,8 @@
                                     <thead>
                                         <tr>
                                             <th colspan="12" class="text-center">
-                                                <div class="d-inline-block icons-sm mr-2"><i class="uim fas fa-user-friends mx-1"></i> </i></div>
-                                                <span class="header-title mt-2">Terceros</span>
+                                                <div class="d-inline-block icons-sm mr-2"><i class="uim fas fa-envelope-open mx-1"></i> </i></div>
+                                                <span class="header-title mt-2">Correspondencia de {{$tercero['nombre']}}</span>
                                             </th>
                                         </tr>
                                         <!--Parte de busqueda de datos-->
@@ -91,31 +91,37 @@
                                         </tr>
                                         <!--Fin parte de busqueda de datos-->
                                         <tr>
-                                            <th scope="col">Identificacion</th>
-                                            <th scope="col">Nombre</th>
-                                            <th scope="col">Ciudad</th>
-                                            <th scope="col">Correo</th>
-                                            <th scope="col">Telefonos</th>
+                                            <th scope="col">#</th>
+                                            <th scope="col">Asunto</th>
+                                            <th scope="col">Nº Folios</th>
+                                            <th scope="col">Tipo Radicación</th>
+                                            <th scope="col">Dependencia</th>
+                                            <th scope="col">Origen</th>
                                             <th scope="col">Acciones</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- @foreach ($terceros as $item)
+                                        @foreach ($correspondencias as $key => $correspondencia)
+
                                             <tr>
                                                 <th scope="row">
-                                                    <a href="#">{{ $item->identificacion }}</a>
+                                                    {{ $key+1 }}
                                                 </th>
-                                                <td>{{ $item->nombre }}</td>
-                                                <td>{{ $item->municipio }}</td>
-                                                <td>{{ $item->correo }}</td>
-                                                <td>{{ $item->telefono }}</td>
+                                                <td>{{ $correspondencia->asunto }}</td>
+                                                <td>{{ $correspondencia->numero_folios }}</td>
+                                                <td>{{ $correspondencia->nombre_radicacion }}</td>
+                                                <td>{{ $correspondencia->nombre_dependencia }}</td>
+                                                <td>{{ $correspondencia->nombre_origen }}</td>
                                                 <td class="text-center">
-                                                <a href="/terceros/ver/{{ $item->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Tercero" onclick="cargar_btn_single(this)">
-                                                        <i class="mdi mdi-eye"></i>
-                                                    </button></a>
+                                                    @if ($correspondencia->adjunto != '' && $correspondencia->adjunto != null)
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" title="Ver Correspondencia" onclick="ver_documento('{{$correspondencia->adjunto}}', 'Correspondencia', this)"><i class="mdi mdi-eye"></i></button>
+                                                    @endif
+
+                                                    <button type="button" class="btn btn-outline-secondary btn-sm" title="Editar Correspondencia" onclick="editar_correspondencia({{$correspondencia}})"><i class="mdi mdi-pencil"></i></button>
+
                                                 </td>
                                             </tr>
-                                        @endforeach --}}
+                                        @endforeach
 
                                     </tbody>
                                 </table>
@@ -348,6 +354,115 @@
                         <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Aplicar Filtros</button>
                     </div>
 
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{-- MODAL VER DOCUMENTO --}}
+<div class="modal fade bs-example-modal-xl" id="modal_ver_documento" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal_ver_documento_title"></h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="modal_ver_documento_content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{-- Editar CORRESPONDENCIA --}}
+<div class="modal fade bs-example-modal-xl" id="modal_add_correspondencia" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-correspondencia">Editar Correspondencia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/terceros/correspondencia/editar" id="form-create-correspondencia" method="POST" onsubmit="cargar_btn_form(this)" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Tipo Radicación</label>
+                                    <select name="tipo_radicacion_id" id="tipo_radicacion_id" class="form-control" required>
+                                        <option value="">Seleccione tipo</option>
+                                        @foreach (\App\Models\Tipo_radicacion_correspondencia::all() as $tipo)
+                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Dependencia</label>
+                                    <select name="dependencia_id" id="dependencia_id" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        @foreach (\App\Models\Dependencia_correspondencia::all() as $tipo)
+                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Asunto</label>
+                                    <input class="form-control" type="text" name="asunto" id="asunto_correspondencia" placeholder="Escriba el asunto" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Nº de folios</label>
+                                    <input class="form-control" type="number" name="numero_folios" id="numero_folio" placeholder="Escriba la Nº Folios" required>
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Origen</label>
+                                    <select name="origen_id" id="origen_id" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        @foreach (\App\Models\Origen_correspondencia::all() as $tipo)
+                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label for="adjunto_file">Agregar Adjunto</label>
+                                    <div class="form-group form-group-custom mb-4">
+                                        <input type="file" class="form-control" name="adjunto" id="adjunto_file">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" name="id" id="correspondencia_id" />
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Editar Correspondencia</button>
+                    </div>
                 </form>
 
             </div>

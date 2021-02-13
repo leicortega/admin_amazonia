@@ -36,7 +36,7 @@ class CreateCorrespondenciaTable extends Migration
             ->constrained('terceros')
             ->onDelete('cascade');
 
-            $table->string('adjunto');
+            $table->string('adjunto')->nullable();
 
             $table->timestamps();
         });

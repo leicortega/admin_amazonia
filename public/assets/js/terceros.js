@@ -1225,6 +1225,26 @@ function cargar_btn_link_var(btn, icon){
 }
 
 
+function ver_documento(documento_file, tipo, btn) {
+    $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
+    $('#modal_ver_documento_title').text(tipo)
+    $('#modal_ver_documento_content').html(`<iframe src="/storage/${ documento_file }" width="100%" height="810px" frameborder="0"></iframe>`)
+    $('#modal_ver_documento').modal('show')
+    $(btn).html('<i class="fa fa-eye"></i>').removeAttr('disabled');
+}
+
+function editar_correspondencia(correspondencia){
+    console.log(correspondencia);
+    $('#correspondencia_id').val(correspondencia.id);
+    $('#numero_folio').val(correspondencia.numero_folios);
+    $('#asunto_correspondencia').val(correspondencia.asunto);
+    $('#tipo_radicacion_id').val(correspondencia.tipo_radicacion_id);
+    $('#dependencia_id').val(correspondencia.dependencia_id);
+    $('#origen_id').val(correspondencia.origen_id);
+    $('#modal_add_correspondencia').modal('show');
+}
+
+
 
 
 

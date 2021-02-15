@@ -29,6 +29,8 @@
 
                                 <a href="/terceros"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargar_btn_single(this)">Atras</button></a>
                                 <button type="button" class="btn btn-primary btn-lg mb-2 float-right" onclick="editar_tercero({{ $tercero[0]->id }})">Editar</button>
+                                <button type="button" class="mr-2 btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#modal_add_correspondencia">Agregar Correspondencia</button>
+                                <a href="/terceros/correspondencia/{{ $tercero[0]->id }}"><button type="button" class="mr-2 btn btn-primary btn-lg mb-2 float-right">Ver Correspondencia</button></a>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">
@@ -1661,6 +1663,97 @@
                     </div>
 
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{{-- AGREGAR CORRESPONDENCIA --}}
+<div class="modal fade bs-example-modal-xl" id="modal_add_correspondencia" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="modal-title-correspondencia">Agregar Correspondencia</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+
+                <form action="/terceros/correspondencia/create" id="form-create-correspondencia" method="POST" onsubmit="cargar_btn_form(this)" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="container">
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Tipo Radicación</label>
+                                    <select name="tipo_radicacion_id" class="form-control" required>
+                                        <option value="">Seleccione tipo</option>
+                                        @foreach (\App\Models\Tipo_radicacion_correspondencia::all() as $tipo)
+                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Dependencia</label>
+                                    <select name="dependencia_id" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        @foreach (\App\Models\Dependencia_correspondencia::all() as $tipo)
+                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Asunto</label>
+                                    <input class="form-control" type="text" name="asunto" placeholder="Escriba el asunto" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group row">
+                            <div class="col-sm-12 d-flex">
+
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Nº de folios</label>
+                                    <input class="form-control" type="number" name="numero_folios" placeholder="Escriba la Nº Folios" required>
+                                </div>
+                                
+                                <div class="col-sm-4">
+                                    <label class="col-sm-12 col-form-label">Origen</label>
+                                    <select name="origen_id" class="form-control" required>
+                                        <option value="">Seleccione</option>
+                                        @foreach (\App\Models\Origen_correspondencia::all() as $tipo)
+                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+
+                                <div class="col-sm-4">
+                                    <label for="adjunto_file">Agregar Adjunto</label>
+                                    <div class="form-group form-group-custom mb-4">
+                                        <input type="file" class="form-control" name="adjunto" id="adjunto_file" required>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <input type="hidden" name="tercero_id" id="tercero_id" value="{{$tercero[0]->id}}" />
+
+                    <div class="mt-5 text-center">
+                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Agregar Correspondencia</button>
+                    </div>
+                </form>
+
             </div>
         </div>
     </div>

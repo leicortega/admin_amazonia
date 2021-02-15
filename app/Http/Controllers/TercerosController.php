@@ -17,6 +17,7 @@ use App\Models\Documentos_personal;
 use App\Models\Documentos_tercero;
 use App\Models\Trayectos_contrato;
 use App\Models\Contrato;
+use App\Models\Correspondencia;
 use App\Models\Cotizacion;
 use App\Models\Cotizaciones;
 use App\Models\Cotizaciones_trayectos;
@@ -768,6 +769,67 @@ class TercerosController extends Controller
 
     public function editar_trayecto_cotizacion(Request $request) {
         return Cotizaciones_trayectos::find($request['id']);
+    }
+
+    public function correspondencia($id){
+        $correspondencia = Correspondencia::
+        join('tipo_radicacion_correspondencia', 'tipo_radicacion_correspondencia.id', '=', 'correspondencia.tipo_radicacion_id')
+        ->join('dependencia_correspondencia', 'dependencia_correspondencia.id', '=', 'correspondencia.dependencia_id')
+        ->join('origen_correspondencia', 'origen_correspondencia.id','=', 'correspondencia.origen_id')
+        ->where('tercero_id', $id)
+        ->select('correspondencia.*', 'tipo_radicacion_correspondencia.nombre as nombre_radicacion', 'dependencia_correspondencia.nombre as nombre_dependencia', 'origen_correspondencia.nombre as nombre_origen')
+        ->get();
+        $tercero = Tercero::find($id);
+        return view('terceros.correspondencia', ['correspondencias' => $correspondencia, 'tercero' => $tercero]);
+    }
+
+    public function correspondencia_create(Request $request){
+        $date = Carbon::now('America/Bogota');
+
+        $correspondencia = Correspondencia::create($request->except('adjunto'));
+
+        if ($request->file('adjunto')) {
+            $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $ruta_file_documento = 'docs/terceros/documentos/';
+            $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+    
+            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+            $correspondencia->adjunto = $nombre_completo_file_documento;
+        }
+
+        if($correspondencia->save()){
+            return redirect()->route('correspondencia_index', $correspondencia->tercero_id);
+        }
+
+        return "Error En la creacion";
+    }
+
+    public function correspondencia_editar(Request $request){
+        $date = Carbon::now('America/Bogota');
+
+        $correspondencia = Correspondencia::find($request->id);
+
+        $correspondencia->update($request->except('adjunto'));
+
+        if ($request->file('adjunto')) {
+            $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $ruta_file_documento = 'docs/terceros/documentos/';
+            $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+    
+            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+            if($correspondencia->adjunto){
+                Storage::disk('public')->delete($correspondencia->adjunto);
+            }
+            $correspondencia->adjunto = $nombre_completo_file_documento;
+        }
+
+        if($correspondencia->save()){
+            return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 1);
+        }
+
+        return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 0);
     }
 
 }

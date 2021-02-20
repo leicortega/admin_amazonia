@@ -173,3 +173,13 @@ Trabajando en:
 
 
 - Crear modulo de planifiacion (actividades realizadas por dia del personal)
+
+
+
+==================================================================================
+===================================== 30/01/2021 =================================
+==================================================================================
+- Generar tarea automaticamente cuando se hagan operaciones o registros que se requieran de aprobacion o se deleguen a alguien
+- Agregar campo de usuario en correspondencia y que le llegue notificacion al correo del usuario seleccionado
+- Agregar respuesta de correspondencia, asunto, mensaje y adjunto, agregar boton para enviar respuesta al tercero
+- Poner en el planificador los documentos de vehiculos y documentos documentacion a vencer

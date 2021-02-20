@@ -112,7 +112,7 @@
     </table>
 
     <p style="text-align: center;font-weight: bold;">FORMATO UNICO DE CONTRATO DE SERVICIO PUBLICO DE TRANSPORTE AUTOMOTOR ESPCIAL</p>
-    <p style="text-align: center;font-weight: bold;">No: 441000112{{ $data['anio'] }}{{ $data['contrato_numero'] }}{{ $data['extracto_numero'] }}</p>
+    <p style="text-align: center;font-weight: bold;">No: 441022118{{ $data['anio'] }}{{ $data['contrato_numero'] }}{{ $data['extracto_numero'] }}</p>
 
     <br>
 

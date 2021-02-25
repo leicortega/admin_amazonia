@@ -217,7 +217,7 @@ class TercerosController extends Controller
         $date = Carbon::now('America/Bogota');
         if ($request['cotizacion_creada']) {
             $cotizacion = Cotizaciones::find($request['cotizacion_creada']);
-            
+
             $cotizacion->update([
                 'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
                 'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
@@ -230,9 +230,6 @@ class TercerosController extends Controller
                 ]);
                 $a++;
             }
-
-            
-
 
             return $cotizacion;
         } else {
@@ -287,11 +284,11 @@ class TercerosController extends Controller
         $cotizacion = Cotizaciones::join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')
         ->select('cotizaciones.*', 'terceros.correo', 'terceros.nombre')->find($request['id']);
         $cotizaciones = Cotizaciones_trayectos::where('cotizacion_id', $request['id'])->get();
-       
+
         $pdf = PDF::loadView('cotizaciones.pdf', ['cotizacion' => $cotizacion, 'cotiza' => $cotizaciones])->setPaper('A4')->output();
 
         $mail = Mail::to($cotizacion->correo)->send(new CotizacionMail($cotizacion, $pdf, 0));
-        
+
         return $mail;
     }
 
@@ -511,7 +508,7 @@ class TercerosController extends Controller
                     ]);
                 }
             }
- 
+
 
             $trayecto->update([
                 'departamento_origen' => $request['departamento_origen'],
@@ -793,7 +790,7 @@ class TercerosController extends Controller
             $ruta_file_documento = 'docs/terceros/documentos/';
             $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
             Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
-    
+
             $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
             $correspondencia->adjunto = $nombre_completo_file_documento;
         }
@@ -817,7 +814,7 @@ class TercerosController extends Controller
             $ruta_file_documento = 'docs/terceros/documentos/';
             $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
             Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
-    
+
             $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
             if($correspondencia->adjunto){
                 Storage::disk('public')->delete($correspondencia->adjunto);

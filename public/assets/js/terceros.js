@@ -80,6 +80,8 @@ $(document).ready(function () {
                         $('#modal_crear_cotizacion').modal('hide');
                         cargar_cotizaciones(data.tercero_id);
                         back_cotizacion();
+                    }, error(e){
+                        console.log(e)
                     }
                 });
             }
@@ -92,7 +94,6 @@ $(document).ready(function () {
                 type: 'POST',
                 data: $('#form_crear_cotizacion').serialize(),
                 success: function (data) {
-                    console.log(data);
                     $('#btn_submit_cotizacion').html('Enviar');
                     $('#btn_submit_cotizacion').removeAttr('disabled');
                     window.open('/terceros/print_cotizacion/'+data.id, '_blank');
@@ -437,7 +438,7 @@ function enviar_cotizacion(id, btn){
             data: {id:id},
             success: function (data) {
                 if(data){
-                    $('#alert_correo').removeClass('alert-danger').addClass('alert-success').removeClass('d-none').html('Correo enviado correctamente');  
+                    $('#alert_correo').removeClass('alert-danger').addClass('alert-success').removeClass('d-none').html('Correo enviado correctamente');
                 }else{
                     $('#alert_correo').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('El Correo no se pudo enviar');
                 }

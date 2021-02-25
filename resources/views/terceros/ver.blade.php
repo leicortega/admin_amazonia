@@ -1431,7 +1431,7 @@
 
 {{-- MODAL AGREGAR TRAYECTO COTIZACIONES --}}
 <div class="modal fade bs-example-modal-xl" id="modal_agregar_trayecto_cotizacion" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
-    
+
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -1723,7 +1723,7 @@
                                     <label class="col-sm-12 col-form-label">Nº de folios</label>
                                     <input class="form-control" type="number" name="numero_folios" placeholder="Escriba la Nº Folios" required>
                                 </div>
-                                
+
                                 <div class="col-sm-4">
                                     <label class="col-sm-12 col-form-label">Origen</label>
                                     <select name="origen_id" class="form-control" required>

@@ -881,7 +881,7 @@ function ver_contrato(id, btn) {
 
 function ver_trayecto(id, btn) {
     cargar_btn_link_var(btn, 'fa-eye');
-    window.open('/terceros/print_cotizacion/' + id, '_blank');
+    window.open('/terceros/print_contrato/' + id, '_blank');
 }
 
 function ver_trayecto_cotizacion(id, btn) {

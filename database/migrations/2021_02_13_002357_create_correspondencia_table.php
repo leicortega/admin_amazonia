@@ -24,6 +24,10 @@ class CreateCorrespondenciaTable extends Migration
             ->constrained('dependencia_correspondencia')
             ->onDelete('cascade');
 
+            $table->foreignId('users_id')
+            ->constrained('users')
+            ->onDelete('cascade');
+
             $table->string('asunto');
 
             $table->integer('numero_folios');

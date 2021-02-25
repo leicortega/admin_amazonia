@@ -29,8 +29,7 @@
 
                                 <a href="/terceros"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargar_btn_single(this)">Atras</button></a>
                                 <button type="button" class="btn btn-primary btn-lg mb-2 float-right" onclick="editar_tercero({{ $tercero[0]->id }})">Editar</button>
-                                <button type="button" class="mr-2 btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#modal_add_correspondencia">Agregar Correspondencia</button>
-                                <a href="/terceros/correspondencia/{{ $tercero[0]->id }}"><button type="button" class="mr-2 btn btn-primary btn-lg mb-2 float-right">Ver Correspondencia</button></a>
+                                <a href="/terceros/correspondencia/{{ $tercero[0]->id }}"><button type="button" class="mr-2 btn btn-primary btn-lg mb-2 float-right">Correspondencia</button></a>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-success">
@@ -1469,7 +1468,7 @@
 
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Tipo Servicio</label>
-                                            <select class="form-control" name="tipo_servicio" id="tipo_servicio_trayecto_cotizacion">
+                                            <select onchange="descripcion_table_cotizacion()" class="form-control" name="tipo_servicio" id="tipo_servicio_trayecto_cotizacion">
                                                 <option value="">Seleccione</option>
                                                 <option value="Carga y/o Encomiendas">Carga y/o Encomiendas</option>
                                                 <option value="Empresarial">Empresarial</option>
@@ -1480,7 +1479,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-sm-12 col-form-label">Tipo Vehiculo</label>
-                                            <select name="tipo_vehiculo" id="tipo_vehiculo_trayecto_cotizacion" class="form-control" >
+                                            <select onchange="descripcion_table_cotizacion()" name="tipo_vehiculo" id="tipo_vehiculo_trayecto_cotizacion" class="form-control" >
 												<option value="">Seleccione</option>
 												<option value="Station wagon">Station wagon</option>
 												<option value="Buseta">Buseta</option>
@@ -1513,7 +1512,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-form-label">Municipio</label>
-                                            <select name="ciudad_origen" id="ciudad_origen_trayecto_cotizacion" class="ciudad_origen form-control" >
+                                            <select onchange="descripcion_table_cotizacion()" name="ciudad_origen" id="ciudad_origen_trayecto_cotizacion" class="ciudad_origen form-control" >
                                                 <option value="">Seleccione el municipio</option>
                                             </select>
                                         </div>
@@ -1531,7 +1530,7 @@
                                         </div>
                                         <div class="col-sm-6">
                                             <label class="col-form-label">Municipio</label>
-                                            <select name="ciudad_destino" id="ciudad_destino_trayecto_cotizacion" class="ciudad_destino form-control" >
+                                            <select onchange="descripcion_table_cotizacion()" name="ciudad_destino" id="ciudad_destino_trayecto_cotizacion" class="ciudad_destino form-control" >
                                                 <option value="">Seleccione el municipio</option>
                                             </select>
                                         </div>
@@ -1545,7 +1544,7 @@
                                         <h5 class="col-form-label col-sm-12">Observaciones del Trayecto<hr class="m-0"></h5>
 
                                         <div class="col-sm-12">
-                                            <textarea class="form-control" type="text" name="observaciones" id="observaciones_trayecto_cotizacion" placeholder="Ejemplo 'El recorrido inicia en la calle 0 No 0-00 a las 05:00AM.' " ></textarea>
+                                            <textarea onchange="descripcion_table_cotizacion()" class="form-control" type="text" name="observaciones" id="observaciones_trayecto_cotizacion" placeholder="Ejemplo 'El recorrido inicia en la calle 0 No 0-00 a las 05:00AM.' " ></textarea>
                                         </div>
                                     </div>
                                 </div>
@@ -1560,11 +1559,11 @@
                                             <label class="col-sm-12 col-form-label">Combustible</label>
 
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="combustible5" name="combustible_trayecto_cotizacion" value="Si" class="custom-control-input">
+                                                <input onclick="descripcion_table_cotizacion()" type="radio" id="combustible5" name="combustible_trayecto_cotizacion" value="Si" class="custom-control-input">
                                                 <label class="custom-control-label" for="combustible5">Si</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="combustible6" name="combustible_trayecto_cotizacion" value="No" class="custom-control-input" checked>
+                                                <input onclick="descripcion_table_cotizacion()" type="radio" id="combustible6" name="combustible_trayecto_cotizacion" value="No" class="custom-control-input" checked>
                                                 <label class="custom-control-label" for="combustible6">No</label>
                                             </div>
                                         </div>
@@ -1572,11 +1571,11 @@
                                             <label class="col-sm-12 col-form-label">Conductor</label>
 
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="conductor5" name="conductor_trayecto_cotizacion" value="Si" class="custom-control-input">
+                                                <input onclick="descripcion_table_cotizacion()" type="radio" id="conductor5" name="conductor_trayecto_cotizacion" value="Si" class="custom-control-input">
                                                 <label class="custom-control-label" for="conductor5">Si</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="conductor6" name="conductor_trayecto_cotizacion" value="No" class="custom-control-input" checked>
+                                                <input onclick="descripcion_table_cotizacion()" type="radio" id="conductor6" name="conductor_trayecto_cotizacion" value="No" class="custom-control-input" checked>
                                                 <label class="custom-control-label" for="conductor6">No</label>
                                             </div>
                                         </div>
@@ -1584,11 +1583,11 @@
                                             <label class="col-sm-12 col-form-label">Peajes</label>
 
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="peajes5" name="peajes_trayecto_cotizacion" value="Si" class="custom-control-input">
+                                                <input onclick="descripcion_table_cotizacion()" type="radio" id="peajes5" name="peajes_trayecto_cotizacion" value="Si" class="custom-control-input">
                                                 <label class="custom-control-label" for="peajes5">Si</label>
                                             </div>
                                             <div class="custom-control custom-radio custom-control-inline">
-                                                <input type="radio" id="peajes6" name="peajes_trayecto_cotizacion" value="No" class="custom-control-input" checked>
+                                                <input onclick="descripcion_table_cotizacion()" type="radio" id="peajes6" name="peajes_trayecto_cotizacion" value="No" class="custom-control-input" checked>
                                                 <label class="custom-control-label" for="peajes6">No</label>
                                             </div>
                                         </div>
@@ -1600,15 +1599,15 @@
                                         <h5 class="col-sm-12 col-form-label">Cotización por<hr class="m-0"></h5>
 
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="cotizacion_por7" name="cotizacion_por_trayecto_cotizacion" value="Dias" class="custom-control-input" checked/>
+                                            <input onclick="descripcion_table_cotizacion()" type="radio" id="cotizacion_por7" name="cotizacion_por_trayecto_cotizacion" value="Dias" class="custom-control-input" checked/>
                                             <label class="custom-control-label" for="cotizacion_por7">Dia(s)</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="cotizacion_por8" name="cotizacion_por_trayecto_cotizacion" value="Trayecto" class="custom-control-input" />
+                                            <input onclick="descripcion_table_cotizacion()" type="radio" id="cotizacion_por8" name="cotizacion_por_trayecto_cotizacion" value="Trayecto" class="custom-control-input" />
                                             <label class="custom-control-label" for="cotizacion_por8">Trayecto(s)</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="cotizacion_por9" name="cotizacion_por_trayecto_cotizacion" value="Mensual" class="custom-control-input" />
+                                            <input onclick="descripcion_table_cotizacion()" type="radio" id="cotizacion_por9" name="cotizacion_por_trayecto_cotizacion" value="Mensual" class="custom-control-input" />
                                             <label class="custom-control-label" for="cotizacion_por9">Mensual</label>
                                         </div>
                                     </div>
@@ -1618,11 +1617,11 @@
                                         <h5 class="col-sm-12 col-form-label">Trayecto(s)<hr class="m-0"></h5>
 
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="recorrido5" name="recorrido_trayecto_cotizacion" value="Solo ida" class="custom-control-input" checked/>
+                                            <input onclick="descripcion_table_cotizacion()" type="radio" id="recorrido5" name="recorrido_trayecto_cotizacion" value="Solo ida" class="custom-control-input" checked/>
                                             <label class="custom-control-label" for="recorrido5">Solo ida</label>
                                         </div>
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="recorrido6" name="recorrido_trayecto_cotizacion" value="Ida y vuelta" class="custom-control-input" />
+                                            <input onclick="descripcion_table_cotizacion()" type="radio" id="recorrido6" name="recorrido_trayecto_cotizacion" value="Ida y vuelta" class="custom-control-input" />
                                             <label class="custom-control-label" for="recorrido6">Ida y vuelta</label>
                                         </div>
                                     </div>
@@ -1650,6 +1649,17 @@
                                 </div>
                             </div>
 
+                            <div class="form-group row">
+                                <div class="col-sm-12 d-flex">
+                                    <div class="form-group row col-sm-12">
+                                        <h5 class="col-form-label col-sm-12">Descripcion<hr class="m-0"></h5>
+
+                                        <div class="col-sm-12">
+                                            <textarea class="form-control" type="text" name="descripcion_table" id="descripcion_table_trayecto" placeholder="" ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <input type="hidden" name="cotizacion_id" id="cotizacion_id_trayecto" />
                             <input type="hidden" name="trayecto_creado" id="trayecto_creado_cotizacion" />
@@ -1669,95 +1679,6 @@
 </div>
 
 
-{{-- AGREGAR CORRESPONDENCIA --}}
-<div class="modal fade bs-example-modal-xl" id="modal_add_correspondencia" tabindex="-1" role="dialog" aria-labelledby="modal-blade-title" aria-hidden="true">
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title mt-0" id="modal-title-correspondencia">Agregar Correspondencia</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <form action="/terceros/correspondencia/create" id="form-create-correspondencia" method="POST" onsubmit="cargar_btn_form(this)" enctype="multipart/form-data">
-                    @csrf
-
-                    <div class="container">
-                        <div class="form-group row">
-                            <div class="col-sm-12 d-flex">
-
-                                <div class="col-sm-4">
-                                    <label class="col-sm-12 col-form-label">Tipo Radicación</label>
-                                    <select name="tipo_radicacion_id" class="form-control" required>
-                                        <option value="">Seleccione tipo</option>
-                                        @foreach (\App\Models\Tipo_radicacion_correspondencia::all() as $tipo)
-                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <label class="col-sm-12 col-form-label">Dependencia</label>
-                                    <select name="dependencia_id" class="form-control" required>
-                                        <option value="">Seleccione</option>
-                                        @foreach (\App\Models\Dependencia_correspondencia::all() as $tipo)
-                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-sm-4">
-                                    <label class="col-sm-12 col-form-label">Asunto</label>
-                                    <input class="form-control" type="text" name="asunto" placeholder="Escriba el asunto" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <div class="form-group row">
-                            <div class="col-sm-12 d-flex">
-
-                                <div class="col-sm-4">
-                                    <label class="col-sm-12 col-form-label">Nº de folios</label>
-                                    <input class="form-control" type="number" name="numero_folios" placeholder="Escriba la Nº Folios" required>
-                                </div>
-                                
-                                <div class="col-sm-4">
-                                    <label class="col-sm-12 col-form-label">Origen</label>
-                                    <select name="origen_id" class="form-control" required>
-                                        <option value="">Seleccione</option>
-                                        @foreach (\App\Models\Origen_correspondencia::all() as $tipo)
-                                            <option value="{{$tipo->id}}">{{$tipo->nombre}}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="col-sm-4">
-                                    <label for="adjunto_file">Agregar Adjunto</label>
-                                    <div class="form-group form-group-custom mb-4">
-                                        <input type="file" class="form-control" name="adjunto" id="adjunto_file" required>
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <input type="hidden" name="tercero_id" id="tercero_id" value="{{$tercero[0]->id}}" />
-
-                    <div class="mt-5 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Agregar Correspondencia</button>
-                    </div>
-                </form>
-
-            </div>
-        </div>
-    </div>
-</div>
 
 
 

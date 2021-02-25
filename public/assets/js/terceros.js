@@ -610,7 +610,7 @@ function agregar_trayecto(id) {
 }
 
 function agregar_trayecto_cotizacion(id) {
-    // $('#form_agregar_trayecto_cotizacion')[0].reset();
+    $('#form_agregar_trayecto_cotizacion')[0].reset();
     $('#modal_agregar_trayecto_cotizacion').modal('show');
     $('#cotizacion_id_trayecto').val(id);
     $('#trayecto_creado_cotizacion').val(null);
@@ -622,6 +622,33 @@ function agregar_trayecto_cotizacion(id) {
     $('#ciudad_destino_trayecto_cotizacion').html('<option value="">Seleccione el departamento</option>');
     $('#ciudad_origen_trayecto_cotizacion option[value=""]').attr("selected", true);
     $('#ciudad_destino_trayecto_cotizacion option[value=""]').attr("selected", true);
+    $('#observaciones_trayecto_cotizacion').val('');
+
+    $('#combustible5').removeAttr('checked');
+
+
+    $('#conductor5').removeAttr('checked');
+    
+
+    $('#peajes5').removeAttr('checked');
+    
+
+    $('#recorrido6').removeAttr('checked');
+    
+
+    $('#cotizacion_por9').removeAttr('checked');
+    $('#cotizacion_por8').removeAttr('checked');
+    
+
+    $('#valor_unitario_trayecto_cotizacion').val('');
+    $('#cantidad_trayecto_cotizacion').val('');
+    $('#total_trayecto_cotizacion').val('');
+
+    $('#descripcion_table_trayecto').html('');
+    $('#fecha_ida_trayecto_cotizacion').val('');
+    $('#fecha_regreso_trayecto_cotizacion').val('');
+
+
 }
 
 function total_cotizacion_trayecto() {
@@ -1188,6 +1215,10 @@ function editar_trayecto_cotizacion(id, btn) {
             $('#conductor_uno_id_trayecto_cotizacion option[value="'+ data.conductor_uno_id + '"]').attr("selected", true);
             $('#conductor_dos_id_trayecto_cotizacion option[value="'+ data.conductor_dos_id + '"]').attr("selected", true);
             $('#conductor_tres_id_trayecto_cotizacion option[value="'+ data.conductor_tres_id + '"]').attr("selected", true);
+            $('#descripcion_table_trayecto').html(data.descripcion_table);
+            //ayuda a verificar la descripcion de la cotizacion
+            verificacion_cotizacion = 0;
+            
 
             $('#trayecto_creado_cotizacion').val(data.id);
             $(btn).html('<i class="fa fa-edit"></i>');
@@ -1236,16 +1267,100 @@ function ver_documento(documento_file, tipo, btn) {
 function editar_correspondencia(correspondencia){
     console.log(correspondencia);
     $('#correspondencia_id').val(correspondencia.id);
+    $('#users_id').val(correspondencia.users_id);
     $('#numero_folio').val(correspondencia.numero_folios);
     $('#asunto_correspondencia').val(correspondencia.asunto);
     $('#tipo_radicacion_id').val(correspondencia.tipo_radicacion_id);
     $('#dependencia_id').val(correspondencia.dependencia_id);
     $('#origen_id').val(correspondencia.origen_id);
+    $('#btn_enviar_correspondencia').html('Editar');
+    $('#modal-title-correspondencia').html('Editar Correspondencia')
     $('#modal_add_correspondencia').modal('show');
 }
 
+function agregarcorrespondencia(){
+    $('#correspondencia_id').val('');
+    $('#numero_folio').val('');
+    $('#users_id').val('');
+    $('#asunto_correspondencia').val('');
+    $('#tipo_radicacion_id').val('');
+    $('#dependencia_id').val('');
+    $('#origen_id').val('');
+    $('#btn_enviar_correspondencia').html('Enviar');
+    $('#modal-title-correspondencia').html('Agregar Correspondencia')
+    $('#modal_add_correspondencia').modal('show');
+}
+
+function editar_respuesta_correspondencia(respuesta){
+    $('#asunto_corre_respuesta').val(respuesta.asunto);
+    $('#mensaje_corre_respuesta').val(respuesta.mensaje);
+    $('#respuesta_id').val(respuesta.id);
+    $('#btn_enviar_correspondencia_respuesta').html('Editar');
+    $('#modal_title_correspondencia_respuesta').html('Editar Respuesta');
+    $('#modal_add_respuesta_correspondencia').modal('show');
+}
+
+function agregar_respuesta_correspondencia(){
+    $('#asunto_corre_respuesta').val('');
+    $('#mensaje_corre_respuesta').val('');
+    $('#respuesta_id').val('');
+    $('#btn_enviar_correspondencia_respuesta').html('Enviar');
+    $('#modal_title_correspondencia_respuesta').html('Agregar Respuesta');
+    $('#modal_add_respuesta_correspondencia').modal('show');
+}
 
 
+var verificacion_cotizacion = 0;
+
+function descripcion_table_cotizacion(){
+    var verificacion =0;
+    if($('#trayecto_creado_cotizacion').val() != '' && verificacion_cotizacion == 0){
+        if(window.confirm('Al modificar esta opcion quiere modificar la descripcion del trayecto automaticamente?')){
+            verificacion = 0;
+            verificacion_cotizacion = 1;
+        }else{
+            verificacion = 1;
+        }
+    }
+    if(verificacion == 0){
+        let descripcion = 'Recorrido 1: ' + $('#ciudad_origen_trayecto_cotizacion').val() + ' - ' + $('#ciudad_destino_trayecto_cotizacion').val();
+
+        $('input:radio[name=recorrido_trayecto_cotizacion]:checked').val() == 'Ida y vuelta' ? descripcion += ' con retorno a '+ $('#ciudad_origen_trayecto_cotizacion').val() +' por el mismo corredor vial,' : '';
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
+            descripcion += ' incluye conductor, combustible y peajes,';
+        }
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'No') {
+            descripcion += ' incluye conductor y combustible,';
+        }
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
+            descripcion += ' incluye conductor y peajes,';
+        }
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
+            descripcion += ' incluye combustible y peajes,';
+        }
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'No') {
+            descripcion += ' incluye conductor,';
+        }
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'No') {
+            descripcion += ' incluye combustible,';
+        }
+    
+        if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
+            descripcion += ' incluye peajes,';
+        }
+    
+        descripcion += 'el tipo de servicio es ' + $('#tipo_servicio_trayecto_cotizacion').val() + ' el cual se prestara en un(a) ' + $('#tipo_vehiculo_trayecto_cotizacion').val() + ' y el cobro se calcula por ' + $('input:radio[name=cotizacion_por_trayecto_cotizacion]:checked').val() + '. ' + $('#observaciones_trayecto_cotizacion').val();
+    
+    
+        $('#descripcion_table_trayecto').html(descripcion);
+    }
+}
 
 
 

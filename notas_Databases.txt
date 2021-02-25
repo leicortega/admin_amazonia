@@ -1,0 +1,7 @@
+2021/02/23
+
+Correspondencia $table->foreignId('users_id')
+            ->constrained('users')
+            ->onDelete('cascade'); 
+
+se creo tabla respuesta correspondencia.

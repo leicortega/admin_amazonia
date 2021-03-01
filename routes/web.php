@@ -35,6 +35,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/admin/sistema/inspecciones/agg_admin_inspeccion', 'AdminController@agg_admin_inspeccion');
     //administrar proveedores
 
+    // Admin Roles y permisos
+    Route::resource('/admin/sistema/roles','RoleController');
+    Route::resource('/admin/sistema/permisos','PermisoController');
 });
 
 // Rutas para Correos
@@ -151,6 +154,9 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::get('/personal/datos-personal/filtro', 'PersonalController@filtro')->name('personal_filtro');
     Route::post('/personal/create', 'PersonalController@create');
     Route::post('/personal/update', 'PersonalController@update');
+    Route::get('/personal/ver/{id}', 'PersonalController@ver')->name('persona.ver');
+    Route::get('/personal/ver/{id}/crearclave', 'PersonalController@createclave')->name('persona.createclave');
+    Route::get('/personal/ver/{id}/editar', 'PersonalController@edit')->name('persona.edit');
     Route::get('/personal/ver/{id}', 'PersonalController@ver');
     Route::get('/personal/registro/ver/{id}', 'PersonalController@ver_ajax');
     Route::post('/personal/agg_cargo_personal', 'PersonalController@agg_cargo_personal');

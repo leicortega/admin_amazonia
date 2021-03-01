@@ -1061,10 +1061,7 @@
                                     <label class="col-sm-12 col-form-label">Régimen</label>
                                     <select name="regimen" id="regimen" class="form-control" required>
                                         <option value="">Seleccione régimen</option>
-                                        <option value="Comun">Comun</option>
-                                        <option value="Simplificado">Simplificado</option>
                                         <option value="Natural">Natural</option>
-                                        <option value="Gran Contibuyente">Registro Civil</option>
                                         <option value="Persona Juridica">Persona Juridica</option>
                                     </select>
                                 </div>

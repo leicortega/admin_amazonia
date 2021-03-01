@@ -26,9 +26,12 @@
                                     </div>
                                 @endif
 
+
                                 <a href="/personal/datos-personal"><button type="button" class="btn btn-dark btn-lg mb-2" onclick="cargarbtn(this)">Atras</button></a>
-                                <button type="button" class="btn btn-primary btn-lg mb-2 float-right" data-toggle="modal" data-target="#editar_personal_modal">Editar</button>
-                                <button type="button" class="btn btn-primary btn-lg mb-2 mr-2 float-right" onclick="generar_clave({{ $personal->identificacion }}, this)">Clave</button>
+
+                                <a href="/informacion/personal?identificacion={{ $personal->identificacion }}" class="btn btn-primary btn-lg mb-2 ml-2 float-right" target="_blank"><i class="uim fa fa-qrcode"></i> Qr</a>
+                                <button type="button" class="btn btn-primary btn-lg mb-2 ml-2 float-right" data-toggle="modal" data-target="#editar_personal_modal">Editar</button>
+                                <button type="button" class="btn btn-primary btn-lg mb-2 mr-2 float-right" onclick="generar_clave({{ $personal->identificacion }}, this,{{ $personal->id }})">Clave</button>
 
                                 @if (session()->has('update') && session('update') == 1)
                                     <div class="alert alert-primary">
@@ -53,7 +56,6 @@
                                         Cargo eliminado correctamente
                                     </div>
                                 @endif
-
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr class="text-center table-bg-dark">
@@ -1494,6 +1496,36 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="form-group form-group-custom mb-4">
+                                    <div class="form-group form-group-custom mb-4">
+                                        <select name="sede" class="form-control" id="sede" required>
+                                            <option value=""></option>
+                                            <option value="Oficina principal" {{ $personal->sede == 'Oficina principal' ? 'selected' : '' }}>Oficina principal</option>
+                                            <option value="Sucursal Pitalito" {{ $personal->sede == 'Sucursal Pitalito' ? 'selected' : '' }}>Sucursal Pitalito</option>
+                                            <option value="Sucursal Bogota"   {{ $personal->sede == 'Sucursal Bogota' ? 'selected' : '' }}>Sucursal Bogota</option>
+                                        </select>
+                                        <label for="sede">Sede(*)</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="container">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <label class="input-group-btn">
+                                                <span class="btn btn-primary btn-file">
+                                                    <i class="fas fa-cloud-upload-alt"></i> <input class="d-none" name="imagen" type="file" id="avatar">
+                                                </span>
+                                            </label>
+                                            <input class="form-control" id="avatar_captura" readonly="readonly" name="avatar_captura" type="text" value="{{basename($personal->imagen)}}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
 
                     </div>
 

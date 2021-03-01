@@ -168,6 +168,12 @@
                             <ul class="sub-menu" aria-expanded="false">
                                 <li><a href="admin/sistema/admin_documentos_vehiculos">Administrar Doc. Vehiculos</a></li>
                             </ul>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{route('roles.index')}}">Roles</a></li>
+                            </ul>
+                            <ul class="sub-menu" aria-expanded="false">
+                                <li><a href="{{route('permisos.index')}}">Permisos</a></li>
+                            </ul>
                         </li>
 
                         <li>
@@ -246,6 +252,20 @@
                         <a href="/admin/sistema/admin_documentos_vehiculos" class="waves-effect">
                             <div class="d-inline-block icons-sm"></div>
                             <span>Administrar Doc. Vehiculos</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('roles.index')}}" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span>Roles</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('permisos.index')}}" class="waves-effect">
+                            <div class="d-inline-block icons-sm"></div>
+                            <span>Permisos</span>
                         </a>
                     </li>
 

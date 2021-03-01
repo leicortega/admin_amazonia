@@ -1244,16 +1244,3 @@ function editar_correspondencia(correspondencia){
     $('#origen_id').val(correspondencia.origen_id);
     $('#modal_add_correspondencia').modal('show');
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

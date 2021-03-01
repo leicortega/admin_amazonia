@@ -215,7 +215,8 @@ Route::group(['middleware' => ['permission:terceros|universal']], function () {
     Route::post('/terceros/actualizar_contrato', 'TercerosController@actualizar_contrato');
     Route::get('/terceros/correspondencia/{id}', 'TercerosController@correspondencia')->name('correspondencia_index');
     Route::post('/terceros/correspondencia/create', 'TercerosController@correspondencia_create');
-    Route::post('/terceros/correspondencia/editar', 'TercerosController@correspondencia_editar');
+    Route::post('/terceros/correspondencia/respuesta/create', 'TercerosController@correspondencia_respuesta_create');
+    Route::get('/terceros/correspondencia/ver/{id}', 'TercerosController@correspondencia_ver')->name('correspondencia_ver');
 });
 
 // Rutas para BLOG

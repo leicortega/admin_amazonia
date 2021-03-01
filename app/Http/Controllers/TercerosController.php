@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\CorrespondenciaMail;
 use App\Mail\CotizacionMail;
 use App\Mail\RespuestaCorreoMail;
 use App\Models\Cargos_personal;
@@ -22,6 +23,7 @@ use App\Models\Cotizacion;
 use App\Models\Cotizaciones;
 use App\Models\Cotizaciones_trayectos;
 use App\Models\Personal;
+use App\Models\respuesta_correspondencia;
 use App\Models\Vehiculo;
 use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Carbon\Carbon;
@@ -613,6 +615,7 @@ class TercerosController extends Controller
                 'valor_unitario' => $request['valor_unitario'],
                 'cantidad' => $request['cantidad'],
                 'total' => $request['total'],
+                'descripcion_table' => $request['descripcion_table'],
             ]);
         } else {
             $trayecto = Cotizaciones_trayectos::create([
@@ -633,7 +636,8 @@ class TercerosController extends Controller
                 'valor_unitario' => $request['valor_unitario'],
                 'cantidad' => $request['cantidad'],
                 'total' => $request['total'],
-                'cotizacion_id' => $request['cotizacion_id']
+                'cotizacion_id' => $request['cotizacion_id'],
+                'descripcion_table' => $request['descripcion_table'],
             ]);
         }
 
@@ -773,9 +777,35 @@ class TercerosController extends Controller
         join('tipo_radicacion_correspondencia', 'tipo_radicacion_correspondencia.id', '=', 'correspondencia.tipo_radicacion_id')
         ->join('dependencia_correspondencia', 'dependencia_correspondencia.id', '=', 'correspondencia.dependencia_id')
         ->join('origen_correspondencia', 'origen_correspondencia.id','=', 'correspondencia.origen_id')
-        ->where('tercero_id', $id)
-        ->select('correspondencia.*', 'tipo_radicacion_correspondencia.nombre as nombre_radicacion', 'dependencia_correspondencia.nombre as nombre_dependencia', 'origen_correspondencia.nombre as nombre_origen')
-        ->get();
+        ->join('users', 'users.id', '=', 'correspondencia.users_id')
+        ->where('tercero_id', $id);
+
+        if(isset($_GET['tipo_radicacion']) && ($_GET['tipo_radicacion']) != null) {
+            $correspondencia = $correspondencia->where('correspondencia.tipo_radicacion_id',$_GET['tipo_radicacion']);
+        }
+        if(isset($_GET['origen']) && $_GET['origen'] != null){
+            $correspondencia = $correspondencia->where('correspondencia.origen_id',$_GET['origen']);
+        }
+        if(isset($_GET['dependencia']) && $_GET['dependencia']){
+            $correspondencia = $correspondencia->where('correspondencia.dependencia_id',$_GET['dependencia']);
+        }
+        if(isset($_GET['search']) && $_GET['search'] != null) {
+            $correspondencia = $correspondencia->where('users.name', 'like', "%".$_GET['search']."%");
+            $correspondencia = $correspondencia->orWhere('correspondencia.asunto', 'like', "%".$_GET['search']."%");
+            $correspondencia = $correspondencia->orWhere('correspondencia.numero_folios', 'like', "%".$_GET['search']."%");
+        }
+        if(isset($_GET['fecha']) && $_GET['fecha'] != null){
+            $correspondencia = $correspondencia->where('correspondencia.created_at','like', '%'.$_GET['fecha'].'%');
+        }
+
+        if(isset($_GET['ordenarpor']) && $_GET['ordenarpor'] != null){
+            $correspondencia = $correspondencia->orderBy($_GET['ordenarpor']);
+        }else{
+            $correspondencia = $correspondencia->orderBy('created_at', 'DESC');
+        }
+
+        $correspondencia = $correspondencia->select('correspondencia.*', 'tipo_radicacion_correspondencia.nombre as nombre_radicacion', 'dependencia_correspondencia.nombre as nombre_dependencia', 'origen_correspondencia.nombre as nombre_origen', 'users.name as usuario')->paginate(10);
+
         $tercero = Tercero::find($id);
         return view('terceros.correspondencia', ['correspondencias' => $correspondencia, 'tercero' => $tercero]);
     }
@@ -783,50 +813,122 @@ class TercerosController extends Controller
     public function correspondencia_create(Request $request){
         $date = Carbon::now('America/Bogota');
 
-        $correspondencia = Correspondencia::create($request->except('adjunto'));
+        if($request['id'] == null || $request['id'] == ''){
 
-        if ($request->file('adjunto')) {
-            $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
-            $ruta_file_documento = 'docs/terceros/documentos/';
-            $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
-            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+            $correspondencia = Correspondencia::create($request->except('adjunto'));
 
-            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
-            $correspondencia->adjunto = $nombre_completo_file_documento;
+            if ($request->file('adjunto')) {
+                $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/terceros/documentos/';
+                $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+                $correspondencia->adjunto = $nombre_completo_file_documento;
+            }
+
+            if($correspondencia->save()){
+                $correspondencia = $correspondencia->join('users', 'users.id', '=', 'correspondencia.users_id')->select('correspondencia.id', 'users.name', 'users.email', 'correspondencia.tercero_id')->find($correspondencia->id);
+                Mail::to($correspondencia->email)->send(new CorrespondenciaMail($correspondencia, 'correspondencia'));
+
+                return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 2);
+            }
+
+            return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 0);
+        }else{
+            $correspondencia = Correspondencia::find($request->id);
+
+            $correspondencia->update($request->except('adjunto'));
+
+            if ($request->file('adjunto')) {
+                $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/terceros/documentos/';
+                $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+                if($correspondencia->adjunto){
+                    Storage::disk('public')->delete($correspondencia->adjunto);
+                }
+                $correspondencia->adjunto = $nombre_completo_file_documento;
+            }
+
+            if($correspondencia->save()){
+                return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 1);
+            }
+
+            return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 0);
         }
-
-        if($correspondencia->save()){
-            return redirect()->route('correspondencia_index', $correspondencia->tercero_id);
-        }
-
-        return "Error En la creacion";
     }
 
-    public function correspondencia_editar(Request $request){
+
+    public function correspondencia_ver($id){
+        $correspondencia = Correspondencia::
+        join('tipo_radicacion_correspondencia', 'tipo_radicacion_correspondencia.id', '=', 'correspondencia.tipo_radicacion_id')
+        ->join('dependencia_correspondencia', 'dependencia_correspondencia.id', '=', 'correspondencia.dependencia_id')
+        ->join('origen_correspondencia', 'origen_correspondencia.id','=', 'correspondencia.origen_id')
+        ->join('users', 'users.id', '=', 'correspondencia.users_id')
+        ->join('terceros', 'terceros.id', '=', 'correspondencia.tercero_id')
+        ->select('correspondencia.*', 'tipo_radicacion_correspondencia.nombre as nombre_radicacion', 'dependencia_correspondencia.nombre as nombre_dependencia', 'origen_correspondencia.nombre as nombre_origen', 'users.name as usuario', 'terceros.nombre as name_tercero')
+        ->find($id);
+        $respuestas = respuesta_correspondencia::where('correspondencia_id', $id)->get();
+        //$tercero = Tercero::find($id);
+        return view('terceros.correspondencia_ver', ['correspondencia' => $correspondencia, 'respuestas' => $respuestas]);
+    }
+
+
+    public function correspondencia_respuesta_create(Request $request){
         $date = Carbon::now('America/Bogota');
 
-        $correspondencia = Correspondencia::find($request->id);
+        if($request['respuesta_id'] != null && $request['respuesta_id'] != ''){
+            $respuesta = respuesta_correspondencia::find($request->respuesta_id);
 
-        $correspondencia->update($request->except('adjunto'));
+            $respuesta->update($request->except('adjunto'));
 
-        if ($request->file('adjunto')) {
-            $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
-            $ruta_file_documento = 'docs/terceros/documentos/';
-            $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
-            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+            if ($request->file('adjunto')) {
+                $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/terceros/documentos/';
+                $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
 
-            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
-            if($correspondencia->adjunto){
-                Storage::disk('public')->delete($correspondencia->adjunto);
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+                if($respuesta->adjunto){
+                    Storage::disk('public')->delete($respuesta->adjunto);
+                }
+                $respuesta->adjunto = $nombre_completo_file_documento;
             }
-            $correspondencia->adjunto = $nombre_completo_file_documento;
+
+            if($respuesta->save()){
+                return redirect()->route('correspondencia_ver', $request->respuesta_id)->with('correspondencia', 2);
+            }
+
+            return redirect()->route('correspondencia_ver', $request->respuesta_id)->with('correspondencia', 0);
+        }else{
+            $respuesta = respuesta_correspondencia::create($request->except('adjunto'));
+
+            if ($request->file('adjunto')) {
+                $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
+                $ruta_file_documento = 'docs/terceros/documentos/';
+                $nombre_file_documento = 'respuesta_correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+                Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
+
+                $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+                $respuesta->adjunto = $nombre_completo_file_documento;
+            }
+
+            if($respuesta->save()){
+                $respuesta = $respuesta->join('correspondencia', 'correspondencia.id', '=', 'respuesta_correspondencia.correspondencia_id')
+                ->join('terceros', 'terceros.id', '=', 'correspondencia.tercero_id')
+                ->select('correspondencia.id', 'terceros.nombre', 'terceros.correo')
+                ->find($respuesta->id);
+
+                Mail::to($respuesta->correo)->send(new CorrespondenciaMail($respuesta, 'respuesta'));
+            }
+
+                return redirect()->route('correspondencia_ver', $respuesta->id)->with('correspondencia', 1);
         }
 
-        if($correspondencia->save()){
-            return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 1);
-        }
-
-        return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 0);
     }
+
 
 }

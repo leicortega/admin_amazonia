@@ -219,7 +219,7 @@ class TercerosController extends Controller
         $date = Carbon::now('America/Bogota');
         if ($request['cotizacion_creada']) {
             $cotizacion = Cotizaciones::find($request['cotizacion_creada']);
-            
+
             $cotizacion->update([
                 'cotizacion_parte_uno' => $request['cotizacion_parte_uno'],
                 'cotizacion_parte_dos' => $request['cotizacion_parte_dos']
@@ -232,9 +232,6 @@ class TercerosController extends Controller
                 ]);
                 $a++;
             }
-
-            
-
 
             return $cotizacion;
         } else {
@@ -289,11 +286,11 @@ class TercerosController extends Controller
         $cotizacion = Cotizaciones::join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')
         ->select('cotizaciones.*', 'terceros.correo', 'terceros.nombre')->find($request['id']);
         $cotizaciones = Cotizaciones_trayectos::where('cotizacion_id', $request['id'])->get();
-       
+
         $pdf = PDF::loadView('cotizaciones.pdf', ['cotizacion' => $cotizacion, 'cotiza' => $cotizaciones])->setPaper('A4')->output();
 
         $mail = Mail::to($cotizacion->correo)->send(new CotizacionMail($cotizacion, $pdf, 0));
-        
+
         return $mail;
     }
 
@@ -513,7 +510,7 @@ class TercerosController extends Controller
                     ]);
                 }
             }
- 
+
 
             $trayecto->update([
                 'departamento_origen' => $request['departamento_origen'],
@@ -819,47 +816,47 @@ class TercerosController extends Controller
         if($request['id'] == null || $request['id'] == ''){
 
             $correspondencia = Correspondencia::create($request->except('adjunto'));
-    
+
             if ($request->file('adjunto')) {
                 $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
                 $ruta_file_documento = 'docs/terceros/documentos/';
                 $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
                 Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
-        
+
                 $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
                 $correspondencia->adjunto = $nombre_completo_file_documento;
             }
-    
+
             if($correspondencia->save()){
                 $correspondencia = $correspondencia->join('users', 'users.id', '=', 'correspondencia.users_id')->select('correspondencia.id', 'users.name', 'users.email', 'correspondencia.tercero_id')->find($correspondencia->id);
                 Mail::to($correspondencia->email)->send(new CorrespondenciaMail($correspondencia, 'correspondencia'));
-                
+
                 return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 2);
             }
-    
+
             return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 0);
         }else{
             $correspondencia = Correspondencia::find($request->id);
-    
+
             $correspondencia->update($request->except('adjunto'));
-    
+
             if ($request->file('adjunto')) {
                 $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
                 $ruta_file_documento = 'docs/terceros/documentos/';
                 $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
                 Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
-        
+
                 $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
                 if($correspondencia->adjunto){
                     Storage::disk('public')->delete($correspondencia->adjunto);
                 }
                 $correspondencia->adjunto = $nombre_completo_file_documento;
             }
-    
+
             if($correspondencia->save()){
                 return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 1);
             }
-    
+
             return redirect()->route('correspondencia_index', $correspondencia->tercero_id)->with('correspondencia', 0);
         }
     }
@@ -885,40 +882,40 @@ class TercerosController extends Controller
 
         if($request['respuesta_id'] != null && $request['respuesta_id'] != ''){
             $respuesta = respuesta_correspondencia::find($request->respuesta_id);
-    
+
             $respuesta->update($request->except('adjunto'));
-    
+
             if ($request->file('adjunto')) {
                 $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
                 $ruta_file_documento = 'docs/terceros/documentos/';
                 $nombre_file_documento = 'correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
                 Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
-        
+
                 $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
                 if($respuesta->adjunto){
                     Storage::disk('public')->delete($respuesta->adjunto);
                 }
                 $respuesta->adjunto = $nombre_completo_file_documento;
             }
-    
+
             if($respuesta->save()){
                 return redirect()->route('correspondencia_ver', $request->respuesta_id)->with('correspondencia', 2);
             }
-    
+
             return redirect()->route('correspondencia_ver', $request->respuesta_id)->with('correspondencia', 0);
         }else{
             $respuesta = respuesta_correspondencia::create($request->except('adjunto'));
-    
+
             if ($request->file('adjunto')) {
                 $extension_file_documento = pathinfo($request->file('adjunto')->getClientOriginalName(), PATHINFO_EXTENSION);
                 $ruta_file_documento = 'docs/terceros/documentos/';
                 $nombre_file_documento = 'respuesta_correspondencia_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
                 Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('adjunto')));
-        
+
                 $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
                 $respuesta->adjunto = $nombre_completo_file_documento;
             }
-    
+
             if($respuesta->save()){
                 $respuesta = $respuesta->join('correspondencia', 'correspondencia.id', '=', 'respuesta_correspondencia.correspondencia_id')
                 ->join('terceros', 'terceros.id', '=', 'correspondencia.tercero_id')
@@ -927,7 +924,7 @@ class TercerosController extends Controller
 
                 Mail::to($respuesta->correo)->send(new CorrespondenciaMail($respuesta, 'respuesta'));
             }
-                
+
                 return redirect()->route('correspondencia_ver', $respuesta->id)->with('correspondencia', 1);
         }
 

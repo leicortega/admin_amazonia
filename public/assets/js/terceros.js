@@ -80,6 +80,8 @@ $(document).ready(function () {
                         $('#modal_crear_cotizacion').modal('hide');
                         cargar_cotizaciones(data.tercero_id);
                         back_cotizacion();
+                    }, error(e){
+                        console.log(e)
                     }
                 });
             }
@@ -92,7 +94,6 @@ $(document).ready(function () {
                 type: 'POST',
                 data: $('#form_crear_cotizacion').serialize(),
                 success: function (data) {
-                    console.log(data);
                     $('#btn_submit_cotizacion').html('Enviar');
                     $('#btn_submit_cotizacion').removeAttr('disabled');
                     window.open('/terceros/print_cotizacion/'+data.id, '_blank');
@@ -437,7 +438,7 @@ function enviar_cotizacion(id, btn){
             data: {id:id},
             success: function (data) {
                 if(data){
-                    $('#alert_correo').removeClass('alert-danger').addClass('alert-success').removeClass('d-none').html('Correo enviado correctamente');  
+                    $('#alert_correo').removeClass('alert-danger').addClass('alert-success').removeClass('d-none').html('Correo enviado correctamente');
                 }else{
                     $('#alert_correo').removeClass('alert-success').addClass('alert-danger').removeClass('d-none').html('El Correo no se pudo enviar');
                 }
@@ -628,17 +629,17 @@ function agregar_trayecto_cotizacion(id) {
 
 
     $('#conductor5').removeAttr('checked');
-    
+
 
     $('#peajes5').removeAttr('checked');
-    
+
 
     $('#recorrido6').removeAttr('checked');
-    
+
 
     $('#cotizacion_por9').removeAttr('checked');
     $('#cotizacion_por8').removeAttr('checked');
-    
+
 
     $('#valor_unitario_trayecto_cotizacion').val('');
     $('#cantidad_trayecto_cotizacion').val('');
@@ -907,7 +908,7 @@ function ver_contrato(id, btn) {
 
 function ver_trayecto(id, btn) {
     cargar_btn_link_var(btn, 'fa-eye');
-    window.open('/terceros/print_cotizacion/' + id, '_blank');
+    window.open('/terceros/print_contrato/' + id, '_blank');
 }
 
 function ver_trayecto_cotizacion(id, btn) {
@@ -1218,7 +1219,7 @@ function editar_trayecto_cotizacion(id, btn) {
             $('#descripcion_table_trayecto').html(data.descripcion_table);
             //ayuda a verificar la descripcion de la cotizacion
             verificacion_cotizacion = 0;
-            
+
 
             $('#trayecto_creado_cotizacion').val(data.id);
             $(btn).html('<i class="fa fa-edit"></i>');
@@ -1326,38 +1327,38 @@ function descripcion_table_cotizacion(){
         let descripcion = 'Recorrido 1: ' + $('#ciudad_origen_trayecto_cotizacion').val() + ' - ' + $('#ciudad_destino_trayecto_cotizacion').val();
 
         $('input:radio[name=recorrido_trayecto_cotizacion]:checked').val() == 'Ida y vuelta' ? descripcion += ' con retorno a '+ $('#ciudad_origen_trayecto_cotizacion').val() +' por el mismo corredor vial,' : '';
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
             descripcion += ' incluye conductor, combustible y peajes,';
         }
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'No') {
             descripcion += ' incluye conductor y combustible,';
         }
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
             descripcion += ' incluye conductor y peajes,';
         }
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
             descripcion += ' incluye combustible y peajes,';
         }
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'No') {
             descripcion += ' incluye conductor,';
         }
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'Si' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'No') {
             descripcion += ' incluye combustible,';
         }
-    
+
         if ($('input:radio[name=conductor_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=combustible_trayecto_cotizacion]:checked').val() == 'No' && $('input:radio[name=peajes_trayecto_cotizacion]:checked').val() == 'Si') {
             descripcion += ' incluye peajes,';
         }
-    
+
         descripcion += 'el tipo de servicio es ' + $('#tipo_servicio_trayecto_cotizacion').val() + ' el cual se prestara en un(a) ' + $('#tipo_vehiculo_trayecto_cotizacion').val() + ' y el cobro se calcula por ' + $('input:radio[name=cotizacion_por_trayecto_cotizacion]:checked').val() + '. ' + $('#observaciones_trayecto_cotizacion').val();
-    
-    
+
+
         $('#descripcion_table_trayecto').html(descripcion);
     }
 }

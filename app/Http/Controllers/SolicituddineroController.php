@@ -10,6 +10,7 @@ use App\Mail\NotificationMail;
 use App\Models\Estados_solicitud;
 use App\Models\Archivos_soportados;
 use App\Models\Personal;
+use Barryvdh\DomPDF\PDF as DomPDFPDF;
 use Illuminate\Support\Str;
 use PDF;
 

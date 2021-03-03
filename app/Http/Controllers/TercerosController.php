@@ -331,6 +331,8 @@ class TercerosController extends Controller
         }
 
         $cotizacion = Cotizaciones::find($request['cotizacion_id_contrato'])->join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')->get();
+
+        dd($cotizacion);
         $trayecto_cotizacion = Cotizaciones_trayectos::where('cotizacion_id', $request['cotizacion_id_contrato']);
 
         $contrato = Contrato::create([

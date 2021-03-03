@@ -330,9 +330,7 @@ class TercerosController extends Controller
             ]);
         }
 
-        $cotizacion = Cotizaciones::find($request['cotizacion_id_contrato'])->join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')->first();
-        $tercero = Tercero::find($cotizacion[0]['tercero_id']);
-
+        $cotizacion = Cotizaciones::find($request['cotizacion_id_contrato'])->join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')->get();
         $trayecto_cotizacion = Cotizaciones_trayectos::where('cotizacion_id', $request['cotizacion_id_contrato']);
 
         $contrato = Contrato::create([
@@ -342,7 +340,7 @@ class TercerosController extends Controller
             'objeto_contrato' => $request['objeto_contrato'],
             'contrato_parte_uno' => $request['contrato_parte_uno'],
             'contrato_parte_dos' => $request['contrato_parte_dos'],
-            'tercero_id' => $tercero['identificacion'],
+            'tercero_id' => $cotizacion[0]['identificacion'],
             'cotizacion_id' => $request['cotizacion_id_contrato'],
         ]);
 

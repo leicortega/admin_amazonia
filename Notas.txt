@@ -179,11 +179,16 @@ Trabajando en:
 ==================================================================================
 ===================================== 30/01/2021 =================================
 ==================================================================================
-- Generar tarea automaticamente cuando se hagan operaciones o registros que se requieran de aprobacion o se deleguen a alguien
-- Agregar campo de usuario en correspondencia y que le llegue notificacion al correo del usuario seleccionado
-- Agregar respuesta de correspondencia, asunto, mensaje y adjunto, agregar boton para enviar respuesta al tercero
+- Generar tarea automaticamente cuando se hagan operaciones o registros que se requieran de aprobacion o se deleguen a alguien =
+- Agregar campo de usuario en correspondencia y que le llegue notificacion al correo del usuario seleccionado ================== YA
+- Agregar respuesta de correspondencia, asunto, mensaje y adjunto, agregar boton para enviar respuesta al tercero ============== YA
 - Poner en el planificador los documentos de vehiculos y documentos documentacion a vencer
 - En administrar cargos, seleccionar que documentos se deben mostrar o requerir
-- Hacer modulo de administracion documentos personal, igual al de vehiculos
-- Hacer modulo de roles y permisos genreales del aplicativo
-- Dejar en regimen solo natural y persona juridica
+- Hacer modulo de roles y permisos genreales del aplicativo   == 
+- Dejar en regimen solo natural y persona juridica ===================== YA
+- Boton regresar en modulo HSEQ ======================================== YA
+
+
+- Traducir a español los nombres de los meses en los contratos 
+- Pestaña de procesos vehiculos dentro de la vista
+- 

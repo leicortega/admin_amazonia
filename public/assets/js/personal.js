@@ -222,7 +222,7 @@ function formatoFecha(texto){
       return null;
     }
     return texto.replace(/^(\d{4})-(\d{2})-(\d{2})$/g,'$3/$2/$1');
-  
+
 }
 
 function cargar_contratos(id) {
@@ -442,7 +442,7 @@ function eliminar_contrato(id, personal_id) {
     });
 }
 
-function generar_clave(identificacion, btn) {
+function generar_clave(identificacion, btn,id) {
     $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $.ajax({
         url: '/personal/buscar_usuario',
@@ -450,21 +450,25 @@ function generar_clave(identificacion, btn) {
         data: { identificacion:identificacion },
         success: function (data) {
             if (data) {
-                $('#modal-create-clave').modal('show');
-                $('#user_id').val(data.user.id);
-                $("#estado_user option[value='"+data.user.estado+"']").attr("selected", true);
-                $("#tipo_user option[value='"+data.rol+"']").attr("selected", true);
-                if (data.rol == 'general') {
-                    $('#div_permisos').removeClass('d-none');
-                    data.permisos.forEach(permiso => {
-                        $("#"+permiso).attr("checked", true);
-                    });
-                }
-                $('#title_modal_clave').text('Editar Usuario');
-                $('#submit_modal_clave').text('Actualizar');
-                $('#form_clave').attr("action", "/personal/update_clave");
+                //edit clave
+                location.href ="/personal/ver/"+id+"/editar";
+                // $('#modal-create-clave').modal('show');
+                // $('#user_id').val(data.user.id);
+                // $("#estado_user option[value='"+data.user.estado+"']").attr("selected", true);
+                // $("#tipo_user option[value='"+data.rol+"']").attr("selected", true);
+                // if (data.rol == 'general') {
+                //     $('#div_permisos').removeClass('d-none');
+                //     data.permisos.forEach(permiso => {
+                //         $("#"+permiso).attr("checked", true);
+                //     });
+                // }
+                // $('#title_modal_clave').text('Editar Usuario');
+                // $('#submit_modal_clave').text('Actualizar');
+                // $('#form_clave').attr("action", "/personal/update_clave");
             } else {
-                $('#modal-create-clave').modal('show');
+                //crear nuevo
+                location.href ="/personal/ver/"+id+"/crearclave";
+                // $('#modal-create-clave').modal('show');
             }
             $(btn).html('Clave').removeAttr('disabled');
         }

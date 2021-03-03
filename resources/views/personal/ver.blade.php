@@ -1503,8 +1503,8 @@
                                         <select name="sede" class="form-control" id="sede" required>
                                             <option value=""></option>
                                             <option value="Oficina principal" {{ $personal->sede == 'Oficina principal' ? 'selected' : '' }}>Oficina principal</option>
-                                            <option value="Sucursal Pitalito" {{ $personal->sede == 'Sucursal Pitalito' ? 'selected' : '' }}>Sucursal Pitalito</option>
-                                            <option value="Sucursal Bogota"   {{ $personal->sede == 'Sucursal Bogota' ? 'selected' : '' }}>Sucursal Bogota</option>
+                                            {{-- <option value="Sucursal Pitalito" {{ $personal->sede == 'Sucursal Pitalito' ? 'selected' : '' }}>Sucursal Pitalito</option>
+                                            <option value="Sucursal Bogota"   {{ $personal->sede == 'Sucursal Bogota' ? 'selected' : '' }}>Sucursal Bogota</option> --}}
                                         </select>
                                         <label for="sede">Sede(*)</label>
                                     </div>

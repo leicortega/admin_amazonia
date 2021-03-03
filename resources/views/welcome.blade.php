@@ -60,8 +60,51 @@
                                     </div>
                                 </div>
                             @endcanany
-
+                            
                             <div class="col-lg-8">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="float-right ml-2">
+                                            <a href="#">Ver todas</a>
+                                        </div>
+                                        <h5 class="header-title mb-4">Tareas</h5>
+
+                                        <div class="table-responsive">
+                                            <table class="table table-centered table-hover mb-0">
+                                                <thead>
+                                                    <tr>
+                                                        <th scope="col">ID</th>
+                                                        <th scope="col">Nombre</th>
+                                                        <th scope="col">Fecha Limite</th>
+                                                        <th scope="col">Estado</th>
+                                                        <th scope="col">Acciones</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach ($tareas as $tarea)
+                                                        <tr>
+                                                            <th scope="row">
+                                                                <a href="#">{{ $tarea->id  }}</a>
+                                                            </th>
+                                                            <td>{{ $tarea->name_tarea }}</td>
+                                                            <td>{{ $tarea->fecha_limite }}</td>
+                                                            <td>{{ $tarea->estado }}</td>
+                                                            <td>
+                                                                <a href="/tareas/ver/{{ $tarea->id }}"><button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="Ver Tarea">
+                                                                    <i class="mdi mdi-eye"></i>
+                                                                </button></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                            <!--<div class="col-lg-8">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="float-right ml-2">
@@ -80,27 +123,27 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    @foreach ($notificaciones as $notificacion)
+                                                    {{-- @foreach ($notificaciones as $notificacion) --}}
                                                         <tr>
                                                             <th scope="row">
-                                                                <a href="#">{{ $notificacion->id ?? '' }}</a>
+                                                                {{-- <a href="#">{{ $notificacion->id ?? '' }}</a> --}}
                                                             </th>
-                                                            <td>{{ $notificacion->tipo ?? '' }}</td>
-                                                            <td>{{ $notificacion->mensaje ?? '' }}</td>
+                                                            {{-- <td>{{ $notificacion->tipo ?? '' }}</td> --}}
+                                                            {{-- <td>{{ $notificacion->mensaje ?? '' }}</td> --}}
                                                             <td>
                                                                 <div class="btn-group" role="group">
                                                                     <button type="button" class="btn btn-outline-secondary btn-sm" data-toggle="tooltip" data-placement="top" title="" data-original-title="Ver" onclick="verNotificacion({{ $notificacion->id ?? '' }})"><i class="mdi mdi-eye"></i></button>
                                                                 </div>
                                                             </td>
                                                         </tr>
-                                                    @endforeach
+                                                    {{-- @endforeach --}}
                                                 </tbody>
                                             </table>
                                         </div>
                                             
                                         </div>
                                     </div>
-                                </div>
+                                </div>-->
                             
                         </div>
                     </div>

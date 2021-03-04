@@ -23,6 +23,10 @@ class CreateTareasTable extends Migration
             $table->string('estado');
             $table->string('adjunto')->nullable();
 
+            $table->foreignId('tipos_tareas_id')
+                ->constrained('tipos_tareas')
+                ->onDelete('cascade');
+
             $table->foreignId('supervisor')
                 ->constrained('users')
                 ->onDelete('cascade');

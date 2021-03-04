@@ -76,7 +76,7 @@
                                                         <th scope="col">ID</th>
                                                         <th scope="col">Nombre</th>
                                                         <th scope="col">Fecha Limite</th>
-                                                        <th scope="col">Estado</th>
+                                                        <th scope="col">Estado</th>                  
                                                         <th scope="col">Acciones</th>
                                                     </tr>
                                                 </thead>

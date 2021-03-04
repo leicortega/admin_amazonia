@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\Cotizacion;
 use App\Models\Correo;
@@ -30,7 +29,6 @@ class HomeController extends Controller
         $correos = Correo::whereNull('id_user_respuesta')->count();
         $notificaciones = Notification::whereNull('visto')->paginate(10);
         $tareas = Tarea::where('estado', '<>', 'Completada')->where('asignado', auth()->user()->id)->with('supervisor_id')->with('asignado_id')->paginate(10);
-
         return view('welcome', ['cotizaciones' => $cotizaciones, 'correos' => $correos, 'notificaciones' => $notificaciones, 'tareas' => $tareas]);
     }
 

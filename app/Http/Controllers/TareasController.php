@@ -105,6 +105,7 @@ class TareasController extends Controller
                     'fecha_limite' => $request['fecha_limite'] . ' ' . ($request['time_fecha_final'] ?? '00:00')  . ':00',
                     'estado' => 'Asignada',
                     'adjunto' => $nombre_completo_file_documento ?? null,
+                    'tipos_tareas_id'=>'1',
                     'supervisor' => auth()->user()->id,
                     'asignado' => $request['asignado'] ?? auth()->user()->id,
                 ]);

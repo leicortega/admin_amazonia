@@ -1,3 +1,33 @@
+$(document).ready(function () {
+    $.ajax({
+        url: '/tareas/cargar_calendario',
+        type: 'POST',
+        data: {list:getParameterByName('list') ?? '0', tipo:$('#tipo').val()},
+        success: function (data) {
+            switch (data.tipo) {
+                case 'Documentos Vehiculos':
+                    data.documentos.forEach(tarea => {
+                        evento = {id:tarea.id, title: tarea.name+' - '+tarea.placa, start: tarea.fecha_inicio_vigencia, end: tarea.fecha_fin_vigencia, color: '#FFE761'};
+                     });
+                    break;
+
+                case 'Default':
+                    data.documentos.forEach(tarea => {
+                        evento = {id:tarea.id, title: tarea.name_tarea, start: tarea.fecha, end: tarea.fecha_limite, color: '#90151c'};
+                    });
+                    break;
+
+                default:
+                    data.forEach(tarea => {
+                        evento = {id:tarea.id, title: tarea.name_tarea, start: tarea.fecha, end: tarea.fecha_limite, color: '#90151c'};
+                    });
+                    break;
+            }
+            console.log(data)
+        }
+    });
+});
+
 $.ajaxSetup({
     headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -22,32 +52,16 @@ function cambiar_asignador(){
     }
 }
 
-
-
-    $.ajax({
-        url: '/tareas/cargar_calendario',
-        type: 'POST',
-        data: {list:getParameterByName('list') ?? '0'},
-        success: function (data) {
-            data.forEach(tarea => {
-               evento = {id:tarea.id, title: tarea.name_tarea, start: tarea.fecha, end: tarea.fecha_limite, color: '#90151c'};
-            });
-        }
-    })
-
-
-
 $(function() {
     $('#calendar').fullCalendar({
         header: {
             language: 'es',
-           left: 'prev,next today',
-           center: 'title',
-           right: 'month,basicWeek,basicDay',
-
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,basicWeek,basicDay',
        },
        editable: true,
-       eventLimit: true, 
+       eventLimit: true,
        selectable: true,
        selectHelper: true,
        eventClick: function (info){
@@ -81,20 +95,36 @@ $(function() {
                 data: {list:getParameterByName('list') ?? '0'},
                 success: function (data) {
                     var eventos=[];
-                    data.forEach(tarea => {
-                        eventos.push({
-                            id: tarea.id,
-                            title: tarea.name_tarea,
-                            start: tarea.fecha,
-                            end: tarea.fecha_limite,
-                            color: '#2fa97c'
-                          });
-                    });
+                    switch (data.tipo) {
+                        case 'Documentos Vehiculos':
+                             data.documentos.forEach(tarea => {
+                                eventos.push({
+                                    id: tarea.id,
+                                    title: tarea.name+' - '+tarea.placa,
+                                    start: tarea.fecha_fin_vigencia,
+                                    end: tarea.fecha_fin_vigencia,
+                                    color: '#FD3636'
+                                  });
+                            });
+                            break;
+
+                        default:
+                            data.forEach(tarea => {
+                                eventos.push({
+                                    id: tarea.id,
+                                    title: tarea.name_tarea,
+                                    start: tarea.fecha,
+                                    end: tarea.fecha_limite,
+                                    color: '#2fa97c'
+                                  });
+                            });
+                            break;
+                    }
                     callback(eventos);
                 }
             })
         }
-        
+
     })
 });
 
@@ -143,13 +173,13 @@ function vertarea(id){
                 <tr>
                     <td colspan="3">${tarea.tarea}</td>
                     <td colspan="1" class="text-center">`
-                     
+
                     if(tarea.adjunto){
                         contenido+=`<button type="button" class="btn btn-success btn-lg"  onclick="ver_documento_legal('${tarea.adjunto}', 'Tarea Adjunto',this)">Ver adjunto</button>`;
                     }else{
                         contenido+=`No Hay Adjunto`;
                     }
-                    
+
                     contenido += `
                     </td>
                 </tr>
@@ -221,7 +251,6 @@ function editar_tarea_calendar(id, fecha_ini_pase, fecha_fin_pase){
     });
 }
 
-
 function ver_documento_legal(documento_file, tipo, btn) {
     $(btn).html('<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>').attr('disabled', true);
     $('#modal_ver_documento_title').text(tipo);
@@ -230,7 +259,16 @@ function ver_documento_legal(documento_file, tipo, btn) {
     $(btn).html('Ver adjunto').removeAttr('disabled');
 }
 
-
+function cambiarTipoEventos(tipo) {
+    $.ajax({
+        url: '/tareas/cambiar_tipo_eventos_calendario',
+        type: 'POST',
+        data: {list:getParameterByName('list') ?? '0', tipo:$('#tipo').val()},
+        success: function (data) {
+            window.location.reload();
+        }
+    });
+}
 
 
 

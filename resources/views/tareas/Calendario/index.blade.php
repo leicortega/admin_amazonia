@@ -9,7 +9,7 @@
     <script src="{{asset('assets/libs/fullcalendar/locale/es.js')}}"></script>
     {{-- <script src="{{asset('assets/js/pages/calendar.init.js')}}"></script> --}}
     <script src="{{asset('assets/js/tareas.js')}}"></script>
-    
+
 @endsection
 
 @extends('layouts.app')
@@ -52,8 +52,19 @@
                                 @endif
 
                                 <a href="{{ route('index') }}"><button type="button" class="btn btn-dark btn-lg mb-4" >Atras</button></a>
-                                
-                                <div class="col-sm-6 form-group form-group-custom mb-4 float-right">
+
+                                <div class="col-sm-3 form-group form-group-custom mb-4 float-right">
+                                    <select name="tipo" class="form-control" id="tipo" onchange="cambiarTipoEventos(this.value)" required>
+                                        <option value="" selected></option>
+                                        <option value="1">Tareas</option>
+                                        <option value="Documentos Vehiculos">Documentos Vehiculos</option>
+                                        <option value="2">Documentos Administración</option>
+                                        <option value="0">Todos</option>
+                                    </select>
+                                    <label for="tipo">Ver por</label>
+                                </div>
+
+                                <div class="col-sm-3 form-group form-group-custom mb-4 float-right">
                                     <select name="asignado" class="form-control" id="asignado" onchange="cambiarurl(this.value)" required>
                                         <option value=""></option>
                                         <option value="1">Mis tareas</option>
@@ -68,16 +79,16 @@
 
                             </div>
 
-                            
+
 
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div> 
+        </div>
 
-    </div> 
+    </div>
 </div>
 
 
@@ -90,7 +101,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span>x</span></button>
         </div>
         <div class="modal-body" id="body_ver">
-            
+
         </div>
       </div>
     </div>
@@ -110,7 +121,7 @@
 
         <form action="/tareas/agregar" method="POST" enctype="multipart/form-data">
             @csrf
-            
+
                 <div class="container p-3">
 
                             <div class="row">
@@ -187,10 +198,10 @@
                                   </div>
                             </div>
 
-                            
+
 
                 </div>
-            
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                 <button type="submit" class="btn btn-primary">Guardar</button>

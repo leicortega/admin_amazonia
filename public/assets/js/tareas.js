@@ -7,7 +7,10 @@ $(document).ready(function () {
             switch (data.tipo) {
                 case 'Documentos Vehiculos':
                     data.documentos.forEach(tarea => {
-                        evento = {id:tarea.id, title: tarea.name+' - '+tarea.placa, start: tarea.fecha_inicio_vigencia, end: tarea.fecha_fin_vigencia, color: '#FFE761'};
+                        evento = {id:tarea.id, title: tarea.name+' - '+tarea.placa, 
+                        start: tarea.fecha_inicio_vigencia, 
+                        end: tarea.fecha_fin_vigencia, 
+                        color: '#FFE761'};
                      });
                     break;
 
@@ -107,7 +110,18 @@ $(function() {
                                   });
                             });
                             break;
-
+                        case 'Documentos Administración':
+                            console.log(data);
+                            data.documentos.forEach(tarea => {
+                                eventos.push({
+                                    id: tarea.id,
+                                    title: tarea.nombre+' - '+tarea.name,
+                                    start: tarea.fecha_fin_vigencia,
+                                    end: tarea.fecha_fin_vigencia,
+                                    color: '#FD3636'
+                                  });
+                            });
+                            break;
                         default:
                             data.forEach(tarea => {
                                 eventos.push({
@@ -199,7 +213,7 @@ function vertarea(id){
             $('#body_ver').html(contenido);
             $('#modalVerActivities').modal('show');
         }
-    })
+    });
 }
 
 function eliminar_tarea_calendar(id){

@@ -56,9 +56,9 @@
                                 <div class="col-sm-3 form-group form-group-custom mb-4 float-right">
                                     <select name="tipo" class="form-control" id="tipo" onchange="cambiarTipoEventos(this.value)" required>
                                         <option value="" selected></option>
-                                        <option value="1">Tareas</option>
+                                        <option value="tareas">Tareas</option>
                                         <option value="Documentos Vehiculos">Documentos Vehiculos</option>
-                                        <option value="2">Documentos Administración</option>
+                                        <option value="Documentos Administración">Documentos Administración</option>
                                         <option value="0">Todos</option>
                                     </select>
                                     <label for="tipo">Ver por</label>

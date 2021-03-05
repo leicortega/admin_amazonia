@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotificationMail;
+use App\Models\Documentos_documentacion;
 use Carbon\Carbon;
 
 class TareasController extends Controller
@@ -188,6 +189,10 @@ class TareasController extends Controller
 
         if(session('tipo_tarea')) {
             switch (session('tipo_tarea')) {
+                case 'tareas':
+                    $response['tipo'] = 'Default';
+                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    break;
                 case 'Documentos Vehiculos':
                     $response['documentos'] = \DB::table('documentos_legales_vehiculos')
                                 ->join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', 'documentos_legales_vehiculos.tipo_id')
@@ -202,7 +207,14 @@ class TareasController extends Controller
 
                     return $response;
                     break;
-
+                case 'Documentos Administración': 
+                    $response['documentos'] = Documentos_documentacion::join('documentacion', 'documentacion.id', '=', 'documentos_documentacion.documentacion_id')
+                        ->select('documentos_documentacion.*', 'documentacion.nombre as name')
+                        ->whereNotNull('fecha_fin_vigencia')
+                        ->orderBy('fecha_fin_vigencia', 'desc')->get();
+                    $response['tipo'] = 'Documentos Administración';
+                    return $response;
+                    break;   
                 default:
                     # code...
                     break;
@@ -246,5 +258,11 @@ class TareasController extends Controller
 
     public function vercalendario_tarea(Request $request){
         return Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
+    }
+    public function vercalendario_documentos_vehiculos(){
+        
+    }
+    public function vercalendario_documentos_administracion(){
+
     }
 }

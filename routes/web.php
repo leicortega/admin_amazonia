@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'HomeController@index')->name('index');
@@ -37,6 +38,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/admin/sistema/inspecciones/agg_admin_inspeccion', 'AdminController@agg_admin_inspeccion');
     //administrar proveedores
 
+    // Admin Roles y permisos
+    Route::resource('/admin/sistema/roles','RoleController');
+    Route::resource('/admin/sistema/permisos','PermisoController');
 });
 
 // Rutas para Correos
@@ -153,6 +157,9 @@ Route::group(['middleware' => ['permission:personal|universal']], function () {
     Route::get('/personal/datos-personal/filtro', 'PersonalController@filtro')->name('personal_filtro');
     Route::post('/personal/create', 'PersonalController@create');
     Route::post('/personal/update', 'PersonalController@update');
+    Route::get('/personal/ver/{id}', 'PersonalController@ver')->name('persona.ver');
+    Route::get('/personal/ver/{id}/crearclave', 'PersonalController@createclave')->name('persona.createclave');
+    Route::get('/personal/ver/{id}/editar', 'PersonalController@edit')->name('persona.edit');
     Route::get('/personal/ver/{id}', 'PersonalController@ver');
     Route::get('/personal/registro/ver/{id}', 'PersonalController@ver_ajax');
     Route::post('/personal/agg_cargo_personal', 'PersonalController@agg_cargo_personal');
@@ -236,7 +243,10 @@ Route::group(['middleware' => ['permission:tareas|universal']], function () {
     Route::get('/tareas/completadas', 'TareasController@completadas')->name('completadas');
     Route::post('/tareas/agregar', 'TareasController@agregar');
     Route::post('/tareas/cargar_calendario', 'TareasController@cargar_calendario');
+    Route::post('/tareas/cambiar_tipo_eventos_calendario', 'TareasController@cambiar_tipo_eventos_calendario');
     Route::post('/tareas/vercalendario_tarea', 'TareasController@vercalendario_tarea');
+    Route::post('/tareas/vercalendario_tarea', 'TareasController@vercalendario_documentos_vehiculos');
+    Route::post('/tareas/vercalendario_tarea', 'TareasController@vercalendario_documentos_administracion');
     Route::get('/tareas/eliminate/{id}', 'TareasController@eliminate_tarea');
     Route::post('/tareas/agregar_estado', 'TareasController@agregar_estado');
     Route::get('/tareas/ver/{id}', 'TareasController@ver');

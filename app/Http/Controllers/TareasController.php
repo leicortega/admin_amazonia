@@ -3,15 +3,17 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Documentos_legales_vehiculo;
 use App\Models\Detalle_tarea;
 use App\Models\Tarea;
-Use  App\User;
+Use App\User;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\NotificationMail;
+use App\Models\Documentos_documentacion;
 use Carbon\Carbon;
 
 class TareasController extends Controller
@@ -62,7 +64,7 @@ class TareasController extends Controller
             }else{
                 $fecha= Carbon::now()->format('Y-m-d H:m:s');
             }
-            
+
             if(isset($request['id_editar']) && $request['id_editar'] != null){
 
                 $tarea = Tarea::find($request['id_editar']);
@@ -87,17 +89,17 @@ class TareasController extends Controller
                     'titulo' => 'TAREA ACTUALIZADA',
                     'link' => 'https://admin.amazoniacl.com/tareas/ver/'.$tarea->id
                 ];
-        
+
                 Mail::to(User::find($request['asignado'])->email ?? auth()->user()->email)->send(new NotificationMail($data));
 
                 if ($tarea->save()) {
                     return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea Actualizada correctamente']);
                 }
-        
+
                 return redirect()->back()->with(['create' => 0, 'mensaje' => 'Ocurrio un error, intente de nuevo']);
 
             }else{
-                
+
                 $tarea = Tarea::create([
                     'fecha' => $fecha,
                     'name_tarea' => $request['name_tarea'],
@@ -105,6 +107,7 @@ class TareasController extends Controller
                     'fecha_limite' => $request['fecha_limite'] . ' ' . ($request['time_fecha_final'] ?? '00:00')  . ':00',
                     'estado' => 'Asignada',
                     'adjunto' => $nombre_completo_file_documento ?? null,
+                    'tipos_tareas_id'=>'1',
                     'supervisor' => auth()->user()->id,
                     'asignado' => $request['asignado'] ?? auth()->user()->id,
                 ]);
@@ -113,18 +116,18 @@ class TareasController extends Controller
                     'titulo' => 'NUEVA TAREA ASIGNADA',
                     'link' => 'https://admin.amazoniacl.com/tareas/ver/'.$tarea->id
                 ];
-        
+
                 Mail::to(User::find($request['asignado'])->email ?? auth()->user()->email)->send(new NotificationMail($data));
 
                 if ($tarea->save()) {
                     return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea asignada correctamente']);
                 }
-        
+
                 return redirect()->back()->with(['create' => 0, 'mensaje' => 'Ocurrio un error, intente de nuevo']);
             }
-        
-        
-        
+
+
+
 
     }
 
@@ -176,26 +179,73 @@ class TareasController extends Controller
         return view('tareas.Calendario.index');
     }
 
+    public function cambiar_tipo_eventos_calendario(Request $request) {
+        return session(['tipo_tarea' => $request['tipo']]);
+    }
+
     public function cargar_calendario(Request $request){
-        
-        switch ($request['list']) {
-            case 0:
-                return Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
-                break;
-            
-            case 1:
-                return  Tarea::where([['supervisor', auth()->user()->id], ['asignado', auth()->user()->id]])->get();
-                break;
 
-            case 2:
-                return Tarea::where([['supervisor', auth()->user()->id], ['asignado', '<>',auth()->user()->id]])->get();
-                break;
+        $response = [];
 
-            case 3:
-                return Tarea::where([['asignado', auth()->user()->id], ['supervisor', '<>',auth()->user()->id]])->get();
-                break;
+        if(session('tipo_tarea')) {
+            switch (session('tipo_tarea')) {
+                case 'tareas':
+                    $response['tipo'] = 'Default';
+                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    break;
+                case 'Documentos Vehiculos':
+                    $response['documentos'] = \DB::table('documentos_legales_vehiculos')
+                                ->join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', 'documentos_legales_vehiculos.tipo_id')
+                                ->join('vehiculos', 'vehiculos.id', 'documentos_legales_vehiculos.vehiculo_id')
+                                ->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'vehiculos.placa')
+                                ->whereNotNull('fecha_fin_vigencia')
+                                ->where('ultimo', 1)
+                                ->orderBy('fecha_fin_vigencia', 'desc')
+                                ->get();
+
+                    $response['tipo'] = 'Documentos Vehiculos';
+
+                    return $response;
+                    break;
+                case 'Documentos Administración': 
+                    $response['documentos'] = Documentos_documentacion::join('documentacion', 'documentacion.id', '=', 'documentos_documentacion.documentacion_id')
+                        ->select('documentos_documentacion.*', 'documentacion.nombre as name')
+                        ->whereNotNull('fecha_fin_vigencia')
+                        ->orderBy('fecha_fin_vigencia', 'desc')->get();
+                    $response['tipo'] = 'Documentos Administración';
+                    return $response;
+                    break;   
+                default:
+                    # code...
+                    break;
+            }
+        } else {
+            switch ($request['list']) {
+                case 0:
+                    $response['tipo'] = 'Default';
+                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    break;
+
+                case 1:
+                    $response['tipo'] = 'Default';
+                    return  $response['documentos'] = Tarea::where([['supervisor', auth()->user()->id], ['asignado', auth()->user()->id]])->get();
+                    break;
+
+                case 2:
+                    $response['tipo'] = 'Default';
+                    return $response['documentos'] = Tarea::where([['supervisor', auth()->user()->id], ['asignado', '<>',auth()->user()->id]])->get();
+                    break;
+
+                case 3:
+                    $response['tipo'] = 'Default';
+                    return $response['documentos'] = Tarea::where([['asignado', auth()->user()->id], ['supervisor', '<>',auth()->user()->id]])->get();
+                    break;
+                default:
+                    $response['tipo'] = 'Default';
+                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    break;
+            }
         }
-
     }
 
     public function eliminate_tarea(Request $request){
@@ -208,5 +258,11 @@ class TareasController extends Controller
 
     public function vercalendario_tarea(Request $request){
         return Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
+    }
+    public function vercalendario_documentos_vehiculos(){
+        
+    }
+    public function vercalendario_documentos_administracion(){
+
     }
 }

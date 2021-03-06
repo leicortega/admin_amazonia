@@ -33,12 +33,14 @@
                                     {{-- @if ($files->count() > 0) --}}
                                         {{-- <a href="/hseq/list/{{ $files[0]['dirname'] }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a> --}}
                                     {{-- @else --}}
-                                        <a href="{{ $back }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a>
+                                        <a href="javascript:history.back()"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a>
                                         {{-- <a href="{{ url()->previous() }}"><button type="button" class="btn btn-dark btn-lg mb-3 mt-0">Atras</button></a> --}}
                                     {{-- @endif --}}
                                 @endif
-                                <button class="btn btn-primary btn-lg float-right ml-2" data-toggle="modal" data-target="#modal_crear_carpeta">Crear Carpeta</button>
-                                <button class="btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modal_subir_archivo">Subir Documento</button>
+                                @canany(['hseq.create', 'universal'])
+                                    <button class="btn btn-primary btn-lg float-right ml-2" data-toggle="modal" data-target="#modal_crear_carpeta">Crear Carpeta</button>
+                                    <button class="btn btn-primary btn-lg float-right" data-toggle="modal" data-target="#modal_subir_archivo">Subir Documento</button>
+                                @endcanany
                             </div>
 
                             @if ($files->where('type', '=', 'dir')->count() > 0)
@@ -64,8 +66,9 @@
 
                                                 <td class="text-center col-12">
                                                     <a href="/hseq/list/{{ $dir['basename'] }}" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-eye"></i></a>
-
-                                                    <button type="button" onclick="eliminar_carpeta('{{ $dir['path'] }}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                                                    @canany(['hseq.destroy', 'universal'])
+                                                        <button type="button" id="eliminar_carpeta.{{$dir['basename']}}" onclick="eliminar_carpeta('{{ $dir['path'] }}','{{$dir['basename']}}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                                                    @endcanany
                                                 </td>
                                             </div>
                                         </div>
@@ -93,19 +96,23 @@
 
                                             <div class="card-footer text-center">
                                                 <td class="text-center col-12">
-                                                    @if ($file['mimetype'] == 'image/jpeg')
-                                                        <button type="button" onclick="ver_imagen('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                                                    @elseif($file['mimetype'] == 'application/pdf')
-                                                        <button type="button" onclick="ver_pdf('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                                                    @elseif($file['mimetype'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || $file['mimetype'] == 'text/csv')
-                                                        <button type="button" onclick="ver_excel('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                                                    @else
-                                                        <button type="button" onclick="ver_documento('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
-                                                    @endif
 
+                                                    @canany(['hseq.edit', 'universal'])
+                                                        @if ($file['mimetype'] == 'image/jpeg')
+                                                            <button type="button" onclick="ver_imagen('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                        @elseif($file['mimetype'] == 'application/pdf')
+                                                            <button type="button" onclick="ver_pdf('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                        @elseif($file['mimetype'] == 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || $file['mimetype'] == 'text/csv')
+                                                            <button type="button" onclick="ver_excel('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                        @else
+                                                            <button type="button" onclick="ver_documento('{{ $file['basename'] }}')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                                                        @endif
+                                                    @endcanany
                                                     <button type="button" onclick="descargar('{{ $file['name'] }}', '{{ $file['path'] }}', '{{ $file['mimetype'] }}')" class="btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></button>
 
-                                                    <button type="button" onclick="eliminar_archivo('{{ $file['path'] }}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                                                    @canany(['hseq.destroy', 'universal'])
+                                                        <button type="button" id="eliminar_archivo.{{ $file['basename'] }}" onclick="eliminar_archivo('{{ $file['path'] }}','{{$file['basename']}}')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                                                    @endcanany
                                                 </td>
                                             </div>
                                         </div>
@@ -151,9 +158,8 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/hseq/create-dir" method="post">
+                <form action="/hseq/create-dir" method="post" id="form_create_carpeta">
                     @csrf
-
                     <div class="container p-3">
 
                         <div class="row">
@@ -165,12 +171,13 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="path" value="{{ Request::is('hseq/list') ? '/' : Request::path() }}" />
+                        <input type="hidden" name="path" id="path" value="{{ Request::is('hseq/list') ? '/' : Request::path() }}" />
 
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <input id="button_create_carpeta" class="btn btn-primary btn-lg waves-effect waves-light" type="button" value="Enviar"/>
+                        {{-- <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit"></button> --}}
                     </div>
                 </form>
             </div>
@@ -189,7 +196,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="/hseq/subir_archivo" method="post" enctype="multipart/form-data">
+                <form action="/hseq/subir_archivo" method="post" id="form_subir_archivo" enctype="multipart/form-data">
                     @csrf
 
                     <div class="container p-3">
@@ -203,12 +210,13 @@
                             </div>
                         </div>
 
-                        <input type="hidden" name="path" value="{{ Request::is('hseq/list') ? '/' : Request::path() }}" />
+                        <input type="hidden" name="path" id="path" value="{{ Request::is('hseq/list') ? '/' : Request::path() }}" />
 
                     </div>
 
                     <div class="mt-3 text-center">
-                        <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button>
+                        <input id="button_create_archivo" class="btn btn-primary btn-lg waves-effect waves-light" type="button" value="Enviar"/>
+                        {{-- <button class="btn btn-primary btn-lg waves-effect waves-light" type="submit">Enviar</button> --}}
                     </div>
                 </form>
             </div>

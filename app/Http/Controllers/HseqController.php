@@ -16,6 +16,8 @@ class HseqController extends Controller
         $contents = collect(\Storage::cloud()->listContents($dir, $recursive));
 
         // dd($contents);
+
+        // return 'hola';
         return view('HSEQ.index', ['files' => $contents]);
     }
 
@@ -28,6 +30,7 @@ class HseqController extends Controller
 
         // dd($contents);
         // dd(\Storage::sharedGet($path));
+        return $dir;
         return view('HSEQ.index', ['files' => $contents]);
     }
 
@@ -40,18 +43,20 @@ class HseqController extends Controller
 
         // dd($contents->where('type', '=', 'file')->count());
 
-        if ($contents->where('type', '=', 'file')->count() > 0 && $contents->where('type', '=', 'dir')->count() == 0) {
-            $back = '/hseq/list/'.$contents[0]['dirname'];
-        } else {
-            $back = url()->previous();
-        }
+        // if ($contents->where('type', '=', 'file')->count() > 0 && $contents->where('type', '=', 'dir')->count() == 0) {
+        //     $back = '/hseq/list/'.$contents[0]['dirname'];
+        // } else {
+        //     $back = url()->previous();
+        // }
 
+        $back = url()->previous();
+        // return $back;
         return view('HSEQ.index', ['files' => $contents, 'back' => $back]);
     }
 
     public function create_dir(Request $request) {
         $str = explode ("/", $request['path']);
-        $path = ($request['path'] == '/') ? '/16OSoQwhwXii2Fhtd65_OL3RFLs9cXS2m' : $str[2].'/'.$str[3];
+        $path = ($request['path'] == '/') ? '/16OSoQwhwXii2Fhtd65_OL3RFLs9cXS2m' : $str[2];
 
         \Storage::cloud()->makeDirectory($path.'/'.$request['nombre_carpeta']);
         return redirect()->back()->with(['create' => 1, 'mensaje' => 'La carpeta se creo correctamente']);
@@ -59,7 +64,7 @@ class HseqController extends Controller
 
     public function subir_archivo(Request $request) {
         $str = explode ("/", $request['path']);
-        $path = ($request['path'] == '/') ? '/16OSoQwhwXii2Fhtd65_OL3RFLs9cXS2m' : $str[2].'/'.$str[3];
+        $path = ($request['path'] == '/') ? '/16OSoQwhwXii2Fhtd65_OL3RFLs9cXS2m' : $str[2];
 
         \Storage::cloud()->put($path.'/'.$request->file('file')->getClientOriginalName(), \File::get($request->file('file')));
         return redirect()->back()->with(['create' => 1, 'mensaje' => 'El documento se subio correctamente']);

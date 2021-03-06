@@ -65,17 +65,28 @@ class PersonalController extends Controller
             Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('firma')));
             $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
             $request->firma = $nombre_completo_file_documento;
-            
+
         }else{
             $request->firma='';
         }
-        
-        
+
+        if($request->imagen != null && $request->imagen != ''){
+            $extension_file_documento = pathinfo($request->file('imagen')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $ruta_file_documento = 'docs/personal/documentos/imagen/';
+            $nombre_file_documento = 'imagen_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('imagen')));
+            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+            $request->imagen = $nombre_completo_file_documento;
+        }else{
+            $request->imagen='';
+        }
+
         $personal = Personal::create($request->all());
 
         $personal->firma=$request->firma;
+        $personal->imagen=$request->imagen;
 
-        
+
         if($personal->save()) {
             return redirect()->route('personal')->with(['creado' => 1]);
         }
@@ -118,8 +129,36 @@ class PersonalController extends Controller
         }))->find($request['id']);
 
         // dd($personal);
-
         return view('personal.ver', ['personal' => $personal]);
+    }
+
+    public function edit($id)
+    {
+        $personal = Personal::with(array('cargos_personal' => function ($query) {
+            $query->with('cargos');
+        }))->find($id);
+
+        $user = User::where('identificacion',$personal->identificacion)->firstorfail();
+        $permisos=\Spatie\Permission\Models\Permission::all();
+
+        $permisosuser = array();
+        foreach ($user->permissions as $permiso) {
+            array_push($permisosuser, $permiso->name);
+        }
+        return view('personal.edit', ['personal' => $personal,'permisos'=>$permisos,'permisosuser'=>$permisosuser,'user'=>$user]);
+
+    }
+
+    public function createclave($id)
+    {
+        $personal = Personal::with(array('cargos_personal' => function ($query) {
+            $query->with('cargos');
+        }))->find($id);
+
+        $permisos=\Spatie\Permission\Models\Permission::all();
+
+        return view('personal.create', ['personal' => $personal,'permisos'=>$permisos]);
+
     }
 
     public function update(Request $request) {
@@ -137,7 +176,20 @@ class PersonalController extends Controller
             $request->firma = $nombre_completo_file_documento;
             Storage::disk('public')->delete($personal->firma);
         }else{
-            $request->firma='';
+            $request->firma=$personal->firma;
+        }
+
+        if($request->imagen != null && $request->imagen != '' && $request->file('imagen')){
+            Storage::disk('public')->delete($personal->imagen);
+            $extension_file_documento = pathinfo($request->file('imagen')->getClientOriginalName(), PATHINFO_EXTENSION);
+            $ruta_file_documento = 'docs/personal/documentos/imagen/';
+            $nombre_file_documento = 'imagen_'.$date->isoFormat('YMMDDHmmss').'.'.$extension_file_documento;
+            Storage::disk('public')->put($ruta_file_documento.$nombre_file_documento, File::get($request->file('imagen')));
+            $nombre_completo_file_documento = $ruta_file_documento.$nombre_file_documento;
+            $request->imagen = $nombre_completo_file_documento;
+
+        }else{
+            $request->imagen=$personal->imagen;
         }
 
         $personal->update([
@@ -155,6 +207,8 @@ class PersonalController extends Controller
             'tipo_vinculacion' => $request['tipo_vinculacion'],
             'correo' => $request['correo'],
             'telefonos' => $request['telefonos'],
+            'sede'=>$request['sede'],
+            'imagen'=>$request->imagen
         ]);
 
         return redirect()->back()->with(['update' => 1]);
@@ -265,13 +319,13 @@ class PersonalController extends Controller
 
     public function print_certificado(Request $request) {
         $contrato = Contratos_personal::with('personal')->find($request['id']);
-        
+
         return PDF::loadView('personal.certificado', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
     }
 
     public function print_contrato(Request $request) {
         $contrato = Contratos_personal::with('personal')->find($request['id']);
-        
+
         return PDF::loadView('personal.contrato', compact('contrato'))->setPaper('A4')->stream('certificado.pdf');
 
         dd($contrato);
@@ -292,13 +346,12 @@ class PersonalController extends Controller
 
         return [
             'user' => $user,
-            'rol' => $user->roles()->first()->name,
-            'permisos' => $permisos
+            // 'rol' => $user->roles()->first()->name,
+            // 'permisos' => $permisos
         ];
     }
 
     public function crear_clave(Request $request) {
-
         $user = User::create([
             'name' => $request['name'],
             'identificacion' => $request['identificacion'],
@@ -314,7 +367,7 @@ class PersonalController extends Controller
                 $user->assignRole($request['tipo']);
                 $user->givePermissionTo($request['permisos']);
             }
-            return redirect()->back()->with('create', 1);
+            return redirect()->route('persona.edit',$request['user_id'])->with('create', 1);
         } else {
             return redirect()->back()->with('create', 0);
         }
@@ -322,8 +375,8 @@ class PersonalController extends Controller
     }
 
     public function update_clave(Request $request) {
-
-        $user = User::find($request['user_id']);
+        // return $request;
+        $user = User::where('identificacion', $request['identificacion'])->first();
 
         if ($request['password']) {
             $user->update([
@@ -338,15 +391,14 @@ class PersonalController extends Controller
             'estado' => $request['estado'],
         ]);
 
-        if ($request['tipo'] == 'admin') {
-            $user->assignRole($request['tipo']);
-            $user->removeRole('general');
-        } else {
-            $user->assignRole($request['tipo']);
-            $user->removeRole('admin');
-            $user->revokePermissionTo(Permission::all());
+        $user->removeRole($user->roles()->first()->name);
+        $user->revokePermissionTo(Permission::all());
+        $user->assignRole($request['tipo']);
+        if ($request['tipo'] == 'general') {
             $user->givePermissionTo($request['permisos']);
         }
+
+
         return redirect()->back()->with('update', 1);
     }
 

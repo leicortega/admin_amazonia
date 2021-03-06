@@ -5,3 +5,11 @@ Correspondencia $table->foreignId('users_id')
             ->onDelete('cascade'); 
 
 se creo tabla respuesta correspondencia.
+
+
+
+04/03/2021
+se crearon las tablas
+
+ -> documentos_cargos_admin
+ -> documentos_cargos

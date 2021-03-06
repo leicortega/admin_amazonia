@@ -1,8 +1,6 @@
 <?php
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
 use App\Models\Solicitudes_dinero;
 use App\Models\Conceptos_solicitud;
 use Illuminate\Support\Facades\Mail;
@@ -17,6 +15,29 @@ use PDF;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\Request;
+
+
+use App\Mail\CorrespondenciaMail;
+use App\Mail\CotizacionMail;
+use App\Mail\RespuestaCorreoMail;
+use App\Models\Cargos_personal;
+use App\Models\Conductores_vehiculo;
+
+use App\Models\Tercero;
+use App\Models\Perfiles_tercero;
+use App\Models\Contactos_tercero;
+
+use App\Models\Documentos_tercero;
+use App\Models\Trayectos_contrato;
+use App\Models\Contrato;
+use App\Models\Correspondencia;
+use App\Models\Cotizacion;
+use App\Models\Cotizaciones;
+use App\Models\Cotizaciones_trayectos;
+
+use App\Models\Vehiculo;
 
 class SolicituddineroController extends Controller
 {
@@ -147,7 +168,7 @@ class SolicituddineroController extends Controller
         $conceptos = Conceptos_solicitud::where('solicitud_id', $id)->get();
         $solicitud = Solicitudes_dinero::join('personal', 'personal.id', '=', 'solicitudes_dinero.beneficiario')
                 ->join('users', 'users.id', '=', 'solicitudes_dinero.personal_crea')->where('solicitudes_dinero.id',$id)->first();
-                
+
         return PDF::loadView('contabilidad.solicitudes_pdf', compact('solicitud', 'conceptos'))->setPaper('A4')->stream('solicitud.pdf');
     }
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Requests\FormCreateUserRequest;
 use App\Models\Admin_documentos_categoria_vehiculo;
 use App\Models\Admin_documentos_vehiculo;
+use App\Models\Documentos_cargos;
+use App\Models\Documentos_cargos_admin;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
 use Illuminate\Support\Facades\Hash;
@@ -20,6 +22,8 @@ use App\Models\Sistema\Proveedor;
 use App\Models\Sistema\Departamento;
 use App\Models\Sistema\Municipio;
 use App\User;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminController extends Controller
 {
@@ -180,12 +184,57 @@ class AdminController extends Controller
     }
 
     public function cargos() {
-        return view('admin.cargos', ['cargos' => Cargo::paginate(20)]);
+        $cargo = Cargo::paginate(20);
+        foreach ($cargo as $key => $carg) {
+            $arrayId = Documentos_cargos::where('cargos_id', $carg->id)->select('documentos_cargos.documentos_cargos_id')->get();
+            $arrayId = Arr::pluck($arrayId, 'documentos_cargos_id');
+            $cargo[$key]->documentos = Documentos_cargos_admin::whereIn('id', $arrayId)->get();
+        }
+        
+        return view('admin.cargos', ['cargos' => $cargo]);
+
     }
 
     public function agg_cargo(Request $request) {
-        if (Cargo::create($request->all())->save()) {
-            return redirect()->route('cargos')->with(['create' => 1]);
+        if($request['id_cargo'] != '' && $request['id_cargo'] != null){
+            $cargo = Cargo::find($request['id_cargo']);
+            $cargo->update($request->except('documentos_cargos'));
+            $Noteliminar = [];
+            foreach ($request['documentos_cargos'] as $key => $doc) {
+                $Noteliminar[] = Documentos_cargos::where('cargos_id', $cargo->id)->where('documentos_cargos_id', $doc)->first()['id'] ?? 0;
+            }
+            
+            Documentos_cargos::where('cargos_id', $cargo->id)->whereNotIn('id', $Noteliminar)->delete();
+
+            $Noteliminar = Documentos_cargos::where('cargos_id', $cargo->id)->whereIn('id', $Noteliminar)->get();
+            
+            foreach ($request['documentos_cargos'] as $key => $doc) {
+                $crear = 0;
+                foreach ($Noteliminar as $key => $ntli) {
+                    if($doc == $ntli->documentos_cargos_id){
+                        $crear = 1;
+                    }
+                }
+                if($crear == 0){
+                    Documentos_cargos::create([
+                        'cargos_id' => $cargo->id,
+                        'documentos_cargos_id' => $doc
+                    ]);
+                }
+            }
+
+            return redirect()->route('cargos')->with(['create_doc' => 1, 'mensaje' => 'Se ha editado correctamente el cargo']);
+        }else{
+            $cargo = Cargo::create($request->all());
+            if ($cargo->save()) {
+                foreach ($request['documentos_cargos'] as $key => $doc) {
+                    Documentos_cargos::create([
+                        'cargos_id' => $cargo->id,
+                        'documentos_cargos_id' => $doc
+                    ]);
+                }
+                return redirect()->route('cargos')->with(['create' => 1]);
+            }
         }
 
         return redirect()->route('cargos')->with(['create' => 0]);
@@ -279,5 +328,35 @@ class AdminController extends Controller
             'categorias' => $categorias,
         ]);
     }
+
+
+    public function agg_documeto_cargo(Request $request){
+        $documento = 0;
+        if($request['id_doc'] == '' || $request['id_doc'] == null){
+            $documento = Documentos_cargos_admin::create($request->except('id_doc'));
+            if($documento->save()){
+                return redirect()->back()->with(['create_doc' => 1, 'mensaje' => 'Documento agregado correctamente']);
+            }
+        }else{
+            $documento = Documentos_cargos_admin::find($request['id_doc'])->update($request->except('id_doc'));
+            if($documento){
+                return redirect()->back()->with(['create_doc' => 1, 'mensaje' => 'Documento editado correctamente']);
+            }
+        }
+
+
+        return redirect()->back()->with(['error' => 1, 'mensaje' => 'Ocurrio un error con el registro']);
+
+
+    }
+
+
+    public function eliminar_documento_cargos($id){
+        Documentos_cargos_admin::find($id)->delete();
+        return redirect()->back()->with(['create_doc' => 1, 'mensaje' => 'Documento eliminado correctamente']);
+    }
+
+
+
 
 }

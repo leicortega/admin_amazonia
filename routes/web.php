@@ -29,6 +29,8 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::post('/admin/sistema/vehiculos/agg_datos_vehiculo', 'AdminController@agg_datos_vehiculo');
     // Administrar Cargos
     Route::get('/admin/sistema/cargos', 'AdminController@cargos')->name('cargos');
+    Route::post('/admin/sistema/agg_documeto_cargo', 'AdminController@agg_documeto_cargo')->name('agg_documeto_cargo');
+    Route::get('/admin/sistema/eliminar_documento_cargos/{id}', 'AdminController@eliminar_documento_cargos');
     Route::post('/admin/sistema/agg_cargo', 'AdminController@agg_cargo');
     // Administrar Inspecciones
     Route::get('/admin/sistema/inspecciones', 'AdminController@inspecciones')->name('inspecciones');

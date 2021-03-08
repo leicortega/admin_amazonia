@@ -68,7 +68,7 @@ $(function() {
        selectable: true,
        selectHelper: true,
        eventClick: function (info){
-            vertarea(info.id);
+            vertarea(info.id, info.tipo);
        },
        select: (start, end)=>{ //para cuando se da click en una fecha
             $('#time_fecha').val('');
@@ -96,7 +96,7 @@ $(function() {
                 url: '/tareas/cargar_calendario',
                 type: 'POST',
                 data: {list:getParameterByName('list') ?? '0'},
-                success: function (data) {
+                success: function (data) {      
                     var eventos=[];
                     switch (data.tipo) {
                         case 'Documentos Vehiculos':
@@ -106,30 +106,32 @@ $(function() {
                                     title: tarea.name+' - '+tarea.placa,
                                     start: tarea.fecha_fin_vigencia,
                                     end: tarea.fecha_fin_vigencia,
-                                    color: '#FD3636'
+                                    color: '#FD3636',
+                                    tipo: data.tipo
                                   });
                             });
                             break;
                         case 'Documentos Administración':
-                            console.log(data);
                             data.documentos.forEach(tarea => {
                                 eventos.push({
                                     id: tarea.id,
                                     title: tarea.nombre+' - '+tarea.name,
                                     start: tarea.fecha_fin_vigencia,
                                     end: tarea.fecha_fin_vigencia,
-                                    color: '#FD3636'
+                                    color: '#FD3636',
+                                    tipo: data.tipo
                                   });
                             });
                             break;
                         default:
-                            data.forEach(tarea => {
+                            data.documentos.forEach(tarea => {
                                 eventos.push({
                                     id: tarea.id,
                                     title: tarea.name_tarea,
                                     start: tarea.fecha,
                                     end: tarea.fecha_limite,
-                                    color: '#2fa97c'
+                                    color: '#2fa97c',
+                                    tipo: data.tipo
                                   });
                             });
                             break;
@@ -149,69 +151,84 @@ function getParameterByName(name) {
     return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
 }
 
-function vertarea(id){
+function vertarea(id, tipo){
     $.ajax({
         url: '/tareas/vercalendario_tarea',
         type: 'POST',
-        data: {id:id},
+        data: {id:id, tipo:tipo},
         success: function (tarea) {
-            contenido=`
-            <h4 class="mb-4">Asignada por: ${tarea.supervisor_id.name}</h4>
-            <table class="table table-bordered">
-            <thead class="table-bg-dark">
-                <tr>
-                    <th colspan="4" class="text-center"><b>DATOS DE TAREA (${tarea.name_tarea})</b></th>
-                </tr>
-                <tr>
-                    <th>Fecha asignada</th>
-                    <th>Responsable</th>
-                    <th>Estado</th>
-                    <th>Fecha limite</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>${tarea.fecha}</td>
-                    <td>${tarea.asignado_id.name}</td>
-                    <td>${tarea.estado}</td>
-                    <td>${tarea.fecha_limite}</td>
-                </tr>
-            </tbody>
-            <thead class="table-bg-dark">
-                <tr>
-                    <th colspan="3" class="text-center">Tarea</th>
-                    <th colspan="1" class="text-center">Adjunto</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td colspan="3">${tarea.tarea}</td>
-                    <td colspan="1" class="text-center">`
+            console.log(tarea);
+            switch(tipo){
+                case 'tarea':
+                    contenido=`
+                            <h4 class="mb-4">Asignada por: ${tarea.supervisor_id.name}</h4>
+                            <table class="table table-bordered">
+                            <thead class="table-bg-dark">
+                                <tr>
+                                    <th colspan="4" class="text-center"><b>DATOS DE TAREA (${tarea.name_tarea})</b></th>
+                                </tr>
+                                <tr>
+                                    <th>Fecha asignada</th>
+                                    <th>Responsable</th>
+                                    <th>Estado</th>
+                                    <th>Fecha limite</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${tarea.fecha}</td>
+                                    <td>${tarea.asignado_id.name}</td>
+                                    <td>${tarea.estado}</td>
+                                    <td>${tarea.fecha_limite}</td>
+                                </tr>
+                            </tbody>
+                            <thead class="table-bg-dark">
+                                <tr>
+                                    <th colspan="3" class="text-center">Tarea</th>
+                                    <th colspan="1" class="text-center">Adjunto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">${tarea.tarea}</td>
+                                    <td colspan="1" class="text-center">`
 
-                    if(tarea.adjunto){
-                        contenido+=`<button type="button" class="btn btn-success btn-lg"  onclick="ver_documento_legal('${tarea.adjunto}', 'Tarea Adjunto',this)">Ver adjunto</button>`;
-                    }else{
-                        contenido+=`No Hay Adjunto`;
-                    }
+                                    if(tarea.adjunto){
+                                        contenido+=`<button type="button" class="btn btn-success btn-lg"  onclick="ver_documento_legal('${tarea.adjunto}', 'Tarea Adjunto',this)">Ver adjunto</button>`;
+                                    }else{
+                                        contenido+=`No Hay Adjunto`;
+                                    }
 
-                    contenido += `
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class='row mt-4'>
-            <div class="ml-3 col-sm-9">
-                <button type="button" class="btn btn-primary btn-lg"  onclick="editar_tarea_calendar('${tarea.id}')">Editar</button>
-                <button type="button" class="btn btn-danger btn-lg ml-3"  onclick="eliminar_tarea_calendar('${tarea.id}')">Eliminar</button>
-            </div>
-            <div class="ml-3 col-sm-2">
-                <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" aria-label="Close">Cerrar</button>
-            </div>
-        </div>
-            `;
-
-            $('#body_ver').html(contenido);
+                                    contenido += `
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class='row mt-4'>
+                            <div class="ml-3 col-sm-9">
+                                <button type="button" class="btn btn-primary btn-lg"  onclick="editar_tarea_calendar('${tarea.id}')">Editar</button>
+                                <button type="button" class="btn btn-danger btn-lg ml-3"  onclick="eliminar_tarea_calendar('${tarea.id}')">Eliminar</button>
+                            </div>
+                            <div class="ml-3 col-sm-2">
+                                <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" aria-label="Close">Cerrar</button>
+                            </div>
+                        </div>
+                            `;
+                        $('#body_ver').html(contenido);
+                        
+                    break;
+                    case 'Documentos Vehiculos':
+                        alert(tipo);
+                        
+                        break;
+                    case 'Documentos Administración':
+                        alert(tipo);
+                        break;
+            }
+            
             $('#modalVerActivities').modal('show');
+            
+            
         }
     });
 }

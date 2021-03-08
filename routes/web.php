@@ -245,8 +245,6 @@ Route::group(['middleware' => ['permission:tareas|universal']], function () {
     Route::post('/tareas/cargar_calendario', 'TareasController@cargar_calendario');
     Route::post('/tareas/cambiar_tipo_eventos_calendario', 'TareasController@cambiar_tipo_eventos_calendario');
     Route::post('/tareas/vercalendario_tarea', 'TareasController@vercalendario_tarea');
-    Route::post('/tareas/vercalendario_tarea', 'TareasController@vercalendario_documentos_vehiculos');
-    Route::post('/tareas/vercalendario_tarea', 'TareasController@vercalendario_documentos_administracion');
     Route::get('/tareas/eliminate/{id}', 'TareasController@eliminate_tarea');
     Route::post('/tareas/agregar_estado', 'TareasController@agregar_estado');
     Route::get('/tareas/ver/{id}', 'TareasController@ver');

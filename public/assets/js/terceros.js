@@ -156,6 +156,8 @@ $(document).ready(function () {
                 window.open('/terceros/print_contrato/'+data.trayecto, '_blank');
                 $('#btn_generar_contrato').html('Enviar');
                 $('#btn_generar_contrato').removeAttr('disabled');
+            }, error(e) {
+                console.log(e);
             }
         });
 
@@ -211,10 +213,11 @@ $(document).ready(function () {
             type: 'POST',
             data: $('#form_agregar_trayecto_cotizacion').serialize(),
             success: function (data) {
+                console.log(data);
                 $('#modal_agregar_trayecto_cotizacion').modal('hide');
                 $('#form_agregar_trayecto_cotizacion')[0].reset();
                 ver_trayectos_cotizacion(data.cotizacion_id);
-                window.open('/terceros/print_cotizacion/'+data.trayecto, '_blank');
+                window.open('/terceros/print_cotizacion/'+data.cotizacion_id, '_blank');
                 $('#btn_agg_trayecto_cotizacion').html('Enviar');
                 $('#btn_agg_trayecto_cotizacion').removeAttr('disabled');
             }
@@ -827,7 +830,7 @@ function generar_contrato(id) {
         success: function (data) {
             content ='';
             a=0;
-            console.log(data.personal);
+
             data.cotizaciones.forEach(cotizacion => {
                 a++;
                 content += `<div class="form-group row">
@@ -884,7 +887,6 @@ function generar_contrato(id) {
                 </div>
             </div>`;
 
-            console.log(data.personal);
             });
 
             $('#vehiculos_generar_contratos').html(content);
@@ -1362,13 +1364,3 @@ function descripcion_table_cotizacion(){
         $('#descripcion_table_trayecto').html(descripcion);
     }
 }
-
-
-
-
-
-
-
-
-
-

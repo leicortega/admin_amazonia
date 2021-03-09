@@ -281,3 +281,8 @@ Route::post('/informacion/documentacion/cargar_documentos', 'DocumentacionContro
 Route::post('/informacion/documentacion/delete_documento', 'DocumentacionController@delete_documento');
 Route::post('/informacion/documentacion/cargar_documentos_all', 'DocumentacionController@cargar_documentos_all');
 Route::post('/informacion/documentacion/exportar_documentos', 'DocumentacionController@exportar_documentos');
+
+
+//informacion personal
+Route::get('/informacion/personal','InformacionPersonalController@index');
+Route::get('/informacion/personal/{id}','InformacionPersonalController@show');

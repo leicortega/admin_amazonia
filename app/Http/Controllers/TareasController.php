@@ -190,11 +190,12 @@ class TareasController extends Controller
         if(session('tipo_tarea')) {
             switch (session('tipo_tarea')) {
                 case 'tareas':
-                    $response['tipo'] = 'Default';
-                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    $response['tipo'] = 'tarea';
+                    $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    return $response;
                     break;
                 case 'Documentos Vehiculos':
-                    $response['documentos'] = \DB::table('documentos_legales_vehiculos')
+                    $response['documentos'] = DB::table('documentos_legales_vehiculos')
                                 ->join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', 'documentos_legales_vehiculos.tipo_id')
                                 ->join('vehiculos', 'vehiculos.id', 'documentos_legales_vehiculos.vehiculo_id')
                                 ->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'vehiculos.placa')
@@ -207,14 +208,14 @@ class TareasController extends Controller
 
                     return $response;
                     break;
-                case 'Documentos Administración': 
+                case 'Documentos Administración':
                     $response['documentos'] = Documentos_documentacion::join('documentacion', 'documentacion.id', '=', 'documentos_documentacion.documentacion_id')
                         ->select('documentos_documentacion.*', 'documentacion.nombre as name')
                         ->whereNotNull('fecha_fin_vigencia')
                         ->orderBy('fecha_fin_vigencia', 'desc')->get();
                     $response['tipo'] = 'Documentos Administración';
                     return $response;
-                    break;   
+                    break;
                 default:
                     # code...
                     break;
@@ -222,27 +223,33 @@ class TareasController extends Controller
         } else {
             switch ($request['list']) {
                 case 0:
-                    $response['tipo'] = 'Default';
-                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    $response['tipo'] = 'tarea';
+                    $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    return $response;
                     break;
 
                 case 1:
-                    $response['tipo'] = 'Default';
-                    return  $response['documentos'] = Tarea::where([['supervisor', auth()->user()->id], ['asignado', auth()->user()->id]])->get();
+                    $response['tipo'] = 'tarea';
+                    $response['documentos'] = Tarea::where([['supervisor', auth()->user()->id], ['asignado', auth()->user()->id]])->get();
+                    return $response;
                     break;
 
                 case 2:
-                    $response['tipo'] = 'Default';
-                    return $response['documentos'] = Tarea::where([['supervisor', auth()->user()->id], ['asignado', '<>',auth()->user()->id]])->get();
+                    $response['tipo'] = 'tarea';
+                    $response['documentos'] = Tarea::where([['supervisor', auth()->user()->id], ['asignado', '<>',auth()->user()->id]])->get();
+                    return $response;
                     break;
 
                 case 3:
-                    $response['tipo'] = 'Default';
-                    return $response['documentos'] = Tarea::where([['asignado', auth()->user()->id], ['supervisor', '<>',auth()->user()->id]])->get();
+                    $response['tipo'] = 'tarea';
+
+                    $response['documentos'] = Tarea::where([['asignado', auth()->user()->id], ['supervisor', '<>',auth()->user()->id]])->get();
+                    return $response;
                     break;
                 default:
-                    $response['tipo'] = 'Default';
-                    return $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    $response['tipo'] = 'tarea';
+                    $response['documentos'] = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    return $response;
                     break;
             }
         }
@@ -252,17 +259,22 @@ class TareasController extends Controller
         $tarea=Tarea::find($request['id']);
         Storage::disk('public')->delete($tarea->adjunto);
         $tarea->delete();
-            return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea Eliminada correctamente']);
+        return redirect()->back()->with(['create' => 1, 'mensaje' => 'Tarea Eliminada correctamente']);
 
     }
 
     public function vercalendario_tarea(Request $request){
-        return Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
-    }
-    public function vercalendario_documentos_vehiculos(){
-        
-    }
-    public function vercalendario_documentos_administracion(){
+        switch($request['tipo']){
+            case 'tarea':
+                return Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
+                break;
+            case 'Documentos Vehiculos':
+                return Documentos_legales_vehiculo::with('vehiculo')->with('tipo')->find($request['id']);
+                break;
+            case 'Documentos Administración':
+                return Documentos_documentacion::with('documentacion')->find($request['id']);
+                break;
+        }
 
     }
 }

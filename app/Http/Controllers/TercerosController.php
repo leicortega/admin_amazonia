@@ -330,7 +330,8 @@ class TercerosController extends Controller
             ]);
         }
 
-        $cotizacion = Cotizaciones::find($request['cotizacion_id_contrato'])->join('terceros', 'terceros.id', '=', 'cotizaciones.tercero_id')->get();
+        $cotizacion = Cotizaciones::find($request['cotizacion_id_contrato']);
+        $tercero = Tercero::find($cotizacion['tercero_id']);
         $trayecto_cotizacion = Cotizaciones_trayectos::where('cotizacion_id', $request['cotizacion_id_contrato']);
 
         $contrato = Contrato::create([
@@ -340,12 +341,12 @@ class TercerosController extends Controller
             'objeto_contrato' => $request['objeto_contrato'],
             'contrato_parte_uno' => $request['contrato_parte_uno'],
             'contrato_parte_dos' => $request['contrato_parte_dos'],
-            'tercero_id' => $cotizacion[0]['identificacion'],
+            'tercero_id' => $tercero['identificacion'],
             'cotizacion_id' => $request['cotizacion_id_contrato'],
         ]);
 
         $a=0;
-        $tercero = Tercero::find($cotizacion[0]['tercero_id']);
+        // $tercero = Tercero::find($cotizacion[0]['tercero_id']);
         foreach ($request['id_cotizacion_trayecto'] as $cotizacionn) {
             Cotizaciones_trayectos::find($cotizacionn)->update([
                 'vehiculo_id' => $request['vehiculo_id'][$a],
@@ -354,29 +355,37 @@ class TercerosController extends Controller
                 'conductor_tres_id' => $request['conductor_tres_id'][$a],
             ]);
 
-
-
             $cot = Cotizaciones_trayectos::find($cotizacionn);
-            Conductores_vehiculo::create([
-                'fecha_inicial' => $cot['fecha_ida'],
-                'fecha_final' => $cot['fecha_regreso'],
-                'personal_id' => $request['conductor_uno_id'][$a],
-                'vehiculo_id' => $request['vehiculo_id'][$a]
-            ]);
-            Conductores_vehiculo::create([
-                'fecha_inicial' => $cot['fecha_ida'],
-                'fecha_final' => $cot['fecha_regreso'],
-                'personal_id' => $request['conductor_dos_id'][$a],
-                'vehiculo_id' => $request['vehiculo_id'][$a]
-            ]);
-            Conductores_vehiculo::create([
-                'fecha_inicial' => $cot['fecha_ida'],
-                'fecha_final' => $cot['fecha_regreso'],
-                'personal_id' => $request['conductor_tres_id'][$a],
-                'vehiculo_id' => $request['vehiculo_id'][$a]
-            ]);
+
+            if($request['conductor_uno_id'][$a]) {
+                Conductores_vehiculo::create([
+                    'fecha_inicial' => $cot['fecha_ida'],
+                    'fecha_final' => $cot['fecha_regreso'],
+                    'personal_id' => $request['conductor_uno_id'][$a],
+                    'vehiculo_id' => $request['vehiculo_id'][$a]
+                ]);
+            }
+
+            if($request['conductor_dos_id'][$a]) {
+                Conductores_vehiculo::create([
+                    'fecha_inicial' => $cot['fecha_ida'],
+                    'fecha_final' => $cot['fecha_regreso'],
+                    'personal_id' => $request['conductor_dos_id'][$a],
+                    'vehiculo_id' => $request['vehiculo_id'][$a]
+                ]);
+            }
+
+            if($request['conductor_tres_id'][$a]) {
+                Conductores_vehiculo::create([
+                    'fecha_inicial' => $cot['fecha_ida'],
+                    'fecha_final' => $cot['fecha_regreso'],
+                    'personal_id' => $request['conductor_tres_id'][$a],
+                    'vehiculo_id' => $request['vehiculo_id'][$a]
+                ]);
+            }
+
             $trayecto = Trayectos_contrato::create([
-                'fecha' => $cotizacion[0]['fecha'],
+                'fecha' => $cotizacion['fecha'],
                 'nombre' => $tercero['nombre'],
                 'correo' => $tercero['correo'],
                 'telefono' => $tercero['telefono'],
@@ -861,7 +870,6 @@ class TercerosController extends Controller
         }
     }
 
-
     public function correspondencia_ver($id){
         $correspondencia = Correspondencia::
         join('tipo_radicacion_correspondencia', 'tipo_radicacion_correspondencia.id', '=', 'correspondencia.tipo_radicacion_id')
@@ -875,7 +883,6 @@ class TercerosController extends Controller
         //$tercero = Tercero::find($id);
         return view('terceros.correspondencia_ver', ['correspondencia' => $correspondencia, 'respuestas' => $respuestas]);
     }
-
 
     public function correspondencia_respuesta_create(Request $request){
         $date = Carbon::now('America/Bogota');

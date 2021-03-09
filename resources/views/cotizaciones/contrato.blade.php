@@ -313,6 +313,7 @@
     <br><br><br><br><br><br><br>
 
     <div style="width:100%;text-align:center !important;">
+        <img src="data:image/png;base64, {!! base64_encode(QrCode::format('png')->size(130)->generate(Request::root()."/terceros/print_contrato/".$data['trayecto']['id'])) !!} ">
         {{-- <img src="{{ public_path('assets/images/qr/'.$contrato[0]->codeQR) }}"  style="text-align: justify;margin-bottom:0;" width="100px" /> --}}
         <p style="text-align: justify;color:#cccccc;font-size:10px;margin-top:0;"><b>Escanea el codigo QR</b></p>
     </div>

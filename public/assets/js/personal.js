@@ -65,7 +65,7 @@ $(document).ready(function () {
             success: function (data) {
                 $('#form_agg_documento')[0].reset();
                 $('#agg_documento').modal('hide');
-                cargar_documentos(data.tipo, data.id_table, data.personal_id);
+                cargar_documentos(data.tipo, data.id_table, data.personal_id, data.vigencia);
             }
         });
 
@@ -179,6 +179,7 @@ function cargar_cargos_personal(id) {
 function tipo_contrato_select(tipo) {
     switch (tipo) {
         case 'Obra labor':
+            $('#fecha_fin').attr('required', true);
             $('#fecha_inicio_div').removeClass('d-none');
             $('#fecha_fin_div').removeClass('d-none');
             $('#clausulas_div').removeClass('d-none');
@@ -188,6 +189,7 @@ function tipo_contrato_select(tipo) {
             break;
 
         case 'Termino fijo':
+            $('#fecha_fin').attr('required', true);
             $('#fecha_inicio_div').removeClass('d-none');
             $('#fecha_fin_div').removeClass('d-none');
             $('#clausulas_div').removeClass('d-none');
@@ -203,6 +205,8 @@ function tipo_contrato_select(tipo) {
         case 'Termino indefinido':
             $('#fecha_inicio_div').removeClass('d-none');
             $('#clausulas_div').removeClass('d-none');
+            $('#fecha_fin_div').addClass('d-none');
+            $('#fecha_fin').removeAttr('required');
             $('#clausulas_parte_uno').val(`
                 Entre el empleador y el empleado, mayores de edad, de forma libre y voluntaria, suscriben el siguiente contrato de trabajo a término indefinido, regido por las siguientes cláusulas: PRIMERA: OBJETO, AMAZONIA C&L S.A.S, contrata los servicios personales del trabajador y este se obliga : A poner al servicio de AMAZONIA C&L SAS, toda su capacidad normal de trabajo, en forma exclusiva, en el desempeño de las funciones propias del oficio y cargo mencionado y en las labores anexas y complementarias del mismo, de conformidad con las órdenes e instrucciones que se le imparta por medio del jefe inmediato o quien haga sus veces, a guardar absoluta reserva sobre los hechos, documentación, información y en general, sobre todos los asuntos y materias que lleguen a su conocimiento por causa o por ocasión de su contrato de trabajo. Parágrafo primero, hace parte integral del presente contrato las funciones detalladas en el manual de competencias del presente cargo. Parágrafo segundo, la descripción anterior en general no excluye ni limita para ejecutar labores conexas complementarias, asesorías o similares y en general aquellas que sean necesarias para un mejor resultado en la ejecución de la causa que dio origen al contrato. SEGUNDA: LUGAR, El trabajador desarrollará sus funciones principalmente en la oficina de AMAZONIA C&L SAS, en Neiva, o donde tenga su domicilio principal o cualquier otro lugar que la empresa determine, para ello, debe ser notificado por medio escrito por su jefe inmediato o quien haga sus veces, siempre y cuando no desmejore su condición laboral. TERCERA: FUNCIONES. El empleador contrata al trabajador, para desempeñarse como`
             );
@@ -263,6 +267,7 @@ function cargar_contratos(id) {
     });
 }
 
+
 function modal_agg_otro_si(id) {
     $('#agg_otro_si').modal('show');
     $('#contratos_personal_id').val(id);
@@ -292,48 +297,22 @@ function editar_contrato(id) {
     });
 }
 
-function modal_agg_documento(tipo, id_table) {
-    switch (tipo) {
-        case 'LICENCIA DE CONDUCCIÓN':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
+function modal_agg_documento(tipo, id_table, vigencia) {
 
-        case 'RUNT':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
-
-        case 'SIMIT':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
-
-        case 'CERTIFICADO DE MANEJO DEFENSIVO':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
-
-        case 'EXAMENES MEDICOS':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
-
-        case 'SEGUMIENTO EMPLEADO':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
-
-        case 'SEGUMIENTO':
-            $('#fecha_inicio_vigencia_div').removeClass('d-none');
-            $('#fecha_fin_vigencia_div').removeClass('d-none');
-            break;
-
-        default:
-            $('#fecha_inicio_vigencia_div').addClass('d-none');
-            $('#fecha_fin_vigencia_div').addClass('d-none');
-            break;
+    if(vigencia == 0){
+        $('#fecha_inicio_vigencia_div').addClass('d-none');
+        $('#fecha_fin_vigencia_div').addClass('d-none');
+    }else{
+        $('#fecha_inicio_vigencia_div').removeClass('d-none');
+        $('#fecha_fin_vigencia_div').removeClass('d-none');
     }
+
+
+    $('#form_agg_documento')[0].reset();
+
+    $('#vigencia').val(vigencia);
+    $('#id').val('');
+
 
     $('#agg_documento').modal('show');
     $('#agg_documento_title').text('Agregar ' + tipo);
@@ -341,7 +320,7 @@ function modal_agg_documento(tipo, id_table) {
     $('#id_table').val(id_table)
 }
 
-function cargar_documentos(tipo, id_table, personal_id) {
+function cargar_documentos(tipo, id_table, personal_id, vigencia) {
     $.ajax({
         url: '/personal/cargar_documentos',
         type: 'POST',
@@ -352,17 +331,19 @@ function cargar_documentos(tipo, id_table, personal_id) {
                 content += `
                 <tr>
                     <td scope="row">${ indice+1 }</td>
-                    <td>${ formatoFecha(documento.fecha_expedicion) }</td>
-                    <td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'N/A' }</td>
-                    <td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'N/A' }</td>
-                    <td>NA</td>
-                    <td>${ documento.observaciones }</td>
+                    <td>${ formatoFecha(documento.fecha_expedicion) }</td>`
+                    if(vigencia == 1){
+                        content += `<td>${ formatoFecha(documento.fecha_inicio_vigencia) ?? 'N/A' }</td>
+                                            <td>${ formatoFecha(documento.fecha_fin_vigencia) ?? 'N/A' }</td>
+                                            <td>NA</td>`;
+                    }
+                    content += `<td>${ documento.observaciones }</td>
                     <td>Activo</td>
                     <td class="text-center">
-                        <button type="button" onclick="editar_documento(${ documento.id }, '${ id_table }', '${ tipo }')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
+                        <button type="button" onclick="editar_documento(${ documento.id }, '${ id_table }', '${ vigencia }')" class="btn btn-sm btn-success waves-effect waves-light"><i class="fa fa-edit"></i></button>
                         <button type="button" onclick="ver_documento('${ documento.adjunto }', '${ documento.tipo }')" class="btn btn-sm btn-info waves-effect waves-light"><i class="fa fa-eye"></i></button>
                         <a href="/storage/${ documento.adjunto }" download class="${ (documento.adjunto) ? '' : 'disabled' } btn btn-sm btn-primary waves-effect waves-light"><i class="fa fa-download"></i></a>
-                        <button type="button" onclick="eliminar_documento(${ documento.id }, ${ documento.personal_id }, '${ documento.tipo }', '${ id_table }')" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
+                        <button type="button" onclick="eliminar_documento(${ documento.id }, ${ documento.personal_id }, '${ documento.tipo }', '${ id_table }', ${vigencia})" class="btn btn-sm btn-danger waves-effect waves-light"><i class="fa fa-trash"></i></button>
                     </td>
                 </tr>
                 `;
@@ -374,7 +355,7 @@ function cargar_documentos(tipo, id_table, personal_id) {
     });
 }
 
-function editar_documento(id, id_table) {
+function editar_documento(id, id_table, vigencia) {
     $.ajax({
         url: '/personal/editar_documento',
         type: 'POST',
@@ -382,10 +363,17 @@ function editar_documento(id, id_table) {
         success: function (data) {
             $('#tipo').val(data.tipo);
             $('#fecha_expedicion').val(data.fecha_expedicion);
-            $('#fecha_inicio_vigencia').val(data.fecha_inicio_vigencia);
-            $('#fecha_fin_vigencia').val(data.fecha_fin_vigencia);
+            if(vigencia == 0){
+                $('#fecha_inicio_vigencia_div').addClass('d-none');
+                $('#fecha_fin_vigencia_div').addClass('d-none');
+            }else{
+                $('#fecha_inicio_vigencia_div').removeClass('d-none');
+                $('#fecha_fin_vigencia_div').removeClass('d-none');
+                $('#fecha_inicio_vigencia').val(data.fecha_inicio_vigencia);
+                $('#fecha_fin_vigencia').val(data.fecha_fin_vigencia);
+            }
             $('#observaciones').val(data.observaciones);
-
+            $('#vigencia').val(vigencia);
             $('#id_table').val(id_table);
             $('#id').val(id);
 
@@ -420,13 +408,13 @@ function ver_documento(adjunto, tipo) {
     $('#modal_ver_documento').modal('show');
 }
 
-function eliminar_documento(id, personal_id, tipo, id_table) {
+function eliminar_documento(id, personal_id, tipo, id_table, vigencia) {
     $.ajax({
         url: '/personal/eliminar_documento',
         type: 'POST',
         data: {id:id, personal_id:personal_id, tipo:tipo},
         success: function (data) {
-            cargar_documentos(data.tipo, id_table, personal_id)
+            cargar_documentos(data.tipo, id_table, personal_id, vigencia)
         }
     });
 }

@@ -151,44 +151,98 @@
 
                             <div id="accordion" class="col-12">
                                 {{-- TAB CONTRATO LABORAL --}}
-                                <div class="card mb-0">
-                                    <a data-toggle="collapse" onclick="cargar_contratos({{ $personal->id }})" data-parent="#accordion" href="#collapseContratos" aria-expanded="false" aria-controls="collapseContratos" class="text-dark collapsed">
-                                        <div class="card-header bg-dark" id="headingOne">
-                                            <h5 class="m-0 font-size-14 text-white">CONTRATO LABORAL</h5>
-                                        </div>
-                                    </a>
+                                @if ($contratos == 1)
+                                    <div class="card mb-0">
+                                        <a data-toggle="collapse" onclick="cargar_contratos({{ $personal->id }})" data-parent="#accordion" href="#collapseContratos" aria-expanded="false" aria-controls="collapseContratos" class="text-dark collapsed">
+                                            <div class="card-header bg-dark" id="headingOne">
+                                                <h5 class="m-0 font-size-14 text-white">CONTRATO LABORAL</h5>
+                                            </div>
+                                        </a>
 
-                                    <div id="collapseContratos" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                                        <div class="card-body">
+                                        <div id="collapseContratos" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
 
-                                            <button class="btn btn-info waves-effect waves-light mb-2 float-right" data-toggle="modal" data-target="#agg_contrato"><i class="fas fa-plus"></i></button>
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" data-toggle="modal" data-target="#agg_contrato"><i class="fas fa-plus"></i></button>
 
-                                            <table class="table table-bordered">
-                                                <thead class="thead-inverse">
-                                                    <tr>
-                                                        <th class="text-center table-bg-dark">No</th>
-                                                        <th class="text-center table-bg-dark">Tipo Contrato</th>
-                                                        <th class="text-center table-bg-dark">Estado</th>
-                                                        <th class="text-center table-bg-dark">Fecha Inicio</th>
-                                                        <th class="text-center table-bg-dark">Fecha Final</th>
-                                                        <th class="text-center table-bg-dark">Acciones</th>
-                                                        <th class="text-center table-bg-dark">Otro si</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="content_table_contratos">
-                                                    <tr>
-                                                        <td colspan="6" class="text-center">
-                                                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Tipo Contrato</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                                            <th class="text-center table-bg-dark">Acciones</th>
+                                                            <th class="text-center table-bg-dark">Otro si</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="content_table_contratos">
+                                                        <tr>
+                                                            <td colspan="6" class="text-center">
+                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
+                                @endif
+
+
+
+                                {{-- /////////////////////////////////////////////////////////////////////////////// --}}
+
+                                @foreach ($documentos as $doc)
+                                @if (strcasecmp($doc->nombre, 'contratos') == 0 || strcasecmp($doc->nombre, 'contrato') == 0 || strcasecmp($doc->nombre, 'contratos laborales') == 0 || strcasecmp($doc->nombre, 'contrato laboral') == 0)
+                                @else
+                                    <div class="card mb-0">
+                                        <a data-toggle="collapse" onclick="cargar_documentos('{{$doc->nombre}}', 'content_table{{str_replace(' ','_', $doc->nombre )}}', {{ $personal->id }}, {{$doc->vigencia}})" data-parent="#accordion" href="#collapse{{str_replace(' ','_', $doc->nombre )}}" aria-expanded="false" aria-controls="collapse{{str_replace(' ','_', $doc->nombre )}}" class="text-dark collapsed">
+                                            <div class="card-header bg-dark" id="headingOne">
+                                                <h5 class="m-0 font-size-14 text-white">{{$doc->nombre}}</h5>
+                                            </div>
+                                        </a>
+
+                                        <div id="collapse{{str_replace(' ','_', $doc->nombre )}}" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                                            <div class="card-body">
+
+                                                <button class="btn btn-info waves-effect waves-light mb-2 float-right" onclick="modal_agg_documento('{{$doc->nombre}}', 'content_table{{str_replace(' ','_', $doc->nombre )}}', {{$doc->vigencia}})"><i class="fas fa-plus"></i></button>
+
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-inverse">
+                                                        <tr>
+                                                            <th class="text-center table-bg-dark">No</th>
+                                                            <th class="text-center table-bg-dark">Expedicion</th>
+                                                            @if ($doc->vigencia == 1)
+                                                                <th class="text-center table-bg-dark">Inicio Vigencia</th>
+                                                                <th class="text-center table-bg-dark">Fin Vigencia</th>
+                                                                <th class="text-center table-bg-dark">Dias</th>
+                                                            @endif
+                                                            <th class="text-center table-bg-dark">Observación</th>
+                                                            <th class="text-center table-bg-dark">Estado</th>
+                                                            <th class="text-center table-bg-dark">Acciones</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="content_table{{str_replace(' ','_', $doc->nombre )}}">
+                                                        <tr>
+                                                            <td colspan="{{$doc->vigencia == 1 ? '8' : '5'}}" class="text-center">
+                                                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
+                                @endforeach
+
+                                {{-- ////////////////////////////////////////////////////////////////////////////////// --}}
+
+
 
                                 {{-- TAB HOJA DE VIDA --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('HOJA DE VIDA', 'content_table_hoja_vida', {{ $personal->id }})" data-parent="#accordion" href="#collapseHojaVida" aria-expanded="false" aria-controls="collapseHojaVida" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">HOJA DE VIDA</h5>
@@ -223,10 +277,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB CÉDULA DE CIUDADANÍA --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CÉDULA DE CIUDADANÍA', 'content_table_cedula', {{ $personal->id }})" data-parent="#accordion" href="#collapseCedula" aria-expanded="false" aria-controls="collapseCedula" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">CÉDULA DE CIUDADANÍA</h5>
@@ -261,10 +315,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB LICENCIA DE CONDUCCIÓN --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('LICENCIA DE CONDUCCIÓN', 'content_table_licencia', {{ $personal->id }})" data-parent="#accordion" href="#collapseLicencia" aria-expanded="false" aria-controls="collapseLicencia" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">LICENCIA DE CONDUCCIÓN</h5>
@@ -299,10 +353,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB RUNT --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('RUNT', 'content_table_runt', {{ $personal->id }})" data-parent="#accordion" href="#collapseRunt" aria-expanded="false" aria-controls="collapseRunt" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">RUNT</h5>
@@ -337,10 +391,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB SIMIT --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SIMIT', 'content_table_simit', {{ $personal->id }})" data-parent="#accordion" href="#collapseSimit" aria-expanded="false" aria-controls="collapseSimit" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">SIMIT</h5>
@@ -375,10 +429,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB COMPETENCIA --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('COMPETENCIA', 'content_table_competencia', {{ $personal->id }})" data-parent="#accordion" href="#collapseCompetencia" aria-expanded="false" aria-controls="collapseCompetencia" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">COMPETENCIA</h5>
@@ -413,10 +467,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB CERTIFICADO DE MANEJO DEFENSIVO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CERTIFICADO DE MANEJO DEFENSIVO', 'content_table_manejo_defensivo', {{ $personal->id }})" data-parent="#accordion" href="#collapseManejo" aria-expanded="false" aria-controls="collapseManejo" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">CERTIFICADO DE MANEJO DEFENSIVO</h5>
@@ -451,10 +505,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB EXPERIENCIA LABORAL --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EXPERIENCIA LABORAL', 'content_table_experiencia_laboral', {{ $personal->id }})" data-parent="#accordion" href="#collapseExperiencia" aria-expanded="false" aria-controls="collapseExperiencia" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">EXPERIENCIA LABORAL</h5>
@@ -489,10 +543,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB OTROS SOPORTES HV --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('OTROS SOPORTES HV', 'content_table_soportes_hv', {{ $personal->id }})" data-parent="#accordion" href="#collapseSoportesHV" aria-expanded="false" aria-controls="collapseSoportesHV" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">OTROS SOPORTES HV</h5>
@@ -527,10 +581,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB CONSENTIMIENTO TOMA DE EXAMEN --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CONSENTIMIENTO TOMA DE EXAMEN', 'content_table_consentimiento_examen', {{ $personal->id }})" data-parent="#accordion" href="#collapseConsentimiento" aria-expanded="false" aria-controls="collapseConsentimiento" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">CONSENTIMIENTO TOMA DE EXAMEN</h5>
@@ -565,10 +619,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB EXAMENES MEDICOS --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EXAMENES MEDICOS', 'content_table_examenes_medicos', {{ $personal->id }})" data-parent="#accordion" href="#collapseExamenesMedicos" aria-expanded="false" aria-controls="collapseExamenesMedicos" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">EXAMENES MEDICOS</h5>
@@ -603,10 +657,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB SEGURIDAD SOCIAL --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SEGURIDAD SOCIAL', 'content_table_seguridad_social', {{ $personal->id }})" data-parent="#accordion" href="#collapseSeguridadSocial" aria-expanded="false" aria-controls="collapseSeguridadSocial" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">SEGURIDAD SOCIAL</h5>
@@ -641,10 +695,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB CONTRATO DE TRABAJO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('CONTRATO DE TRABAJO', 'content_table_contrato_trabajo', {{ $personal->id }})" data-parent="#accordion" href="#collapseContratoTrabajo" aria-expanded="false" aria-controls="collapseContratoTrabajo" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">CONTRATO DE TRABAJO</h5>
@@ -679,10 +733,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB PERFIL DEL CARGO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('PERFIL DEL CARGO', 'content_table_perfil_cargo', {{ $personal->id }})" data-parent="#accordion" href="#collapsePerfilCargo" aria-expanded="false" aria-controls="collapsePerfilCargo" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">PERFIL DEL CARGO</h5>
@@ -717,10 +771,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB TEMAS DE INDUCCION --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('TEMAS DE INDUCCION', 'content_table_temas_induccion', {{ $personal->id }})" data-parent="#accordion" href="#collapseTemasInduccion" aria-expanded="false" aria-controls="collapseTemasInduccion" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">TEMAS DE INDUCCION</h5>
@@ -755,10 +809,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB EVALUACIÓN DE INDUCCIÓN --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EVALUACIÓN DE INDUCCIÓN', 'content_table_evaluacion_induccion', {{ $personal->id }})" data-parent="#accordion" href="#collapseEvaluacionInduccion" aria-expanded="false" aria-controls="collapseEvaluacionInduccion" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">EVALUACIÓN DE INDUCCIÓN</h5>
@@ -793,10 +847,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB EVALUACION TEORICA --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EVALUACION TEORICA', 'content_table_evaluacion_teorica', {{ $personal->id }})" data-parent="#accordion" href="#collapseEvaluacionTeorica" aria-expanded="false" aria-controls="collapseEvaluacionTeorica" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">EVALUACION TEORICA</h5>
@@ -831,10 +885,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB EVALUACIÓN PRACTICA --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('EVALUACIÓN PRACTICA', 'content_table_evaluacion_practica', {{ $personal->id }})" data-parent="#accordion" href="#collapseEvaluacionPractica" aria-expanded="false" aria-controls="collapseEvaluacionPractica" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">EVALUACIÓN PRACTICA</h5>
@@ -869,10 +923,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB TRATAMIENTO DATOS PERSONALES --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('TRATAMIENTO DATOS PERSONALES', 'content_table_datos_personales', {{ $personal->id }})" data-parent="#accordion" href="#collapseDatosPersonales" aria-expanded="false" aria-controls="collapseDatosPersonales" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">TRATAMIENTO DATOS PERSONALES</h5>
@@ -907,10 +961,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB SEGUMIENTO EMPLEADO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SEGUMIENTO EMPLEADO', 'content_table_seguimiento_empleado', {{ $personal->id }})" data-parent="#accordion" href="#collapseSeguimientoEmpleado" aria-expanded="false" aria-controls="collapseSeguimientoEmpleado" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">SEGUMIENTO EMPLEADO</h5>
@@ -945,10 +999,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB TERMINACIÓN CONTRATO LABORAL --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('TERMINACIÓN CONTRATO LABORAL', 'content_table_terminacion_contrato', {{ $personal->id }})" data-parent="#accordion" href="#collapseTerminacionContrato" aria-expanded="false" aria-controls="collapseTerminacionContrato" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">TERMINACIÓN CONTRATO LABORAL</h5>
@@ -983,10 +1037,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO', 'content_table_examen_retiro', {{ $personal->id }})" data-parent="#accordion" href="#collapseExamenRetiro" aria-expanded="false" aria-controls="collapseExamenRetiro" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">NOTIFICACIÓN EXAMEN MÉDICO DE RETIRO</h5>
@@ -1021,10 +1075,10 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 {{-- TAB SEGUIMIENTO --}}
-                                <div class="card mb-0">
+                                {{-- <div class="card mb-0">
                                     <a data-toggle="collapse" onclick="cargar_documentos('SEGUIMIENTO', 'content_table_seguimiento', {{ $personal->id }})" data-parent="#accordion" href="#collapseSeguimiento" aria-expanded="false" aria-controls="collapseSeguimiento" class="text-dark collapsed">
                                         <div class="card-header bg-dark" id="headingOne">
                                             <h5 class="m-0 font-size-14 text-white">SEGUIMIENTO</h5>
@@ -1059,7 +1113,8 @@
                                             </table>
                                         </div>
                                     </div>
-                                </div>
+                                </div> --}}
+                                
                             </div>
 
                         </div>
@@ -1251,7 +1306,7 @@
                             <div class="col-sm-6">
                                 <label for="tipo" id="consecutivo_title">Tipo Documento</label>
                                 <div class="form-group form-group-custom mb-4">
-                                    <input type="text" class="form-control" id="tipo" name="tipo" required>
+                                    <input type="text" class="form-control" id="tipo" name="tipo" readonly required>
                                 </div>
                             </div>
                             <div class="col-sm-6">
@@ -1297,6 +1352,7 @@
 
                         <input type="hidden" name="id" id="id">
                         <input type="hidden" name="id_table" id="id_table">
+                        <input type="hidden" name="vigencia" id="vigencia">
                         <input type="hidden" name="personal_id" value="{{ $personal->id }}">
 
                     </div>

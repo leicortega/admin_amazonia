@@ -15,6 +15,8 @@ use Spatie\Permission\Models\Permission;
 use App\Models\Personal;
 use App\Models\Cargos_personal;
 use App\Models\Contratos_personal;
+use App\Models\Documentos_cargos;
+use App\Models\Documentos_cargos_admin;
 use App\Models\Documentos_personal;
 use App\Models\Otro_si;
 use Carbon\Carbon;
@@ -128,8 +130,29 @@ class PersonalController extends Controller
             $query->with('cargos');
         }))->find($request['id']);
 
+        $cargos= [];
+        foreach ($personal->cargos_personal as $key => $cargo) {
+            $cargos[] = $cargo->cargos_id;
+        }
+        
+        $documentos = Documentos_cargos::whereIn('cargos_id', $cargos)->groupBy('documentos_cargos_id')->get();
+        $arrDoc = [];
+        foreach ($documentos as $key => $doc) {
+            $arrDoc[] = $doc->documentos_cargos_id;
+        }
+
+        $documentos = Documentos_cargos_admin::whereIn('id', $arrDoc)->get();
+
+        $contratos = 0;
+
+        foreach ($documentos as $key => $doc) {
+            if(strcasecmp($doc->nombre, 'contratos') == 0 || strcasecmp($doc->nombre, 'contrato') == 0 || strcasecmp($doc->nombre, 'contratos laborales') == 0 || strcasecmp($doc->nombre, 'contrato laboral') == 0){
+                $contratos = 1;
+            }
+        }
+
         // dd($personal);
-        return view('personal.ver', ['personal' => $personal]);
+        return view('personal.ver', ['personal' => $personal, 'documentos' => $documentos, 'contratos' => $contratos]);
     }
 
     public function edit($id)
@@ -263,7 +286,7 @@ class PersonalController extends Controller
                 ]);
             }
 
-            return ['tipo' => $request['tipo'], 'id_table' => $request['id_table'], 'personal_id' => $request['personal_id']];
+            return ['tipo' => $request['tipo'], 'id_table' => $request['id_table'], 'personal_id' => $request['personal_id'], 'vigencia' => $request['vigencia']];
 
         } else {
             $documento = Documentos_personal::create([
@@ -288,7 +311,7 @@ class PersonalController extends Controller
             }
 
             if ( $documento->save() ) {
-                return ['tipo' => $request['tipo'], 'id_table' => $request['id_table'], 'personal_id' => $request['personal_id']];
+                return ['tipo' => $request['tipo'], 'id_table' => $request['id_table'], 'personal_id' => $request['personal_id'], 'vigencia' => $request['vigencia']];
             }
 
             return 0;

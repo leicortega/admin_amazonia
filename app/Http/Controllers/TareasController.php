@@ -269,10 +269,10 @@ class TareasController extends Controller
                 return Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
                 break;
             case 'Documentos Vehiculos':
-                return Documentos_legales_vehiculo::find($request['id']);
+                return Documentos_legales_vehiculo::with('vehiculo')->with('tipo')->find($request['id']);
                 break;
-            case 'Documentos Administracion':
-                return Documentos_documentacion::find($request['id']);
+            case 'Documentos Administración':
+                return Documentos_documentacion::with('documentacion')->find($request['id']);
                 break;
         }
 

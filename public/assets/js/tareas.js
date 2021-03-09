@@ -108,7 +108,7 @@ $(function() {
                                     end: tarea.fecha_fin_vigencia,
                                     color: '#FD3636',
                                     tipo: data.tipo
-                                  });
+                                });
                             });
                             break;
                         case 'Documentos Administración':
@@ -157,7 +157,6 @@ function vertarea(id, tipo){
         type: 'POST',
         data: {id:id, tipo:tipo},
         success: function (tarea) {
-            console.log(tarea);
             switch(tipo){
                 case 'tarea':
                     contenido=`
@@ -218,11 +217,73 @@ function vertarea(id, tipo){
                         
                     break;
                     case 'Documentos Vehiculos':
-                        alert(tipo);
-                        
+                        contenido=`
+                            <h4 class="mb-4">${tipo}</h4>
+                            <table class="table table-bordered">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th class="text-center table-bg-dark">No</th>
+                                        <th class="text-center table-bg-dark">Fecha expedición</th>
+                                        <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                        <th class="text-center table-bg-dark">Fecha Final</th>
+                                        <th class="text-center table-bg-dark">Tipo</th>
+                                        <th class="text-center table-bg-dark">Estado</th>
+                                        <th class="text-center table-bg-dark">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody">
+                                    <tr>
+                                        <td class="text-center">${tarea.consecutivo}</td>
+                                        <td class="text-center">${tarea.fecha_expedicion}</td>
+                                        <td class="text-center">${tarea.fecha_inicio_vigencia}</td>
+                                        <td class="text-center">${tarea.fecha_fin_vigencia}</td>
+                                        <td class="text-center">${tarea.tipo.name}</td>
+                                        <td class="text-center">${tarea.estado}</td>
+                                        <td class="text-center">
+                                            <a href="/vehiculos/ver/${tarea.vehiculo.id}" target="_blank">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                           
+                        `;
+                        $('#body_ver').html(contenido);
                         break;
                     case 'Documentos Administración':
-                        alert(tipo);
+                        contenido=`
+                            <h4 class="mb-4">${tipo}</h4>
+                            <table class="table table-bordered">
+                                <thead class="thead-inverse">
+                                    <tr>
+                                        <th class="text-center table-bg-dark">No</th>
+                                        <th class="text-center table-bg-dark">Fecha expedición</th>
+                                        <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                        <th class="text-center table-bg-dark">Fecha Final</th>
+                                        <th class="text-center table-bg-dark">Tipo</th>
+                                        <th class="text-center table-bg-dark">Nombre</th>
+                                        <th class="text-center table-bg-dark">Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody">
+                                    <tr>
+                                        <td class="text-center">${tarea.id}</td>
+                                        <td class="text-center">${tarea.fecha_inicio_vigencia}</td>
+                                        <td class="text-center">${tarea.fecha_inicio_vigencia}</td>
+                                        <td class="text-center">${tarea.fecha_fin_vigencia}</td>
+                                        <td class="text-center">${tarea.documentacion.nombre}</td>
+                                        <td class="text-center">${tarea.nombre}</td>
+                                        <td class="text-center">
+                                            <a href="/informacion/documentacion" target="_blank">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        `;
+                        $('#body_ver').html(contenido);
                         break;
             }
             

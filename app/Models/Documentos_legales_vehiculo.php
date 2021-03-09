@@ -13,4 +13,8 @@ class Documentos_legales_vehiculo extends Model
     public function vehiculo() {
         return $this->belongsTo('App\Models\Vehiculo');
     }
+
+    public function tipo() {
+        return $this->belongsTo('App\Models\Admin_documentos_vehiculo');
+    }
 }

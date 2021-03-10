@@ -59,7 +59,7 @@
                                         <option value="tareas">Tareas</option>
                                         <option value="Documentos Vehiculos">Documentos Vehiculos</option>
                                         <option value="Documentos Administración">Documentos Administración</option>
-                                        <option value="0">Todos</option>
+                                        <option value="todos">Todos</option>
                                     </select>
                                     <label for="tipo">Ver por</label>
                                 </div>

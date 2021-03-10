@@ -216,6 +216,24 @@ class TareasController extends Controller
                     $response['tipo'] = 'Documentos Administración';
                     return $response;
                     break;
+                case 'todos':
+                    $response['tipo'] = 'todos';
+                    $tarea = Tarea::where('asignado', auth()->user()->id)->orwhere('supervisor', auth()->user()->id)->get();
+                    $vehiculos = DB::table('documentos_legales_vehiculos')
+                        ->join('admin_documentos_vehiculo', 'admin_documentos_vehiculo.id', 'documentos_legales_vehiculos.tipo_id')
+                        ->join('vehiculos', 'vehiculos.id', 'documentos_legales_vehiculos.vehiculo_id')
+                        ->select('documentos_legales_vehiculos.*', 'admin_documentos_vehiculo.name', 'vehiculos.placa')
+                        ->whereNotNull('fecha_fin_vigencia')
+                        ->where('ultimo', 1)
+                        ->orderBy('fecha_fin_vigencia', 'desc')
+                        ->get();
+                    $administracion = Documentos_documentacion::join('documentacion', 'documentacion.id', '=', 'documentos_documentacion.documentacion_id')
+                        ->select('documentos_documentacion.*', 'documentacion.nombre as name')
+                        ->whereNotNull('fecha_fin_vigencia')
+                        ->orderBy('fecha_fin_vigencia', 'desc')->get();
+                    $response['documentos'] = [$tarea, $vehiculos, $administracion];
+                    return $response;
+                    break;
                 default:
                     # code...
                     break;
@@ -273,6 +291,18 @@ class TareasController extends Controller
                 break;
             case 'Documentos Administración':
                 return Documentos_documentacion::with('documentacion')->find($request['id']);
+                break;
+            case 'todos':
+                $tareas = Tarea::with('supervisor_id')->with('asignado_id')->find($request['id']);
+                $vehiculos = Documentos_legales_vehiculo::with('vehiculo')->with('tipo')->find($request['id']);
+                $administracion = DB::table('documentos_documentacion')
+                    ->select(['documentos_documentacion.*','documentacion.nombre as tipo', 'documentos_documentacion.nombre as name'])
+                    ->join('documentacion', 'documentacion.id', '=', 'documentos_documentacion.documentacion_id')
+                    ->where('documentos_documentacion.id', $request['id'])->first();
+                $tareas['evaluar_tipo'];
+                
+                // $administracion = Documentos_documentacion::select(['documentos_documentacion.*','documentacion.nombre as tipo'])->with('documentacion')->find($request['id']);
+                return [$tareas, $vehiculos, $administracion];
                 break;
         }
 

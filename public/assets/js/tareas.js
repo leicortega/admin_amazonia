@@ -21,12 +21,11 @@ $(document).ready(function () {
                     break;
 
                 default:
-                    data.forEach(tarea => {
+                    data.documentos.forEach(tarea => {
                         evento = {id:tarea.id, title: tarea.name_tarea, start: tarea.fecha, end: tarea.fecha_limite, color: '#90151c'};
                     });
                     break;
             }
-            console.log(data)
         }
     });
 });
@@ -120,7 +119,39 @@ $(function() {
                                     end: tarea.fecha_fin_vigencia,
                                     color: '#FD3636',
                                     tipo: data.tipo
-                                  });
+                                });
+                            });
+                            break;
+                        case 'todos':
+                            data.documentos[0].forEach(tarea => {
+                                eventos.push({
+                                    id: tarea.id,
+                                    title: tarea.name_tarea,
+                                    start: tarea.fecha,
+                                    end: tarea.fecha_limite,
+                                    color: '#2fa97c',
+                                    tipo: tarea.tipo ?? 'todos'
+                                });
+                            });
+                            data.documentos[1].forEach(tarea => {
+                                eventos.push({
+                                    id: tarea.id,
+                                    title: tarea.name+' - '+tarea.placa,
+                                    start: tarea.fecha_fin_vigencia,
+                                    end: tarea.fecha_fin_vigencia,
+                                    color: '#FD3636',
+                                    tipo: tarea.tipo ?? 'Documentos Vehiculos'
+                                });
+                            });
+                            data.documentos[2].forEach(tarea => {
+                                eventos.push({
+                                    id: tarea.id,
+                                    title: tarea.nombre+' - '+tarea.name,
+                                    start: tarea.fecha_fin_vigencia,
+                                    end: tarea.fecha_fin_vigencia,
+                                    color: '#ff8d00',
+                                    tipo: tarea.tipo ?? 'Documentos Administración'
+                                });
                             });
                             break;
                         default:
@@ -216,7 +247,7 @@ function vertarea(id, tipo){
                         $('#body_ver').html(contenido);
                         
                     break;
-                    case 'Documentos Vehiculos':
+                case 'Documentos Vehiculos':
                         contenido=`
                             <h4 class="mb-4">${tipo}</h4>
                             <table class="table table-bordered">
@@ -224,8 +255,8 @@ function vertarea(id, tipo){
                                     <tr>
                                         <th class="text-center table-bg-dark">No</th>
                                         <th class="text-center table-bg-dark">Fecha expedición</th>
-                                        <th class="text-center table-bg-dark">Fecha Inicio</th>
                                         <th class="text-center table-bg-dark">Fecha Final</th>
+                                        <th class="text-center table-bg-dark">Placa</th>
                                         <th class="text-center table-bg-dark">Tipo</th>
                                         <th class="text-center table-bg-dark">Estado</th>
                                         <th class="text-center table-bg-dark">Acción</th>
@@ -235,8 +266,8 @@ function vertarea(id, tipo){
                                     <tr>
                                         <td class="text-center">${tarea.consecutivo}</td>
                                         <td class="text-center">${tarea.fecha_expedicion}</td>
-                                        <td class="text-center">${tarea.fecha_inicio_vigencia}</td>
                                         <td class="text-center">${tarea.fecha_fin_vigencia}</td>
+                                        <td class="text-center">${tarea.vehiculo.placa}</td>
                                         <td class="text-center">${tarea.tipo.name}</td>
                                         <td class="text-center">${tarea.estado}</td>
                                         <td class="text-center">
@@ -251,7 +282,7 @@ function vertarea(id, tipo){
                         `;
                         $('#body_ver').html(contenido);
                         break;
-                    case 'Documentos Administración':
+                case 'Documentos Administración':
                         contenido=`
                             <h4 class="mb-4">${tipo}</h4>
                             <table class="table table-bordered">
@@ -285,11 +316,140 @@ function vertarea(id, tipo){
                         `;
                         $('#body_ver').html(contenido);
                         break;
+                case 'todos':
+                    if(tarea[0]){
+                        contenido=`
+                            <h4 class="mb-4">Asignada por: ${tarea[0].supervisor_id.name}</h4>
+                            <table class="table table-bordered">
+                            <thead class="table-bg-dark">
+                                <tr>
+                                    <th colspan="4" class="text-center"><b>DATOS DE TAREA (${tarea[0].name_tarea})</b></th>
+                                </tr>
+                                <tr>
+                                    <th>Fecha asignada</th>
+                                    <th>Responsable</th>
+                                    <th>Estado</th>
+                                    <th>Fecha limite</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>${tarea[0].fecha}</td>
+                                    <td>${tarea[0].asignado_id.name}</td>
+                                    <td>${tarea[0].estado}</td>
+                                    <td>${tarea[0].fecha_limite}</td>
+                                </tr>
+                            </tbody>
+                            <thead class="table-bg-dark">
+                                <tr>
+                                    <th colspan="3" class="text-center">Tarea</th>
+                                    <th colspan="1" class="text-center">Adjunto</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td colspan="3">${tarea[0].tarea}</td>
+                                    <td colspan="1" class="text-center">`
+
+                                    if(tarea[0].adjunto){
+                                        contenido+=`<button type="button" class="btn btn-success btn-lg"  onclick="ver_documento_legal('${tarea[0].adjunto}', 'Tarea Adjunto',this)">Ver adjunto</button>`;
+                                    }else{
+                                        contenido+=`No Hay Adjunto`;
+                                    }
+
+                                    contenido += `
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class='row mt-4'>
+                            <div class="ml-3 col-sm-9">
+                                <button type="button" class="btn btn-primary btn-lg"  onclick="editar_tarea_calendar('${tarea[0].id}')">Editar</button>
+                                <button type="button" class="btn btn-danger btn-lg ml-3"  onclick="eliminar_tarea_calendar('${tarea[0].id}')">Eliminar</button>
+                            </div>
+                            <div class="ml-3 col-sm-2">
+                                <button type="button" class="btn btn-info btn-lg" data-dismiss="modal" aria-label="Close">Cerrar</button>
+                            </div>
+                        </div>
+                            `;
+                        $('#body_ver').html(contenido); 
+                    }else{
+                        if(tarea[1]){
+                            contenido=`
+                                <h4 class="mb-4">Documentos Vehiculos</h4>
+                                <table class="table table-bordered">
+                                    <thead class="thead-inverse">
+                                        <tr>
+                                            <th class="text-center table-bg-dark">No</th>
+                                            <th class="text-center table-bg-dark">Fecha expedición</th>
+                                            <th class="text-center table-bg-dark">Fecha Final</th>
+                                            <th class="text-center table-bg-dark">Placa</th>
+                                            <th class="text-center table-bg-dark">Tipo</th>
+                                            <th class="text-center table-bg-dark">Estado</th>
+                                            <th class="text-center table-bg-dark">Acción</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody">
+                                        <tr>
+                                            <td class="text-center">${tarea[1].consecutivo}</td>
+                                            <td class="text-center">${tarea[1].fecha_expedicion}</td>
+                                            <td class="text-center">${tarea[1].fecha_fin_vigencia}</td>
+                                            <td class="text-center">${tarea[1].vehiculo.placa}</td>
+                                            <td class="text-center">${tarea[1].tipo.name}</td>
+                                            <td class="text-center">${tarea[1].estado}</td>
+                                            <td class="text-center">
+                                                <a href="/vehiculos/ver/${tarea[1].vehiculo.id}" target="_blank">
+                                                    <i class="fa fa-eye"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            `;
+                            $('#body_ver').html(contenido);
+                        }else{
+                            if(tarea[2]){
+                                contenido=`
+                                    <h4 class="mb-4">Documentos Vehiculos</h4>
+                                    <table class="table table-bordered">
+                                        <thead class="thead-inverse">
+                                            <tr>
+                                                <th class="text-center table-bg-dark">No</th>
+                                                <th class="text-center table-bg-dark">Fecha expedición</th>
+                                                <th class="text-center table-bg-dark">Fecha Inicio</th>
+                                                <th class="text-center table-bg-dark">Fecha Final</th>
+                                                <th class="text-center table-bg-dark">Tipo</th>
+                                                <th class="text-center table-bg-dark">Estado</th>
+                                                <th class="text-center table-bg-dark">Acción</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody">
+                                            <tr>
+                                                <td class="text-center">${tarea[2].id}</td>
+                                                <td class="text-center">${tarea[2].fecha_inicio_vigencia}</td>
+                                                <td class="text-center">${tarea[2].fecha_inicio_vigencia}</td>
+                                                <td class="text-center">${tarea[2].fecha_fin_vigencia}</td>
+                                                <td class="text-center">${tarea[2].documentacion.nombre}</td>
+                                                <td class="text-center">${tarea[2].nombre}</td>
+                                                <td class="text-center">
+                                                    <a href="/informacion/documentacion" target="_blank">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                `;
+                                $('#body_ver').html(contenido);
+                            }
+                        }
+                    }
+                    
+                    break;
             }
-            
             $('#modalVerActivities').modal('show');
-            
-            
+        }, error(e){
+            console.log(e)
         }
     });
 }

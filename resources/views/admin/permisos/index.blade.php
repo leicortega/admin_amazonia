@@ -15,6 +15,12 @@
                     <div class="card-body">
                         
                         <h4 class="header-title mb-3">Permisos</h4>
+                        @if (session()->has('msg'))
+                            <div class="alert alert-primary">
+                                {{session('msg')}}
+                            </div>
+                        @endif
+
                         <!-- Tab panes -->
                         <div class="tab-content p-3">
                             <button type="button" data-toggle="modal" onclick="createpermiso()" data-target="#modal-permiso" class="btn btn-primary my-3 btn-lg">Agregar +</button>

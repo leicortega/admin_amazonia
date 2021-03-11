@@ -168,6 +168,7 @@ class PersonalController extends Controller
         foreach ($user->permissions as $permiso) {
             array_push($permisosuser, $permiso->name);
         }
+
         return view('personal.edit', ['personal' => $personal,'permisos'=>$permisos,'permisosuser'=>$permisosuser,'user'=>$user]);
 
     }

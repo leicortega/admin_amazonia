@@ -38,7 +38,7 @@ class PermisoController extends Controller
     {
         //
         Permission::create(['name' => $request['name']]);
-        return ['msg' => 'Permiso creado con exito'];
+        return redirect()->back()->with('msg', 'Permiso creado con exito');
     }
 
     /**

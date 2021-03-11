@@ -213,7 +213,7 @@
                                                             @if (!strpos($permiso->name, $currentProvince))
                                                                 <tr>
                                                                     <th scope="row">{{ $permiso->name }}</th>
-                                                                    @if ($permiso->name!='hseq')
+                                                                    @if ($permiso->name=='universal')
                                                                         <td colspan="4"><input type="checkbox" id="{{ $permiso->name }}" name="permisos[]" value="{{ $permiso->name }}" title="Acceso total" {{in_array($permiso->name, $permisosuser, true)?'checked':''}}></td>      
                                                                     @else
                                                                         <td><input type="checkbox" name="permisos[]" value="{{$permiso->name}}" id="{{$permiso->name}}" {{in_array($permiso->name, $permisosuser, true)?'checked':''}}></td>
